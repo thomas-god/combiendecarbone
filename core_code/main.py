@@ -38,6 +38,10 @@ def setEntry(tag, name):
 
 
 def getStates(modes):
+    """
+        Returns a list of dash.dependencies.State.
+        For each transpot mode both the id and the value are returned.
+    """
     tmp = []
     for mode in modes:
         tmp += [
@@ -53,6 +57,8 @@ with open('transport_modes_ges.json', 'r') as f:
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
+server = app.server
 
 app.layout = html.Div(
     [setEntry(mode, modes[mode]['name']) for mode in modes]
