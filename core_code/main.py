@@ -61,7 +61,8 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
 app.layout = html.Div(
-    [setEntry(mode, modes[mode]['name']) for mode in modes]
+    [html.H3(children='Nombre de kilomètres quotidiens')]
+    + [setEntry(mode, modes[mode]['name']) for mode in modes]
     + [
         html.Button('Submit', id='button'),
         html.Div(id='output-container-button',
@@ -80,7 +81,7 @@ def update_output(n_clicks, *args):
         if i%2 == 0:
             user_input[var] = float(args[i+1])
     ges = computeGes(user_input)
-    return f'Emissions annuelles de {ges*365/1e3} kgCO2.'
+    return f'Vos emmissions annuelles sont de {ges*365/1e3} kg de CO2.'
 
 
 if __name__ == '__main__':
