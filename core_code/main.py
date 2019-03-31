@@ -97,7 +97,13 @@ def update_output(n_clicks, *args):
                 labels += [modes[key]['name']]
                 values += [user_input[key] * modes[key]['value']]
         figure = {
-            'data': [{'labels': labels, 'values': values, 'type': 'pie', 'name': 'ges'}],
+            'data': [{
+                'labels': labels,
+                'values': values,
+                'type': 'pie',
+                'hoverinfo': 'label+percent',
+                'name': 'ges'
+            }],
             'layout': { 'title': 'Vos emmissions de CO2.'}
         }
     else:
