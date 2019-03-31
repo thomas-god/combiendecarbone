@@ -25,8 +25,8 @@ def setEntry(tag, name):
     """
     return html.Div([
         html.Div([
-            html.P(name, style={'align': 'right'})
-        ], style={'width': '20%', 'display': 'inline-block'}),
+            html.P(name, style={'text-align': 'left'})
+        ], style={'width': '50%', 'display': 'inline-block'}),
         html.Div([
             dcc.Input(
                 id=tag,
@@ -34,7 +34,7 @@ def setEntry(tag, name):
                 type='number',
                 value='0'
             )
-        ], style={'width': '49%', 'display': 'inline-block'})
+        ], style={'width': '50%', 'display': 'inline-block', 'text-align': 'center'})
     ])
 
 
@@ -63,13 +63,22 @@ server = app.server
 
 app.layout = html.Div(
     [html.H3(children='Nombre de kilomètres quotidiens')]
-    + [setEntry(mode, modes[mode]['name']) for mode in modes]
-    + [
-        html.Button('Submit', id='button'),
-        html.Div(id='output-container-button',
-                children='Enter a value and press submit')
-    ]
-    + [html.Div(id='graph_container', children=dcc.Graph(id='ges_graph'))]
+    + [html.Div(
+        children=[setEntry(mode, modes[mode]['name']) for mode in modes],
+        style={
+            'width': '50%', 'height': '500px', 'display': 'inline-block',
+            'overflow': 'scroll'
+        }
+    )]
+    + [html.Div(
+        children=[
+            html.Button(id='button', children='Submit'),
+            html.Div(id='output-container-button',
+                children='Enter a value and press submit'),
+            html.Div(id='graph_container', children=dcc.Graph(id='ges_graph'))
+        ],
+        style={'width': '50%', 'display': 'inline-block', 'vertical-align': 'top', 'horizontal-align': 'center'}
+    )]
 )
 
 
@@ -112,7 +121,7 @@ def update_output(n_clicks, *args):
             'data': [{'labels': [], 'values': [], 'type': 'pie', 'name': ges}],
             'layout': { 'title': 'Vos emmissions de CO2.'}
         }
-    return f'Vos emmissions annuelles sont de {ges*365/1e3} kg de CO2.', display, figure
+    return f'Vos emmissions annuelles sont de {ges*365/1e3:.2f} kg de CO2.', display, figure
 
 
 if __name__ == '__main__':
