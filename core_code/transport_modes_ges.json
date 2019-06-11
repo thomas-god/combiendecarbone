@@ -17,31 +17,31 @@
   },
   "metro": {
     "name": "Metro",
-    "value": 3,4
+    "value": 3.4
   },
   "tram": {
     "name": "Tram",
-    "value": 2,8
+    "value": 2.8
   },
   "rer": {
     "name": "RER/TER",
-    "value": 5,4
+    "value": 5.4
   },
   "bus": {
     "name": "bus",
-    "value": 93,5
+    "value": 93.5
   },
   "train": {
     "name": "Train",
-    "value": 2,4
+    "value": 2.4
   
   "RER": {
     "name": "Train",
-    "value": 29,4
+    "value": 29.4
   },
   "covoiturage": {
     "name": "Covoiturage",
-    "value": 43,8
+    "value": 43.8
   },
   "velo": {
     "name": "Vélo",
@@ -81,7 +81,7 @@
   },
   "helicoptere": {
     "name": "Hélicoptère",
-    "value": 727,5
+    "value": 727.5
   },
   "jet": {
     "name": "Jet privé",
