@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>This is a test</title>
+        <title>Votre empreinte carbone !</title>
         <link rel="icon" type="image/jpeg" href="favicon.jpg">
         <link href="style.css" rel="stylesheet">
     </head>
@@ -10,9 +10,35 @@
         </table>
 
         <h2>Add a new entry</h2>
-        <form action="" id="add-ges">
 
+        <form onsubmit="testForm(); return false" id="form_add_ges">
+            <table>
+                <tr><td>
+                    <label for="form_name">Full name</label>
+                    <input type="text" name="name" id="form_name" value="Toto" required>
+                </td></tr>
+                <tr><td>
+                    <label for="form_name_short">Short name (no spaces nor accents)</label>
+                    <input type="text" name="name_short" id="form_name_short" value="toto" required>
+                </td></tr>
+                <tr><td>
+                    <label for="form_intensity">Carbon intensity (g/km)</label>
+                    <input type="number" name="intensity" id="form_intensity" value="10" required>
+                </td></tr>
+                <tr><td>
+                    <label for="form_source_name">Source</label>
+                    <input type="text" name="source_name" id="form_source_name" value="ADEME" required>
+                </td></tr>
+                <tr><td>
+                    <label for="form_source_url">Source URL</label>
+                    <input type="text" name="source_url" id="form_source_url" value="www.ademe.fr" required>
+                </td></tr>
+                <tr><td>
+                    <input type="submit" value="Save">
+                </td></tr>
+            </table>
         </form>
+        
     </body>
 
     <script type="text/javascript">
@@ -20,6 +46,30 @@
             drawGesTable('ges-table')
             drawAddGesForm('add-ges')
         })()
+
+        async function testForm() {
+            let form = document.getElementById("form_add_ges")
+            let content = {
+                name: form.elements["form_name"].value,
+                name_short: form.elements["form_name_short"].value,
+                intensity_g_km: form.elements["form_intensity"].value,
+                source_name: form.elements["form_source_name"].value,
+                source_url: form.elements["form_source_url"].value
+            }
+            let req = {
+                method: "PUT",
+                headers: {
+                    'Content-type': "application/json"
+                },
+                body: JSON.stringify(content)
+            }
+            const res = await fetch('/ges/add', req)
+            await drawGesTable('ges-table')
+            if (res.status == 409) {
+                alert(`GES item with name ${content.name_short} already exists.`)
+                form.elements["form_name_short"].value = "";
+            }
+        }
 
         async function drawAddGesForm(form_id) {
             let form = document.getElementById(form_id);
