@@ -1,0 +1,111 @@
+<html>
+    <head>
+        <title>This is a test</title>
+        <link rel="icon" type="image/jpeg" href="favicon.jpg">
+        <link href="style.css" rel="stylesheet">
+    </head>
+    <body>
+        <h2>Current GES records</h2>
+        <table id='ges-table'>
+        </table>
+
+        <h2>Add a new entry</h2>
+        <form action="" id="add-ges">
+
+        </form>
+    </body>
+
+    <script type="text/javascript">
+        (async () => {
+            drawGesTable('ges-table')
+            drawAddGesForm('add-ges')
+        })()
+
+        async function drawAddGesForm(form_id) {
+            let form = document.getElementById(form_id);
+
+            // GES name
+            let div = document.createElement('div');
+            let label = document.createElement('label');
+            label.for = "ges_name";
+            label.textContent = "Enter GES name";
+            let input = document.createElement('input');
+            input.type = "text";
+            input.name = "ges_name";
+            input.id = "ges_name";
+
+            div.appendChild(label);
+            div.appendChild(input);
+            form.appendChild(div);
+        }
+
+        async function deleteGes() {
+            console.log(this)
+            let ges_id = this.id.split('_')
+            ges_id = ges_id[ges_id.length -1]
+            console.log(`Deleteing Ges id no ${ges_id}`)
+            await fetch(`/ges/${ges_id}`, {method: 'DELETE'});
+            await drawGesTable('ges-table')
+        }
+
+        async function drawGesTable(table_id) {
+            const res = await fetch('/ges')
+            const content = await res.json();
+            var t = document.getElementById(table_id)
+
+            // Clean existing header and content
+            if (t.tHead) {
+                t.tHead.remove();
+            };
+            if (t.tBodies) {
+                for (elem of t.tBodies) {
+                    elem.remove();
+                }
+            }
+
+            // Table header
+            const keys = {
+                name: 'Name',
+                intensity_g_km: 'Intensity (g/km)',
+                source_name: 'Source',
+                source_url: 'Source (url)'
+            }
+            var thead = document.createElement('thead');
+            var thead_tr = document.createElement('tr');
+            for (let elem in keys){
+                var txt = document.createTextNode(`${keys[elem]}`);
+                var td = document.createElement('td')
+                td.appendChild(txt);
+                thead_tr.appendChild(td);
+            }
+            // Last td for the delete button
+            thead_tr.appendChild(document.createElement('td'))
+            thead.appendChild(thead_tr);
+            t.appendChild(thead);
+
+            // Table content
+            var tbody = document.createElement('tbody');
+            for (let i = 0; i < content.length; i++){
+                var tr = document.createElement('tr');
+                    // Content
+                    for (let elem in keys){
+                        let td = document.createElement('td');
+                        let txt = document.createTextNode(`${content[i][elem]}`);
+                        td.appendChild(txt);
+                        tr.appendChild(td);
+                    }
+                    // Delete button
+                    let td = document.createElement('td');
+                    let button = document.createElement('button');
+                    button.setAttribute('id', `delete_${content[i].id}`);
+                    button.innerText= 'X';
+                    button.onclick = deleteGes;
+                    td.appendChild(button);
+                    tr.appendChild(td);
+                tbody.appendChild(tr);
+            }
+            t.appendChild(tbody)
+        };
+        
+    </script>
+</html>
