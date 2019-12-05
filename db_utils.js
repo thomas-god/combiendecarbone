@@ -17,7 +17,7 @@ async function resetDB() {
             DROP TABLE IF EXISTS gesRoute;
             CREATE TABLE IF NOT EXISTS gesRoute (
                 id INT NOT NULL AUTO_INCREMENT,
-                name VARCHAR(128) NOT NULL,
+                name VARCHAR(128) NOT NULL UNIQUE,
                 name_short CHAR(50) NOT NULL UNIQUE,
                 intensity_g_km FLOAT NOT NULL,
                 source_name VARCHAR(128),
