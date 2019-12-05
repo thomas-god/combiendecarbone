@@ -14,11 +14,11 @@
         <form onsubmit="testForm(); return false" id="form_add_ges">
             <table>
                 <tr><td>
-                    <label for="form_name">Full name</label>
+                    <label for="form_name">Name</label>
                     <input type="text" name="name" id="form_name" value="Toto" required>
                 </td></tr>
                 <tr><td>
-                    <label for="form_name_short">Short name (no spaces nor accents)</label>
+                    <label for="form_name_short">Name in DB (no spaces nor accents)</label>
                     <input type="text" name="name_short" id="form_name_short" value="toto" required>
                 </td></tr>
                 <tr><td>
@@ -34,7 +34,7 @@
                     <input type="text" name="source_url" id="form_source_url" value="www.ademe.fr" required>
                 </td></tr>
                 <tr><td>
-                    <input type="submit" value="Save">
+                    <input type="submit" value="Add">
                 </td></tr>
             </table>
         </form>
@@ -44,7 +44,7 @@
     <script type="text/javascript">
         (async () => {
             drawGesTable('ges-table')
-            drawAddGesForm('add-ges')
+            //drawAddGesForm('add-ges')
         })()
 
         async function testForm() {
@@ -66,27 +66,12 @@
             const res = await fetch('/ges/add', req)
             await drawGesTable('ges-table')
             if (res.status == 409) {
-                alert(`GES item with name ${content.name_short} already exists.`)
-                form.elements["form_name_short"].value = "";
+                // either name or name_short already exists
+                let colDup = await res.json();
+                colDup = colDup['colDup'];
+                alert(`GES item with ${colDup} ${content[colDup]} already exists.`)
+                form.elements[`form_${colDup}`].value = "";
             }
-        }
-
-        async function drawAddGesForm(form_id) {
-            let form = document.getElementById(form_id);
-
-            // GES name
-            let div = document.createElement('div');
-            let label = document.createElement('label');
-            label.for = "ges_name";
-            label.textContent = "Enter GES name";
-            let input = document.createElement('input');
-            input.type = "text";
-            input.name = "ges_name";
-            input.id = "ges_name";
-
-            div.appendChild(label);
-            div.appendChild(input);
-            form.appendChild(div);
         }
 
         async function deleteGes() {
@@ -116,15 +101,17 @@
             // Table header
             const keys = {
                 name: 'Name',
+                name_short: 'Name in DB',
                 intensity_g_km: 'Intensity (g/km)',
                 source_name: 'Source',
-                source_url: 'Source (url)'
+                source_url: 'Source (url)',
+                source_date: 'Creation date'
             }
             var thead = document.createElement('thead');
             var thead_tr = document.createElement('tr');
             for (let elem in keys){
-                var txt = document.createTextNode(`${keys[elem]}`);
-                var td = document.createElement('td')
+                let txt = document.createTextNode(`${keys[elem]}`);
+                let td = document.createElement('td')
                 td.appendChild(txt);
                 thead_tr.appendChild(td);
             }
@@ -136,7 +123,7 @@
             // Table content
             var tbody = document.createElement('tbody');
             for (let i = 0; i < content.length; i++){
-                var tr = document.createElement('tr');
+                let tr = document.createElement('tr');
                     // Content
                     for (let elem in keys){
                         let td = document.createElement('td');
