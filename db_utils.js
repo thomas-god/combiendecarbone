@@ -6,7 +6,8 @@ const pool = mariadb.createPool({
     user: process.env.GES_USER,
     password: process.env.GES_PWD,
     database: process.env.GES_DB,
-    multipleStatements: true
+    multipleStatements: true,
+    dateStrings: true
 });
 
 async function resetDB() {
