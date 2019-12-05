@@ -56,10 +56,13 @@ async function addSingleGes(body, res) {
         );
         res.statusCode = 204;
     } catch (err) {
-        console.log(err);
         if (err.code === 'ER_DUP_ENTRY') {
+            //console.log(err.SQLError)
+            let colDup = err.message.match(/'(.*?)'/g)[1].replace(/'/g, "");
             res.statusCode = 409;
-            res.statusMessage = 'Error, trying to insert a record that already exists.'
+            res.statusMessage = `Error, trying to insert a record which '${colDup}' already exists.`
+            res.setHeader('Content-Type', 'application/json');
+            res.write(JSON.stringify({colDup: colDup}))
         } else {
             res.statusCode = 500;
             res.statusMessage = 'Internal servert error occured, sorry.'
