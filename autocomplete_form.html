@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h2>The form</h2>
+    <form>
+        <input type="text" name="name" id="name_input" list="huge_list">
+        <datalist id="huge_list">
+
+        </datalist>
+        <input type="submit">
+    </form>
+</body>
+
+<script>
+    var name_input = document.getElementById('name_input');
+    name_input.addEventListener("keyup", event => {hinter(event)});
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    async function hinter(event) {
+        var input = event.target;
+        var huge_list = document.getElementById("huge_list")
+
+        if (input.value.length < 0) {
+            return
+        } else {
+            controller.abort();
+
+            const req = {
+                method: 'GET',
+                /* headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({toto: 'hello'}),
+                //signal */
+            }
+            //console.log(options)
+            const res = await fetch('http://localhost:1234/test', req)
+            const data = await res.json()
+            huge_list.innerHTML = ''
+            data.data.forEach(item => {
+                var option = document.createElement('option')
+                option.value = 'toto'
+                huge_list.appendChild(option)
+            })
+        }
+    }
+
+</script>
+
+</html>
