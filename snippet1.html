@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GES avion</title>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-hH8Oe7r8Uu5n51O2E-r0962S94JB-eM&libraries=places"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0" type="text/javascript"></script>
+</head>
+<style>
+</style>
+<body>
+    <div>
+        <h2>Vos trajets en avion</h2>
+        <table id="trajets">
+        </table>
+        <input type="button" value="Ajouter" id="add-voyage">
+        <input type="button" value="Calculer" id="calculer-ges">
+    </div>
+    <div>
+        <canvas id="ges-chart"></canvas>
+    </div>
+</body>
+
+<script>
+    const buttonAddTravel = document.getElementById('add-voyage')
+    buttonAddTravel.addEventListener('click', addTravelRow)
+
+    const buttonComputeGES = document.getElementById('calculer-ges')
+    buttonComputeGES.addEventListener('click', computeGES)
+
+    const travels = []
+    addTravelRow()
+
+    function addTravelRow() {
+        const table = document.getElementById("trajets")
+        const tr = document.createElement('tr')
+
+        const td_depart = document.createElement('td')
+        const input_depart = document.createElement('input')
+        input_depart.type = 'text'
+        input_depart.placeholder = 'Départ'
+        autocomplete_depart = new google.maps.places.Autocomplete(input_depart)
+        td_depart.appendChild(input_depart)
+        tr.appendChild(td_depart)
+
+        const td_arrivee = document.createElement('td')
+        const input_arrivee = document.createElement('input')
+        input_arrivee.type = 'text'
+        input_arrivee.placeholder = 'Arrivée'
+        autocomplete_arrivee = new google.maps.places.Autocomplete(input_arrivee)
+        td_arrivee.appendChild(input_arrivee)
+        tr.appendChild(td_arrivee)
+
+        table.appendChild(tr)
+
+        travels.push({
+            depart: autocomplete_depart,
+            arrivee: autocomplete_arrivee
+        })
+        console.log(travels)
+    }
+
+    function computeGES() {
+        ges = {}
+        if (travels.length > 0) {
+            for(let i = 0; i < travels.length; i++) {
+                if (travels[i].depart.getPlace() && travels[i].arrivee.getPlace()) {
+                    const depart = {
+                        lat: travels[i].depart.getPlace().geometry.location.lat(),
+                        lng: travels[i].depart.getPlace().geometry.location.lng()
+                    }
+                    const arrivee = {
+                        lat: travels[i].arrivee.getPlace().geometry.location.lat(),
+                        lng: travels[i].arrivee.getPlace().geometry.location.lng()
+                    }
+                    const impact = gcd(depart, arrivee)
+                    const name = (
+                        travels[i].depart.getPlace().name
+                        + ' - '
+                        + travels[i].arrivee.getPlace().name
+                    )
+                    ges[name] = impact
+                }
+            }
+            console.log(ges)
+            drawGes(ges)
+        }
+    }
+
+    function drawGes(ges) {
+        const colors = []
+        for (let i = 0; i < Object.keys(ges).length; i++){
+            colors.push(getRandomColor())
+        }
+        var chart = new Chart(document.getElementById('ges-chart').getContext('2d'), {
+            // The type of chart we want to create
+            type: 'pie',
+        
+            // The data for our dataset
+            data: {
+                labels: Object.keys(ges),
+                datasets: [{
+                    label: 'GES emissions',
+                    data: Object.values(ges),
+                    backgroundColor: colors
+                }]
+            }
+        })
+    }
+
+    function gcd(depart, arrivee) {
+        const R = 6371 // Earth radius, in km
+
+        const lat1 = depart.lat * Math.PI / 180;
+        const lng1 = depart.lng * Math.PI / 180;
+        const lat2 = arrivee.lat * Math.PI / 180;
+        const lng2 = arrivee.lng * Math.PI / 180;
+        
+        const dlat = Math.abs(lat1 - lat2)
+        const dlng = Math.abs(lng1 - lng2)
+
+        const dsigma = 2 * Math.asin(Math.sqrt(
+            Math.pow(Math.sin(dlat/2), 2)
+            + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlng/2), 2)
+        ))
+        return Math.round(dsigma * R)
+    }
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+</script>
+</html>
