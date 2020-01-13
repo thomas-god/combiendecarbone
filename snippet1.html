@@ -4,21 +4,64 @@
     <meta charset="UTF-8">
     <title>GES avion</title>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-hH8Oe7r8Uu5n51O2E-r0962S94JB-eM&libraries=places"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0" ></script>
 </head>
 <style>
+    body {
+        background: rgb(255, 255, 255)
+    }
+    section {
+        background: rgb(255, 255, 255);
+        padding: 0px;
+        margin: 0px;
+    }
+    .test {
+        background: rgb(255, 255, 255);
+        border: 2px solid black;
+        width: 50%;
+        margin: 10px 25%;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .test h2 {
+        text-align: center;
+        padding: 0px;
+        margin: 0px;
+    }
+    .test input[type='text'] {
+        width: 90%;
+        border-radius: 3px;
+        padding: 6px;
+        border: 1px solid rgb(97, 97, 97);
+        transition: 0.1s;
+    }
+    .test input[type='text']:focus {
+        border-color: dodgerblue;
+        box-shadow: 0 0 8px 0 dodgerblue;
+    }
+    .test table {
+        margin: 10px 7%;
+    }
+    .test td {
+        padding: 0;
+    }
 </style>
 <body>
-    <div>
-        <h2>Vos trajets en avion</h2>
-        <table id="trajets">
-        </table>
-        <input type="button" value="Ajouter" id="add-voyage">
-        <input type="button" value="Calculer" id="calculer-ges">
-    </div>
-    <div>
-        <canvas id="ges-chart"></canvas>
-    </div>
+    <section>
+        <div class='test'>
+            <h2>Vos trajets en avion</h2>
+            <table id="trajets">
+            </table>
+            <table><tr>
+                <td><input type="button" value="Ajouter" id="add-voyage"></td>
+                <td><input type="button" value="Calculer" id="calculer-ges" style="margin-left: 10px;"></td>
+            </tr></table>
+        </div>
+        <div class='test' id='div-chart' hidden='true'>
+            <h2>Vos émissions</h2>
+            <canvas id="ges-chart"></canvas>
+        </div>
+    </section>
 </body>
 
 <script>
@@ -83,7 +126,9 @@
                 }
             }
             console.log(ges)
-            drawGes(ges)
+            if (Object.keys(ges).length > 0) {
+                drawGes(ges)
+            }
         }
     }
 
@@ -106,6 +151,8 @@
                 }]
             }
         })
+        const div_chart = document.getElementById('div-chart')
+        div_chart.hidden = false
     }
 
     function gcd(depart, arrivee) {
