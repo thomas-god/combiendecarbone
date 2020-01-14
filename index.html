@@ -1,148 +1,90 @@
-<html>
-    <head>
-        <title>Votre empreinte carbone !</title>
-        <link rel="icon" type="image/jpeg" href="favicon.jpg">
-        <link href="style.css" rel="stylesheet">
-    </head>
-    <body>
-        <h2>Current GES records</h2>
-        <table id='ges-table'>
-        </table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GES avion</title>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-hH8Oe7r8Uu5n51O2E-r0962S94JB-eM&libraries=places"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0" ></script>
+    <script type="text/javascript" src="http://127.0.0.1:5500/avion.js" ></script>
+</head>
+<style>
+    body {
+        background: rgb(255, 255, 255)
+    }
+    section {
+        background: rgb(255, 255, 255);
+        padding: 0px;
+        margin: 0px;
+    }
+    .test {
+        background: rgb(255, 255, 255);
+        border: 2px solid black;
+        min-width: 500px;
+        max-width: 750px;
+        margin: 10px 25%;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .test h2 {
+        text-align: center;
+        padding: 0px;
+        margin: 10px 0px;
+    }
+    .test table {
+        margin: 10px 7%;
+        display: flex;
+        flex-flow: column nowrap;
+    }
+    .test tr {
+        display: flex;
+        flex-flow: row nowrap;
+        flex-grow: 1;
+    }
+    .test td {
+        margin: 3px;
+        padding: 0;
+        flex: 1 1 auto;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+    }
+    .test input[type='text'] {
+        width: 90%;
+        border-radius: 3px;
+        padding: 6px;
+        border: 1px solid rgb(97, 97, 97);
+        transition: 0.1s;
+        flex-grow: 1;
+    }
+    .test label {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+    }
+    .test input[type='text']:focus {
+        border-color: dodgerblue;
+        box-shadow: 0 0 8px 0 dodgerblue;
+    }
+    .table-button {
+        display: flex;
+        flex-flow: row wrap;
+    }
+    .table-button td {
+        display: flex;
+        flex: 1 1 auto;
+    }
+    .table-button input {
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+</style>
+<body>
+    <section>
+        <div id='avion'></div>
+    </section>
+</body>
 
-        <h2>Add a new entry</h2>
-
-        <form onsubmit="testForm(); return false" id="form_add_ges">
-            <table>
-                <tr><td>
-                    <label for="form_name">Name</label>
-                    <input type="text" name="name" id="form_name" value="Toto" required>
-                </td></tr>
-                <tr><td>
-                    <label for="form_name_short">Name in DB (no spaces nor accents)</label>
-                    <input type="text" name="name_short" id="form_name_short" value="toto" required>
-                </td></tr>
-                <tr><td>
-                    <label for="form_intensity">Carbon intensity (g/km)</label>
-                    <input type="number" name="intensity" id="form_intensity" value="10" required>
-                </td></tr>
-                <tr><td>
-                    <label for="form_source_name">Source</label>
-                    <input type="text" name="source_name" id="form_source_name" value="ADEME" required>
-                </td></tr>
-                <tr><td>
-                    <label for="form_source_url">Source URL</label>
-                    <input type="text" name="source_url" id="form_source_url" value="www.ademe.fr" required>
-                </td></tr>
-                <tr><td>
-                    <input type="submit" value="Add">
-                </td></tr>
-            </table>
-        </form>
-        
-    </body>
-
-    <script type="text/javascript">
-        (async () => {
-            drawGesTable('ges-table')
-            //drawAddGesForm('add-ges')
-        })()
-
-        async function testForm() {
-            let form = document.getElementById("form_add_ges")
-            let content = {
-                name: form.elements["form_name"].value,
-                name_short: form.elements["form_name_short"].value,
-                intensity_g_km: form.elements["form_intensity"].value,
-                source_name: form.elements["form_source_name"].value,
-                source_url: form.elements["form_source_url"].value
-            }
-            let req = {
-                method: "PUT",
-                headers: {
-                    'Content-type': "application/json"
-                },
-                body: JSON.stringify(content)
-            }
-            const res = await fetch('/ges/add', req)
-            await drawGesTable('ges-table')
-            if (res.status == 409) {
-                // either name or name_short already exists
-                let colDup = await res.json();
-                colDup = colDup['colDup'];
-                alert(`GES item with ${colDup} ${content[colDup]} already exists.`)
-                form.elements[`form_${colDup}`].value = "";
-            }
-        }
-
-        async function deleteGes() {
-            console.log(this)
-            let ges_id = this.id.split('_')
-            ges_id = ges_id[ges_id.length -1]
-            console.log(`Deleteing Ges id no ${ges_id}`)
-            await fetch(`/ges/${ges_id}`, {method: 'DELETE'});
-            await drawGesTable('ges-table')
-        }
-
-        async function drawGesTable(table_id) {
-            const res = await fetch('/ges')
-            const content = await res.json();
-            var t = document.getElementById(table_id)
-
-            // Clean existing header and content
-            if (t.tHead) {
-                t.tHead.remove();
-            };
-            if (t.tBodies) {
-                for (elem of t.tBodies) {
-                    elem.remove();
-                }
-            }
-
-            // Table header
-            const keys = {
-                name: 'Name',
-                name_short: 'Name in DB',
-                intensity_g_km: 'Intensity (g/km)',
-                source_name: 'Source',
-                source_url: 'Source (url)',
-                source_date: 'Creation date'
-            }
-            var thead = document.createElement('thead');
-            var thead_tr = document.createElement('tr');
-            for (let elem in keys){
-                let txt = document.createTextNode(`${keys[elem]}`);
-                let td = document.createElement('td')
-                td.appendChild(txt);
-                thead_tr.appendChild(td);
-            }
-            // Last td for the delete button
-            thead_tr.appendChild(document.createElement('td'))
-            thead.appendChild(thead_tr);
-            t.appendChild(thead);
-
-            // Table content
-            var tbody = document.createElement('tbody');
-            for (let i = 0; i < content.length; i++){
-                let tr = document.createElement('tr');
-                    // Content
-                    for (let elem in keys){
-                        let td = document.createElement('td');
-                        let txt = document.createTextNode(`${content[i][elem]}`);
-                        td.appendChild(txt);
-                        tr.appendChild(td);
-                    }
-                    // Delete button
-                    let td = document.createElement('td');
-                    let button = document.createElement('button');
-                    button.setAttribute('id', `delete_${content[i].id}`);
-                    button.innerText= 'X';
-                    button.onclick = deleteGes;
-                    td.appendChild(button);
-                    tr.appendChild(td);
-                tbody.appendChild(tr);
-            }
-            t.appendChild(tbody)
-        };
-        
-    </script>
+<script>
+    add_avion_div('avion')
+</script>
 </html>
