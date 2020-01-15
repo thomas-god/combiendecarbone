@@ -1,4 +1,4 @@
-function add_avion_div(div_id) {
+function add_transports_div(div_id) {
     const travels = []
     var travel_last_id = 0
     buildForm(div_id)
@@ -10,11 +10,13 @@ function add_avion_div(div_id) {
     const buttonComputeGES = document.getElementById('calculer-ges')
     buttonComputeGES.addEventListener('click', computeGES)
 
+    return travels
+
     function buildForm(div_id) {
         const parent_div = document.getElementById(div_id)
         parent_div.innerHTML = (
             '<div class="test">'
-                + '<h2>Trajets en avion</h2>'
+                + '<h2>Vos trajets</h2>'
                 + '<table id="trajets">'
                 + '</table>'
                 + '<table class="table-button"><tr>'
@@ -32,6 +34,19 @@ function add_avion_div(div_id) {
     function addTravelRow() {
         const table = document.getElementById("trajets")
         const tr = document.createElement('tr')
+
+        const td_mode = document.createElement('td')
+        const input_mode = document.createElement('select')
+        var modes = ['Avion', 'Voiture', 'Train']
+        modes.forEach((mode) => {
+            let option = document.createElement('option')
+            option.value = mode
+            option.innerText = mode
+            input_mode.appendChild(option)
+        })
+        td_mode.appendChild(input_mode)
+        tr.appendChild(td_mode)
+
 
         const td_depart = document.createElement('td')
         const input_depart = document.createElement('input')
@@ -82,6 +97,7 @@ function add_avion_div(div_id) {
         table.appendChild(tr)
 
         travels.push({
+            mode: input_mode,
             depart: autocomplete_depart,
             arrivee: autocomplete_arrivee,
             ar: check_ar,
@@ -89,27 +105,52 @@ function add_avion_div(div_id) {
         })
     }
 
-    function computeGES() {
+    async function computeGES() {
         ges = {}
         if (travels.length > 0) {
             for(let i = 0; i < travels.length; i++) {
                 if (travels[i].depart.getPlace() && travels[i].arrivee.getPlace()) {
-                    const depart = {
-                        lat: travels[i].depart.getPlace().geometry.location.lat(),
-                        lng: travels[i].depart.getPlace().geometry.location.lng()
+                    if (travels[i].mode.value === 'Avion') {
+                        const depart = {
+                            lat: travels[i].depart.getPlace().geometry.location.lat(),
+                            lng: travels[i].depart.getPlace().geometry.location.lng()
+                        }
+                        const arrivee = {
+                            lat: travels[i].arrivee.getPlace().geometry.location.lat(),
+                            lng: travels[i].arrivee.getPlace().geometry.location.lng()
+                        }
+                        const impact = gcd(depart, arrivee) * (travels[i].ar.checked ? 2 : 1)
+                        const name = (
+                            travels[i].depart.getPlace().name
+                            + ' - ' + travels[i].arrivee.getPlace().name
+                            + (travels[i].ar.checked ? ' A/R' : '')
+                            + ' (' + travels[i].mode.value + ')'
+                        )
+                        ges[name] = impact
+                    } else {
+                        var direction_service = new google.maps.DirectionsService()
+                        const res = await direction_service.route({
+                            origin: travels[i].depart.getPlace().name,
+                            destination: travels[i].arrivee.getPlace().name,
+                            travelMode: 'DRIVING'
+                        })
+                        console.log(res)
+                        /* , (res, status) => {
+                            if (res.routes.length > 0) {
+                                const name = (
+                                    travels[i].depart.getPlace().name
+                                    + ' - ' + travels[i].arrivee.getPlace().name
+                                    + (travels[i].ar.checked ? ' A/R' : '')
+                                    + ' (' + travels[i].mode.value + ')'
+                                )
+                                ges[name] = (
+                                    res.routes[0].legs[0].distance.value/100
+                                    * (travels[i].ar.checked ? 2 : 1)
+                                )
+                            } */
+                        
+
                     }
-                    const arrivee = {
-                        lat: travels[i].arrivee.getPlace().geometry.location.lat(),
-                        lng: travels[i].arrivee.getPlace().geometry.location.lng()
-                    }
-                    const impact = gcd(depart, arrivee) * (travels[i].ar.checked ? 2 : 1)
-                    const name = (
-                        travels[i].depart.getPlace().name
-                        + ' - '
-                        + travels[i].arrivee.getPlace().name
-                        + (travels[i].ar.checked ? ' A/R' : '')
-                    )
-                    ges[name] = impact
                 }
             }
             if (Object.keys(ges).length > 0) {
