@@ -16,17 +16,17 @@ function add_transports_div(div_id) {
         const parent_div = document.getElementById(div_id)
         parent_div.innerHTML = (
             '<div class="test">'
-                + '<h2>Vos trajets</h2>'
-                + '<table id="trajets">'
-                + '</table>'
-                + '<table class="table-button"><tr>'
-                    + '<td><input type="button" value="Ajouter" id="add-voyage"></td>'
-                    + '<td><input type="button" value="Calculer" id="calculer-ges"></td>'
-                + '</tr></table>'
+            + '<h2>Vos trajets</h2>'
+            + '<table id="trajets">'
+            + '</table>'
+            + '<table class="table-button"><tr>'
+            + '<td><input type="button" value="Ajouter" id="add-voyage"></td>'
+            + '<td><input type="button" value="Calculer" id="calculer-ges"></td>'
+            + '</tr></table>'
             + '</div>'
             + '<div class="test" id="div-chart" hidden="true">'
-                + '<h2>Vos émissions</h2>'
-                + '<canvas id="ges-chart"></canvas>'
+            + '<h2>Vos émissions</h2>'
+            + '<canvas id="ges-chart"></canvas>'
             + '</div>'
         )
     }
@@ -92,7 +92,7 @@ function add_transports_div(div_id) {
         })
         td_delete.appendChild(button_delete)
         tr.appendChild(td_delete)
-        
+
 
         table.appendChild(tr)
 
@@ -107,8 +107,9 @@ function add_transports_div(div_id) {
 
     async function computeGES() {
         ges = {}
+        travels_pr = []
         if (travels.length > 0) {
-            for(let i = 0; i < travels.length; i++) {
+            for (let i = 0; i < travels.length; i++) {
                 if (travels[i].depart.getPlace() && travels[i].arrivee.getPlace()) {
                     if (travels[i].mode.value === 'Avion') {
                         const depart = {
@@ -126,48 +127,55 @@ function add_transports_div(div_id) {
                             + (travels[i].ar.checked ? ' A/R' : '')
                             + ' (' + travels[i].mode.value + ')'
                         )
-                        ges[name] = impact
+                        travels_pr.push(Promise.resolve({ name: name, impact: impact }))
                     } else {
                         var direction_service = new google.maps.DirectionsService()
-                        const res = await direction_service.route({
-                            origin: travels[i].depart.getPlace().name,
-                            destination: travels[i].arrivee.getPlace().name,
-                            travelMode: 'DRIVING'
-                        })
-                        console.log(res)
-                        /* , (res, status) => {
-                            if (res.routes.length > 0) {
-                                const name = (
-                                    travels[i].depart.getPlace().name
-                                    + ' - ' + travels[i].arrivee.getPlace().name
-                                    + (travels[i].ar.checked ? ' A/R' : '')
-                                    + ' (' + travels[i].mode.value + ')'
-                                )
-                                ges[name] = (
-                                    res.routes[0].legs[0].distance.value/100
-                                    * (travels[i].ar.checked ? 2 : 1)
-                                )
-                            } */
-                        
-
+                        travels_pr.push(new Promise((resolve, reject) => {
+                            direction_service.route({
+                                origin: travels[i].depart.getPlace().name,
+                                destination: travels[i].arrivee.getPlace().name,
+                                travelMode: 'DRIVING'
+                            }, (res, status) => {
+                                if (res.routes.length > 0) {
+                                    const name = (
+                                        travels[i].depart.getPlace().name
+                                        + ' - ' + travels[i].arrivee.getPlace().name
+                                        + (travels[i].ar.checked ? ' A/R' : '')
+                                        + ' (' + travels[i].mode.value + ')'
+                                    )
+                                    const impact = (
+                                        res.routes[0].legs[0].distance.value / 1000
+                                        * (travels[i].ar.checked ? 2 : 1)
+                                    )
+                                    resolve({ name: name, impact: impact })
+                                }
+                            })
+                        }))
                     }
                 }
             }
-            if (Object.keys(ges).length > 0) {
-                drawGes(ges)
-            }
+            Promise.all(travels_pr)
+                .then((values) => {
+                    var ges = {}
+                    values.forEach(val => {
+                        ges[val.name] = val.impact
+                    })
+                    if (Object.keys(ges).length > 0) {
+                        drawGes(ges)
+                    }
+                })
         }
     }
 
     function drawGes(ges) {
         const colors = []
-        for (let i = 0; i < Object.keys(ges).length; i++){
+        for (let i = 0; i < Object.keys(ges).length; i++) {
             colors.push(getRandomColor())
         }
         var chart = new Chart(document.getElementById('ges-chart').getContext('2d'), {
             // The type of chart we want to create
             type: 'pie',
-        
+
             // The data for our dataset
             data: {
                 labels: Object.keys(ges),
@@ -189,13 +197,13 @@ function add_transports_div(div_id) {
         const lng1 = depart.lng * Math.PI / 180;
         const lat2 = arrivee.lat * Math.PI / 180;
         const lng2 = arrivee.lng * Math.PI / 180;
-        
+
         const dlat = Math.abs(lat1 - lat2)
         const dlng = Math.abs(lng1 - lng2)
 
         const dsigma = 2 * Math.asin(Math.sqrt(
-            Math.pow(Math.sin(dlat/2), 2)
-            + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlng/2), 2)
+            Math.pow(Math.sin(dlat / 2), 2)
+            + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlng / 2), 2)
         ))
         return Math.round(dsigma * R)
     }
