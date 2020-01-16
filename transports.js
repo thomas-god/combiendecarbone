@@ -74,6 +74,15 @@ function add_transports_div(div_id) {
         td_ar.appendChild(label_ar)
         tr.appendChild(td_ar)
 
+        const td_freq = document.createElement('td')
+        const input_freq = document.createElement('input')
+        input_freq.type = 'number'
+        input_freq.min = 1
+        input_freq.step = 1
+        input_freq.value = 1
+        td_freq.appendChild(input_freq)
+        tr.appendChild(td_freq)
+
         const td_delete = document.createElement('td')
         const button_delete = document.createElement('input')
         button_delete.type = 'button'
@@ -93,7 +102,6 @@ function add_transports_div(div_id) {
         td_delete.appendChild(button_delete)
         tr.appendChild(td_delete)
 
-
         table.appendChild(tr)
 
         travels.push({
@@ -101,8 +109,93 @@ function add_transports_div(div_id) {
             depart: autocomplete_depart,
             arrivee: autocomplete_arrivee,
             ar: check_ar,
+            freq: input_freq,
             travel_id: travel_last_id
         })
+    }
+
+    function gesAvion(travel) {
+        if (travel.mode.value != 'Avion') {
+            return Promise.reject('Error: trying to compute GES from non avion mode')
+        } else {
+            const depart = {
+                lat: travel.depart.getPlace().geometry.location.lat(),
+                lng: travel.depart.getPlace().geometry.location.lng()
+            }
+            const arrivee = {
+                lat: travel.arrivee.getPlace().geometry.location.lat(),
+                lng: travel.arrivee.getPlace().geometry.location.lng()
+            }
+            const distance = gcd(depart, arrivee)
+            const impact = distance * (travel.ar.checked ? 2 : 1)
+            const name = (
+                travel.depart.getPlace().name
+                + ' - ' + travel.arrivee.getPlace().name
+                + (travel.ar.checked ? ' A/R' : '')
+                + ' (' + travel.mode.value + ')'
+            )
+            return Promise.resolve({ name: name, impact: impact })
+        }
+    }
+
+    function gesVoiture(travel) {
+        if (travel.mode.value != 'Voiture') {
+            return Promise.reject('Error: trying to compute GES from non car mode')
+        } else {
+            var direction_service = new google.maps.DirectionsService()
+            var pr = new Promise((resolve, reject) => {
+                direction_service.route({
+                    origin: travel.depart.getPlace().name,
+                    destination: travel.arrivee.getPlace().name,
+                    travelMode: 'DRIVING'
+                }, (res, status) => {
+                    if (res.routes.length > 0) {
+                        const name = (
+                            travel.depart.getPlace().name
+                            + ' - ' + travel.arrivee.getPlace().name
+                            + (travel.ar.checked ? ' A/R' : '')
+                            + ' (' + travel.mode.value + ')'
+                        )
+                        const impact = (
+                            res.routes[0].legs[0].distance.value / 1000
+                            * (travel.ar.checked ? 2 : 1)
+                        )
+                        resolve({ name: name, impact: impact })
+                    }
+                })
+            })
+            return pr
+        }
+    }
+
+    function gesTrain(travel) {
+        if (travel.mode.value != 'Train') {
+            return Promise.reject('Error: trying to compute GES from non train mode')
+        } else {
+            var direction_service = new google.maps.DirectionsService()
+            var pr = new Promise((resolve, reject) => {
+                direction_service.route({
+                    origin: travel.depart.getPlace().name,
+                    destination: travel.arrivee.getPlace().name,
+                    travelMode: 'DRIVING'
+                }, (res, status) => {
+                    if (res.routes.length > 0) {
+                        const name = (
+                            travel.depart.getPlace().name
+                            + ' - ' + travel.arrivee.getPlace().name
+                            + (travel.ar.checked ? ' A/R' : '')
+                            + ' (' + travel.mode.value + ')'
+                        )
+                        const impact = (
+                            res.routes[0].legs[0].distance.value / 1000
+                            * (travel.ar.checked ? 2 : 1)
+                        )
+                        resolve({ name: name, impact: impact })
+                    }
+                })
+            })
+            return pr
+        }
     }
 
     async function computeGES() {
@@ -112,50 +205,17 @@ function add_transports_div(div_id) {
             for (let i = 0; i < travels.length; i++) {
                 if (travels[i].depart.getPlace() && travels[i].arrivee.getPlace()) {
                     if (travels[i].mode.value === 'Avion') {
-                        const depart = {
-                            lat: travels[i].depart.getPlace().geometry.location.lat(),
-                            lng: travels[i].depart.getPlace().geometry.location.lng()
-                        }
-                        const arrivee = {
-                            lat: travels[i].arrivee.getPlace().geometry.location.lat(),
-                            lng: travels[i].arrivee.getPlace().geometry.location.lng()
-                        }
-                        const impact = gcd(depart, arrivee) * (travels[i].ar.checked ? 2 : 1)
-                        const name = (
-                            travels[i].depart.getPlace().name
-                            + ' - ' + travels[i].arrivee.getPlace().name
-                            + (travels[i].ar.checked ? ' A/R' : '')
-                            + ' (' + travels[i].mode.value + ')'
-                        )
-                        travels_pr.push(Promise.resolve({ name: name, impact: impact }))
-                    } else {
-                        var direction_service = new google.maps.DirectionsService()
-                        travels_pr.push(new Promise((resolve, reject) => {
-                            direction_service.route({
-                                origin: travels[i].depart.getPlace().name,
-                                destination: travels[i].arrivee.getPlace().name,
-                                travelMode: 'DRIVING'
-                            }, (res, status) => {
-                                if (res.routes.length > 0) {
-                                    const name = (
-                                        travels[i].depart.getPlace().name
-                                        + ' - ' + travels[i].arrivee.getPlace().name
-                                        + (travels[i].ar.checked ? ' A/R' : '')
-                                        + ' (' + travels[i].mode.value + ')'
-                                    )
-                                    const impact = (
-                                        res.routes[0].legs[0].distance.value / 1000
-                                        * (travels[i].ar.checked ? 2 : 1)
-                                    )
-                                    resolve({ name: name, impact: impact })
-                                }
-                            })
-                        }))
+                        travels_pr.push(gesAvion(travels[i]))
+                    } else if (travels[i].mode.value === 'Voiture') {
+                        travels_pr.push(gesVoiture(travels[i]))
+                    } else if (travels[i].mode.value === 'Train') {
+                        travels_pr.push(gesTrain(travels[i]))
                     }
                 }
             }
             Promise.all(travels_pr)
                 .then((values) => {
+                    console.log(values)
                     var ges = {}
                     values.forEach(val => {
                         ges[val.name] = val.impact
