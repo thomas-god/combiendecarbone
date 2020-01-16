@@ -15,10 +15,10 @@ function add_transports_div(div_id) {
     function buildForm(div_id) {
         const parent_div = document.getElementById(div_id)
         parent_div.innerHTML = (
-            '<div class="test">'
+            '<div class="transport-container-form">'
             + '<h2>Vos trajets</h2>'
-            + '<table id="trajets">'
-            + '</table>'
+            + '<div id="trajets" class="transport-form">'
+            + '</div>'
             + '<table class="table-button"><tr>'
             + '<td><input type="button" value="Ajouter" id="add-voyage"></td>'
             + '<td><input type="button" value="Calculer" id="calculer-ges"></td>'
@@ -32,10 +32,14 @@ function add_transports_div(div_id) {
     }
 
     function addTravelRow() {
-        const table = document.getElementById("trajets")
-        const tr = document.createElement('tr')
+        const form = document.getElementById("trajets")
+        // New row div
+        const div_row = document.createElement('div')
+        div_row.className = "transport-form-row"
 
-        const td_mode = document.createElement('td')
+        // New mode div
+        const div_mode = document.createElement('div')
+        div_mode.className = "transport-form-row-mode"
         const input_mode = document.createElement('select')
         var modes = ['Avion', 'Voiture', 'Train']
         modes.forEach((mode) => {
@@ -44,53 +48,34 @@ function add_transports_div(div_id) {
             option.innerText = mode
             input_mode.appendChild(option)
         })
-        td_mode.appendChild(input_mode)
-        tr.appendChild(td_mode)
+        div_mode.appendChild(input_mode)
+        div_row.appendChild(div_mode)
 
-
-        const td_depart = document.createElement('td')
+        // New inputs div
+        const div_inputs = document.createElement('div')
+        div_inputs.className = "transport-form-row-inputs"
+        // New inputs div row1
+        const div_inputs_row1 = document.createElement('div')
+        div_inputs_row1.className = "transport-form-row-inputs-row1"
         const input_depart = document.createElement('input')
         input_depart.type = 'text'
         input_depart.placeholder = 'Départ'
         autocomplete_depart = new google.maps.places.Autocomplete(input_depart)
-        td_depart.appendChild(input_depart)
-        tr.appendChild(td_depart)
+        div_inputs_row1.appendChild(input_depart)
 
-        const td_arrivee = document.createElement('td')
         const input_arrivee = document.createElement('input')
         input_arrivee.type = 'text'
         input_arrivee.placeholder = 'Arrivée'
         autocomplete_arrivee = new google.maps.places.Autocomplete(input_arrivee)
-        td_arrivee.appendChild(input_arrivee)
-        tr.appendChild(td_arrivee)
+        div_inputs_row1.appendChild(input_arrivee)
 
-        const td_ar = document.createElement('td')
-        const label_ar = document.createElement('label')
-        const check_ar = document.createElement('input')
-        check_ar.type = 'checkbox'
-        check_ar.checked = true
-        label_ar.appendChild(check_ar)
-        label_ar.appendChild(document.createTextNode('A/R'))
-        td_ar.appendChild(label_ar)
-        tr.appendChild(td_ar)
-
-        const td_freq = document.createElement('td')
-        const input_freq = document.createElement('input')
-        input_freq.type = 'number'
-        input_freq.min = 1
-        input_freq.step = 1
-        input_freq.value = 1
-        td_freq.appendChild(input_freq)
-        tr.appendChild(td_freq)
-
-        const td_delete = document.createElement('td')
         const button_delete = document.createElement('input')
         button_delete.type = 'button'
         button_delete.value = 'X'
         var travel_id = travel_last_id // prevent passing reference to travel_last_id
         button_delete.addEventListener('click', () => {
             // Remove HTML tr
-            tr.parentNode.removeChild(tr)
+            div_row.parentNode.removeChild(div_row)
 
             // Remove corresponding entry in travels object
             for (let i = 0; i < travels.length; i++) {
@@ -99,10 +84,32 @@ function add_transports_div(div_id) {
                 }
             }
         })
-        td_delete.appendChild(button_delete)
-        tr.appendChild(td_delete)
+        div_inputs_row1.appendChild(button_delete)
+        div_inputs.appendChild(div_inputs_row1)
+        // New inputs div row2
+        const div_inputs_row2 = document.createElement('div')
+        div_inputs_row2.className = "transport-form-row-inputs-row2"
+        const label_ar = document.createElement('label')
+        label_ar.appendChild(document.createTextNode('A/R'))
+        const check_ar = document.createElement('input')
+        check_ar.type = 'checkbox'
+        check_ar.checked = true
+        label_ar.appendChild(check_ar)
+        div_inputs_row2.appendChild(label_ar)
 
-        table.appendChild(tr)
+        const label_freq = document.createElement('label')
+        label_freq.appendChild(document.createTextNode('Fréquence'))
+        const input_freq = document.createElement('input')
+        input_freq.type = 'number'
+        input_freq.min = 1
+        input_freq.step = 1
+        input_freq.value = 1
+        label_freq.appendChild(input_freq)
+        div_inputs_row2.appendChild(label_freq)
+        div_inputs.appendChild(div_inputs_row2)
+
+        div_row.appendChild(div_inputs)
+        form.appendChild(div_row)
 
         travels.push({
             mode: input_mode,
@@ -112,6 +119,7 @@ function add_transports_div(div_id) {
             freq: input_freq,
             travel_id: travel_last_id
         })
+        travel_last_id = travel_last_id + 1;
     }
 
     function gesAvion(travel) {
