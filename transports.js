@@ -24,7 +24,7 @@ function add_transports_div(div_id) {
             + '<td><input type="button" value="Calculer" id="calculer-ges"></td>'
             + '</tr></table>'
             + '</div>'
-            + '<div class="test" id="div-chart" hidden="true">'
+            + '<div class="chart-ges" id="div-chart" hidden="true">'
             + '<h2>Vos émissions</h2>'
             + '<canvas id="ges-chart"></canvas>'
             + '</div>'
