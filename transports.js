@@ -127,7 +127,15 @@ function add_transports_div(div_id) {
                 lng: travel.arrivee.getPlace().geometry.location.lng()
             }
             const distance = gcd(depart, arrivee)
-            const impact = distance * (travel.ar.checked ? 2 : 1)
+            const impact = (
+                distance / 100
+                * 0.0025 // t fuel /100 km / pax
+                / 0.8 // taux d'occupation moyen
+                * 3.15 // t CO2 / t fuel
+                * 1000 // conversion t -> kg CO2
+                * (travel.ar.checked ? 2 : 1)
+                * travel.freq.value
+            )
             const name = (
                 travel.depart.getPlace().name
                 + ' - ' + travel.arrivee.getPlace().name
@@ -157,8 +165,11 @@ function add_transports_div(div_id) {
                             + ' (' + travel.mode.value + ')'
                         )
                         const impact = (
-                            res.routes[0].legs[0].distance.value / 1000
+                            res.routes[0].legs[0].distance.value / 1000 // distance in km
+                            * 111 // 111 gCO2 / km en FR
+                            / 1000 // conversion g -> kg CO2
                             * (travel.ar.checked ? 2 : 1)
+                            * travel.freq.value
                         )
                         resolve({ name: name, impact: impact })
                     }
@@ -188,7 +199,10 @@ function add_transports_div(div_id) {
                         )
                         const impact = (
                             res.routes[0].legs[0].distance.value / 1000
+                            * 1.9 // gCO2 / km
+                            / 1000 // g -> kg CO2
                             * (travel.ar.checked ? 2 : 1)
+                            * travel.freq.value
                         )
                         resolve({ name: name, impact: impact })
                     }
@@ -215,7 +229,6 @@ function add_transports_div(div_id) {
             }
             Promise.all(travels_pr)
                 .then((values) => {
-                    console.log(values)
                     var ges = {}
                     values.forEach(val => {
                         ges[val.name] = val.impact
@@ -228,6 +241,7 @@ function add_transports_div(div_id) {
     }
 
     function drawGes(ges) {
+        // TODO: properly handle graph refresh
         const colors = []
         for (let i = 0; i < Object.keys(ges).length; i++) {
             colors.push(getRandomColor())
