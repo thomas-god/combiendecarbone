@@ -128,3 +128,10 @@ select.form-input {
     min-width: 700px;
     min-height: 350px;
 }
+
+input[type="button"] {
+    outline:none;
+}
+input[type="button"]::-moz-focus-inner {
+   border: 0;
+}
