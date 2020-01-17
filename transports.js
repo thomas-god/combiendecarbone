@@ -20,8 +20,8 @@ function add_transports_div(div_id) {
             + '<div id="trajets" class="transport-form">'
             + '</div>'
             + '<table class="table-button"><tr>'
-            + '<td><input type="button" value="Ajouter" id="add-voyage"></td>'
-            + '<td><input type="button" value="Calculer" id="calculer-ges"></td>'
+            + '<td><input type="button" value="Ajouter" id="add-voyage" class="form-button"></td>'
+            + '<td><input type="button" value="Calculer" id="calculer-ges" class="form-button"></td>'
             + '</tr></table>'
             + '</div>'
             + '<div class="chart-ges" id="div-chart" hidden="true">'
@@ -41,6 +41,7 @@ function add_transports_div(div_id) {
         const div_mode = document.createElement('div')
         div_mode.className = "transport-form-row-mode"
         const input_mode = document.createElement('select')
+        input_mode.className = "form-input"
         var modes = ['Avion', 'Voiture', 'Train']
         modes.forEach((mode) => {
             let option = document.createElement('option')
@@ -60,18 +61,21 @@ function add_transports_div(div_id) {
         const input_depart = document.createElement('input')
         input_depart.type = 'text'
         input_depart.placeholder = 'Départ'
+        input_depart.className = 'form-input'
         autocomplete_depart = new google.maps.places.Autocomplete(input_depart)
         div_inputs_row1.appendChild(input_depart)
 
         const input_arrivee = document.createElement('input')
         input_arrivee.type = 'text'
         input_arrivee.placeholder = 'Arrivée'
+        input_arrivee.className = 'form-input'
         autocomplete_arrivee = new google.maps.places.Autocomplete(input_arrivee)
         div_inputs_row1.appendChild(input_arrivee)
 
         const button_delete = document.createElement('input')
         button_delete.type = 'button'
-        button_delete.value = 'X'
+        button_delete.value = 'Suppr.'
+        button_delete.className = 'form-input'
         var travel_id = travel_last_id // prevent passing reference to travel_last_id
         button_delete.addEventListener('click', () => {
             // Remove HTML tr
@@ -94,12 +98,14 @@ function add_transports_div(div_id) {
         const check_ar = document.createElement('input')
         check_ar.type = 'checkbox'
         check_ar.checked = true
+        check_ar.className = 'form-input'
         label_ar.appendChild(check_ar)
         div_inputs_row2.appendChild(label_ar)
 
         const label_freq = document.createElement('label')
         label_freq.appendChild(document.createTextNode('Fréquence'))
         const input_freq = document.createElement('input')
+        input_freq.className = 'form-input'
         input_freq.type = 'number'
         input_freq.min = 1
         input_freq.step = 1
