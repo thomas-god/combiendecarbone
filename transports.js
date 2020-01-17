@@ -6,6 +6,7 @@ function add_transports_div(div_id) {
     buildForm(div_id)
     addTravelRow("trajets-hebdos", travels_hebdos, travel_hebdo_last_id)
     addTravelRow("trajets-occasionels", travels_occas, travel_occas_last_id)
+    var chart = initChart()
 
     const buttonAddTravelHebdo = document.getElementById('add-voyage-hebdos')
     buttonAddTravelHebdo.addEventListener('click', () => {addTravelRow("trajets-hebdos", travels_hebdos, travel_hebdo_last_id)})
@@ -304,34 +305,36 @@ function add_transports_div(div_id) {
                     })
                     if (Object.keys(ges).length > 0) {
                         console.log(ges)
-                        drawGes(ges)
+                        drawGes(chart, ges)
                     }
                 })
         }
     }
 
-    function drawGes(ges) {
+    function initChart() {
+        return new Chart(document.getElementById('ges-chart').getContext('2d'), {
+            // The type of chart we want to create
+            type: 'pie',
+        })
+    }
+    function drawGes(chart, ges) {
         // TODO: properly handle graph refresh
         const colors = []
         for (let i = 0; i < Object.keys(ges).length; i++) {
             colors.push(getRandomColor())
         }
-        var chart = new Chart(document.getElementById('ges-chart').getContext('2d'), {
-            // The type of chart we want to create
-            type: 'pie',
 
-            // The data for our dataset
-            data: {
-                labels: Object.keys(ges),
-                datasets: [{
-                    label: 'GES emissions',
-                    data: Object.values(ges),
-                    backgroundColor: colors
-                }]
-            }
-        })
+        chart.clear();
+        chart.data.labels = Object.keys(ges)
+        chart.data.datasets = [{
+            label: 'GES emissions',
+            data: Object.values(ges),
+            backgroundColor: colors
+        }]
+        chart.update()
         const div_chart = document.getElementById('div-chart')
         div_chart.hidden = false
+
     }
 
     function gcd(depart, arrivee) {

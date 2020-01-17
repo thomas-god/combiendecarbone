@@ -3,7 +3,7 @@ body * {
     -webkit-appearance: none;
     appearance: none;
 }
-.transport-container-form {
+.transport-container-form, .chart-ges{
     background: rgb(255, 255, 255);
     border: 2px solid black;
     margin: 20px auto;
@@ -13,25 +13,11 @@ body * {
     max-width: 700px;
     font-size: 16px;
 }
-.chart-ges {
-    background: rgb(255, 255, 255);
-    border: 2px solid black;
-    margin: 10px 25%;
-    padding: 10px;
-    border-radius: 5px;
-    min-width: 600px;
-}
-.chart-ges h2 {
+.transport-container-form h2, .chart-ges h2 {
     text-align: center;
     margin: 10px 0px;
     padding: 1px;
     font-size: 1.5em;
-}
-.transport-container-form h2 {
-    text-align: center;
-    padding: 0px;
-    margin: 10px 0px;
-    font-size: 2em;
 }
 .transport-form-row {
     display: flex;
@@ -104,7 +90,7 @@ input[type="button"].form-input {
     font-style: italic;
 }
 input[type="number"].form-input {
-    max-width: 35px;
+    max-width: 50px;
     text-align: center;
     -moz-appearance: textfield;
 }
