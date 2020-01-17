@@ -3,7 +3,7 @@ body * {
     -webkit-appearance: none;
     appearance: none;
 }
-.transport-container-form, .chart-ges{
+.transport-container-form {
     background: rgb(255, 255, 255);
     border: 2px solid black;
     margin: 20px auto;
@@ -13,7 +13,7 @@ body * {
     max-width: 700px;
     font-size: 16px;
 }
-.transport-container-form h2, .chart-ges h2 {
+.transport-container-form h2 {
     text-align: center;
     margin: 10px 0px;
     padding: 1px;
@@ -118,3 +118,13 @@ select.form-input {
 .hidden{
     visibility:hidden;
  }
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.chart-ges {
+    display: flex;
+    min-width: 700px;
+    min-height: 350px;
+}

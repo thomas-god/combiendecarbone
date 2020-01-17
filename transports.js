@@ -23,26 +23,27 @@ function add_transports_div(div_id) {
         const parent_div = document.getElementById(div_id)
         parent_div.innerHTML = (
             `<div class="transport-container-form">
-                <h2>Vos trajets hebdomadaires</h2>
+                <h2>Trajets hebdomadaires</h2>
                 <div id="trajets-hebdos" class="transport-form">
                 </div>
                 <table class="table-button"><tr>
                     <td><input type="button" value="Ajouter" id="add-voyage-hebdos" class="form-button"></td>
-                    <td><input type="button" value="Calculer" id="calculer-ges" class="form-button"></td>
                 </tr></table>
             </div>
             <div class="transport-container-form">
-                <h2>Vos trajets occasionnels</h2>
+                <h2>Trajets occasionnels</h2>
                 <div id="trajets-occasionels" class="transport-form">
                 </div>
                 <table class="table-button"><tr>
                     <td><input type="button" value="Ajouter" id="add-voyage-occas" class="form-button"></td>
-                    <td><input type="button" value="Calculer" id="calculer-ges" class="form-button"></td>
                 </tr></table>
             </div>
-            <div class="chart-ges" id="div-chart" hidden="true">
-                <h2>Vos émissions</h2>
-                <canvas id="ges-chart"></canvas>
+            <div class="transport-container-form center">
+                <h2>Émissions de CO2</h2>
+                <input type="button" value="Calculer" id="calculer-ges" class="form-button">
+                <div class="chart-ges hidden" id="div-chart">
+                    <canvas id="ges-chart"></canvas>
+                </div>
             </div>`
         )
     }
@@ -326,6 +327,10 @@ function add_transports_div(div_id) {
 
         chart.clear();
         chart.data.labels = Object.keys(ges)
+        chart.options = {
+            responsive: true,
+            maintainAspectRatio: false
+        }
         chart.data.datasets = [{
             label: 'GES emissions',
             data: Object.values(ges),
@@ -333,7 +338,7 @@ function add_transports_div(div_id) {
         }]
         chart.update()
         const div_chart = document.getElementById('div-chart')
-        div_chart.hidden = false
+        div_chart.classList.remove('hidden')
 
     }
 
