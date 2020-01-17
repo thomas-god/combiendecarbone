@@ -13,10 +13,10 @@ function add_transports_div(div_id) {
     var chart = initChart()
 
     const buttonAddTravelHebdo = document.getElementById('add-voyage-hebdos')
-    buttonAddTravelHebdo.addEventListener('click', () => {addTravelRow("trajets-hebdos", travels_hebdos)})
+    buttonAddTravelHebdo.addEventListener('click', () => { addTravelRow("trajets-hebdos", travels_hebdos) })
 
     const buttonAddTravelOccasionel = document.getElementById('add-voyage-occas')
-    buttonAddTravelOccasionel.addEventListener('click', () => {addTravelRow("trajets-occasionels", travels_occas)})
+    buttonAddTravelOccasionel.addEventListener('click', () => { addTravelRow("trajets-occasionels", travels_occas) })
 
     const buttonComputeGES = document.getElementById('calculer-ges')
     buttonComputeGES.addEventListener('click', computeGES)
@@ -151,7 +151,7 @@ function add_transports_div(div_id) {
         form.appendChild(div_row)
 
         input_mode.addEventListener("change", () => {
-            if(input_mode.value === 'Voiture') {
+            if (input_mode.value === 'Voiture') {
                 label_passagers.classList.remove('hidden')
             } else {
                 label_passagers.classList.add('hidden')
@@ -274,31 +274,31 @@ function add_transports_div(div_id) {
     }
 
     async function computeGES() {
-        console.log(travels_hebdos, travels_occas)
         ges = {}
         travels_pr = []
-        if (travels_occas.length > 0 || travels_hebdos.length > 0) {
+        if (travels_occas.items.length > 0 || travels_hebdos.items.length > 0) {
+            console.log('toto')
             // Trajets occasionnels
-            for (let i = 0; i < travels_occas.length; i++) {
-                if (travels_occas[i].depart.getPlace() && travels_occas[i].arrivee.getPlace()) {
-                    if (travels_occas[i].mode.value === 'Avion') {
-                        travels_pr.push(gesAvion(travels_occas[i]))
-                    } else if (travels_occas[i].mode.value === 'Voiture') {
-                        travels_pr.push(gesVoiture(travels_occas[i]))
-                    } else if (travels_occas[i].mode.value === 'Train') {
-                        travels_pr.push(gesTrain(travels_occas[i]))
+            for (let i = 0; i < travels_occas.items.length; i++) {
+                if (travels_occas.items[i].depart.getPlace() && travels_occas.items[i].arrivee.getPlace()) {
+                    if (travels_occas.items[i].mode.value === 'Avion') {
+                        travels_pr.push(gesAvion(travels_occas.items[i]))
+                    } else if (travels_occas.items[i].mode.value === 'Voiture') {
+                        travels_pr.push(gesVoiture(travels_occas.items[i]))
+                    } else if (travels_occas.items[i].mode.value === 'Train') {
+                        travels_pr.push(gesTrain(travels_occas.items[i]))
                     }
                 }
             }
             // Trajets hebdomadaires -> x 47 semaines sur la fréquence
-            for (let i = 0; i < travels_hebdos.length; i++) {
-                if (travels_hebdos[i].depart.getPlace() && travels_hebdos[i].arrivee.getPlace()) {
-                    if (travels_hebdos[i].mode.value === 'Avion') {
-                        travels_pr.push(gesAvion(travels_hebdos[i]))
-                    } else if (travels_hebdos[i].mode.value === 'Voiture') {
-                        travels_pr.push(gesVoiture(travels_hebdos[i]))
-                    } else if (travels_hebdos[i].mode.value === 'Train') {
-                        travels_pr.push(gesTrain(travels_hebdos[i]))
+            for (let i = 0; i < travels_hebdos.items.length; i++) {
+                if (travels_hebdos.items[i].depart.getPlace() && travels_hebdos.items[i].arrivee.getPlace()) {
+                    if (travels_hebdos.items[i].mode.value === 'Avion') {
+                        travels_pr.push(gesAvion(travels_hebdos.items[i]))
+                    } else if (travels_hebdos.items[i].mode.value === 'Voiture') {
+                        travels_pr.push(gesVoiture(travels_hebdos.items[i]))
+                    } else if (travels_hebdos.items[i].mode.value === 'Train') {
+                        travels_pr.push(gesTrain(travels_hebdos.items[i]))
                     }
                 }
             }
@@ -309,7 +309,6 @@ function add_transports_div(div_id) {
                         ges[val.name] = Math.round(val.impact)
                     })
                     if (Object.keys(ges).length > 0) {
-                        console.log(ges)
                         drawGes(chart, ges)
                     }
                 })
