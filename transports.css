@@ -9,7 +9,7 @@ body * {
     margin: 10px 25%;
     padding: 10px;
     border-radius: 5px;
-    min-width: 500px;
+    min-width: 600px;
     font-size: 16px;
 }
 .chart-ges {
@@ -36,7 +36,7 @@ body * {
     margin: 15px;
     min-width: 0;
     border: 1px solid rgba(0, 0, 0, 0.288);
-    background-color: beige;
+    background-color: rgb(231, 231, 231);
     border-radius: 1px;
     padding: 5px;
     box-shadow: 4px 4px #9e9a9a;
@@ -64,8 +64,10 @@ body * {
 }
 .transport-form-row-inputs-row2 {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     padding-top: 5px;
+    min-width: 0;
 }
 .transport-form-row-inputs-row2 label:nth-child(1) {margin-left: 30px;}
 .transport-form-row-inputs-row2 label {
@@ -121,3 +123,6 @@ select.form-input {
     padding: 7px;
     margin-right: 10px;
 }
+.hidden{
+    visibility:hidden;
+ }

@@ -112,10 +112,30 @@ function add_transports_div(div_id) {
         input_freq.value = 1
         label_freq.appendChild(input_freq)
         div_inputs_row2.appendChild(label_freq)
+
+        const label_passagers = document.createElement('label')
+        label_passagers.className = 'hidden'
+        label_passagers.appendChild(document.createTextNode('Passagers'))
+        const input_passagers = document.createElement('input')
+        input_passagers.className = 'form-input'
+        input_passagers.type = 'number'
+        input_passagers.min = 1
+        input_passagers.step = 1
+        input_passagers.value = 1
+        label_passagers.appendChild(input_passagers)
+        div_inputs_row2.appendChild(label_passagers)
         div_inputs.appendChild(div_inputs_row2)
 
         div_row.appendChild(div_inputs)
         form.appendChild(div_row)
+
+        input_mode.addEventListener("change", () => {
+            if(input_mode.value === 'Voiture') {
+                label_passagers.classList.remove('hidden')
+            } else {
+                label_passagers.classList.add('hidden')
+            }
+        })
 
         travels.push({
             mode: input_mode,
@@ -123,6 +143,7 @@ function add_transports_div(div_id) {
             arrivee: autocomplete_arrivee,
             ar: check_ar,
             freq: input_freq,
+            passagers: input_passagers,
             travel_id: travel_last_id
         })
         travel_last_id = travel_last_id + 1;
