@@ -1,38 +1,53 @@
 function add_transports_div(div_id) {
-    const travels = []
-    var travel_last_id = 0
+    const travels_hebdos = []
+    const travels_occas = []
+    var travel_hebdo_last_id = 0
+    var travel_occas_last_id = 0
     buildForm(div_id)
-    addTravelRow()
+    addTravelRow("trajets-hebdos", travels_hebdos, travel_hebdo_last_id)
+    addTravelRow("trajets-occasionels", travels_occas, travel_occas_last_id)
 
-    const buttonAddTravel = document.getElementById('add-voyage')
-    buttonAddTravel.addEventListener('click', addTravelRow)
+    const buttonAddTravelHebdo = document.getElementById('add-voyage-hebdos')
+    buttonAddTravelHebdo.addEventListener('click', () => {addTravelRow("trajets-hebdos", travels_hebdos, travel_hebdo_last_id)})
+
+    const buttonAddTravelOccasionel = document.getElementById('add-voyage-occas')
+    buttonAddTravelOccasionel.addEventListener('click', () => {addTravelRow("trajets-occasionels", travels_occas, travel_occas_last_id)})
 
     const buttonComputeGES = document.getElementById('calculer-ges')
     buttonComputeGES.addEventListener('click', computeGES)
 
-    return travels
+    return [travels_hebdos, travels_occas]
 
     function buildForm(div_id) {
         const parent_div = document.getElementById(div_id)
         parent_div.innerHTML = (
-            '<div class="transport-container-form">'
-            + '<h2>Vos trajets</h2>'
-            + '<div id="trajets" class="transport-form">'
-            + '</div>'
-            + '<table class="table-button"><tr>'
-            + '<td><input type="button" value="Ajouter" id="add-voyage" class="form-button"></td>'
-            + '<td><input type="button" value="Calculer" id="calculer-ges" class="form-button"></td>'
-            + '</tr></table>'
-            + '</div>'
-            + '<div class="chart-ges" id="div-chart" hidden="true">'
-            + '<h2>Vos émissions</h2>'
-            + '<canvas id="ges-chart"></canvas>'
-            + '</div>'
+            `<div class="transport-container-form">
+                <h2>Vos trajets hebdomadaires</h2>
+                <div id="trajets-hebdos" class="transport-form">
+                </div>
+                <table class="table-button"><tr>
+                    <td><input type="button" value="Ajouter" id="add-voyage-hebdos" class="form-button"></td>
+                    <td><input type="button" value="Calculer" id="calculer-ges" class="form-button"></td>
+                </tr></table>
+            </div>
+            <div class="transport-container-form">
+                <h2>Vos trajets occasionnels</h2>
+                <div id="trajets-occasionels" class="transport-form">
+                </div>
+                <table class="table-button"><tr>
+                    <td><input type="button" value="Ajouter" id="add-voyage-occas" class="form-button"></td>
+                    <td><input type="button" value="Calculer" id="calculer-ges" class="form-button"></td>
+                </tr></table>
+            </div>
+            <div class="chart-ges" id="div-chart" hidden="true">
+                <h2>Vos émissions</h2>
+                <canvas id="ges-chart"></canvas>
+            </div>`
         )
     }
 
-    function addTravelRow() {
-        const form = document.getElementById("trajets")
+    function addTravelRow(form_id, travels, travel_last_id) {
+        const form = document.getElementById(form_id)
         // New row div
         const div_row = document.createElement('div')
         div_row.className = "transport-form-row"
@@ -109,7 +124,7 @@ function add_transports_div(div_id) {
         input_freq.type = 'number'
         input_freq.min = 1
         input_freq.step = 1
-        input_freq.value = 1
+        input_freq.value = (form_id === 'trajets-hebdos' ? 5 : 1)
         label_freq.appendChild(input_freq)
         div_inputs_row2.appendChild(label_freq)
 
@@ -144,7 +159,8 @@ function add_transports_div(div_id) {
             ar: check_ar,
             freq: input_freq,
             passagers: input_passagers,
-            travel_id: travel_last_id
+            travel_id: travel_last_id,
+            hebdo: (form_id === 'trajets-hebdos' ? true : false)
         })
         travel_last_id = travel_last_id + 1;
     }
@@ -170,6 +186,7 @@ function add_transports_div(div_id) {
                 * 1000 // conversion t -> kg CO2
                 * (travel.ar.checked ? 2 : 1)
                 * travel.freq.value
+                * (travel.hebdo ? 47 : 1)
             )
             const name = (
                 travel.depart.getPlace().name
@@ -206,6 +223,7 @@ function add_transports_div(div_id) {
                             * (travel.ar.checked ? 2 : 1)
                             * travel.freq.value
                             / travel.passagers.value
+                            * (travel.hebdo ? 47 : 1)
                         )
                         resolve({ name: name, impact: impact })
                     }
@@ -239,6 +257,7 @@ function add_transports_div(div_id) {
                             / 1000 // g -> kg CO2
                             * (travel.ar.checked ? 2 : 1)
                             * travel.freq.value
+                            * (travel.hebdo ? 47 : 1)
                         )
                         resolve({ name: name, impact: impact })
                     }
@@ -249,17 +268,31 @@ function add_transports_div(div_id) {
     }
 
     async function computeGES() {
+        console.log(travels_occas, travels_hebdos)
         ges = {}
         travels_pr = []
-        if (travels.length > 0) {
-            for (let i = 0; i < travels.length; i++) {
-                if (travels[i].depart.getPlace() && travels[i].arrivee.getPlace()) {
-                    if (travels[i].mode.value === 'Avion') {
-                        travels_pr.push(gesAvion(travels[i]))
-                    } else if (travels[i].mode.value === 'Voiture') {
-                        travels_pr.push(gesVoiture(travels[i]))
-                    } else if (travels[i].mode.value === 'Train') {
-                        travels_pr.push(gesTrain(travels[i]))
+        if (travels_occas.length > 0 || travels_hebdos.length > 0) {
+            // Trajets occasionnels
+            for (let i = 0; i < travels_occas.length; i++) {
+                if (travels_occas[i].depart.getPlace() && travels_occas[i].arrivee.getPlace()) {
+                    if (travels_occas[i].mode.value === 'Avion') {
+                        travels_pr.push(gesAvion(travels_occas[i]))
+                    } else if (travels_occas[i].mode.value === 'Voiture') {
+                        travels_pr.push(gesVoiture(travels_occas[i]))
+                    } else if (travels_occas[i].mode.value === 'Train') {
+                        travels_pr.push(gesTrain(travels_occas[i]))
+                    }
+                }
+            }
+            // Trajets hebdomadaires -> x 47 semaines sur la fréquence
+            for (let i = 0; i < travels_hebdos.length; i++) {
+                if (travels_hebdos[i].depart.getPlace() && travels_hebdos[i].arrivee.getPlace()) {
+                    if (travels_hebdos[i].mode.value === 'Avion') {
+                        travels_pr.push(gesAvion(travels_hebdos[i]))
+                    } else if (travels_hebdos[i].mode.value === 'Voiture') {
+                        travels_pr.push(gesVoiture(travels_hebdos[i]))
+                    } else if (travels_hebdos[i].mode.value === 'Train') {
+                        travels_pr.push(gesTrain(travels_hebdos[i]))
                     }
                 }
             }
@@ -270,6 +303,7 @@ function add_transports_div(div_id) {
                         ges[val.name] = val.impact
                     })
                     if (Object.keys(ges).length > 0) {
+                        console.log(ges)
                         drawGes(ges)
                     }
                 })
