@@ -205,6 +205,7 @@ function add_transports_div(div_id) {
                             / 1000 // conversion g -> kg CO2
                             * (travel.ar.checked ? 2 : 1)
                             * travel.freq.value
+                            / travel.passagers.value
                         )
                         resolve({ name: name, impact: impact })
                     }

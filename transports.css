@@ -4,7 +4,7 @@ body * {
     appearance: none;
 }
 .transport-container-form {
-    background: rgba(245, 245, 220, 0.308);
+    background: rgb(255, 255, 255);
     border: 2px solid black;
     margin: 10px 25%;
     padding: 10px;
@@ -18,11 +18,12 @@ body * {
     margin: 10px 25%;
     padding: 10px;
     border-radius: 5px;
-    min-width: 500;
+    min-width: 600px;
 }
 .chart-ges h2 {
     text-align: center;
     margin: 10px 0px;
+    padding: 1px;
     font-size: 2em;
 }
 .transport-container-form h2 {
@@ -36,10 +37,14 @@ body * {
     margin: 15px;
     min-width: 0;
     border: 1px solid rgba(0, 0, 0, 0.288);
-    background-color: rgb(231, 231, 231);
-    border-radius: 1px;
+    background-color: rgb(245, 244, 244);
+    border-radius: 4px;
     padding: 5px;
-    box-shadow: 4px 4px #9e9a9a;
+    box-shadow: 4px 4px #b4b2b2;
+}
+.transport-form-row:hover {
+    border: 2px solid rgba(0, 0, 0, 0.288);
+    padding: 4px;
 }
 .transport-form-row-mode {
     margin-right: 15px;
