@@ -1,18 +1,22 @@
 function add_transports_div(div_id) {
-    const travels_hebdos = []
-    const travels_occas = []
-    var travel_hebdo_last_id = 0
-    var travel_occas_last_id = 0
+    const travels_hebdos = {
+        last_id: 0,
+        items: []
+    }
+    const travels_occas = {
+        last_id: 0,
+        items: []
+    }
     buildForm(div_id)
-    addTravelRow("trajets-hebdos", travels_hebdos, travel_hebdo_last_id)
-    addTravelRow("trajets-occasionels", travels_occas, travel_occas_last_id)
+    addTravelRow("trajets-hebdos", travels_hebdos)
+    addTravelRow("trajets-occasionels", travels_occas)
     var chart = initChart()
 
     const buttonAddTravelHebdo = document.getElementById('add-voyage-hebdos')
-    buttonAddTravelHebdo.addEventListener('click', () => {addTravelRow("trajets-hebdos", travels_hebdos, travel_hebdo_last_id)})
+    buttonAddTravelHebdo.addEventListener('click', () => {addTravelRow("trajets-hebdos", travels_hebdos)})
 
     const buttonAddTravelOccasionel = document.getElementById('add-voyage-occas')
-    buttonAddTravelOccasionel.addEventListener('click', () => {addTravelRow("trajets-occasionels", travels_occas, travel_occas_last_id)})
+    buttonAddTravelOccasionel.addEventListener('click', () => {addTravelRow("trajets-occasionels", travels_occas)})
 
     const buttonComputeGES = document.getElementById('calculer-ges')
     buttonComputeGES.addEventListener('click', computeGES)
@@ -48,7 +52,7 @@ function add_transports_div(div_id) {
         )
     }
 
-    function addTravelRow(form_id, travels, travel_last_id) {
+    function addTravelRow(form_id, travels) {
         const form = document.getElementById(form_id)
         // New row div
         const div_row = document.createElement('div')
@@ -93,15 +97,15 @@ function add_transports_div(div_id) {
         button_delete.type = 'button'
         button_delete.value = 'Suppr.'
         button_delete.className = 'form-input'
-        var travel_id = travel_last_id // prevent passing reference to travel_last_id
+        var travel_id = travels.last_id // prevent passing reference to last_id
         button_delete.addEventListener('click', () => {
             // Remove HTML tr
             div_row.parentNode.removeChild(div_row)
 
             // Remove corresponding entry in travels object
-            for (let i = 0; i < travels.length; i++) {
-                if (travels[i].travel_id == travel_id) {
-                    travels.splice(i, 1)
+            for (let i = 0; i < travels.items.length; i++) {
+                if (travels.items[i].travel_id == travel_id) {
+                    travels.items.splice(i, 1)
                 }
             }
         })
@@ -154,17 +158,17 @@ function add_transports_div(div_id) {
             }
         })
 
-        travels.push({
+        travels.items.push({
             mode: input_mode,
             depart: autocomplete_depart,
             arrivee: autocomplete_arrivee,
             ar: check_ar,
             freq: input_freq,
             passagers: input_passagers,
-            travel_id: travel_last_id,
+            travel_id: travel_id,
             hebdo: (form_id === 'trajets-hebdos' ? true : false)
         })
-        travel_last_id = travel_last_id + 1;
+        travels.last_id += 1;
     }
 
     function gesAvion(travel) {
@@ -270,7 +274,7 @@ function add_transports_div(div_id) {
     }
 
     async function computeGES() {
-        console.log(travels_occas, travels_hebdos)
+        console.log(travels_hebdos, travels_occas)
         ges = {}
         travels_pr = []
         if (travels_occas.length > 0 || travels_hebdos.length > 0) {
@@ -302,7 +306,7 @@ function add_transports_div(div_id) {
                 .then((values) => {
                     var ges = {}
                     values.forEach(val => {
-                        ges[val.name] = val.impact
+                        ges[val.name] = Math.round(val.impact)
                     })
                     if (Object.keys(ges).length > 0) {
                         console.log(ges)
