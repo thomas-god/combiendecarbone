@@ -33,8 +33,7 @@ function add_transports_div(div_id) {
                 <table class="table-button"><tr>
                     <td><input type="button" value="Ajouter" id="add-voyage-hebdos" class="form-button"></td>
                 </tr></table>
-            </div>
-            <div class="transport-container-form">
+                <span class="divider"></span>
                 <h2>Trajets occasionnels</h2>
                 <div id="trajets-occasionels" class="transport-form">
                 </div>

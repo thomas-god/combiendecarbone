@@ -1,0 +1,24 @@
+body {
+    margin: 0px;
+    background-color: #E3F7E1;
+}
+header{
+    display: flex;
+    background-color: #79D059;
+    align-items: center;
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+header .logo {
+    margin-left: 25px;
+    margin-right: 75px;
+}
+header .menu-item {
+    margin: 0px 20px;
+    color: black;
+    border-bottom: 0px solid black;
+}
+
+header .menut-item:visited {
+    color: black;
+}

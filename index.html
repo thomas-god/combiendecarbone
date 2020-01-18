@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>GES</title>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-hH8Oe7r8Uu5n51O2E-r0962S94JB-eM&libraries=places"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0" ></script>
-    <script type="text/javascript" src="http://127.0.0.1:5500/transports.js" ></script>
-    <link rel="stylesheet" href="http://127.0.0.1:5500/transports.css">
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-hH8Oe7r8Uu5n51O2E-r0962S94JB-eM&libraries=places"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script type="text/javascript" src="http://127.0.0.1:5500/transports.js"></script>
+    <link rel="stylesheet" href="http://127.0.0.1:5500/styles/transports.css">
+    <link rel="stylesheet" href="http://127.0.0.1:5500/styles/header.css">
 </head>
+
 <body>
+    <header>
+        <p class="logo">CO2</p>
+        <a class="menu-item" href="#top">Calculateur</a>
+        <a class="menu-item" href="#top">Méthodologie</a>
+    </header>
     <section>
         <div id='transports'></div>
     </section>
@@ -17,4 +26,5 @@
 <script>
     let [travels_hebdos, travels_occas] = add_transports_div('transports')
 </script>
+
 </html>
