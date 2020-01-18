@@ -16,7 +16,8 @@ header .logo {
 header .menu-item {
     margin: 0px 20px;
     color: black;
-    border-bottom: 0px solid black;
+    text-decoration: none;
+
 }
 
 header .menut-item:visited {

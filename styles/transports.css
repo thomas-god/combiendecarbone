@@ -5,10 +5,9 @@ body * {
 }
 .transport-container-form {
     background: rgb(255, 255, 255);
-    border: 1px solid black;
-    margin: 20px auto;
+    border: 1px solid rgb(199, 199, 199);
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 0 0 5px 5px;
     min-width: 600px;
     max-width: 700px;
     font-size: 16px;
@@ -77,7 +76,7 @@ body * {
     box-sizing: border-box;
     padding: 0.5em 0.7em;
     font-size: 0.9em;
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
   
     outline: none;
     border: 1px solid #dddddd;

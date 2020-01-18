@@ -1,0 +1,25 @@
+.main-form {
+    background: rgb(255, 255, 255);
+    margin: 20px auto;
+    min-width: 600px;
+    max-width: 700px;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.main-form-header {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #79D059;
+    margin-bottom: 0px;
+}
+.main-form-header a{
+    padding: 10px;
+    margin-top: 5px;
+    background-color: #A3FF81;
+    border-radius: 5px 5px 0 0;
+    color: black;
+    text-decoration: none;
+}
