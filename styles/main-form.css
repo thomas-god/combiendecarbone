@@ -15,11 +15,22 @@
     background-color: #79D059;
     margin-bottom: 0px;
 }
-.main-form-header a{
+.main-form-header input[type="button"]{
     padding: 10px;
     margin-top: 5px;
-    background-color: #A3FF81;
+    background-color: #79D059;
     border-radius: 5px 5px 0 0;
     color: black;
     text-decoration: none;
+    border-width: 0;
+}
+.main-form-header input[type="button"]:hover{
+    /* box-shadow: none; */
+    background-color: #A3FF81;
+}
+
+.main-form-header-active {
+    border: 1px solid black !important;
+    padding: 9px !important;
+    background-color: #A3FF81 !important;
 }

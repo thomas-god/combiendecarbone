@@ -22,19 +22,45 @@
     <section>
         <div class="main-form">
             <div class="main-form-header">
-                <a href="#top"> Transports </a>
-                <a href="#top"> Logement </a>
-                <a href="#top"> Alimentation </a>
-                <a href="#top"> Consommation </a>
-                <a href="#top"> Résultats </a>
+                <input type="button" id="form-mode-transport" value="Transports" onclick="toggleMode()">
+                <input type="button" id="form-mode-logement" value="Logement" onclick="toggleMode()">
+                <input type="button" id="form-mode-alimentation" value="Alimentation" onclick="toggleMode()">
+                <input type="button" id="form-mode-consommation" value="Consommation" onclick="toggleMode()">
+                <input type="button" id="form-mode-resultats" value="Résultats" onclick="toggleMode()">
             </div>
-            <div id='transports'></div>
+            <div id="transport"></div>
+            <div id="logement">Logement</div>
+            <div id="alimentation">Alimentation</div>
+            <div id="consommation">Consommation</div>
+            <div id="resultats">Résultats</div>
         </div>
     </section>
 </body>
 
 <script>
-    let [travels_hebdos, travels_occas] = add_transports_div('transports')
+    let [travels_hebdos, travels_occas] = add_transports_div('transport')
+
+    function toggleMode() {
+        var modes = [
+            "form-mode-transport",
+            "form-mode-logement",
+            "form-mode-alimentation",
+            "form-mode-consommation",
+            "form-mode-resultats"
+        ]
+        modes.forEach((value) => {
+            mode = value.split("-")[2]
+            let mode_button = document.getElementById(value)
+            let mode_div = document.getElementById(mode)
+            if(value === event.target.id) {
+                mode_button.classList.add("main-form-header-active")
+                mode_div.classList.remove("disp-none")
+            } else {
+                mode_button.classList.remove("main-form-header-active")
+                mode_div.classList.add("disp-none")
+            }
+        })
+    }
 </script>
 
 </html>

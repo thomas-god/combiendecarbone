@@ -117,7 +117,7 @@ select.form-input {
     margin-right: 10px;
 }
 .hidden{
-    visibility:hidden;
+    visibility: hidden;
  }
 .center {
     display: flex;

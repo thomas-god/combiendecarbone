@@ -17,9 +17,11 @@ header .menu-item {
     margin: 0px 20px;
     color: black;
     text-decoration: none;
-
 }
-
-header .menut-item:visited {
+header .menu-item:visited {
     color: black;
 }
+.disp-none {
+    display: none;
+
+ }
