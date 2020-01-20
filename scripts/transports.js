@@ -19,6 +19,7 @@ Transport.prototype.initDiv = function () {
     parent_div.innerHTML = (
         `<div class="transport-container-form">
             <h2>Trajets hebdomadaires</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo rerum ad consequuntur quam reprehenderit! Ratione, a commodi quia odio fuga, asperiores quae autem fugit magnam id veritatis, molestias laudantium facilis!</p>
             <div id="trajets-hebdos" class="transport-form">
             </div>
             <table class="table-button"><tr>
@@ -26,6 +27,7 @@ Transport.prototype.initDiv = function () {
             </tr></table>
             <span class="divider"></span>
             <h2>Trajets occasionnels</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo rerum ad consequuntur quam reprehenderit! Ratione, a commodi quia odio fuga, asperiores quae autem fugit magnam id veritatis, molestias laudantium facilis!</p>
             <div id="trajets-occasionels" class="transport-form">
             </div>
             <table class="table-button"><tr>

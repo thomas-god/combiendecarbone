@@ -20,6 +20,13 @@ body * {
     padding: 1px;
     font-size: 1.3em;
 }
+.transport-container-form p {
+    text-align: justify;
+    margin: 0.8em 1.5em;
+    padding: 1px;
+    font-size: 0.9em;
+    color: rgb(65, 65, 65);
+}
 .transport-form-row {
     display: flex;
     margin: 15px;
