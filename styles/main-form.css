@@ -30,7 +30,9 @@
 }
 
 .main-form-header-active {
-    border: 1px solid black !important;
+    border-width: 1px 1px 0px 1px  !important;
+    border-style: solid !important;
+    border-color: black !important;
     padding: 9px !important;
     background-color: #A3FF81 !important;
 }
