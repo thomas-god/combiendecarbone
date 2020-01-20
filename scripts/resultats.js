@@ -21,10 +21,10 @@ Resultats.prototype.initDiv = function () {
         `<div class="transport-container-form center">
             <h2>Émissions de CO2</h2>
             <input type="button" value="Calculer" id="calculer-ges" class="form-button">
-            <div class="chart-ges hidden" id="div-chart">
+            <div class="chart-ges disp-none" id="div-chart">
                 <canvas id="ges-chart"></canvas>
             </div>
-            <div class="chart-ges hidden" id="div-chart-zoom">
+            <div class="chart-ges disp-none" id="div-chart-zoom">
                 <canvas id="ges-chart-zoom"></canvas>
             </div>
         </div>`
@@ -46,7 +46,7 @@ Resultats.prototype.getGes = function() {
         console.log(this.ges)
         this.drawGes();
         var div_chart = document.getElementById('div-chart-zoom')
-        div_chart.classList.add('hidden')
+        div_chart.classList.add('disp-none')
     })
 
 }
@@ -99,13 +99,13 @@ Resultats.prototype.drawGes = function() {
                 }]
                 this.chart_zoom.update()
                 var div_chart = document.getElementById('div-chart-zoom')
-                div_chart.classList.remove('hidden')
+                div_chart.classList.remove('disp-none')
             }
         }
     }
     this.chart.update()
     const div_chart = document.getElementById('div-chart')
-    div_chart.classList.remove('hidden')
+    div_chart.classList.remove('disp-none')
 }
 
 Resultats.prototype.getRandomColor = function() {
