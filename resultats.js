@@ -61,6 +61,7 @@ Resultats.prototype.drawGes = function() {
     }
     this.chart.data.datasets = [{
         label: 'GES emissions',
+        title: "Émissions par secteur",
         data: Object.values(ges_by_mode),
         backgroundColor: colors
     }]

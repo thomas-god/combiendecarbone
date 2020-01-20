@@ -298,7 +298,7 @@ Transport.prototype.computeGES = function() {
                         ges[val.name] = Math.round(val.impact)
                     })
                     console.log(ges)
-                    resolve({name: "transport", values: ges});
+                    resolve({name: "Transports", values: ges});
                 })
         }
     })   
