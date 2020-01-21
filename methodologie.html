@@ -3,46 +3,72 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>GES</title>
-    <script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-hH8Oe7r8Uu5n51O2E-r0962S94JB-eM&libraries=places"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <script type="text/javascript" src="http://127.0.0.1:5500/scripts/transports.js"></script>
-    <script type="text/javascript" src="http://127.0.0.1:5500/scripts/resultats.js"></script>
+    <title>GES - Méthodologie</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
     <link rel="stylesheet" href="http://127.0.0.1:5500/styles/transports.css">
     <link rel="stylesheet" href="http://127.0.0.1:5500/styles/header.css">
     <link rel="stylesheet" href="http://127.0.0.1:5500/styles/main-form.css">
+    <link rel="stylesheet" href="http://127.0.0.1:5500/styles/methodologie.css">
 </head>
 
 <body>
     <header>
         <p class="logo">CO2</p>
-        <a class="menu-item" href="index.html">calculateur</a>
-        <a class="menu-item menu-item-current" href="#top">méthodologie</a>
+        <a class="menu-item" href="index.html">Calculateur</a>
+        <a class="menu-item menu-item-current" href="#top">Méthodologie</a>
     </header>
     <section class="main-form">
         <div class="main-form-header">
+            <input type="button" id="form-mode-generalites" value="Généralités" onclick="toggleMode()">
             <input type="button" id="form-mode-transport" value="Transports" onclick="toggleMode()">
             <input type="button" id="form-mode-logement" value="Logement" onclick="toggleMode()">
             <input type="button" id="form-mode-alimentation" value="Alimentation" onclick="toggleMode()">
             <input type="button" id="form-mode-consommation" value="Consommation" onclick="toggleMode()">
             <input type="button" id="form-mode-resultats" value="Résultats" onclick="toggleMode()">
         </div>
-        <div id="transport" class="main-form-content"><p>WORK IN PROGRESS</p></div>
-        <div id="logement" class="main-form-content"><p>WORK IN PROGRESS</p></div>
-        <div id="alimentation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
-        <div id="consommation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
-        <div id="resultats" class="main-form-content"><p>WORK IN PROGRESS</p></div>
+        <div id="generalites" class="methodologie-content"><p>WORK IN PROGRESS 1</p></div>
+        <div id="transport" class="methodologie-content">
+            <h1>Avion</h1>
+            <h2>Généralités</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi. \(\sqrt{a^2 + b^2}\)</p>
+            <p>\[\theta = \frac{ax+b}{\int{f(x)dx}}\]</p>
+            <h3>Références</h3>
+            <ul>
+                <li><a href="https://www.icao.int/environmental-protection/CarbonOffset/Documents/Methodology%20ICAO%20Carbon%20Calculator_v10-2017.pdf">ICAO methodology</a></li>
+                <li><a href="https://www.carbonindependent.org/22.html">Aviation on carbonindependent.org</a></li>
+            </ul>
+            <h2>Facteur RFI</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi.</p>
+            <span class="divider"></span>
+            <h1>Avion</h1>
+            <h2>Généralités</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi.</p>
+            <h3>Références</h3>
+            <ul>
+                <li><a href="https://www.icao.int/environmental-protection/CarbonOffset/Documents/Methodology%20ICAO%20Carbon%20Calculator_v10-2017.pdf">ICAO methodology</a></li>
+                <li><a href="https://www.carbonindependent.org/22.html">Aviation on carbonindependent.org</a></li>
+            </ul>
+            <h2>Facteur RFI</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi.</p>
+        </div>
+        <div id="logement" class="methodologie-content"><p>WORK IN PROGRESS 2</p></div>
+        <div id="alimentation" class="methodologie-content"><p>WORK IN PROGRESS 3</p></div>
+        <div id="consommation" class="methodologie-content"><p>WORK IN PROGRESS 4</p></div>
+        <div id="resultats" class="methodologie-content"><p>WORK IN PROGRESS 5</p></div>
     </section>
 </body>
 
 <script>
 
-    var buttonTransport = document.getElementById("form-mode-transport")
-    buttonTransport.click()
+    var buttonGeneralites = document.getElementById("form-mode-generalites")
+    buttonGeneralites.click()
 
     function toggleMode() {
         var modes = [
+            "form-mode-generalites",
             "form-mode-transport",
             "form-mode-logement",
             "form-mode-alimentation",
