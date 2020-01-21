@@ -20,21 +20,19 @@
         <a class="menu-item" href="#top">calculateur</a>
         <a class="menu-item" href="#top">méthodologie</a>
     </header>
-    <section>
-        <div class="main-form">
-            <div class="main-form-header">
-                <input type="button" id="form-mode-transport" value="Transports" onclick="toggleMode()">
-                <input type="button" id="form-mode-logement" value="Logement" onclick="toggleMode()">
-                <input type="button" id="form-mode-alimentation" value="Alimentation" onclick="toggleMode()">
-                <input type="button" id="form-mode-consommation" value="Consommation" onclick="toggleMode()">
-                <input type="button" id="form-mode-resultats" value="Résultats" onclick="toggleMode()">
-            </div>
-            <div id="transport"></div>
-            <div id="logement"><p>WORK IN PROGRESS</p></div>
-            <div id="alimentation"><p>WORK IN PROGRESS</p></div>
-            <div id="consommation"><p>WORK IN PROGRESS</p></div>
-            <div id="resultats"></div>
+    <section class="main-form">
+        <div class="main-form-header">
+            <input type="button" id="form-mode-transport" value="Transports" onclick="toggleMode()">
+            <input type="button" id="form-mode-logement" value="Logement" onclick="toggleMode()">
+            <input type="button" id="form-mode-alimentation" value="Alimentation" onclick="toggleMode()">
+            <input type="button" id="form-mode-consommation" value="Consommation" onclick="toggleMode()">
+            <input type="button" id="form-mode-resultats" value="Résultats" onclick="toggleMode()">
         </div>
+        <div id="transport" class="main-form-content"></div>
+        <div id="logement" class="main-form-content"><p>WORK IN PROGRESS</p></div>
+        <div id="alimentation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
+        <div id="consommation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
+        <div id="resultats" class="main-form-content"></div>
     </section>
 </body>
 

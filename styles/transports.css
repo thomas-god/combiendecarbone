@@ -3,7 +3,7 @@ body * {
     -webkit-appearance: none;
     appearance: none;
 }
-.transport-container-form {
+.main-form-content {
     background: rgb(255, 255, 255);
     border: 1px solid rgb(199, 199, 199);
     padding: 10px;
@@ -14,13 +14,13 @@ body * {
     display: flex;
     flex-direction: column;
 }
-.transport-container-form h2 {
+.main-form-content h2 {
     text-align: center;
     margin: 10px 0px;
     padding: 1px;
     font-size: 1.3em;
 }
-.transport-container-form p {
+.main-form-content p {
     text-align: justify;
     margin: 0.8em 1.5em;
     padding: 1px;
@@ -117,12 +117,12 @@ select.form-input {
 }
 
 .form-button {
-    font-size: 1.1em;
+    font-size: 0.9em;
     border: 1.5px solid #00000091;
     border-radius: 2px;
     outline: none;
     padding: 7px;
-    margin-right: 10px;
+    margin-left: 2em;
 }
 .hidden{
     visibility: hidden;
