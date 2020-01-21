@@ -203,8 +203,8 @@ Transport.prototype.gesVoiture = function(travel) {
         var direction_service = new google.maps.DirectionsService()
         var pr = new Promise((resolve, reject) => {
             direction_service.route({
-                origin: travel.depart.getPlace().name,
-                destination: travel.arrivee.getPlace().name,
+                origin: this.getLatLng(travel.depart.getPlace()),
+                destination: this.getLatLng(travel.arrivee.getPlace()),
                 travelMode: 'DRIVING'
             }, (res, status) => {
                 if (res.routes.length > 0) {
@@ -228,13 +228,13 @@ Transport.prototype.gesTrain = function(travel) {
         var direction_service = new google.maps.DirectionsService()
         var pr = new Promise((resolve, reject) => {
             direction_service.route({
-                origin: travel.depart.getPlace().name,
-                destination: travel.arrivee.getPlace().name,
-                travelMode: 'DRIVING'
+                origin: this.getLatLng(travel.depart.getPlace()),
+                destination: this.getLatLng(travel.arrivee.getPlace()),
+                travelMode: 'TRANSIT'
             }, (res, status) => {
                 if (res.routes.length > 0) {
                     const impact = (
-                        res.routes[0].legs[0].distance.value / 1000
+                        res.routes[0].legs[0].distance.value / 1000 // distance in km
                         * 1.9 // gCO2 / km
                         / 1000 // g -> kg CO2
                     )
@@ -244,6 +244,10 @@ Transport.prototype.gesTrain = function(travel) {
         })
         return pr
     }
+}
+
+Transport.prototype.getLatLng = function(place) {
+    return `${place.geometry.location.lat()},${place.geometry.location.lng()}`
 }
 
 Transport.prototype.computeGES = function() {
