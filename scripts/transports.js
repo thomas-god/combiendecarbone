@@ -9,6 +9,11 @@ function Transport(div_id) {
         last_id: 0,
         items: []
     }
+    this.modes = [
+        {name: "Avion", gesFunc: this.gesAvion},
+        {name: "Voiture", gesFunc: this.gesVoiture},
+        {name: "Train", gesFunc: this.gesTrain},
+    ]
     this.initDiv()
     this.addTravelRow("trajets-hebdos", this.travels_hebdos)
     this.addTravelRow("trajets-occasionels", this.travels_occas)
@@ -20,16 +25,14 @@ Transport.prototype.initDiv = function () {
         `
         <h2>Trajets hebdomadaires</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo rerum ad consequuntur quam reprehenderit! Ratione, a commodi quia odio fuga, asperiores quae autem fugit magnam id veritatis, molestias laudantium facilis!</p>
-        <div id="trajets-hebdos" class="transport-form">
-        </div>
+        <div id="trajets-hebdos" class="transport-form"></div>
         <table class="table-button"><tr>
             <td><input type="button" value="Ajouter" id="add-voyage-hebdos" class="form-button"></td>
         </tr></table>
         <span class="divider"></span>
         <h2>Trajets occasionnels</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo rerum ad consequuntur quam reprehenderit! Ratione, a commodi quia odio fuga, asperiores quae autem fugit magnam id veritatis, molestias laudantium facilis!</p>
-        <div id="trajets-occasionels" class="transport-form">
-        </div>
+        <div id="trajets-occasionels" class="transport-form"></div>
         <table class="table-button"><tr>
             <td><input type="button" value="Ajouter" id="add-voyage-occas" class="form-button"></td>
         </tr></table>`
@@ -54,8 +57,7 @@ Transport.prototype.addTravelRow = function (form_id, travels) {
     div_mode.className = "transport-form-row-mode"
     const input_mode = document.createElement('select')
     input_mode.className = "form-input"
-    var modes = ['Avion', 'Voiture', 'Train']
-    modes.forEach((mode) => {
+    this.modes.map(a => a.name).forEach((mode) => {
         let option = document.createElement('option')
         option.value = mode
         option.innerText = mode
@@ -162,134 +164,118 @@ Transport.prototype.addTravelRow = function (form_id, travels) {
     travels.last_id += 1;
 }
 
+Transport.prototype.postProcessGes = function(travel, impact) {
+    const name = (
+        travel.depart.getPlace().name
+        + ' - ' + travel.arrivee.getPlace().name
+        + (travel.ar.checked ? ' A/R' : '')
+        + ' (' + travel.mode.value + ')'
+    )
+    const impactFinal = (
+        impact
+        * (travel.ar.checked ? 2 : 1)
+        * travel.freq.value
+        * (travel.hebdo ? 47 : 1)
+    )
+    return { name: name, impact: impactFinal }
+}
+
 Transport.prototype.gesAvion = function (travel) {
-        if (travel.mode.value != 'Avion') {
-            return Promise.reject('Error: trying to compute GES from non avion mode')
-        } else {
-            const depart = {
-                lat: travel.depart.getPlace().geometry.location.lat(),
-                lng: travel.depart.getPlace().geometry.location.lng()
-            }
-            const arrivee = {
-                lat: travel.arrivee.getPlace().geometry.location.lat(),
-                lng: travel.arrivee.getPlace().geometry.location.lng()
-            }
-            const distance = this.gcd(depart, arrivee)
-            const impact = (
-                distance / 100
-                * 0.0025 // t fuel /100 km / pax
-                / 0.8 // taux d'occupation moyen
-                * 3.15 // t CO2 / t fuel
-                * 1000 // conversion t -> kg CO2
-                * (travel.ar.checked ? 2 : 1)
-                * travel.freq.value
-                * (travel.hebdo ? 47 : 1)
-            )
-            const name = (
-                travel.depart.getPlace().name
-                + ' - ' + travel.arrivee.getPlace().name
-                + (travel.ar.checked ? ' A/R' : '')
-                + ' (' + travel.mode.value + ')'
-            )
-            return Promise.resolve({ name: name, impact: impact })
+    if (travel.mode.value != 'Avion') {
+        return Promise.reject('Error: trying to compute GES from non avion mode')
+    } else {
+        const depart = {
+            lat: travel.depart.getPlace().geometry.location.lat(),
+            lng: travel.depart.getPlace().geometry.location.lng()
         }
+        const arrivee = {
+            lat: travel.arrivee.getPlace().geometry.location.lat(),
+            lng: travel.arrivee.getPlace().geometry.location.lng()
+        }
+        const distance = this.gcd(depart, arrivee)
+        const impact = (
+            distance / 100
+            * 0.0025 // t fuel /100 km / pax
+            / 0.8 // taux d'occupation moyen
+            * 3.15 // t CO2 / t fuel
+            * 1000 // conversion t -> kg CO2
+        )
+        return Promise.resolve(this.postProcessGes(travel, impact))
     }
+}
 
 Transport.prototype.gesVoiture = function(travel) {
-        if (travel.mode.value != 'Voiture') {
-            return Promise.reject('Error: trying to compute GES from non car mode')
-        } else {
-            var direction_service = new google.maps.DirectionsService()
-            var pr = new Promise((resolve, reject) => {
-                direction_service.route({
-                    origin: travel.depart.getPlace().name,
-                    destination: travel.arrivee.getPlace().name,
-                    travelMode: 'DRIVING'
-                }, (res, status) => {
-                    if (res.routes.length > 0) {
-                        const name = (
-                            travel.depart.getPlace().name
-                            + ' - ' + travel.arrivee.getPlace().name
-                            + (travel.ar.checked ? ' A/R' : '')
-                            + ' (' + travel.mode.value + ')'
-                        )
-                        const impact = (
-                            res.routes[0].legs[0].distance.value / 1000 // distance in km
-                            * 111 // 111 gCO2 / km en FR
-                            / 1000 // conversion g -> kg CO2
-                            * (travel.ar.checked ? 2 : 1)
-                            * travel.freq.value
-                            / travel.passagers.value
-                            * (travel.hebdo ? 47 : 1)
-                        )
-                        resolve({ name: name, impact: impact })
-                    }
-                })
+    if (travel.mode.value != 'Voiture') {
+        return Promise.reject('Error: trying to compute GES from non car mode')
+    } else {
+        var direction_service = new google.maps.DirectionsService()
+        var pr = new Promise((resolve, reject) => {
+            direction_service.route({
+                origin: travel.depart.getPlace().name,
+                destination: travel.arrivee.getPlace().name,
+                travelMode: 'DRIVING'
+            }, (res, status) => {
+                if (res.routes.length > 0) {
+                    const impact = (
+                        res.routes[0].legs[0].distance.value / 1000 // distance in km
+                        * 111 // 111 gCO2 / km en FR
+                        / 1000 // conversion g -> kg CO2
+                    )
+                    resolve(this.postProcessGes(travel, impact))
+                }
             })
-            return pr
-        }
+        })
+        return pr
     }
+}
 
 Transport.prototype.gesTrain = function(travel) {
-        if (travel.mode.value != 'Train') {
-            return Promise.reject('Error: trying to compute GES from non train mode')
-        } else {
-            var direction_service = new google.maps.DirectionsService()
-            var pr = new Promise((resolve, reject) => {
-                direction_service.route({
-                    origin: travel.depart.getPlace().name,
-                    destination: travel.arrivee.getPlace().name,
-                    travelMode: 'DRIVING'
-                }, (res, status) => {
-                    if (res.routes.length > 0) {
-                        const name = (
-                            travel.depart.getPlace().name
-                            + ' - ' + travel.arrivee.getPlace().name
-                            + (travel.ar.checked ? ' A/R' : '')
-                            + ' (' + travel.mode.value + ')'
-                        )
-                        const impact = (
-                            res.routes[0].legs[0].distance.value / 1000
-                            * 1.9 // gCO2 / km
-                            / 1000 // g -> kg CO2
-                            * (travel.ar.checked ? 2 : 1)
-                            * travel.freq.value
-                            * (travel.hebdo ? 47 : 1)
-                        )
-                        resolve({ name: name, impact: impact })
-                    }
-                })
+    if (travel.mode.value != 'Train') {
+        return Promise.reject('Error: trying to compute GES from non train mode')
+    } else {
+        var direction_service = new google.maps.DirectionsService()
+        var pr = new Promise((resolve, reject) => {
+            direction_service.route({
+                origin: travel.depart.getPlace().name,
+                destination: travel.arrivee.getPlace().name,
+                travelMode: 'DRIVING'
+            }, (res, status) => {
+                if (res.routes.length > 0) {
+                    const impact = (
+                        res.routes[0].legs[0].distance.value / 1000
+                        * 1.9 // gCO2 / km
+                        / 1000 // g -> kg CO2
+                    )
+                    resolve(this.postProcessGes(travel, impact))
+                }
             })
-            return pr
-        }
+        })
+        return pr
     }
+}
 
 Transport.prototype.computeGES = function() {
     return new Promise((resolve, reject) => {
         var ges = {}
         var travels_pr = []
         if (this.travels_occas.items.length > 0 || this.travels_hebdos.items.length > 0) {
-            // Trajets occasionnels
-            for (let i = 0; i < this.travels_occas.items.length; i++) {
-                if (this.travels_occas.items[i].depart.getPlace() && this.travels_occas.items[i].arrivee.getPlace()) {
-                    if (this.travels_occas.items[i].mode.value === 'Avion') {
-                        travels_pr.push(this.gesAvion(this.travels_occas.items[i]))
-                    } else if (this.travels_occas.items[i].mode.value === 'Voiture') {
-                        travels_pr.push(this.gesVoiture(this.travels_occas.items[i]))
-                    } else if (this.travels_occas.items[i].mode.value === 'Train') {
-                        travels_pr.push(this.gesTrain(this.travels_occas.items[i]))
-                    }
-                }
-            }
             // Trajets hebdomadaires -> x 47 semaines sur la fréquence
             for (let i = 0; i < this.travels_hebdos.items.length; i++) {
                 if (this.travels_hebdos.items[i].depart.getPlace() && this.travels_hebdos.items[i].arrivee.getPlace()) {
-                    if (this.travels_hebdos.items[i].mode.value === 'Avion') {
-                        travels_pr.push(this.gesAvion(this.travels_hebdos.items[i]))
-                    } else if (this.travels_hebdos.items[i].mode.value === 'Voiture') {
-                        travels_pr.push(this.gesVoiture(this.travels_hebdos.items[i]))
-                    } else if (this.travels_hebdos.items[i].mode.value === 'Train') {
-                        travels_pr.push(this.gesTrain(this.travels_hebdos.items[i]))
+                    switch (this.travels_hebdos.items[i].mode.value) {
+                        case "Avion": travels_pr.push(this.gesAvion(this.travels_hebdos.items[i])); break;
+                        case "Voiture": travels_pr.push(this.gesVoiture(this.travels_hebdos.items[i])); break;
+                        case "Train": travels_pr.push(this.gesTrain(this.travels_hebdos.items[i])); break;
+                    }
+                }
+            }
+            // Trajets occasionnels
+            for (let i = 0; i < this.travels_occas.items.length; i++) {
+                if (this.travels_occas.items[i].depart.getPlace() && this.travels_occas.items[i].arrivee.getPlace()) {
+                    switch (this.travels_occas.items[i].mode.value) {
+                        case "Avion": travels_pr.push(this.gesAvion(this.travels_occas.items[i])); break;
+                        case "Voiture": travels_pr.push(this.gesVoiture(this.travels_occas.items[i])); break;
+                        case "Train": travels_pr.push(this.gesTrain(this.travels_occas.items[i])); break;
                     }
                 }
             }
@@ -298,7 +284,6 @@ Transport.prototype.computeGES = function() {
                     values.forEach(val => {
                         ges[val.name] = Math.round(val.impact)
                     })
-                    console.log(ges)
                     resolve({name: "Transports", values: ges});
                 })
         }
