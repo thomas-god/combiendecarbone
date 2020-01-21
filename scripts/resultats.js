@@ -13,6 +13,13 @@ function Resultats(div_id, transport) {
         // The type of chart we want to create
         type: 'pie',
     })
+
+    this.colors_mode = {
+        "Transports": "#5bc0eb",
+        "Logement": "#fde74c",
+        "Alimentation": "#9bc53d",
+        "Consommation": "#e55934"
+    }
 }
 
 Resultats.prototype.initDiv = function () {
@@ -57,10 +64,10 @@ Resultats.prototype.drawGes = function() {
         ges_by_mode[mode] = Object.values(this.ges[mode]).reduce((a, b) => a + b)
     }
 
-    const colors = []
-    for (let i = 0; i < Object.keys(ges_by_mode).length; i++) {
-        colors.push(this.getRandomColor())
-    }
+    var colors = []
+    Object.keys(ges_by_mode).forEach(mode => {
+        colors.push(this.colors_mode[mode])
+    })
 
     this.chart.clear();
     this.chart.data.labels = Object.keys(ges_by_mode)
@@ -85,11 +92,8 @@ Resultats.prototype.drawGes = function() {
                 var posteSelected = this.chart.data.labels[selectedIndex]
                 var secondDataset = this.ges[posteSelected]
 
-                let secondColors = [selectedColor]
-                for(let i = 1; i < Object.keys(secondDataset).length; i++) {
-                    secondColors[i] = this.pSBC(-0.35*i, selectedColor)
-                }
- 
+                var secondColors = this.getSecondaryColors(selectedColor, Object.keys(secondDataset).length)
+                console.log(secondColors)
                 this.chart_zoom.clear();
                 this.chart_zoom.data.labels = Object.keys(secondDataset)
                 this.chart_zoom.data.datasets = [{
@@ -117,7 +121,21 @@ Resultats.prototype.getRandomColor = function() {
     return color;
 }
 
-Resultats.prototype. pSBC = function(p,c0,c1,l) {
+Resultats.prototype.getSecondaryColors = function(masterColor, nbColors) {
+    var secondColors = []
+/*     var n_inf = -Math.floor(nbColors/2)
+    var n_sup = Math.floor(nbColors/2) + (nbColors % 2 == 0 ? 1: 0)
+    console.log(nbColors, n_inf, n_sup)
+    for(let i = -n_inf; i <= n_sup; i++) {
+        secondColors.push(this.pSBC(i * 0.1, masterColor))
+    } */
+    for(let i = 0; i < nbColors; i++) {
+        secondColors.push(this.pSBC(- 0.25 * i, masterColor))
+    }
+    return secondColors
+}
+
+Resultats.prototype.pSBC = function(p,c0,c1,l) {
     let r,g,b,P,f,t,h,i=parseInt,m=Math.round,a=typeof(c1)=="string";
     if(typeof(p)!="number"||p<-1||p>1||typeof(c0)!="string"||(c0[0]!='r'&&c0[0]!='#')||(c1&&!a))return null;
     if(!this.pSBCr)this.pSBCr=(d)=>{
