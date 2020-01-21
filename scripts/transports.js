@@ -1,22 +1,14 @@
 function Transport(div_id) {
     this.div_id = div_id;
 
-    this.travels_hebdos = {
+    this.travels = {
         last_id: 0,
         items: []
     }
-    this.travels_occas = {
-        last_id: 0,
-        items: []
-    }
-    this.modes = [
-        {name: "Avion", gesFunc: this.gesAvion},
-        {name: "Voiture", gesFunc: this.gesVoiture},
-        {name: "Train", gesFunc: this.gesTrain},
-    ]
+    this.modes = ["Avion", "Voiture","Train"]
     this.initDiv()
-    this.addTravelRow("trajets-hebdos", this.travels_hebdos)
-    this.addTravelRow("trajets-occasionels", this.travels_occas)
+    this.addTravelRow("trajets-hebdos", this.travels)
+    this.addTravelRow("trajets-occasionels", this.travels)
 }
 
 Transport.prototype.initDiv = function () {
@@ -39,14 +31,14 @@ Transport.prototype.initDiv = function () {
     )
 
     const buttonAddTravelHebdo = document.getElementById('add-voyage-hebdos')
-    buttonAddTravelHebdo.addEventListener('click', () => { this.addTravelRow("trajets-hebdos", this.travels_hebdos) })
+    buttonAddTravelHebdo.addEventListener('click', () => { this.addTravelRow("trajets-hebdos") })
 
     const buttonAddTravelOccasionel = document.getElementById('add-voyage-occas')
-    buttonAddTravelOccasionel.addEventListener('click', () => { this.addTravelRow("trajets-occasionels", this.travels_occas) })
+    buttonAddTravelOccasionel.addEventListener('click', () => { this.addTravelRow("trajets-occasionels") })
 }
 
 
-Transport.prototype.addTravelRow = function (form_id, travels) {
+Transport.prototype.addTravelRow = function (form_id) {
     const form = document.getElementById(form_id)
     // New row div
     const div_row = document.createElement('div')
@@ -57,7 +49,7 @@ Transport.prototype.addTravelRow = function (form_id, travels) {
     div_mode.className = "transport-form-row-mode"
     const input_mode = document.createElement('select')
     input_mode.className = "form-input"
-    this.modes.map(a => a.name).forEach((mode) => {
+    this.modes.forEach((mode) => {
         let option = document.createElement('option')
         option.value = mode
         option.innerText = mode
@@ -90,15 +82,15 @@ Transport.prototype.addTravelRow = function (form_id, travels) {
     button_delete.type = 'button'
     button_delete.value = 'Suppr.'
     button_delete.className = 'form-input'
-    var travel_id = travels.last_id // prevent passing reference to last_id
+    var travel_id = this.travels.last_id // prevent passing reference to last_id
     button_delete.addEventListener('click', () => {
         // Remove HTML tr
         div_row.parentNode.removeChild(div_row)
 
-        // Remove corresponding entry in travels object
-        for (let i = 0; i < travels.items.length; i++) {
-            if (travels.items[i].travel_id == travel_id) {
-                travels.items.splice(i, 1)
+        // Remove corresponding entry in this.travels object
+        for (let i = 0; i < this.travels.items.length; i++) {
+            if (this.travels.items[i].travel_id == travel_id) {
+                this.travels.items.splice(i, 1)
             }
         }
     })
@@ -151,7 +143,7 @@ Transport.prototype.addTravelRow = function (form_id, travels) {
         }
     })
 
-    travels.items.push({
+    this.travels.items.push({
         mode: input_mode,
         depart: autocomplete_depart,
         arrivee: autocomplete_arrivee,
@@ -161,7 +153,7 @@ Transport.prototype.addTravelRow = function (form_id, travels) {
         travel_id: travel_id,
         hebdo: (form_id === 'trajets-hebdos' ? true : false)
     })
-    travels.last_id += 1;
+    this.travels.last_id += 1;
 }
 
 Transport.prototype.postProcessGes = function(travel, impact) {
@@ -258,24 +250,15 @@ Transport.prototype.computeGES = function() {
     return new Promise((resolve, reject) => {
         var ges = {}
         var travels_pr = []
-        if (this.travels_occas.items.length > 0 || this.travels_hebdos.items.length > 0) {
+        if (this.travels.items.length > 0) {
             // Trajets hebdomadaires -> x 47 semaines sur la fréquence
-            for (let i = 0; i < this.travels_hebdos.items.length; i++) {
-                if (this.travels_hebdos.items[i].depart.getPlace() && this.travels_hebdos.items[i].arrivee.getPlace()) {
-                    switch (this.travels_hebdos.items[i].mode.value) {
-                        case "Avion": travels_pr.push(this.gesAvion(this.travels_hebdos.items[i])); break;
-                        case "Voiture": travels_pr.push(this.gesVoiture(this.travels_hebdos.items[i])); break;
-                        case "Train": travels_pr.push(this.gesTrain(this.travels_hebdos.items[i])); break;
-                    }
-                }
-            }
-            // Trajets occasionnels
-            for (let i = 0; i < this.travels_occas.items.length; i++) {
-                if (this.travels_occas.items[i].depart.getPlace() && this.travels_occas.items[i].arrivee.getPlace()) {
-                    switch (this.travels_occas.items[i].mode.value) {
-                        case "Avion": travels_pr.push(this.gesAvion(this.travels_occas.items[i])); break;
-                        case "Voiture": travels_pr.push(this.gesVoiture(this.travels_occas.items[i])); break;
-                        case "Train": travels_pr.push(this.gesTrain(this.travels_occas.items[i])); break;
+            for (let i = 0; i < this.travels.items.length; i++) {
+                if (this.travels.items[i].depart.getPlace() && this.travels.items[i].arrivee.getPlace()) {
+                    switch (this.travels.items[i].mode.value) {
+                        case "Avion": travels_pr.push(this.gesAvion(this.travels.items[i])); break;
+                        case "Voiture": travels_pr.push(this.gesVoiture(this.travels.items[i])); break;
+                        case "Train": travels_pr.push(this.gesTrain(this.travels.items[i])); break;
+                        default: console.log(`Cannot find function to compute ges for mode ${this.travels.items[i].mode.value}`)
                     }
                 }
             }
