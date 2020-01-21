@@ -17,8 +17,8 @@
 <body>
     <header>
         <p class="logo">CO2</p>
-        <a class="menu-item menu-item-current" href="#top">calculateur</a>
-        <a class="menu-item" href="methodologie.html">méthodologie</a>
+        <a class="menu-item" href="index.html">calculateur</a>
+        <a class="menu-item menu-item-current" href="#top">méthodologie</a>
     </header>
     <section class="main-form">
         <div class="main-form-header">
@@ -28,17 +28,15 @@
             <input type="button" id="form-mode-consommation" value="Consommation" onclick="toggleMode()">
             <input type="button" id="form-mode-resultats" value="Résultats" onclick="toggleMode()">
         </div>
-        <div id="transport" class="main-form-content"></div>
+        <div id="transport" class="main-form-content"><p>WORK IN PROGRESS</p></div>
         <div id="logement" class="main-form-content"><p>WORK IN PROGRESS</p></div>
         <div id="alimentation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
         <div id="consommation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
-        <div id="resultats" class="main-form-content"></div>
+        <div id="resultats" class="main-form-content"><p>WORK IN PROGRESS</p></div>
     </section>
 </body>
 
 <script>
-    let transport = new Transport('transport')
-    let resultats = new Resultats('resultats', transport)
 
     var buttonTransport = document.getElementById("form-mode-transport")
     buttonTransport.click()
