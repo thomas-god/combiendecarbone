@@ -6,6 +6,27 @@ function Transport(div_id) {
         items: []
     }
     this.modes = ["Avion", "Voiture","Train"]
+    this.modes_transit_ges = {
+        // From GMaps Directions API
+        "RAIL": 25,
+        "METRO_RAIL": 3.8,
+        "SUBWAY": 3.8,
+        "TRAM": 3.1,
+        "MONORAIL": 3.1,
+        "HEAVY_RAIL": 1.9,
+        "COMMUTER_TRAIN": 3.9,
+        "HIGH_SPEED_TRAIN": 1.9,
+        "LONG_DISTANCE_TRAIN": 1.9,
+        "BUS": 95.6,
+        "INTERCITY_BUS": 95.6,
+        "TROLLEYBUS": 0,
+        "SHARE_TAXI": 0,
+        "FERRY": 0,
+        "CABLE_CAR": 0,
+        "GONDOLA_LIFT": 0,
+        "FUNICULAR": 0,
+        "OTHER": 0
+    }
     this.initDiv()
     this.addTravelRow("trajets-hebdos")
     this.addTravelRow("trajets-occasionels")
@@ -226,18 +247,29 @@ Transport.prototype.gesTrain = function(travel) {
         return Promise.reject('Error: trying to compute GES from non train mode')
     } else {
         var direction_service = new google.maps.DirectionsService()
+        var depDate = new Date()
+        depDate.setHours(0)
+        depDate.setMinutes(0)
+        depDate.setSeconds(0)
         var pr = new Promise((resolve, reject) => {
             direction_service.route({
                 origin: this.getLatLng(travel.depart.getPlace()),
                 destination: this.getLatLng(travel.arrivee.getPlace()),
-                travelMode: 'TRANSIT'
+                travelMode: 'TRANSIT',
+                transitOptions: {departureTime: depDate},
             }, (res, status) => {
                 if (res.routes.length > 0) {
-                    const impact = (
-                        res.routes[0].legs[0].distance.value / 1000 // distance in km
-                        * 1.9 // gCO2 / km
-                        / 1000 // g -> kg CO2
-                    )
+                    var impacts = []
+                    res.routes[0].legs[0].steps.forEach(step => {
+                        if (step.travel_mode === "TRANSIT") {
+                            impacts.push(
+                                step.distance.value / 1000 // distance in km
+                                * this.modes_transit_ges[step.transit.line.vehicle.type] // gCO2 / km
+                                / 1000 // g -> kg CO2
+                            )
+                        }
+                    })
+                    const impact = impacts.reduce((a, b) => a + b)
                     resolve(this.postProcessGes(travel, impact))
                 }
             })
