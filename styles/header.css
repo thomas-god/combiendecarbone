@@ -14,9 +14,18 @@ header .logo {
     margin-right: 75px;
 }
 header .menu-item {
-    margin: 0px 20px;
+    padding: 16px 20px;
     color: black;
     text-decoration: none;
+}
+header .menu-item-current {
+    padding: 10px 19px 16px 19px!important;
+    border-width: 1px 1px 0px 1px !important;
+    margin-top: 5px;
+    border-style: solid !important;
+    border-color: black !important;
+    background-color: #A3FF81;
+    border-radius: 5px 5px 0 0;
 }
 header .menu-item:visited {
     color: black;
@@ -24,4 +33,4 @@ header .menu-item:visited {
 .disp-none {
     display: none;
 
- }
+}
