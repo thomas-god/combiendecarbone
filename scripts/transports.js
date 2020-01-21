@@ -7,8 +7,8 @@ function Transport(div_id) {
     }
     this.modes = ["Avion", "Voiture","Train"]
     this.initDiv()
-    this.addTravelRow("trajets-hebdos", this.travels)
-    this.addTravelRow("trajets-occasionels", this.travels)
+    this.addTravelRow("trajets-hebdos")
+    this.addTravelRow("trajets-occasionels")
 }
 
 Transport.prototype.initDiv = function () {
