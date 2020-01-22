@@ -1,0 +1,5 @@
+.logement-factures {
+    display: flex;
+    flex-direction: column;
+    justify-items: start;
+}
