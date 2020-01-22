@@ -23,11 +23,23 @@
     </header>
     <section class="main-form">
         <div class="main-form-header">
+            <input type="button" id="form-mode-accueil" value="Accueil" onclick="toggleMode()">
             <input type="button" id="form-mode-transport" value="Transports" onclick="toggleMode()">
             <input type="button" id="form-mode-logement" value="Logement" onclick="toggleMode()">
             <input type="button" id="form-mode-alimentation" value="Alimentation" onclick="toggleMode()">
             <input type="button" id="form-mode-consommation" value="Consommation" onclick="toggleMode()">
             <input type="button" id="form-mode-resultats" value="Résultats" onclick="toggleMode()">
+        </div>
+        <div id="accueil" class="main-form-content">
+            <h1>Estimez votre empreinte carbone</h1>
+            <p>Questionnaire en 4 parties:</p>
+            <ul>
+                <li>Tranposrts</li>
+                <li>Logement</li>
+                <li>Alimentation</li>
+                <li>Consommation</li>
+            </ul>
+            <p>Comparer votre empreinte avec les moyennes française et mondiale !</p>
         </div>
         <div id="transport" class="main-form-content"></div>
         <div id="logement" class="main-form-content"><p>WORK IN PROGRESS</p></div>
@@ -41,11 +53,12 @@
     let transport = new Transport('transport')
     let resultats = new Resultats('resultats', transport)
 
-    var buttonTransport = document.getElementById("form-mode-transport")
-    buttonTransport.click()
+    var buttonAccueil = document.getElementById("form-mode-accueil")
+    buttonAccueil.click()
 
     function toggleMode() {
         var modes = [
+            "form-mode-accueil",
             "form-mode-transport",
             "form-mode-logement",
             "form-mode-alimentation",
