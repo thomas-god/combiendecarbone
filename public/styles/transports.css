@@ -20,12 +20,15 @@ body * {
     padding: 1px;
     font-size: 1.3em;
 }
-.main-form-content p {
+.main-form-content p, .main-form-content li{
     text-align: justify;
-    margin: 0.8em 1.5em;
+    margin: 0em 1.5em;
     padding: 1px;
     font-size: 0.9em;
     color: rgb(65, 65, 65);
+}
+.main-form-content ul {
+    margin: 0;
 }
 .transport-form-row {
     display: flex;

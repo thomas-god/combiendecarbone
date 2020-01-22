@@ -5,7 +5,7 @@ function Transport(div_id) {
         last_id: 0,
         items: []
     }
-    this.modes = ["Avion", "Voiture","Train"]
+    this.modes = ["Avion", "Train", "Voiture"]
     this.modes_transit_ges = {
         // From GMaps Directions API
         "RAIL": 25,
@@ -35,16 +35,26 @@ function Transport(div_id) {
 Transport.prototype.initDiv = function () {
     const parent_div = document.getElementById(this.div_id)
     parent_div.innerHTML = (
-        `
-        <h2>Trajets hebdomadaires</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo rerum ad consequuntur quam reprehenderit! Ratione, a commodi quia odio fuga, asperiores quae autem fugit magnam id veritatis, molestias laudantium facilis!</p>
+        `<h2>Votre semaine type</h2>
+        <p>Quels sont les trajets que vous effectuez chaque semaine ? Par exemple :</p>
+        <ul> 
+            <li>5 A/R domicile/travail en bus,</li>
+            <li>2 A/R domicile/salle de sport en voiture,</li>
+            <li>etc.</li>
+        </ul>
         <div id="trajets-hebdos" class="transport-form"></div>
         <table class="table-button"><tr>
             <td><input type="button" value="Ajouter" id="add-voyage-hebdos" class="form-button"></td>
         </tr></table>
         <span class="divider"></span>
-        <h2>Trajets occasionnels</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo rerum ad consequuntur quam reprehenderit! Ratione, a commodi quia odio fuga, asperiores quae autem fugit magnam id veritatis, molestias laudantium facilis!</p>
+        <h2>Vos trajets occasionnels</h2>
+        <p>Quels sont les trajets que vous réalisez occasionnellement dans l'année ? Par exemple : </p>
+        <ul> 
+            <li>3 A/R chez mamie en voiture,</li>
+            <li>2 Paris/Lyon en TGV,</li>
+            <li>1 Paris/New-York en avion,</li>
+            <li>etc.</li>
+        </ul>
         <div id="trajets-occasionels" class="transport-form"></div>
         <table class="table-button"><tr>
             <td><input type="button" value="Ajouter" id="add-voyage-occas" class="form-button"></td>
@@ -76,6 +86,7 @@ Transport.prototype.addTravelRow = function (form_id) {
         option.innerText = mode
         input_mode.appendChild(option)
     })
+    input_mode.value = "Voiture"
     div_mode.appendChild(input_mode)
     div_row.appendChild(div_mode)
 
@@ -141,7 +152,8 @@ Transport.prototype.addTravelRow = function (form_id) {
     div_inputs_row2.appendChild(label_freq)
 
     const label_passagers = document.createElement('label')
-    label_passagers.className = 'hidden'
+    // Uncomment if default mode is voiture
+    //label_passagers.className = 'hidden'
     label_passagers.appendChild(document.createTextNode('Passagers'))
     const input_passagers = document.createElement('input')
     input_passagers.className = 'form-input'
@@ -177,7 +189,7 @@ Transport.prototype.addTravelRow = function (form_id) {
     this.travels.last_id += 1;
 }
 
-Transport.prototype.postProcessGes = function(travel, impact) {
+Transport.prototype.postProcessGes = function (travel, impact) {
     const name = (
         travel.depart.getPlace().name
         + ' - ' + travel.arrivee.getPlace().name
@@ -217,7 +229,7 @@ Transport.prototype.gesAvion = function (travel) {
     }
 }
 
-Transport.prototype.gesVoiture = function(travel) {
+Transport.prototype.gesVoiture = function (travel) {
     if (travel.mode.value != 'Voiture') {
         return Promise.reject('Error: trying to compute GES from non car mode')
     } else {
@@ -242,7 +254,7 @@ Transport.prototype.gesVoiture = function(travel) {
     }
 }
 
-Transport.prototype.gesTrain = function(travel) {
+Transport.prototype.gesTrain = function (travel) {
     if (travel.mode.value != 'Train') {
         return Promise.reject('Error: trying to compute GES from non train mode')
     } else {
@@ -256,7 +268,7 @@ Transport.prototype.gesTrain = function(travel) {
                 origin: this.getLatLng(travel.depart.getPlace()),
                 destination: this.getLatLng(travel.arrivee.getPlace()),
                 travelMode: 'TRANSIT',
-                transitOptions: {departureTime: depDate},
+                transitOptions: { departureTime: depDate },
             }, (res, status) => {
                 if (res.routes.length > 0) {
                     var impacts = []
@@ -278,11 +290,11 @@ Transport.prototype.gesTrain = function(travel) {
     }
 }
 
-Transport.prototype.getLatLng = function(place) {
+Transport.prototype.getLatLng = function (place) {
     return `${place.geometry.location.lat()},${place.geometry.location.lng()}`
 }
 
-Transport.prototype.computeGES = function() {
+Transport.prototype.computeGES = function () {
     return new Promise((resolve, reject) => {
         var ges = {}
         var travels_pr = []
@@ -303,26 +315,26 @@ Transport.prototype.computeGES = function() {
                     values.forEach(val => {
                         ges[val.name] = Math.round(val.impact)
                     })
-                    resolve({name: "Transports", values: ges});
+                    resolve({ name: "Transports", values: ges });
                 })
         }
-    })   
+    })
 }
 
-Transport.prototype.gcd = function(depart, arrivee) {
-        const R = 6371 // Earth radius, in km
+Transport.prototype.gcd = function (depart, arrivee) {
+    const R = 6371 // Earth radius, in km
 
-        const lat1 = depart.lat * Math.PI / 180;
-        const lng1 = depart.lng * Math.PI / 180;
-        const lat2 = arrivee.lat * Math.PI / 180;
-        const lng2 = arrivee.lng * Math.PI / 180;
+    const lat1 = depart.lat * Math.PI / 180;
+    const lng1 = depart.lng * Math.PI / 180;
+    const lat2 = arrivee.lat * Math.PI / 180;
+    const lng2 = arrivee.lng * Math.PI / 180;
 
-        const dlat = Math.abs(lat1 - lat2)
-        const dlng = Math.abs(lng1 - lng2)
+    const dlat = Math.abs(lat1 - lat2)
+    const dlng = Math.abs(lng1 - lng2)
 
-        const dsigma = 2 * Math.asin(Math.sqrt(
-            Math.pow(Math.sin(dlat / 2), 2)
-            + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlng / 2), 2)
-        ))
-        return Math.round(dsigma * R)
-    }
+    const dsigma = 2 * Math.asin(Math.sqrt(
+        Math.pow(Math.sin(dlat / 2), 2)
+        + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlng / 2), 2)
+    ))
+    return Math.round(dsigma * R)
+}

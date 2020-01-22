@@ -23,6 +23,7 @@
     color: black;
     text-decoration: none;
     border-width: 0;
+    font-size: 0.9em;
 }
 .main-form-header input[type="button"]:hover{
     /* box-shadow: none; */
