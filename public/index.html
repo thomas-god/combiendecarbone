@@ -8,8 +8,10 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-hH8Oe7r8Uu5n51O2E-r0962S94JB-eM&libraries=places"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script type="text/javascript" src="scripts/transports.js"></script>
+    <script type="text/javascript" src="scripts/logement.js"></script>
     <script type="text/javascript" src="scripts/resultats.js"></script>
     <link rel="stylesheet" href="styles/transports.css">
+    <link rel="stylesheet" href="styles/logement.css">
     <link rel="stylesheet" href="styles/header.css">
     <link rel="stylesheet" href="styles/main-form.css">
     <link rel="stylesheet" href="styles/methodologie.css">
@@ -51,10 +53,11 @@
 
 <script>
     let transport = new Transport('transport')
-    let resultats = new Resultats('resultats', transport)
+    let logement = new Logement('logement')
+    let resultats = new Resultats('resultats', transport, logement)
 
-    var buttonAccueil = document.getElementById("form-mode-accueil")
-    buttonAccueil.click()
+    var button = document.getElementById("form-mode-logement")
+    button.click()
 
     function toggleMode() {
         var modes = [

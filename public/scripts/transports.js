@@ -315,7 +315,11 @@ Transport.prototype.computeGES = function () {
                     values.forEach(val => {
                         ges[val.name] = Math.round(val.impact)
                     })
-                    resolve({ name: "Transports", values: ges });
+                    if (Object.keys(ges).length > 0) {
+                        resolve({ name: "Transports", values: ges });
+                    } else {
+                        resolve({ name: "Transports", values: 0 });
+                    }
                 })
         }
     })

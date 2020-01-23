@@ -1,6 +1,7 @@
-function Resultats(div_id, transport) {
+function Resultats(div_id, transport, logement) {
     this.div_id = div_id;
     this.transport = transport;
+    this.logement = logement;
 
     this.ges = {}
 
@@ -43,14 +44,13 @@ Resultats.prototype.initDiv = function () {
 
 Resultats.prototype.getGes = function() {
     Promise.all([
-        this.transport.computeGES()
+        this.transport.computeGES(),
+        this.logement.computeGES()
     ])
     .then((values) => {
         values.forEach(val => {
-            console.log(val)
             this.ges[val.name] = val.values
         })
-        console.log(this.ges)
         this.drawGes();
         var div_chart = document.getElementById('div-chart-zoom')
         div_chart.classList.add('disp-none')
@@ -58,10 +58,20 @@ Resultats.prototype.getGes = function() {
 
 }
 
+Resultats.prototype.reduceByMode = function(mode) {
+    if (typeof mode === "number") {
+        return mode
+    } else if (typeof mode === "object") {
+        return Object.values(mode).reduce((a, b) => a + b)
+    } else {
+        return 0
+    }
+}
+
 Resultats.prototype.drawGes = function() {
     var ges_by_mode = {}
     for (const mode in this.ges) {
-        ges_by_mode[mode] = Object.values(this.ges[mode]).reduce((a, b) => a + b)
+        ges_by_mode[mode] = this.reduceByMode(this.ges[mode])
     }
 
     var colors = []
