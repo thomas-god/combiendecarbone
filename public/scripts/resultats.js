@@ -29,7 +29,8 @@ Resultats.prototype.initDiv = function () {
     parent_div.innerHTML = (
         `<div class="transport-container-form center">
             <h2>Émissions de CO2</h2>
-            <input type="button" value="Calculer" id="calculer-ges" class="form-button">
+            <input type="button" value="Calculer" id="calculer-ges" class="form-button" style="margin: 0px !important;">
+            <h2 id="total-ges"></h2>
             <div class="chart-ges disp-none" id="div-chart">
                 <canvas id="ges-chart"></canvas>
             </div>
@@ -76,6 +77,9 @@ Resultats.prototype.drawGes = function() {
     for (const mode in this.ges) {
         ges_by_mode[mode] = this.reduceByMode(this.ges[mode])
     }
+    const ges_total = Object.values(ges_by_mode).reduce((a, b) => a+b)
+    const totalGES = document.getElementById("total-ges")
+    totalGES.innerHTML = `Vos émissions totales annuelles sont de ${ges_total} kg de CO2.`
 
     var colors = []
     Object.keys(ges_by_mode).forEach(mode => {
