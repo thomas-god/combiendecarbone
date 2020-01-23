@@ -9,9 +9,11 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script type="text/javascript" src="scripts/transports.js"></script>
     <script type="text/javascript" src="scripts/logement.js"></script>
+    <script type="text/javascript" src="scripts/alimentation.js"></script>
     <script type="text/javascript" src="scripts/resultats.js"></script>
     <link rel="stylesheet" href="styles/transports.css">
     <link rel="stylesheet" href="styles/logement.css">
+    <link rel="stylesheet" href="styles/alimentation.css">
     <link rel="stylesheet" href="styles/header.css">
     <link rel="stylesheet" href="styles/main-form.css">
     <link rel="stylesheet" href="styles/methodologie.css">
@@ -44,19 +46,20 @@
             <p>Comparer votre empreinte avec les moyennes française et mondiale !</p>
         </div>
         <div id="transport" class="main-form-content"></div>
-        <div id="logement" class="main-form-content"><p>WORK IN PROGRESS</p></div>
-        <div id="alimentation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
+        <div id="logement" class="main-form-content"></div>
+        <div id="alimentation" class="main-form-content"></div>
         <div id="consommation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
         <div id="resultats" class="main-form-content"></div>
     </section>
 </body>
 
 <script>
-    let transport = new Transport('transport')
-    let logement = new Logement('logement')
-    let resultats = new Resultats('resultats', transport, logement)
+    const transport = new Transport('transport')
+    const logement = new Logement('logement')
+    const alimentation = new Alimentation('alimentation')
+    const resultats = new Resultats('resultats', transport, logement, alimentation)
 
-    var button = document.getElementById("form-mode-logement")
+    var button = document.getElementById("form-mode-alimentation")
     button.click()
 
     function toggleMode() {
