@@ -53,8 +53,8 @@ Logement.prototype.computeGES = function () {
             var elec = input_elec.value > 0 ? input_elec.value : 0
             var gaz = input_gaz.value > 0 ? input_gaz.value : 0
             var ges = {
-                "Électricité": elec * 36.42, // kg CO2/MWh
-                "Gaz": gaz * 185 // kg CO2/MWh
+                "Électricité": Math.round(elec * 36.42), // kg CO2/MWh
+                "Gaz": Math.round(gaz * 185) // kg CO2/MWh
             }
             resolve({ name: "Logement", values: ges });
         } else if (select.value === "non") {

@@ -77,7 +77,7 @@ Resultats.prototype.drawGes = function() {
     for (const mode in this.ges) {
         ges_by_mode[mode] = this.reduceByMode(this.ges[mode])
     }
-    const ges_total = Object.values(ges_by_mode).reduce((a, b) => a+b)
+    const ges_total = Math.round(Object.values(ges_by_mode).reduce((a, b) => a+b))
     const totalGES = document.getElementById("total-ges")
     totalGES.innerHTML = `Vos émissions totales annuelles sont de ${ges_total} kg de CO2.`
 
