@@ -2,6 +2,7 @@ function Resultats(div_id, transport, logement) {
     this.div_id = div_id;
     this.transport = transport;
     this.logement = logement;
+    this.alimentation = alimentation;
 
     this.ges = {}
 
@@ -45,10 +46,12 @@ Resultats.prototype.initDiv = function () {
 Resultats.prototype.getGes = function() {
     Promise.all([
         this.transport.computeGES(),
-        this.logement.computeGES()
+        this.logement.computeGES(),
+        this.alimentation.computeGES()
     ])
     .then((values) => {
         values.forEach(val => {
+            console.log(val)
             this.ges[val.name] = val.values
         })
         this.drawGes();

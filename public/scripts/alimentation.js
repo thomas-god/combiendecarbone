@@ -101,3 +101,20 @@ Alimentation.prototype.renderRepasBoxes = function(name, nb) {
         }
     }
 }
+
+Alimentation.prototype.computeGES = function() {
+    return new Promise((resolve, reject) => {
+        const regimes = [
+            {name: "omni", full_name: "Repas omnivores", intensite: 4.474/2}, // in kg CO2/pers/j
+            {name: "flex", full_name: "Repas fléxitariens", intensite: 2.817/2},
+            {name: "vege", full_name: "Repas végétariens", intensite: 1.9/2},
+        ]
+        const ges = {}
+        for (regime of regimes) {
+            var num = document.getElementById("repas-" + regime.name + "-num")
+            ges[regime.full_name] = Math.round(num.valueAsNumber * regime.intensite * 52)
+        }
+        resolve({ name: "Alimentation", values: ges });
+    })
+    
+}
