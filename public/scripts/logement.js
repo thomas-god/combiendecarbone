@@ -9,23 +9,37 @@ Logement.prototype.initDiv = function () {
     div.innerHTML = `
     <label class="transport-form-row-mode">
         Connaissez vous vos factures de gaz et d'électricité ?
-        <select class="form-input">
+        <select class="form-input" id="logement-select">
             <option value="oui">Oui</option>
             <option value="non">Non</option>
         </select>
     </label>
     <div id="logement-factures" class="logement-factures">
-        <label>
-            Consommation d'électricité (MWh)
+        <ul>
+        <li><label>
+            Votre consommation d'électricité (MWh)
             <input type="number" class="form-input" id="logement-elec" value=0>
-        </label>
-        <label>
-            Consommation de gaz naturel (MWh)
+        </label></li>
+       <li><label>
+            Votre consommation de gaz naturel (MWh)
             <input type="number" class="form-input" id="logement-gaz" value=0>
-        </label>
+        </label></il>
+        </ul>
     </div>
-    <div id="logement-modele">
+    <div id="logement-modele" class="disp-none">
+    <h2> Not implemented yet :(</h2>
     </div>
     `
-
+    const select = document.getElementById("logement-select")
+    select.addEventListener("change", () => {
+        var div_factures = document.getElementById("logement-factures")
+        var div_modele = document.getElementById("logement-modele")
+        if (select.value === "oui") {
+            div_factures.classList.remove("disp-none")
+            div_modele.classList.add("disp-none")
+        } else {
+            div_factures.classList.add("disp-none")
+            div_modele.classList.remove("disp-none")
+        }
+    })
 }
