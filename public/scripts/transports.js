@@ -5,7 +5,7 @@ function Transport(div_id) {
         last_id: 0,
         items: []
     }
-    this.modes = ["Avion", "Train", "Voiture"]
+    this.modes = ["Avion", "TGV", "Voiture", "Métro/Bus"]
     this.modes_transit_ges = {
         // From GMaps Directions API
         "RAIL": 25,
@@ -254,43 +254,42 @@ Transport.prototype.gesVoiture = function (travel) {
     }
 }
 
-Transport.prototype.gesTrain = function (travel) {
-    if (travel.mode.value != 'Train') {
-        return Promise.reject('Error: trying to compute GES from non train mode')
-    } else {
-        var direction_service = new google.maps.DirectionsService()
-        var depDate = new Date()
-        depDate.setHours(0)
-        depDate.setMinutes(0)
-        depDate.setSeconds(0)
-        var pr = new Promise((resolve, reject) => {
-            direction_service.route({
-                origin: this.getLatLng(travel.depart.getPlace()),
-                destination: this.getLatLng(travel.arrivee.getPlace()),
-                travelMode: 'TRANSIT',
-                transitOptions: { departureTime: depDate },
-            }, (res, status) => {
-                if (res.routes.length > 0) {
-                    var impacts = []
-                    res.routes[0].legs[0].steps.forEach(step => {
-                        if (step.travel_mode === "TRANSIT") {
-                            impacts.push(
-                                step.distance.value / 1000 // distance in km
-                                * this.modes_transit_ges[step.transit.line.vehicle.type] // gCO2 / km
-                                / 1000 // g -> kg CO2
-                            )
-                        }
-                    })
-                    const impact = impacts.reduce((a, b) => a + b)
-                    resolve(this.postProcessGes(travel, impact))
-                }
-            })
+Transport.prototype.gesTransit = function (travel, modes) {
+    var direction_service = new google.maps.DirectionsService()
+    var depDate = new Date()
+    depDate.setHours(0)
+    depDate.setMinutes(0)
+    depDate.setSeconds(0)
+    var pr = new Promise((resolve, reject) => {
+        direction_service.route({
+            origin: this.getLatLng(travel.depart.getPlace()),
+            destination: this.getLatLng(travel.arrivee.getPlace()),
+            travelMode: 'TRANSIT',
+            transitOptions: { departureTime: depDate, modes: modes, routingPreference: "FEWER_TRANSFERS" },
+        }, (res, status) => {
+            if (res.routes.length > 0) {
+                var impacts = []
+                //console.log(res.routes[0].legs[0])
+                res.routes[0].legs[0].steps.forEach(step => {
+                    if (step.travel_mode === "TRANSIT") {
+                        impacts.push(
+                            step.distance.value / 1000 // distance in km
+                            * this.modes_transit_ges[step.transit.line.vehicle.type] // gCO2 / km
+                            / 1000 // g -> kg CO2
+                        )
+                        //console.log(step.transit.line.vehicle.type, impacts[impacts.length - 1])
+                    }
+                })
+                const impact = impacts.reduce((a, b) => a + b)
+                resolve(this.postProcessGes(travel, impact))
+            }
         })
-        return pr
-    }
+    })
+    return pr
 }
 
 Transport.prototype.getLatLng = function (place) {
+    // No spaces for GMaps API
     return `${place.geometry.location.lat()},${place.geometry.location.lng()}`
 }
 
@@ -305,7 +304,8 @@ Transport.prototype.computeGES = function () {
                     switch (this.travels.items[i].mode.value) {
                         case "Avion": travels_pr.push(this.gesAvion(this.travels.items[i])); break;
                         case "Voiture": travels_pr.push(this.gesVoiture(this.travels.items[i])); break;
-                        case "Train": travels_pr.push(this.gesTrain(this.travels.items[i])); break;
+                        case "TGV": travels_pr.push(this.gesTransit(this.travels.items[i], ["TRAIN"])); break;
+                        case "Métro/Bus": travels_pr.push(this.gesTransit(this.travels.items[i], ["BUS", "RAIL"])); break;
                         default: console.log(`Cannot find function to compute ges for mode ${this.travels.items[i].mode.value}`)
                     }
                 }
