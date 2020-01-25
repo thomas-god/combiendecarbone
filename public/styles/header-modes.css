@@ -9,13 +9,13 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.main-form-header {
+.header-modes {
     display: flex;
     justify-content: space-evenly;
     background-color: #79D059;
     margin-bottom: 0px;
 }
-.main-form-header input[type="button"]{
+.header-modes input[type="button"]{
     padding: 10px;
     margin-top: 5px;
     background-color: #79D059;
@@ -25,12 +25,12 @@
     border-width: 0;
     font-size: 0.9em;
 }
-.main-form-header input[type="button"]:hover{
+.header-modes input[type="button"]:hover{
     /* box-shadow: none; */
     background-color: #A3FF81;
 }
 
-.main-form-header-active {
+.header-modes-active {
     border-width: 1px 1px 0px 1px  !important;
     border-style: solid !important;
     border-color: black !important;

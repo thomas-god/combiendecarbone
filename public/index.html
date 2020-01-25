@@ -6,6 +6,10 @@
     <title>GES</title>
     <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-hH8Oe7r8Uu5n51O2E-r0962S94JB-eM&libraries=places"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script type="text/javascript" src="scripts/transports.js"></script>
     <script type="text/javascript" src="scripts/logement.js"></script>
@@ -15,72 +19,129 @@
     <link rel="stylesheet" href="styles/logement.css">
     <link rel="stylesheet" href="styles/alimentation.css">
     <link rel="stylesheet" href="styles/header.css">
-    <link rel="stylesheet" href="styles/main-form.css">
+    <link rel="stylesheet" href="styles/header-modes.css">
     <link rel="stylesheet" href="styles/methodologie.css">
 </head>
 
 <body>
     <header>
         <p class="logo">CO2</p>
-        <a class="menu-item menu-item-current" href="#top">Calculateur</a>
-        <a class="menu-item" href="methodologie.html" target="_blank">Méthodologie</a>
+        <button class="menu-item" id="nav-form" onclick="toggleNav()">Calculateur</button>
+        <button class="menu-item" id="nav-methodologie" onclick="toggleNav()">Méthodologie</button>
     </header>
     <section class="main-form">
-        <div class="main-form-header">
-            <input type="button" id="form-mode-accueil" value="Accueil" onclick="toggleMode()">
-            <input type="button" id="form-mode-transport" value="Transports" onclick="toggleMode()">
-            <input type="button" id="form-mode-logement" value="Logement" onclick="toggleMode()">
-            <input type="button" id="form-mode-alimentation" value="Alimentation" onclick="toggleMode()">
-            <input type="button" id="form-mode-consommation" value="Consommation" onclick="toggleMode()">
-            <input type="button" id="form-mode-resultats" value="Résultats" onclick="toggleMode()">
+        <div class="header-modes">
+            <input type="button" id="header-modes-accueil" value="Accueil" onclick="toggleMode()">
+            <input type="button" id="header-modes-transport" value="Transports" onclick="toggleMode()">
+            <input type="button" id="header-modes-logement" value="Logement" onclick="toggleMode()">
+            <input type="button" id="header-modes-alimentation" value="Alimentation" onclick="toggleMode()">
+            <input type="button" id="header-modes-consommation" value="Consommation" onclick="toggleMode()">
+            <input type="button" id="header-modes-resultats" value="Résultats" onclick="toggleMode()">
         </div>
-        <div id="accueil" class="main-form-content">
-            <h1>Estimez votre empreinte carbone</h1>
-            <p>Questionnaire en 4 parties:</p>
-            <ul>
-                <li>Tranposrts</li>
-                <li>Logement</li>
-                <li>Alimentation</li>
-                <li>Consommation</li>
-            </ul>
-            <p>Comparer votre empreinte avec les moyennes française et mondiale !</p>
+        <div id="content-form">
+            <div id="form-accueil" class="main-form-content">
+                <h1>Estimez votre empreinte carbone</h1>
+                <p>Questionnaire en 4 parties:</p>
+                <ul>
+                    <li>Tranposrts</li>
+                    <li>Logement</li>
+                    <li>Alimentation</li>
+                    <li>Consommation</li>
+                </ul>
+                <p>Comparer votre empreinte avec les moyennes française et mondiale !</p>
+            </div>
+            <div id="form-transport" class="main-form-content"></div>
+            <div id="form-logement" class="main-form-content"></div>
+            <div id="form-alimentation" class="main-form-content"></div>
+            <div id="form-consommation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
+            <div id="form-resultats" class="main-form-content"></div>
         </div>
-        <div id="transport" class="main-form-content"></div>
-        <div id="logement" class="main-form-content"></div>
-        <div id="alimentation" class="main-form-content"></div>
-        <div id="consommation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
-        <div id="resultats" class="main-form-content"></div>
+        <div id="content-methodologie">
+            <div id="methodologie-accueil" class="methodologie-content"><p>WORK IN PROGRESS 1</p></div>
+            <div id="methodologie-transport" class="methodologie-content">
+                <h1>Avion</h1>
+                <h2>Généralités</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi. \(\sqrt{a^2 + b^2}\)</p>
+                <p>\[\theta = \frac{ax+b}{\int{f(x)dx}}\]</p>
+                <h3>Références</h3>
+                <ul>
+                    <li><a href="https://www.icao.int/environmental-protection/CarbonOffset/Documents/Methodology%20ICAO%20Carbon%20Calculator_v10-2017.pdf">ICAO methodology</a></li>
+                    <li><a href="https://www.carbonindependent.org/22.html">Aviation on carbonindependent.org</a></li>
+                </ul>
+                <h2>Facteur RFI</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi.</p>
+                <span class="divider"></span>
+                <h1>Avion</h1>
+                <h2>Généralités</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi.</p>
+                <h3>Références</h3>
+                <ul>
+                    <li><a href="https://www.icao.int/environmental-protection/CarbonOffset/Documents/Methodology%20ICAO%20Carbon%20Calculator_v10-2017.pdf">ICAO methodology</a></li>
+                    <li><a href="https://www.carbonindependent.org/22.html">Aviation on carbonindependent.org</a></li>
+                </ul>
+                <h2>Facteur RFI</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi.</p>
+            </div>
+            <div id="methodologie-logement" class="methodologie-content"><p>WORK IN PROGRESS 2</p></div>
+            <div id="methodologie-alimentation" class="methodologie-content"><p>WORK IN PROGRESS 3</p></div>
+            <div id="methodologie-consommation" class="methodologie-content"><p>WORK IN PROGRESS 4</p></div>
+            <div id="methodologie-resultats" class="methodologie-content"><p>WORK IN PROGRESS 5</p></div>
+        </div>
+        
     </section>
 </body>
 
 <script>
-    const transport = new Transport('transport')
-    const logement = new Logement('logement')
-    const alimentation = new Alimentation('alimentation')
-    const resultats = new Resultats('resultats', transport, logement, alimentation)
+    const transport = new Transport('form-transport')
+    const logement = new Logement('form-logement')
+    const alimentation = new Alimentation('form-alimentation')
+    const resultats = new Resultats('form-resultats', transport, logement, alimentation)
 
-    var button = document.getElementById("form-mode-accueil")
-    button.click()
+    const button_nav = document.getElementById("nav-form")
+    button_nav.click()
+    const button_mode = document.getElementById("header-modes-accueil")
+    button_mode.click()
+
+    function toggleNav() {
+        const div_form = document.getElementById("content-form")
+        const button_form = document.getElementById("nav-form")
+        const div_methodo = document.getElementById("content-methodologie")
+        const button_methodo = document.getElementById("nav-methodologie")
+        if (event.target.id === "nav-form") {
+            div_form.classList.remove("disp-none")
+            button_form.classList.add("menu-item-current")
+            div_methodo.classList.add("disp-none")
+            button_methodo.classList.remove("menu-item-current")
+        } else {
+            div_form.classList.add("disp-none")
+            button_form.classList.remove("menu-item-current")
+            div_methodo.classList.remove("disp-none")
+            button_methodo.classList.add("menu-item-current")
+        }
+    }
 
     function toggleMode() {
         var modes = [
-            "form-mode-accueil",
-            "form-mode-transport",
-            "form-mode-logement",
-            "form-mode-alimentation",
-            "form-mode-consommation",
-            "form-mode-resultats"
+            "header-modes-accueil",
+            "header-modes-transport",
+            "header-modes-logement",
+            "header-modes-alimentation",
+            "header-modes-consommation",
+            "header-modes-resultats"
         ]
         modes.forEach((value) => {
             mode = value.split("-")[2]
             let mode_button = document.getElementById(value)
-            let mode_div = document.getElementById(mode)
+            let form_mode = document.getElementById("form-" + mode)
+            let methodo_mode = document.getElementById("methodologie-" + mode)
             if(value === event.target.id) {
-                mode_button.classList.add("main-form-header-active")
-                mode_div.classList.remove("disp-none")
+                mode_button.classList.add("header-modes-active")
+                form_mode.classList.remove("disp-none")
+                methodo_mode.classList.remove("disp-none")
             } else {
-                mode_button.classList.remove("main-form-header-active")
-                mode_div.classList.add("disp-none")
+                mode_button.classList.remove("header-modes-active")
+                form_mode.classList.add("disp-none")
+                methodo_mode.classList.add("disp-none")
             }
         })
     }
