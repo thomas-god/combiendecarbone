@@ -5,7 +5,7 @@ function Transport(div_id) {
         last_id: 0,
         items: []
     }
-    this.modes = ["Avion", "TGV", "Voiture", "Métro/Bus"]
+    this.modes = ["Voiture", "Métro/Bus", "Vélo", "TGV", "Avion"]
     this.modes_transit_ges = {
         // From GMaps Directions API
         "RAIL": 25,
@@ -35,7 +35,7 @@ function Transport(div_id) {
 Transport.prototype.initDiv = function () {
     const parent_div = document.getElementById(this.div_id)
     parent_div.innerHTML = (
-        `<h2>Votre semaine type</h2>
+        `<h2>Semaine type</h2>
         <p>Quels sont les trajets que vous effectuez chaque semaine ? Par exemple :</p>
         <ul> 
             <li>5 A/R domicile/travail en bus,</li>
@@ -47,7 +47,7 @@ Transport.prototype.initDiv = function () {
             <td><input type="button" value="Ajouter" id="add-voyage-hebdos" class="form-button"></td>
         </tr></table>
         <span class="divider"></span>
-        <h2>Vos trajets occasionnels</h2>
+        <h2>Trajets occasionnels</h2>
         <p>Quels sont les trajets que vous réalisez occasionnellement dans l'année ? Par exemple : </p>
         <ul> 
             <li>3 A/R chez mamie en voiture,</li>
