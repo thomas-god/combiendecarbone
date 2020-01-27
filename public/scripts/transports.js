@@ -7,18 +7,18 @@ function Transport(div_id) {
     }
     this.modes = ["Voiture", "Métro/Bus", "Vélo", "TGV", "Avion"]
     this.modes_transit_ges = {
-        // From GMaps Directions API
-        "RAIL": 25,
-        "METRO_RAIL": 3.8,
-        "SUBWAY": 3.8,
-        "TRAM": 3.1,
-        "MONORAIL": 3.1,
-        "HEAVY_RAIL": 1.9,
-        "COMMUTER_TRAIN": 3.9,
-        "HIGH_SPEED_TRAIN": 1.9,
-        "LONG_DISTANCE_TRAIN": 1.9,
+        // From GMaps Directions API, gCO2/km
+        "RAIL": 8.9,
+        "METRO_RAIL": 5.7,
+        "SUBWAY": 5.7,
+        "TRAM": 6,
+        "MONORAIL": 6,
+        "HEAVY_RAIL": 3.6,
+        "COMMUTER_TRAIN": 8.9,
+        "HIGH_SPEED_TRAIN": 3.6,
+        "LONG_DISTANCE_TRAIN": 3.6,
         "BUS": 95.6,
-        "INTERCITY_BUS": 95.6,
+        "INTERCITY_BUS": 154,
         "TROLLEYBUS": 0,
         "SHARE_TAXI": 0,
         "FERRY": 0,
