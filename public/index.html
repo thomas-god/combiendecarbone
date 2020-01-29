@@ -78,7 +78,7 @@
                     <p>Les parties suivantes présentent donc comment les distances sont calculées pour chaque mode de transport, quels facteurs d'émissions sont utilisés pour chaque mode de transport, et enfin comment les trajets reguliers et occasionnels sont traités.</p>
                 <h2>Comment calculons-nous les distances parcourues ?</h2>
                     <p>Quel que soit le mode de transport utilisé, chaque calcul de trajet commence par récupérer les lieux de départ et d'arrivée via l'API <a href="https://cloud.google.com/maps-platform/places/">Places</a> de Google Maps. Une fois ces lieux récupérés nous pouvons facilement obtenir leurs coordonnées ou utiliser d'autres API pour calculer des distances.</p>
-                    <h3>Voiture, Car, vélo</h3>
+                    <h3>Voiture, car, vélo</h3>
                         <p>Ces modes de transport sont les plus simples à traiter puisque il suffit de calculer la longueur de la route reliant les points de départ et d"arrivée, ce qui est fait via l'API <a href="https://cloud.google.com/maps-platform/routes/">Routes</a> de Google Maps.</p>
                     <h3>Transports en commun</h3>
                         <p>Les trajets en transports en commun ont cela de plus compliqué qu'ils sont souvent multimodaux, c'est-à-dire que plusieurs mode de transport différents sont utilisés. La distance totale doit donc être subdivisée par mode de transport, chaque partie contribuant aux émissions totales du trajet suivant l'intensité de son mode de transport. Les différentes étapes du trajet sont retournées par l'API <a href="https://cloud.google.com/maps-platform/routes/">Routes</a> de Google Maps.</p>
@@ -88,17 +88,18 @@
                         <p>À l'inverse des modes précédents qui doivent utiliser un réseau existant pour se deplacer (réseau routier ou féroviaire), l'avion permet lui de ralier sa destination en ligne droite. En partant des coordonées retournées de départ et de destination on peut calculer la distance la plus courte sur une sphère ou <a href="https://fr.wikipedia.org/wiki/Distance_du_grand_cercle">distance du grand cercle</a>.</p>
                         <p>Pour tenir compte des éventuelles émission hors vol (temps de taxi par exemple), la distance du grand cercle est corrigée comme recommandé par <a href="https://www.icao.int/environmental-protection/CarbonOffset/Documents/Methodology%20ICAO%20Carbon%20Calculator_v10-2017.pdf">l'ICAO</a>.</p>
                 <h2>Quels facteurs d'émissions utilisons-nous ?</h2>
-                    <p>Afin de pouvoir comparer entre eux les différents modes de transport on calcul pour chacun un facteur d'émission en g de CO2 par km et par passager. Ce facteur va dépendre:</p>
+                    <p>Afin de pouvoir comparer entre eux les différents modes de transport on utilse le facteur d'émission en g de CO2 par km et par passager. Ce facteur va dépendre:</p>
                     <ul>
                         <li>de la consommation en carburant du véhicule (voiture, avion, etc.), en kg de carburant par km,</li>
                         <li>de la quantité de CO2 émise lors de la combustion du carburant (en kg de CO2 par kg de carburant),</li>
-                        <li>et du nombre de passagers dans le véhicule.</li>
+                        <li>et du nombre de passagers dans le véhicule ou de la fréquentation moyenne.</li>
                     </ul>
-                    <p></p>
+                    <p>Estimer correctement tous ces paramètres est une tache complexe aussi nous nous basons sur <a href="http://www.basecarbone.fr/">la base carbone</a> établie par l'ADEME afin d'avoir des données cohérentes entre elles.</p>
                     <h3>Voiture</h3>
                     <h3>Transports en commun, TGV, Car</h3>
                     <h3>Avion</h3>
                 <h2>Trajets réguliers <em>vs.</em> trajets occasionnels</h2>
+                    <p></p>
 
             </div>
             <div id="methodologie-logement" class="methodologie-content"><p>WORK IN PROGRESS 2</p></div>
