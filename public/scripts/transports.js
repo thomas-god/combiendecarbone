@@ -219,11 +219,9 @@ Transport.prototype.gesAvion = function (travel) {
         }
         const distance = this.gcd(depart, arrivee)
         const impact = (
-            distance / 100
-            * 0.0025 // t fuel /100 km / pax
-            / 0.8 // taux d'occupation moyen
-            * 3.15 // t CO2 / t fuel
-            * 1000 // conversion t -> kg CO2
+            distance 
+            * 249.6 // gCO2 per km
+            / 1000 // g -> CO2
         )
         return Promise.resolve(this.postProcessGes(travel, impact))
     }
@@ -243,7 +241,7 @@ Transport.prototype.gesVoiture = function (travel) {
                 if (res.routes.length > 0) {
                     const impact = (
                         res.routes[0].legs[0].distance.value / 1000 // distance in km
-                        * 111 // 111 gCO2 / km en FR
+                        * 280.5 // 111 gCO2 / km en FR
                         / 1000 // conversion g -> kg CO2
                     )
                     resolve(this.postProcessGes(travel, impact))
