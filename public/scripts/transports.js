@@ -217,7 +217,14 @@ Transport.prototype.gesAvion = function (travel) {
             lat: travel.arrivee.getPlace().geometry.location.lat(),
             lng: travel.arrivee.getPlace().geometry.location.lng()
         }
-        const distance = this.gcd(depart, arrivee)
+        let distance = this.gcd(depart, arrivee)
+        if (distance > 5500) {
+            distance += 125;
+        } else if (distance > 550) {
+            distance += 100;
+        } else {
+            distance += 50;
+        }
         const impact = (
             distance 
             * 249.6 // gCO2 per km
