@@ -5,20 +5,20 @@ function Transport(div_id) {
         last_id: 0,
         items: []
     }
-    this.modes = ["Avion", "TGV", "Voiture", "Métro/Bus"]
+    this.modes = ["Voiture", "Métro/Bus", "Vélo", "TGV", "Avion"]
     this.modes_transit_ges = {
-        // From GMaps Directions API
-        "RAIL": 25,
-        "METRO_RAIL": 3.8,
-        "SUBWAY": 3.8,
-        "TRAM": 3.1,
-        "MONORAIL": 3.1,
-        "HEAVY_RAIL": 1.9,
-        "COMMUTER_TRAIN": 3.9,
-        "HIGH_SPEED_TRAIN": 1.9,
-        "LONG_DISTANCE_TRAIN": 1.9,
+        // From GMaps Directions API, gCO2/km
+        "RAIL": 8.9,
+        "METRO_RAIL": 5.7,
+        "SUBWAY": 5.7,
+        "TRAM": 6,
+        "MONORAIL": 6,
+        "HEAVY_RAIL": 3.6,
+        "COMMUTER_TRAIN": 8.9,
+        "HIGH_SPEED_TRAIN": 3.6,
+        "LONG_DISTANCE_TRAIN": 3.6,
         "BUS": 95.6,
-        "INTERCITY_BUS": 95.6,
+        "INTERCITY_BUS": 154,
         "TROLLEYBUS": 0,
         "SHARE_TAXI": 0,
         "FERRY": 0,
@@ -35,7 +35,7 @@ function Transport(div_id) {
 Transport.prototype.initDiv = function () {
     const parent_div = document.getElementById(this.div_id)
     parent_div.innerHTML = (
-        `<h2>Votre semaine type</h2>
+        `<h2>Semaine type</h2>
         <p>Quels sont les trajets que vous effectuez chaque semaine ? Par exemple :</p>
         <ul> 
             <li>5 A/R domicile/travail en bus,</li>
@@ -47,7 +47,7 @@ Transport.prototype.initDiv = function () {
             <td><input type="button" value="Ajouter" id="add-voyage-hebdos" class="form-button"></td>
         </tr></table>
         <span class="divider"></span>
-        <h2>Vos trajets occasionnels</h2>
+        <h2>Trajets occasionnels</h2>
         <p>Quels sont les trajets que vous réalisez occasionnellement dans l'année ? Par exemple : </p>
         <ul> 
             <li>3 A/R chez mamie en voiture,</li>
@@ -219,11 +219,9 @@ Transport.prototype.gesAvion = function (travel) {
         }
         const distance = this.gcd(depart, arrivee)
         const impact = (
-            distance / 100
-            * 0.0025 // t fuel /100 km / pax
-            / 0.8 // taux d'occupation moyen
-            * 3.15 // t CO2 / t fuel
-            * 1000 // conversion t -> kg CO2
+            distance 
+            * 249.6 // gCO2 per km
+            / 1000 // g -> CO2
         )
         return Promise.resolve(this.postProcessGes(travel, impact))
     }
@@ -243,7 +241,7 @@ Transport.prototype.gesVoiture = function (travel) {
                 if (res.routes.length > 0) {
                     const impact = (
                         res.routes[0].legs[0].distance.value / 1000 // distance in km
-                        * 111 // 111 gCO2 / km en FR
+                        * 280.5 // 111 gCO2 / km en FR
                         / 1000 // conversion g -> kg CO2
                     )
                     resolve(this.postProcessGes(travel, impact))
