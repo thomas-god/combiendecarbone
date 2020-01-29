@@ -105,3 +105,6 @@ venv.bak/
 
 # Node
 node_modules
+
+# Lock files
+.~lock*
