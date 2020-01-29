@@ -68,13 +68,13 @@
                 </ul>
             </div>
             <div id="methodologie-transport" class="methodologie-content">
-                <h2>Introduction</h2>
+                <h2>Emissions des transports</h2>
                     <p>Lorsque nous regardons ce que nous émettons lors d'un déplacement nous devons prendre en compte deux aspects:</p>
                     <ul>
                         <li>la distance parcourue (en km),</li>
                         <li>et l'intensité carbone du mode de transport utilisé (en g de CO2/km).</li>
                     </ul>
-                    <p>Mais lorsque nous nous intéressons à notre impact annuel il convient de distinguer nos trajets <strong>réguliers</strong> (domicile-travail nottament), qui si ils n'émettent pas énormément individuellement peuvent représenter une part importante une fois aggrégés; et nos trajets <strong>occasionnels</strong> (pour les vacances nottament).</p>
+                    <p>Mais lorsque nous nous intéressons à notre impact annuel il convient de distinguer nos trajets <strong>réguliers</strong> (domicile-travail nottament), qui s'ils n'émettent pas énormément individuellement peuvent représenter une part importante une fois aggrégés; et nos trajets <strong>occasionnels</strong> (pour les vacances nottament).</p>
                     <p>Les parties suivantes présentent donc comment les distances sont calculées pour chaque mode de transport, quels facteurs d'émissions sont utilisés pour chaque mode de transport, et enfin comment les trajets reguliers et occasionnels sont traités.</p>
                 <h2>Comment calculons-nous les distances parcourues ?</h2>
                     <p>Quel que soit le mode de transport utilisé, chaque calcul de trajet commence par récupérer les lieux de départ et d'arrivée via l'API <a href="https://cloud.google.com/maps-platform/places/">Places</a> de Google Maps. Une fois ces lieux récupérés nous pouvons facilement obtenir leurs coordonnées ou utiliser d'autres API pour calculer des distances.</p>
@@ -95,12 +95,53 @@
                         <li>et du nombre de passagers dans le véhicule ou de la fréquentation moyenne.</li>
                     </ul>
                     <p>Estimer correctement tous ces paramètres est une tache complexe aussi nous nous basons sur <a href="http://www.basecarbone.fr/">la base carbone</a> établie par l'ADEME afin d'avoir des données cohérentes entre elles.</p>
-                    <h3>Voiture</h3>
-                    <h3>Transports en commun, TGV, Car</h3>
-                    <h3>Avion</h3>
+                    <table>
+                        <caption>Facteurs d'émissions (source: <a href="http://www.basecarbone.fr/">Base carbone ADEME</a>)</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Mode de transport</th>
+                                <th scope="col">Facteur d'émissions <br> (gCO2/km)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Avion</th>
+                                <td>249.5</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Métro</th>
+                                <td>5.7</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tram</th>
+                                <td>6</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">TGV</th>
+                                <td>3.6</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">RER</th>
+                                <td>8.9</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Bus (urbain)</th>
+                                <td>95.6</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Autocar</th>
+                                <td>154</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Voiture</th>
+                                <td>280.5</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 <h2>Trajets réguliers <em>vs.</em> trajets occasionnels</h2>
-                    <p></p>
-
+                    <p>Pour des questions d'experience utilisateut nous avons choisi de différencier les trajets réguliers des trajets occasionnels, afin de vous éviter de devoir préciser que vous avez fait 197 fois votre trajets domicile/travail dans l'année. La semaine nous a semblée être la bonne unité de temps car cela permet de prendre en compte des situtation variées (travail à temps plein/temps partiels, jours de télétravail, activités hebdomadaires, etc.).</p>
+                    <p>Une fois votre semaine type renseignée nous calculons les emissions de tous vos trajets et nous multiplions le total par <strong>44 semaines</strong> afin prendre en compte <a href="https://dares.travail-emploi.gouv.fr/dares-etudes-et-statistiques/etudes-et-syntheses/dares-analyses-dares-indicateurs-dares-resultats/article/les-conges-payes-et-jours-de-rtt">le nombre moyen de jours de congés/RTT</a>.</p>
+                    <p>Quand aux trajets occasionnels nous calculon simplement les emissions de chaque trajet.</p>
             </div>
             <div id="methodologie-logement" class="methodologie-content"><p>WORK IN PROGRESS 2</p></div>
             <div id="methodologie-alimentation" class="methodologie-content"><p>WORK IN PROGRESS 3</p></div>
