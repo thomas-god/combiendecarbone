@@ -1,0 +1,38 @@
+.form-conso h3{
+    margin: 0.5em 1em;
+}
+.form-conso p {
+    margin-bottom: 0.7em;
+}
+.form-conso ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: flex-start;
+    padding-left: 20px;
+    margin-bottom: 1em;
+}
+.form-conso li{
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    min-width: 60%;;
+}
+.form-conso label{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+}
+.form-conso label p{
+    margin: auto;
+    min-width: 115px;
+    text-align: right;
+}
+.form-conso li input[type="number"] {
+    text-align: center;
+    -moz-appearance: textfield;
+    min-width: 0;
+    flex: 1;
+    margin-left: 1em;
+}
