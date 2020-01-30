@@ -143,7 +143,14 @@
                     <p>Une fois votre semaine type renseignée nous calculons les emissions de tous vos trajets et nous multiplions le total par <strong>44 semaines</strong> afin prendre en compte <a href="https://dares.travail-emploi.gouv.fr/dares-etudes-et-statistiques/etudes-et-syntheses/dares-analyses-dares-indicateurs-dares-resultats/article/les-conges-payes-et-jours-de-rtt">le nombre moyen de jours de congés/RTT</a>.</p>
                     <p>Quand aux trajets occasionnels nous calculon simplement les emissions de chaque trajet.</p>
             </div>
-            <div id="methodologie-logement" class="methodologie-content"><p>WORK IN PROGRESS 2</p></div>
+            <div id="methodologie-logement" class="methodologie-content">
+                <h2>Émissions liées au logement</h2>
+                <p>La consommation énergétique d'un logement (et donc ses émissions) peuvent être classées en deux catégories:</p>
+                <ul>
+                    <li>le chauffage (via du gaz ou de l'électricité),</li>
+                    <li>les consommations électriques (électroménager, éclairage, etc.).</li>
+                </ul>
+            </div>
             <div id="methodologie-alimentation" class="methodologie-content"><p>WORK IN PROGRESS 3</p></div>
             <div id="methodologie-consommation" class="methodologie-content"><p>WORK IN PROGRESS 4</p></div>
             <div id="methodologie-resultats" class="methodologie-content"><p>WORK IN PROGRESS 5</p></div>
@@ -160,7 +167,7 @@
 
     const button_nav = document.getElementById("nav-methodologie")
     button_nav.click()
-    const button_mode = document.getElementById("header-modes-transport")
+    const button_mode = document.getElementById("header-modes-logement")
     button_mode.click()
 
     function toggleNav() {
