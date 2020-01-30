@@ -1,4 +1,4 @@
-function Resultats(div_id, transport, logement, consommation) {
+function Resultats(div_id, transport, logement, alimentation, consommation) {
     this.div_id = div_id;
     this.transport = transport;
     this.logement = logement;
@@ -49,7 +49,8 @@ Resultats.prototype.getGes = function() {
     Promise.all([
         this.transport.computeGES(),
         this.logement.computeGES(),
-        this.alimentation.computeGES()
+        this.alimentation.computeGES(),
+        this.consommation.computeGES()
     ])
     .then((values) => {
         values.forEach(val => {
