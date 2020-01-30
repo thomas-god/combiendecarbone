@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-right: 20px;
+    margin-right: 10px;
     min-width: 135px;
 }
 .repas {
@@ -22,13 +22,16 @@
     border-style: solid;
     border-color: black;
     border-width: 1px 1px 1px 0px;
-    padding: 10px;
+    padding: 13px;
 }
 .repas-box:first-child {
     border-width: 1px 1px 1px 1px;
 }
 .repas-box-selected {
-    background-color: rgb(68, 149, 204);
+    background-image: url(meal.webp);
+    background-color: rgb(236, 178, 71);
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 .repas-form-controls {
     display: flex;
