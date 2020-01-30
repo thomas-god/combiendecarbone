@@ -14,6 +14,7 @@
     <script type="text/javascript" src="scripts/transports.js"></script>
     <script type="text/javascript" src="scripts/logement.js"></script>
     <script type="text/javascript" src="scripts/alimentation.js"></script>
+    <script type="text/javascript" src="scripts/consommation.js"></script>
     <script type="text/javascript" src="scripts/resultats.js"></script>
     <link rel="stylesheet" href="styles/transports.css">
     <link rel="stylesheet" href="styles/logement.css">
@@ -53,7 +54,7 @@
             <div id="form-transport" class="main-form-content"></div>
             <div id="form-logement" class="main-form-content"></div>
             <div id="form-alimentation" class="main-form-content"></div>
-            <div id="form-consommation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
+            <div id="form-consommation" class="main-form-content"></div>
             <div id="form-resultats" class="main-form-content"></div>
         </div>
         <div id="content-methodologie">
@@ -175,11 +176,12 @@
     const transport = new Transport('form-transport')
     const logement = new Logement('form-logement')
     const alimentation = new Alimentation('form-alimentation')
-    const resultats = new Resultats('form-resultats', transport, logement, alimentation)
+    const consommation = new Consommation('form-consommation')
+    const resultats = new Resultats('form-resultats', transport, logement, alimentation, consommation)
 
-    const button_nav = document.getElementById("nav-methodologie")
+    const button_nav = document.getElementById("nav-form")
     button_nav.click()
-    const button_mode = document.getElementById("header-modes-logement")
+    const button_mode = document.getElementById("header-modes-consommation")
     button_mode.click()
 
     function toggleNav() {

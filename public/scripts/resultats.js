@@ -1,8 +1,9 @@
-function Resultats(div_id, transport, logement) {
+function Resultats(div_id, transport, logement, consommation) {
     this.div_id = div_id;
     this.transport = transport;
     this.logement = logement;
     this.alimentation = alimentation;
+    this.consommation = consommation;
 
     this.ges = {}
 
