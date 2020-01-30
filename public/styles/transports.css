@@ -20,6 +20,9 @@ body * {
     padding: 1px;
     font-size: 1.3em;
 }
+.main-form-content h3 {
+    margin: 0.5em 1em;
+}
 .main-form-content p, .main-form-content li{
     text-align: justify;
     margin: 0em 1.5em;

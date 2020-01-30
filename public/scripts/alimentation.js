@@ -9,6 +9,7 @@ Alimentation.prototype.initDiv = function () {
     const div = document.getElementById(this.div_id)
     div.innerHTML = `
     <h2> Vos habitudes alimentaires</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi.</p>
     <span id="repas-total" class="repas-form">
         <label>Repas restants</label>
         <span id="repas-restants-box" class="repas">

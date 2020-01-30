@@ -7,6 +7,8 @@ function Logement(div_id) {
 Logement.prototype.initDiv = function () {
     const div = document.getElementById(this.div_id);
     div.innerHTML = `
+    <h2> Vos consommations énergétiques</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi.</p>
     <label class="transport-form-row-mode">
         Connaissez vous vos factures de gaz et d'électricité ?
         <select class="form-input" id="logement-select">
