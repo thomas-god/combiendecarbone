@@ -8,7 +8,7 @@ function Alimentation (div_id) {
 Alimentation.prototype.initDiv = function () {
     const div = document.getElementById(this.div_id)
     div.innerHTML = `
-    <h2> Vos habitudes alimentaires hebdomadaires</h2>
+    <h2> Vos habitudes alimentaires</h2>
     <span id="repas-total" class="repas-form">
         <label>Repas restants</label>
         <span id="repas-restants-box" class="repas">

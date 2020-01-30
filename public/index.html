@@ -14,10 +14,12 @@
     <script type="text/javascript" src="scripts/transports.js"></script>
     <script type="text/javascript" src="scripts/logement.js"></script>
     <script type="text/javascript" src="scripts/alimentation.js"></script>
+    <script type="text/javascript" src="scripts/consommation.js"></script>
     <script type="text/javascript" src="scripts/resultats.js"></script>
     <link rel="stylesheet" href="styles/transports.css">
     <link rel="stylesheet" href="styles/logement.css">
     <link rel="stylesheet" href="styles/alimentation.css">
+    <link rel="stylesheet" href="styles/consommation.css">
     <link rel="stylesheet" href="styles/header.css">
     <link rel="stylesheet" href="styles/header-modes.css">
     <link rel="stylesheet" href="styles/methodologie.css">
@@ -53,7 +55,7 @@
             <div id="form-transport" class="main-form-content"></div>
             <div id="form-logement" class="main-form-content"></div>
             <div id="form-alimentation" class="main-form-content"></div>
-            <div id="form-consommation" class="main-form-content"><p>WORK IN PROGRESS</p></div>
+            <div id="form-consommation" class="main-form-content"></div>
             <div id="form-resultats" class="main-form-content"></div>
         </div>
         <div id="content-methodologie">
@@ -74,8 +76,8 @@
                         <li>la distance parcourue (en km),</li>
                         <li>et l'intensité carbone du mode de transport utilisé (en g de CO2/km).</li>
                     </ul>
-                    <p>Mais lorsque nous nous intéressons à notre impact annuel il convient de distinguer nos trajets <strong>réguliers</strong> (domicile-travail nottament), qui s'ils n'émettent pas énormément individuellement peuvent représenter une part importante une fois aggrégés; et nos trajets <strong>occasionnels</strong> (pour les vacances nottament).</p>
-                    <p>Les parties suivantes présentent donc comment les distances sont calculées pour chaque mode de transport, quels facteurs d'émissions sont utilisés pour chaque mode de transport, et enfin comment les trajets reguliers et occasionnels sont traités.</p>
+                    <p>Mais lorsque nous nous intéressons à notre impact annuel il convient de distinguer nos trajets <strong>réguliers</strong> (domicile-travail notamment), qui s'ils n'émettent pas énormément individuellement peuvent représenter une part importante une fois agrégés; et nos trajets <strong>occasionnels</strong> (pour les vacances notamment).</p>
+                    <p>Les parties suivantes présentent donc comment les distances sont calculées pour chaque mode de transport, quels facteurs d'émissions sont utilisés pour chaque mode de transport, et enfin comment les trajets réguliers et occasionnels sont traités.</p>
                 <h2>Comment calculons-nous les distances parcourues ?</h2>
                     <p>Quel que soit le mode de transport utilisé, chaque calcul de trajet commence par récupérer les lieux de départ et d'arrivée via l'API <a href="https://cloud.google.com/maps-platform/places/">Places</a> de Google Maps. Une fois ces lieux récupérés nous pouvons facilement obtenir leurs coordonnées ou utiliser d'autres API pour calculer des distances.</p>
                     <h3>Voiture, car, vélo</h3>
@@ -85,10 +87,10 @@
                     <h3>TGV</h3>
                         <p>Les trajets en train se font de gare à gare et les distances retournées par l'API <a href="https://cloud.google.com/maps-platform/routes/">Routes</a> de Google Maps.</p>
                     <h3>Avion</h3>
-                        <p>À l'inverse des modes précédents qui doivent utiliser un réseau existant pour se deplacer (réseau routier ou féroviaire), l'avion permet lui de ralier sa destination en ligne droite. En partant des coordonées retournées de départ et de destination on peut calculer la distance la plus courte sur une sphère ou <a href="https://fr.wikipedia.org/wiki/Distance_du_grand_cercle">distance du grand cercle</a>.</p>
+                        <p>À l'inverse des modes précédents qui doivent utiliser un réseau existant pour se déplacer (réseau routier ou ferroviaire), l'avion permet lui de rallier sa destination en ligne droite. En partant des coordonnées retournées de départ et de destination on peut calculer la distance la plus courte sur une sphère ou <a href="https://fr.wikipedia.org/wiki/Distance_du_grand_cercle">distance du grand cercle</a>.</p>
                         <p>Pour tenir compte des éventuelles émission hors vol (temps de taxi par exemple), la distance du grand cercle est corrigée comme recommandé par <a href="https://www.icao.int/environmental-protection/CarbonOffset/Documents/Methodology%20ICAO%20Carbon%20Calculator_v10-2017.pdf">l'ICAO</a>.</p>
                 <h2>Quels facteurs d'émissions utilisons-nous ?</h2>
-                    <p>Afin de pouvoir comparer entre eux les différents modes de transport on utilse le facteur d'émission en g de CO2 par km et par passager. Ce facteur va dépendre:</p>
+                    <p>Afin de pouvoir comparer entre eux les différents modes de transport on utilise le facteur d'émission en g de CO2 par km et par passager. Ce facteur va dépendre:</p>
                     <ul>
                         <li>de la consommation en carburant du véhicule (voiture, avion, etc.), en kg de carburant par km,</li>
                         <li>de la quantité de CO2 émise lors de la combustion du carburant (en kg de CO2 par kg de carburant),</li>
@@ -139,9 +141,9 @@
                         </tbody>
                     </table>
                 <h2>Trajets réguliers <em>vs.</em> trajets occasionnels</h2>
-                    <p>Pour des questions d'experience utilisateut nous avons choisi de différencier les trajets réguliers des trajets occasionnels, afin de vous éviter de devoir préciser que vous avez fait 197 fois votre trajets domicile/travail dans l'année. La semaine nous a semblée être la bonne unité de temps car cela permet de prendre en compte des situtation variées (travail à temps plein/temps partiels, jours de télétravail, activités hebdomadaires, etc.).</p>
+                    <p>Pour des questions d'experience utilisateur nous avons choisi de différencier les trajets réguliers des trajets occasionnels, afin de vous éviter de devoir préciser que vous avez fait 197 fois votre trajets domicile/travail dans l'année. La semaine nous a semblé être la bonne unité de temps car cela permet de prendre en compte des situation variées (travail à temps plein/temps partiels, jours de télétravail, activités hebdomadaires, etc.).</p>
                     <p>Une fois votre semaine type renseignée nous calculons les emissions de tous vos trajets et nous multiplions le total par <strong>44 semaines</strong> afin prendre en compte <a href="https://dares.travail-emploi.gouv.fr/dares-etudes-et-statistiques/etudes-et-syntheses/dares-analyses-dares-indicateurs-dares-resultats/article/les-conges-payes-et-jours-de-rtt">le nombre moyen de jours de congés/RTT</a>.</p>
-                    <p>Quand aux trajets occasionnels nous calculon simplement les emissions de chaque trajet.</p>
+                    <p>Quand aux trajets occasionnels nous calculons simplement les emissions de chaque trajet.</p>
             </div>
             <div id="methodologie-logement" class="methodologie-content">
                 <h2>Émissions liées au logement</h2>
@@ -152,7 +154,7 @@
                     </ul>
                     <p>La méthode la plus fiable est de se baser sur les factures de vos fournisseurs de gaz et d'éléctricité qui vous donneront vos consommations éxactes de gaz et d'électricité en kWh. Une fois vos consommations connues il nous suffit de les multiplier par les facteur d'émissions du système électrique français et du gaz pour obtenir vous émissions de CO2.</p>
                 <h2>Facteur d'émission de l'électricité</h2>
-                    <p>Pour calculer le facteur d'émission de CO2 du secteur électrique français nous utilisons les <a href="https://www.rte-france.com/fr/article/bilans-electriques-nationaux"> bilans électriques nationaux de RTE</a>. Ces bilans donnent la production électrique totale de toutes les filières de production en TWh ainsi que la quatité émise de CO2 en MT, le ratio des deux permettant d'obtenir le facteur d'émission moyen pour le système électrique.</p>
+                    <p>Pour calculer le facteur d'émission de CO2 du secteur électrique français nous utilisons les <a href="https://www.rte-france.com/fr/article/bilans-electriques-nationaux"> bilans électriques nationaux de RTE</a>. Ces bilans donnent la production électrique totale de toutes les filières de production en TWh ainsi que la quantité émise de CO2 en MT, le ratio des deux permettant d'obtenir le facteur d'émission moyen pour le système électrique.</p>
                     <p>Ce facteur d'émissions pouvant varier d'une année à l'autre (hiver plus ou moins doux, disponibilité des parcs hydraulique et nucléaire, etc.) nous avons pris la moyenne des facteurs d'émissions annuels depuis 2010 pour obtenir une valeur de <strong>49 kgCO2/MWh</strong>.</p>
                 <h2>Facteur d'émission du gaz naturel</h2>
                     <p><a href="https://www.grdf.fr/institutionnel/role-transition-ecologique/energie-avenir/energie-respect-environnement">GRDF</a> donne pour du gaz naturel un facteur d'émissions de <strong>234 kgCO2/MWh</strong>.</p>
@@ -175,11 +177,12 @@
     const transport = new Transport('form-transport')
     const logement = new Logement('form-logement')
     const alimentation = new Alimentation('form-alimentation')
-    const resultats = new Resultats('form-resultats', transport, logement, alimentation)
+    const consommation = new Consommation('form-consommation')
+    const resultats = new Resultats('form-resultats', transport, logement, alimentation, consommation)
 
-    const button_nav = document.getElementById("nav-methodologie")
+    const button_nav = document.getElementById("nav-form")
     button_nav.click()
-    const button_mode = document.getElementById("header-modes-logement")
+    const button_mode = document.getElementById("header-modes-consommation")
     button_mode.click()
 
     function toggleNav() {
