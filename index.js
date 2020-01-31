@@ -1,12 +1,17 @@
 const express = require("express");
-const app = express();
+const https = require('https');
+const fs = require('fs');
 
+const options = {
+  key: fs.readFileSync('/etc/letsencrypt/live/combiendecarbone.fr/privkey.pem', 'utf8'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/combiendecarbone.fr/fullchain.pem', 'utf8')
+};
+
+const app = express();
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     res.send("Hello world !");
 })
 
-app.listen(80, () => {
-    console.log("Server listenin on port 1234");
-})
+const httpsServer = https.createServer(options, app).listen(443)
