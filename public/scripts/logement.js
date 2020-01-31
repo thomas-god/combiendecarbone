@@ -29,7 +29,7 @@ Logement.prototype.initDiv = function () {
         </ul>
     </div>
     <div id="logement-modele" class="disp-none">
-    <h2> Not implemented yet :(</h2>
+    <h2> Not implemented yet 👨‍💻</h2>
     </div>
     `
     const select = document.getElementById("logement-select")
