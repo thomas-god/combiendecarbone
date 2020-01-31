@@ -29,7 +29,7 @@
 }
 .repas-box-selected {
     background-image: url(meal.webp);
-    background-color: rgb(236, 178, 71);
+    background-color: #79D059;
     background-size: contain;
     background-repeat: no-repeat;
 }
