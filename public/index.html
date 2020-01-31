@@ -165,7 +165,38 @@
                         <li>Le site de la Commission de Régulation de l'Energie (<a href="https://www.cre.fr/">cre.fr</a>).</li>
                     </ul>
             </div>
-            <div id="methodologie-alimentation" class="methodologie-content"><p>WORK IN PROGRESS 3</p></div>
+            <div id="methodologie-alimentation" class="methodologie-content">
+                <h2>Emissions liées à l'alimentation</h2>
+                <p>Le secteur de l'agroalimentaire est responsable de <a href="">XX%</a> des émissions de gaz à effet de serre en France. Les émissions ont lieu lors de <a href="https://www.ademe.fr/manger-mieux-gaspiller-moins">quatre phases</a>: la production (élevage, agriculture), la transformation, la distribution (transport, chaine du froid) et l'utilisation finale (conservation, cuisson).</p>
+                <p>Les émissions de chaque aliment vont donc dépendre du type d'aliment (viande, céréales, légumes), du mode de production (fruit de saison vs. en serre) et de la chaine de transport (production locale ou non).</p>
+                <p>Nous avons fait le choix d'utiliser les régimes alimentaires comme critère distinctif. Chaque régime alimentaire va remplir les besoins nutritifs quotidiens nécessaires avec différents types d'aliments:</p>
+                <ul>
+                    <li>le régime omnivore tel que courrament pratiqué dans les sociétés occidentales fait la part belle aux produits carnés et d'origine animale ainsi qu'aux produits transformés.</li>
+                    <li>le régime fléxitarien tend à réduire la part d'origine animale pour favoriser les légumes, céréales et légumineuses.</li>
+                    <li>le régime végétarien exclue tout produit d'origine animale.</li>
+                </ul>
+                <table>
+                    <caption>Emissions par type de régimes alimentaires (source <a href="">ADEME</a>).</caption>
+                    <thead><tr>
+                        <th scope="col">Régime</th>
+                        <th scope="col">Facteur d'émissions <br> (kgCO2/jour)</th>
+                    </tr></thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Régime omnivore</th>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Régime fléxitarien</th>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Régime végétarien</th>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div id="methodologie-consommation" class="methodologie-content"><p>WORK IN PROGRESS 4</p></div>
             <div id="methodologie-resultats" class="methodologie-content"><p>WORK IN PROGRESS 5</p></div>
         </div>
@@ -180,9 +211,9 @@
     const consommation = new Consommation('form-consommation')
     const resultats = new Resultats('form-resultats', transport, logement, alimentation, consommation)
 
-    const button_nav = document.getElementById("nav-form")
+    const button_nav = document.getElementById("nav-methodologie")
     button_nav.click()
-    const button_mode = document.getElementById("header-modes-consommation")
+    const button_mode = document.getElementById("header-modes-alimentation")
     button_mode.click()
 
     function toggleNav() {
