@@ -7,6 +7,6 @@ app.get('/', (req, res) => {
     res.send("Hello world !");
 })
 
-app.listen(1234, () => {
+app.listen(80, () => {
     console.log("Server listenin on port 1234");
 })
