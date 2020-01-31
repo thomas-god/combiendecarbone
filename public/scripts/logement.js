@@ -20,11 +20,11 @@ Logement.prototype.initDiv = function () {
         <ul>
         <li><label>
             Votre consommation d'électricité (MWh)
-            <input type="number" class="form-input" id="logement-elec" value=0>
+            <input type="number" class="form-input" id="logement-elec"  step=0.001 value=0>
         </label></li>
        <li><label>
             Votre consommation de gaz naturel (MWh)
-            <input type="number" class="form-input" id="logement-gaz" value=0>
+            <input type="number" class="form-input" id="logement-gaz"  step=0.001 value=0>
         </label></il>
         </ul>
     </div>
