@@ -42,15 +42,11 @@
         </div>
         <div id="content-form">
             <div id="form-accueil" class="main-form-content">
-                <h1>Estimez votre empreinte carbone</h1>
-                <p>Questionnaire en 4 parties:</p>
-                <ul>
-                    <li>Tranposrts</li>
-                    <li>Logement</li>
-                    <li>Alimentation</li>
-                    <li>Consommation</li>
-                </ul>
-                <p>Comparer votre empreinte avec les moyennes française et mondiale !</p>
+                <h2>Estimez votre empreinte carbone ! 🍃</h2>
+                <p>Si de plus en plus de personnes souhaitent modifer leurs habitudes de consommation pour faire face au changement climatique, il n'est pas facile de savoir par où commencer tant le problème est complexe. Comme presque toutes nos activités sont émettrices de gaz à effet de serre on ne sait pas toujours si un changement dans nos habitudes aura vraiment un impact et si on ne devrait pas mieux concentrer nos efforts sur autre chose.</p>
+                <p>Ce questionnaire va vous permettre d'estimer votre empreinte carbone annuelle en fonction de 4 catégories: le transport, le logement, l'alimentation et vos habitudes de consommation. Pour chaque catégorie vous saurez quel poste emet le plus : le vol Paris/New-York de vos dernières vacances ou le fait que vous alliez travailler tous les jours en voiture ?</p>
+                <p>En vous permettant d'identifier vos principaux postes d'émissions de gaz à effet de serre nous espérons que ce calculateur vous permettra de plus facilement choisir par quelle habitudes commencer !</p>
+                <p>Pour toute question concernant nos calculs vous pouvez consulter notre page <em>Méthodologie</em>.</p>
             </div>
             <div id="form-transport" class="main-form-content"></div>
             <div id="form-logement" class="main-form-content"></div>
@@ -60,17 +56,10 @@
         </div>
         <div id="content-methodologie">
             <div id="methodologie-accueil" class="methodologie-content">
-                <h2>Cas général</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi. \(\sqrt{a^2 + b^2}\)</p>
-                <p>\[\theta = \frac{ax+b}{\int{f(x)dx}}\]</p>
-                <h3>Références</h3>
-                <ul>
-                    <li><a href="https://www.icao.int/environmental-protection/CarbonOffset/Documents/Methodology%20ICAO%20Carbon%20Calculator_v10-2017.pdf">ICAO methodology</a></li>
-                    <li><a href="https://www.carbonindependent.org/22.html">Aviation on carbonindependent.org</a></li>
-                </ul>
+                <h2>En travaux 🔧</h2>
             </div>
             <div id="methodologie-transport" class="methodologie-content">
-                <h2>Emissions des transports</h2>
+                <h2>Émissions des transports</h2>
                     <p>Lorsque nous regardons ce que nous émettons lors d'un déplacement nous devons prendre en compte deux aspects:</p>
                     <ul>
                         <li>la distance parcourue (en km),</li>
@@ -166,7 +155,7 @@
                     </ul>
             </div>
             <div id="methodologie-alimentation" class="methodologie-content">
-                <h2>Emissions liées à l'alimentation</h2>
+                <h2>Émissions liées à l'alimentation</h2>
                 <p>Le secteur de l'agroalimentaire représente <a href="http://multimedia.ademe.fr/animations/alimentation/">une part importante</a> des émissions de gaz à effet de serre en France. Les émissions ont lieu lors de <a href="https://www.ademe.fr/manger-mieux-gaspiller-moins">quatre phases</a>: la production (élevage, agriculture), la transformation, la distribution (transport, chaine du froid) et l'utilisation finale (conservation, cuisson).</p>
                 <p>Les émissions de chaque aliment vont donc dépendre du type d'aliment (viande, céréales, légumes), du mode de production (fruit et légumes de saison, culture en serre) et du transport (production locale ou non).</p>
                 <p>Les données de la base <a href="http://www.bilans-ges.ademe.fr/fr/actualite/actualite/detail/id/23">Food'GES</a> montrent que la phase "amont agricole" est de loin la plus émettrice. C'est pourquoi nous avons choisi d'utiliser les régimes alimentaires comme critère distinctif. Chaque régime alimentaire remplit les besoins nutritifs quotidiens nécessaires avec différents types d'aliments:</p>
@@ -198,8 +187,12 @@
                     </tbody>
                 </table>
             </div>
-            <div id="methodologie-consommation" class="methodologie-content"><p>WORK IN PROGRESS 4</p></div>
-            <div id="methodologie-resultats" class="methodologie-content"><p>WORK IN PROGRESS 5</p></div>
+            <div id="methodologie-consommation" class="methodologie-content">
+                <h2>En travaux 🔧</h2>
+            </div>
+            <div id="methodologie-resultats" class="methodologie-content">
+                <h2>En travaux 🔧</h2>
+            </div>
         </div>
         
     </section>
@@ -212,9 +205,9 @@
     const consommation = new Consommation('form-consommation')
     const resultats = new Resultats('form-resultats', transport, logement, alimentation, consommation)
 
-    const button_nav = document.getElementById("nav-methodologie")
+    const button_nav = document.getElementById("nav-form")
     button_nav.click()
-    const button_mode = document.getElementById("header-modes-alimentation")
+    const button_mode = document.getElementById("header-modes-accueil")
     button_mode.click()
 
     function toggleNav() {

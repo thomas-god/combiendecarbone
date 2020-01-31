@@ -36,13 +36,11 @@ Transport.prototype.initDiv = function () {
     const parent_div = document.getElementById(this.div_id)
     parent_div.innerHTML = (
         `<h2> Vos habitudes de transport</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi.</p>
         <h3>Semaine type</h3>
-        <p>Quels sont les trajets que vous effectuez chaque semaine ? Par exemple :</p>
+        <p>Quels sont les trajets que vous effectuez chaque semaine ?</p>
         <ul> 
             <li>5 A/R domicile/travail en bus,</li>
             <li>2 A/R domicile/salle de sport en voiture,</li>
-            <li>etc.</li>
         </ul>
         <div id="trajets-hebdos" class="transport-form"></div>
         <table class="table-button"><tr>
@@ -50,12 +48,11 @@ Transport.prototype.initDiv = function () {
         </tr></table>
         <span class="divider"></span>
         <h3>Trajets occasionnels</h3>
-        <p>Quels sont les trajets que vous réalisez occasionnellement dans l'année ? Par exemple : </p>
+        <p>Quels sont les trajets que vous réalisez occasionnellement dans l'année ?</p>
         <ul> 
             <li>3 A/R chez mamie en voiture,</li>
             <li>2 Paris/Lyon en TGV,</li>
             <li>1 Paris/New-York en avion,</li>
-            <li>etc.</li>
         </ul>
         <div id="trajets-occasionels" class="transport-form"></div>
         <table class="table-button"><tr>

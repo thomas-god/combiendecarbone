@@ -29,7 +29,9 @@ Consommation.prototype.initDiv = function() {
 
     div.innerHTML = `
     <h2>Vos habitudes de consommation</h2>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi.</p>
+    <p>Les objects que nous achetons participent indirectement à nos émissions puisque leurs procédés de fabrication et leur transports sont bien souvent très émetteurs. Nous avons considéré 3 catégories d'objets: les vêtements, les objets high-tech et l'électroménager.</p>
+    <p>Pour les vêtements il vous suffit de renseigner combien vous achetez de chaque type par an.</p>
+    <p>Pour les objets high-tech et l'électroménager renseigner combien d'années vous gardez en moyenne chaque produit.</p>
     <div class="form-conso">
         <h3>Vêtements</h3>
             <ul id="conso-form-vetements">

@@ -1,9 +1,6 @@
 .form-conso h3{
     margin: 0.5em 1em;
 }
-.form-conso p {
-    margin-bottom: 0.7em;
-}
 .form-conso ul {
     display: flex;
     flex-direction: column;
@@ -26,7 +23,7 @@
 }
 .form-conso label p{
     margin: auto;
-    min-width: 115px;
+    min-width: 125px;
     text-align: right;
 }
 .form-conso li input[type="number"] {

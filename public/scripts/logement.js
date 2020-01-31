@@ -7,8 +7,7 @@ function Logement(div_id) {
 Logement.prototype.initDiv = function () {
     const div = document.getElementById(this.div_id);
     div.innerHTML = `
-    <h2> Vos consommations énergétiques</h2>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni vitae, labore recusandae asperiores odio corporis incidunt minus sequi esse, error consectetur quaerat? Omnis id amet necessitatibus doloribus. Itaque, sequi.</p>
+    <h2> Votre consommation d'énergie</h2>
     <label class="transport-form-row-mode">
         Connaissez vous vos factures de gaz et d'électricité ?
         <select class="form-input" id="logement-select">
@@ -29,7 +28,7 @@ Logement.prototype.initDiv = function () {
         </ul>
     </div>
     <div id="logement-modele" class="disp-none">
-    <h2> Not implemented yet 👨‍💻</h2>
+    <h2> Pas encore implémenté 🤷‍♂️ 👨‍💻</h2>
     </div>
     `
     const select = document.getElementById("logement-select")

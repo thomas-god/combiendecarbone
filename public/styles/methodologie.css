@@ -1,3 +1,8 @@
+#form-accueil p{
+    font-size: 1em;
+    margin-bottom: 12px;
+    line-height: 1.4em;
+}
 .methodologie-content {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
