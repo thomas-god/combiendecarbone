@@ -4,13 +4,10 @@ const fs = require('fs');
 const clog = require('./custom-logger');
 
 // Prod (https) or dev (http)
-if (process.env.GES_MODE === 'production') {
-  const options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/combiendecarbone.fr/privkey.pem', 'utf8'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/combiendecarbone.fr/fullchain.pem', 'utf8')
-  };
-  
-}
+const httpsOptions = (process.env.GES_MODE === 'production') ?{
+  key: fs.readFileSync('/etc/letsencrypt/live/combiendecarbone.fr/privkey.pem', 'utf8'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/combiendecarbone.fr/fullchain.pem', 'utf8')
+}: {};
 
 // Core app
 const app = express();
@@ -31,7 +28,7 @@ app.get('/', (req, res) => {
 // Prod (https) or dev (http)
 if (process.env.GES_MODE === 'production') {
   let port = 443;
-  const httpsServer = https.createServer(options, app).listen(port, () => {
+  const httpsServer = https.createServer(httpsOptions, app).listen(port, () => {
     console.log(`Server listenning in production mode on port ${port}...`);
   })
   
