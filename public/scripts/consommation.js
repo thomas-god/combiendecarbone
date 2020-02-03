@@ -3,11 +3,15 @@ function Consommation(div_id) {
 
 
     this.vetements = [
-        {name: "jeans", full_name: "Jeans", ges: 12},
-        {name: "tee-shirt", full_name: "Tee-shirt", ges: 12},
-        {name: "pull", full_name: "Pull", ges: 12},
-        {name: "robe", full_name: "Robe", ges: 12},
-        {name: "chaussure", full_name: "Chaussures", ges: 12},
+        {name: "jeans", full_name: "Jeans", ges: 25},
+        {name: "tee-shirt", full_name: "Tee-shirt", ges: 7},
+        {name: "chemise", full_name: "Chemise", ges: 13},
+        {name: "pull-acrylique", full_name: "Pull acrylique", ges: 28},
+        {name: "pull-laine", full_name: "Pull laine", ges: 56},
+        {name: "sweat-coton", full_name: "Sweat coton", ges: 31},
+        {name: "robe", full_name: "Robe", ges: 56},
+        {name: "manteau", full_name: "Manteau", ges: 89},
+        {name: "chaussure", full_name: "Chaussures", ges: 19},
     ]
     this.high_tech =  [
         {name: "smartphone", full_name: "Smartphone", ges: 30},
