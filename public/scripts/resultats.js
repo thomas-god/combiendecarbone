@@ -38,11 +38,14 @@ Resultats.prototype.initDiv = function () {
             <div class="chart-ges disp-none" id="div-chart-zoom">
                 <canvas id="ges-chart-zoom"></canvas>
             </div>
+            <input type="button" value="Load" id="load-ges" class="form-button" style="margin: 0px !important;">
         </div>`
     )
 
     const buttonComputeGes = document.getElementById('calculer-ges')
     buttonComputeGes.addEventListener('click', () => { this.getGes() })
+    const buttonLoadGes = document.getElementById('load-ges')
+    buttonLoadGes.addEventListener('click', () => { this.loadGesCallback() })
 }
 
 Resultats.prototype.getGes = function() {
@@ -57,11 +60,50 @@ Resultats.prototype.getGes = function() {
             console.log(val)
             this.ges[val.name] = val.values
         })
+        this.saveGes();
         this.drawGes();
         var div_chart = document.getElementById('div-chart-zoom')
         div_chart.classList.add('disp-none')
     })
 
+}
+
+Resultats.prototype.loadGes = function() {
+    return localStorage.getItem("ges") ? JSON.parse(localStorage.getItem("ges")) : [];
+}
+
+Resultats.prototype.saveGes = function() {
+    // Get previously saved ges bilans
+    let cur_ges = this.loadGes();
+
+    // Format new ges
+    const ges_total = this.getTotalGes(this.ges);
+    const date = new Date();
+
+    // Push and write to local storage
+    cur_ges.push({
+        date: date.toLocaleDateString(),
+        ges_tot: ges_total,
+        ges: this.ges
+    });
+    localStorage.setItem("ges", JSON.stringify(cur_ges));
+}
+
+Resultats.prototype.loadGesCallback = function() {
+    let saved_ges = this.loadGes();
+    if (saved_ges.length > 0) {
+        this.ges = saved_ges[saved_ges.length - 1].ges;
+        console.log(this.ges)
+        this.drawGes();
+    }
+}
+
+Resultats.prototype.getTotalGes = function(ges) {
+    var ges_by_mode = {}
+    for (const mode in ges) {
+        ges_by_mode[mode] = this.reduceByMode(ges[mode])
+    }
+    return Math.round(Object.values(ges_by_mode).reduce((a, b) => a+b))
 }
 
 Resultats.prototype.reduceByMode = function(mode) {
