@@ -44,8 +44,8 @@
         <div id="content-form">
             <div id="form-accueil" class="main-form-content">
                 <h2>Estimez votre empreinte carbone ! 🍃</h2>
-                <p>Si de plus en plus de personnes souhaitent modifer leurs habitudes de consommation pour faire face au changement climatique, il n'est pas facile de savoir par où commencer tant le problème est complexe. Comme presque toutes nos activités sont émettrices de gaz à effet de serre on ne sait pas toujours si un changement dans nos habitudes aura vraiment un impact et si on ne devrait pas mieux concentrer nos efforts sur autre chose.</p>
-                <p>Ce questionnaire va vous permettre d'estimer votre empreinte carbone annuelle en fonction de 4 catégories: le transport, le logement, l'alimentation et vos habitudes de consommation. Pour chaque catégorie vous saurez quel poste emet le plus : le vol Paris/New-York de vos dernières vacances ou le fait que vous alliez travailler tous les jours en voiture ?</p>
+                <p>Si de plus en plus de personnes souhaitent modifier leurs habitudes de consommation pour faire face au changement climatique, il n'est pas facile de savoir par où commencer tant le problème est complexe. Comme presque toutes nos activités sont émettrices de gaz à effet de serre on ne sait pas toujours si un changement dans nos habitudes aura vraiment un impact et si on ne devrait pas mieux concentrer nos efforts sur autre chose.</p>
+                <p>Ce questionnaire va vous permettre d'estimer votre empreinte carbone annuelle en fonction de 4 catégories: le transport, le logement, l'alimentation et vos habitudes de consommation. Pour chaque catégorie vous saurez quel poste émet le plus : le vol Paris/New-York de vos dernières vacances ou le fait que vous alliez travailler tous les jours en voiture ?</p>
                 <p>En vous permettant d'identifier vos principaux postes d'émissions de gaz à effet de serre nous espérons que ce calculateur vous permettra de plus facilement choisir par quelle habitudes commencer !</p>
                 <p>Pour toute question concernant nos calculs vous pouvez consulter notre page <em>Méthodologie</em>.</p>
             </div>
@@ -57,7 +57,23 @@
         </div>
         <div id="content-methodologie">
             <div id="methodologie-accueil" class="methodologie-content">
-                <h2>En travaux 🔧</h2>
+                <br>
+                <p>Selon le <a href="https://www.ipcc.ch/site/assets/uploads/2018/02/ipcc_wg3_ar5_summary-for-policymakers.pdf">GIEC</a>, pour avoir une chance de limiter l'élévation de la température moyenne à 2°C à l'horizon 2100 il convient de ne pas dépasser une concentration de gaz à effet de serre de 450 ppm eq.CO2 à ce même horizon.</p>
+                <p>La concentration de gaz à effet de serre étant estimée à 430 (± 90) ppm eq.CO2 en 2011, si nos emissions de gaz à effet de serre continuent de croître à leur rythme actuel, nous pourrions atteindre des concentration supérieures à 700 ppm eq.CO2 en 2100. De telles concentrations sont associées à des élevation de la température moyenne de pouvant atteindre +4°C.</p>
+
+                <p class="methodologie-encart">Plusieurs gaz contribuent à l'effet de serre global : dioxyde de carbone (CO2), méthane (CH4), protoxyde d'azote (N2O), composés souffrés, etc, avec une contribution plus ou moins importante. Pour agréger l'impact de tous ces gaz les quantités émises sont converties en equivalent CO2 en utilisant leur pouvoir réchauffant global (<a href="https://www.ghgprotocol.org/sites/default/files/ghgp/Global-Warming-Potential-Values%20%28Feb%2016%202016%29_1.pdf">PRG</a>): par exemple le méthane ayant un PRG de 28, 1kg de méthane émis sera comptabilisé comme 28 kg eq.CO2 émis.</p>
+
+                <p>Si le GIEC insiste sur la nécessité de mettre en place des politiques coordonnées multi-sectorielles pour réduire efficacement nos émissions globales, il n'en reste pas moins nécessaire que les consommateurs/citoyens soient engagés dans cette démarche de réduction des émissions de gaz à effet de serre.</p>
+                <p>Le GIEC classe les émissions à l'échelle mondiale dans 5 catégories: l'énergie, l'industrie, le transport, les bâtiments et l'agriculture et la foresterie. Pour faire une analyse individuelle plus lisible des émissions nous avons utilisé un découpage en 4 catégories:</p>
+                <ul>
+                    <li>le <strong>transport</strong> personnel, qui exclus notamment le transport des biens,</li>
+                    <li>le <strong>logement</strong>, qui regroupe les émissions liées aux dépenses énergétique en chauffage et électricité,</li>
+                    <li>l'<strong>alimentation</strong>, qui regroupe les émissions directes de l'agriculture et les émissions liées aux dépenses énergétiques du secteur (transport, électricité), </li>
+                    <li>la <strong>consommation</strong>, liée aux bien que nous achetons (émissions de l'industrie pour les produire, émissions liées à leur transport).</li>
+                </ul>
+                <p></p>
+
+                <p class="methodologie-encart">Ce calculateur se concentrant sur les émissions de gaz à effet de serre, d'autres impacts environnementaux (consommation d'eau, pollution des sols, déplétion des ressources naturelles) et sociaux (conditions de travail et rémunération des acteurs) de nos usages ne sont pas abordés. </p>
             </div>
             <div id="methodologie-transport" class="methodologie-content">
                 <h2>Émissions des transports</h2>
@@ -206,7 +222,7 @@
     const consommation = new Consommation('form-consommation')
     const resultats = new Resultats('form-resultats', transport, logement, alimentation, consommation)
 
-    const button_nav = document.getElementById("nav-form")
+    const button_nav = document.getElementById("nav-methodologie")
     button_nav.click()
     const button_mode = document.getElementById("header-modes-accueil")
     button_mode.click()

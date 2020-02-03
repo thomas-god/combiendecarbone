@@ -86,3 +86,11 @@
 .methodologie-content td {
     text-align: center;
 }
+
+.methodologie-content .methodologie-encart {
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 10px;
+    margin: 5px 3em;
+    background-color: rgb(233, 233, 220);
+}
