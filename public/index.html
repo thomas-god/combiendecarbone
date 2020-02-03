@@ -75,6 +75,9 @@
 
                 <p class="methodologie-encart"> <span style="font-size: 30px;">❗</span> Ce calculateur se concentrant sur les émissions de gaz à effet de serre, d'autres impacts environnementaux (consommation d'eau, pollution des sols, déplétion des ressources naturelles) et sociaux (conditions de travail et rémunération des acteurs) de nos usages ne sont pas abordés. </p>
                 <h2>Base carbone de l'ADEME</h2>
+                <p>L'Agence de l'Environnement et de la Maîtrise de l'Énergie (<a href="https://www.ademe.fr/">ADEME</a>) met à disposition une base de données publique, <a href="https://www.bilans-ges.ademe.fr/fr/accueil">Base Carbone</a> (inscription obligatoire mais gratuite), de facteurs d'émission de gaz à effet de serre pour un certain nombre d'activités en France.</p>
+                <p>Pour chaque entrée de la base de données il est possible de consulter l'étude qui a produit ce chiffre pour connaître les hypothèses qui ont été faites et les éventuelles limites.</p>
+                
             </div>
             <div id="methodologie-transport" class="methodologie-content">
                 <h2>Émissions des transports</h2>
@@ -329,9 +332,9 @@
     const consommation = new Consommation('form-consommation')
     const resultats = new Resultats('form-resultats', transport, logement, alimentation, consommation)
 
-    const button_nav = document.getElementById("nav-methodologie")
+    const button_nav = document.getElementById("nav-form")
     button_nav.click()
-    const button_mode = document.getElementById("header-modes-consommation")
+    const button_mode = document.getElementById("header-modes-accueil")
     button_mode.click()
 
     function toggleNav() {
