@@ -121,13 +121,15 @@ Resultats.prototype.saveGes = function() {
     const ges_total = this.getTotalGes(this.ges);
     const date = new Date();
 
-    // Push and write to local storage
-    saved_ges.push({
-        date: date.toLocaleDateString(),
-        ges_tot: ges_total,
-        ges: this.ges
-    });
-    localStorage.setItem("ges", JSON.stringify(saved_ges));
+    // Push and write to local storage only if ges_tot > 0
+    if (ges_total > 0) {
+        saved_ges.push({
+            date: date.toLocaleDateString(),
+            ges_tot: ges_total,
+            ges: this.ges
+        });
+        localStorage.setItem("ges", JSON.stringify(saved_ges));
+    }
 }
 
 Resultats.prototype.getTotalGes = function(ges) {
