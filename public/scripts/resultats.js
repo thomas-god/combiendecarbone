@@ -205,6 +205,7 @@ Resultats.prototype.drawGes = function() {
     })
 
     this.chart.clear();
+    this.chart_zoom.clear();
     this.chart.data.labels = Object.keys(ges_by_mode)
     this.chart.options = {
         responsive: true,
