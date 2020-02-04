@@ -5,7 +5,7 @@ function Resultats(div_id, transport, logement, alimentation, consommation) {
     this.alimentation = alimentation;
     this.consommation = consommation;
 
-    this.ges = {}
+    this.ges = {};
 
     this.initDiv()
     this.chart = new Chart(document.getElementById('ges-chart').getContext('2d'), {
@@ -28,21 +28,42 @@ function Resultats(div_id, transport, logement, alimentation, consommation) {
 Resultats.prototype.initDiv = function () {
     const parent_div = document.getElementById(this.div_id)
     parent_div.innerHTML = (
-        `<div class="transport-container-form center">
+        `<div class="center">
             <h2>Émissions de CO2</h2>
-            <input type="button" value="Calculer" id="calculer-ges" class="form-button" style="margin: 0px !important;">
-            <h2 id="total-ges"></h2>
-            <div class="chart-ges disp-none" id="div-chart">
-                <canvas id="ges-chart"></canvas>
+            <div class="resultats-selector">
+                <input type="button" value="Calculer" id="calculer-ges" class="form-button" style="margin: 0px !important;">
+                <p><span> ou </span></p>
+                <label for="select_saved_ges">Charger un bilan</label>
+                <select id="select_saved_ges" class="form-input"></select>
             </div>
-            <div class="chart-ges disp-none" id="div-chart-zoom">
-                <canvas id="ges-chart-zoom"></canvas>
+            <div class="charts-area disp-none" id="charts-area">
+                <h2 id="total-ges"></h2>
+                <span>
+                    <input type="button" value="Sauvegarder bilan" id="save-ges" class="form-button disp-none" style="margin: 0px !important;">
+                    <input type="button" value="Supprimer bilan" id="delete-ges" class="form-button disp-none" style="margin: 0px !important;">
+                </span>
+                <div class="chart-ges disp-none" id="div-chart">
+                    <canvas id="ges-chart"></canvas>
+                </div>
+                <div class="chart-ges disp-none" id="div-chart-zoom">
+                    <canvas id="ges-chart-zoom"></canvas>
+                </div>
             </div>
         </div>`
     )
 
-    const buttonComputeGes = document.getElementById('calculer-ges')
-    buttonComputeGes.addEventListener('click', () => { this.getGes() })
+    const buttonComputeGes = document.getElementById('calculer-ges');
+    buttonComputeGes.addEventListener('click', () => { this.getGes() });
+
+    this.populateSelectSavedGes();
+    const selectGes = document.getElementById("select_saved_ges");
+    selectGes.onchange = ((event) => this.callbackSelectSavedGes(event));
+
+    const buttonSaveGes = document.getElementById("save-ges");
+    buttonSaveGes.addEventListener("click", () => this.saveGes());
+
+    const buttonDeleteGes = document.getElementById("delete-ges");
+    buttonDeleteGes.addEventListener("click", () => this.deleteSavedGes());
 }
 
 Resultats.prototype.getGes = function() {
@@ -58,10 +79,105 @@ Resultats.prototype.getGes = function() {
             this.ges[val.name] = val.values
         })
         this.drawGes();
-        var div_chart = document.getElementById('div-chart-zoom')
+        this.toggleAddDelButtons("save");
+        const div_chart = document.getElementById('div-chart-zoom')
         div_chart.classList.add('disp-none')
     })
 
+}
+
+Resultats.prototype.toggleAddDelButtons = function(button) {
+    const buttonSave = document.getElementById("save-ges");
+    const buttonDelete = document.getElementById("delete-ges");
+    if (button === "save") {
+        buttonSave.classList.remove("disp-none");
+        buttonDelete.classList.add("disp-none");
+    } else if (button === "delete") {
+        buttonSave.classList.add("disp-none");
+        buttonDelete.classList.remove("disp-none");
+    }
+}
+
+Resultats.prototype.populateSelectSavedGes = function() {
+    // Clear select of all its children
+    const select = document.getElementById("select_saved_ges")
+    while (select.firstChild) {
+        select.removeChild(select.firstChild);
+    }
+    // Load saved ges
+    const saved_ges = this.loadSavedGes();
+
+    // First value, placeholder
+    let option = document.createElement("option");
+    option.innerText = "-- Bilans sauvegardés --";
+    option.value = -1;
+    select.appendChild(option);
+
+    // Populate select
+    for (const [i, ges] of saved_ges.entries()) {
+        let name = `${ges.date} - ${ges.ges_tot} kg eq.CO2`;
+        let option = document.createElement("option");
+        option.innerText = name;
+        option.value = i;
+        select.appendChild(option);
+    }
+}
+
+Resultats.prototype.callbackSelectSavedGes = function(event) {
+    const saved_ges = this.loadSavedGes();
+    const id = event.target.value;
+    if (id >= 0) {
+        this.ges = saved_ges[id].ges;
+        this.drawGes();
+        this.toggleAddDelButtons("delete");
+    }
+}
+
+Resultats.prototype.loadSavedGes = function() {
+    return localStorage.getItem("ges") ? JSON.parse(localStorage.getItem("ges")) : [];
+}
+
+Resultats.prototype.saveGes = function() {
+    // Get previously saved ges bilans
+    let saved_ges = this.loadSavedGes();
+
+    // Format new ges
+    const ges_total = this.getTotalGes(this.ges);
+    const date = new Date();
+
+    // Push and write to local storage only if ges_tot > 0
+    if (ges_total > 0) {
+        saved_ges.push({
+            date: date.toLocaleDateString(),
+            ges_tot: ges_total,
+            ges: this.ges
+        });
+        localStorage.setItem("ges", JSON.stringify(saved_ges));
+        this.toggleAddDelButtons("delete");
+    }
+
+    // Update content of select for saved ges
+    this.populateSelectSavedGes();
+}
+
+Resultats.prototype.deleteSavedGes = function () {
+    const id = document.getElementById("select_saved_ges").value;
+    let saved_ges = this.loadSavedGes();
+    if (id >= 0 && id < saved_ges.length) {
+        saved_ges.splice(id, 1);
+    }
+    localStorage.setItem("ges", JSON.stringify(saved_ges));
+    this.populateSelectSavedGes()
+    const div_charts = document.getElementById("charts-area");
+    div_charts.classList.add("disp-none")
+}
+
+Resultats.prototype.getTotalGes = function(ges) {
+    var ges_by_mode = {}
+    for (const mode in ges) {
+        ges_by_mode[mode] = this.reduceByMode(ges[mode])
+    }
+    return Math.round(Object.values(ges_by_mode).reduce((a, b) => a+b))
 }
 
 Resultats.prototype.reduceByMode = function(mode) {
@@ -129,6 +245,8 @@ Resultats.prototype.drawGes = function() {
     this.chart.update()
     const div_chart = document.getElementById('div-chart')
     div_chart.classList.remove('disp-none')
+    const div_charts = document.getElementById("charts-area");
+    div_charts.classList.remove("disp-none")
 }
 
 Resultats.prototype.getRandomColor = function() {
