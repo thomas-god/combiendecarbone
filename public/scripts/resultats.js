@@ -30,10 +30,11 @@ Resultats.prototype.initDiv = function () {
     parent_div.innerHTML = (
         `<div class="transport-container-form center">
             <h2>Émissions de CO2</h2>
-            <div>
-            <input type="button" value="Calculer" id="calculer-ges" class="form-button" style="margin: 0px !important;">
-            ou 
-            <select id="select_saved_ges" class="form-input"></select>
+            <div class="resultats-selector">
+                <input type="button" value="Calculer" id="calculer-ges" class="form-button" style="margin: 0px !important;">
+                <p><span> ou </span></p>
+                <label for="select_saved_ges">Charger un bilan</label>
+                <select id="select_saved_ges" class="form-input"></select>
             </div>
             <h2 id="total-ges"></h2>
             <div class="chart-ges disp-none" id="div-chart">
@@ -85,7 +86,7 @@ Resultats.prototype.populateSelectSavedGes = function() {
 
     // First value, placeholder
     let option = document.createElement("option");
-    option.innerText = "-- Charger un bilan --";
+    option.innerText = "-- Bilans sauvegardés --";
     option.value = -1;
     select.appendChild(option);
 
