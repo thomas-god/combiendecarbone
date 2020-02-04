@@ -133,16 +133,6 @@ select.form-input {
 .hidden{
     visibility: hidden;
  }
-.center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.chart-ges {
-    display: flex;
-    min-width: 700px;
-    min-height: 350px;
-}
 
 input[type="button"] {
     outline:none;

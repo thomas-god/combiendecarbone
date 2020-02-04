@@ -5,7 +5,7 @@
 }
 
 .resultats-selector p {
-   width: 80%; 
+   width: 20%; 
    text-align: center; 
    border-bottom: 1px solid #000; 
    line-height: 0.1em;
@@ -19,4 +19,24 @@
 
 .resultats-selector label {
     margin-bottom: 6px;
+}
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.charts-area {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+.chart-ges {
+    display: flex;
+    flex: 1;
+    min-width: 700px;
+    min-height: 350px;
 }

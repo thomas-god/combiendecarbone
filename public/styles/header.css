@@ -42,6 +42,5 @@ header .menu-item:visited {
     color: black;
 }
 .disp-none {
-    display: none;
-
+    display: none !important;
 }
