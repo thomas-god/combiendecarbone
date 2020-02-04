@@ -30,7 +30,11 @@ Resultats.prototype.initDiv = function () {
     parent_div.innerHTML = (
         `<div class="transport-container-form center">
             <h2>Émissions de CO2</h2>
+            <div>
             <input type="button" value="Calculer" id="calculer-ges" class="form-button" style="margin: 0px !important;">
+            ou 
+            <select id="select_saved_ges" class="form-input"></select>
+            </div>
             <h2 id="total-ges"></h2>
             <div class="chart-ges disp-none" id="div-chart">
                 <canvas id="ges-chart"></canvas>
@@ -38,14 +42,15 @@ Resultats.prototype.initDiv = function () {
             <div class="chart-ges disp-none" id="div-chart-zoom">
                 <canvas id="ges-chart-zoom"></canvas>
             </div>
-            <input type="button" value="Load" id="load-ges" class="form-button" style="margin: 0px !important;">
         </div>`
     )
 
     const buttonComputeGes = document.getElementById('calculer-ges')
     buttonComputeGes.addEventListener('click', () => { this.getGes() })
-    const buttonLoadGes = document.getElementById('load-ges')
-    buttonLoadGes.addEventListener('click', () => { this.loadGesCallback() })
+
+    this.populateSelectSavedGes();
+    const selectGes = document.getElementById("select_saved_ges");
+    selectGes.onchange = ((event) => this.callbackSelectSavedGes(event));
 }
 
 Resultats.prototype.getGes = function() {
@@ -61,6 +66,7 @@ Resultats.prototype.getGes = function() {
             this.ges[val.name] = val.values
         })
         this.saveGes();
+        this.populateSelectSavedGes();
         this.drawGes();
         var div_chart = document.getElementById('div-chart-zoom')
         div_chart.classList.add('disp-none')
@@ -68,34 +74,59 @@ Resultats.prototype.getGes = function() {
 
 }
 
-Resultats.prototype.loadGes = function() {
+Resultats.prototype.populateSelectSavedGes = function() {
+    // Clear select of all its children
+    const select = document.getElementById("select_saved_ges")
+    while (select.firstChild) {
+        select.removeChild(select.firstChild);
+    }
+    // Load saved ges
+    const saved_ges = this.loadSavedGes();
+
+    // First value, placeholder
+    let option = document.createElement("option");
+    option.innerText = "-- Charger un bilan --";
+    option.value = -1;
+    select.appendChild(option);
+
+    // Populate select
+    for (const [i, ges] of saved_ges.entries()) {
+        let name = `${ges.date} - ${ges.ges_tot} kg eq.CO2`;
+        let option = document.createElement("option");
+        option.innerText = name;
+        option.value = i;
+        select.appendChild(option);
+    }
+}
+
+Resultats.prototype.callbackSelectSavedGes = function(event) {
+    const saved_ges = this.loadSavedGes();
+    const id = event.target.value;
+    if (id >= 0) {
+        this.ges = saved_ges[id].ges;
+        this.drawGes();
+    }
+}
+
+Resultats.prototype.loadSavedGes = function() {
     return localStorage.getItem("ges") ? JSON.parse(localStorage.getItem("ges")) : [];
 }
 
 Resultats.prototype.saveGes = function() {
     // Get previously saved ges bilans
-    let cur_ges = this.loadGes();
+    let saved_ges = this.loadSavedGes();
 
     // Format new ges
     const ges_total = this.getTotalGes(this.ges);
     const date = new Date();
 
     // Push and write to local storage
-    cur_ges.push({
+    saved_ges.push({
         date: date.toLocaleDateString(),
         ges_tot: ges_total,
         ges: this.ges
     });
-    localStorage.setItem("ges", JSON.stringify(cur_ges));
-}
-
-Resultats.prototype.loadGesCallback = function() {
-    let saved_ges = this.loadGes();
-    if (saved_ges.length > 0) {
-        this.ges = saved_ges[saved_ges.length - 1].ges;
-        console.log(this.ges)
-        this.drawGes();
-    }
+    localStorage.setItem("ges", JSON.stringify(saved_ges));
 }
 
 Resultats.prototype.getTotalGes = function(ges) {
