@@ -35,8 +35,21 @@
 }
 
 .chart-ges {
-    display: flex;
+    position: relative;
     flex: 1;
-    min-width: 700px;
-    min-height: 350px;
+    margin: 20px;
+}
+
+#charts-main {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 400px;
+}
+
+#charts-zoom {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 400px;
 }

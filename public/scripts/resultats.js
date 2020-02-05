@@ -20,9 +20,15 @@ class Resultats {
         this.ges = {};
     
         this.initDiv()
-        this.chart = new Chart(document.getElementById('ges-chart').getContext('2d'), {
-            // The type of chart we want to create
-            type: 'pie',
+        this.chart_total = new Chart(document.getElementById('ges-chart-total').getContext('2d'), {
+            type: 'doughnut',
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        })
+        this.chart_rank = new Chart(document.getElementById('ges-chart-rank').getContext('2d'), {
+            type: 'horizontalBar',
         })
         this.chart_zoom = new Chart(document.getElementById('ges-chart-zoom').getContext('2d'), {
             // The type of chart we want to create
@@ -57,11 +63,18 @@ class Resultats {
                         <input type="button" value="Sauvegarder bilan" id="save-ges" class="form-button disp-none" style="margin: 0px !important;">
                         <input type="button" value="Supprimer bilan" id="delete-ges" class="form-button disp-none" style="margin: 0px !important;">
                     </span>
-                    <div class="chart-ges disp-none" id="div-chart">
-                        <canvas id="ges-chart"></canvas>
+                    <div id="charts-main">
+                        <div class="chart-ges disp-none" id="div-chart-total">
+                            <canvas id="ges-chart-total"></canvas>
+                        </div>
+                        <div class="chart-ges disp-none" id="div-chart-rank">
+                            <canvas id="ges-chart-rank"></canvas>
+                        </div>
                     </div>
-                    <div class="chart-ges disp-none" id="div-chart-zoom">
-                        <canvas id="ges-chart-zoom"></canvas>
+                    <div id="charts-zoom" class="disp-none">
+                        <div class="chart-ges disp-none" id="div-chart-zoom">
+                            <canvas id="ges-chart-zoom"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>`
@@ -251,26 +264,57 @@ class Resultats {
             colors.push(this.colors_mode[mode]);
         })
     
-        this.chart.clear();
+        // GES total
+        this.chart_total.clear();
         this.chart_zoom.clear();
-        this.chart.data.labels = Object.keys(ges_by_mode);
-        this.chart.options = {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-        this.chart.data.datasets = [{
-            label: 'GES emissions',
-            title: "Émissions par secteur",
+        this.chart_rank.clear();
+        this.chart_total.data.labels = Object.keys(ges_by_mode);
+        this.chart_total.options.responsive = true;
+        this.chart_total.options.maintainAspectRatio = false;
+        this.chart_total.options.aspectRatio = 1;
+        this.chart_total.options.legend.position = "bottom";
+        this.chart_total.options.title.text = "Émissions totales";
+        this.chart_total.options.title.display = true;
+
+        this.chart_total.data.datasets.push({
             data: Object.values(ges_by_mode),
-            backgroundColor: colors
-        }]
-        this.chart.options =  {
-            events: ['click'],
-            onClick: (e) => this.drawGesZoom(e)
+            backgroundColor: colors,
+        })
+
+        this.chart_total.options.events = ['click'];
+        this.chart_total.options.onClick = (e) => {this.drawGesZoom(e)};
+        this.chart_total.update();
+
+        //GES rank
+        let gesDesc = this.getSortedGes();
+        if (gesDesc.length > 5) {
+            gesDesc = gesDesc.slice(0, 5);
         }
-        this.chart.update()
-        const div_chart = document.getElementById('div-chart')
-        div_chart.classList.remove('disp-none')
+        console.log(gesDesc)
+        let data = {
+            labels: gesDesc.map(a => a.name),
+            datasets: [
+                {
+                    data: gesDesc.map(a => a.value),
+                    backgroundColor: gesDesc.map(a => a.color),
+                }
+            ]
+        }
+        this.chart_rank.data = data;
+        console.log(this.chart_rank.options.scales.xAxes)
+        this.chart_rank.options.scales.xAxes[0] = { ticks: { min: 0 }, scaleLabel: { display: true, labelString: "kg eq.CO2"} };
+        this.chart_rank.options.responsive = true;
+        this.chart_rank.options.maintainAspectRatio = false;
+        this.chart_rank.options.aspectRatio = 1;
+        this.chart_rank.options.legend.display = false;
+        this.chart_rank.options.title.text = "Principales sources";
+        this.chart_rank.options.title.display = true;
+
+        // Update and set visibility
+        const div_chart_total = document.getElementById('div-chart-total')
+        div_chart_total.classList.remove('disp-none')
+        const div_chart_rank = document.getElementById('div-chart-rank')
+        div_chart_rank.classList.remove('disp-none')
         const div_charts = document.getElementById("charts-area");
         div_charts.classList.remove("disp-none")
     }
@@ -280,16 +324,16 @@ class Resultats {
      * @param {event} e Event passed by ChartJS when clicking.
      */
     drawGesZoom(e) {
-        let activePoints = this.chart.getElementsAtEvent(e);
+        let activePoints = this.chart_total.getElementsAtEvent(e);
         if (activePoints.length > 0) {
             let selectedIndex = activePoints[0]._index;
             let selectedColor = activePoints[0]._view.backgroundColor;
             console.log(activePoints[0])
-            let posteSelected = this.chart.data.labels[selectedIndex]
+            let posteSelected = this.chart_total.data.labels[selectedIndex]
             let secondDataset = this.ges[posteSelected]
 
             let secondColors = this.getSecondaryColors(selectedColor, Object.keys(secondDataset).length)
-            console.log(secondColors)
+            console.log(secondDataset)
             this.chart_zoom.clear();
             this.chart_zoom.data.labels = Object.keys(secondDataset)
             this.chart_zoom.data.datasets = [{
@@ -297,10 +341,39 @@ class Resultats {
                 data: Object.values(secondDataset),
                 backgroundColor: secondColors
             }]
+            this.chart_zoom.options.title.text = posteSelected;
+            this.chart_zoom.options.title.display = true;
+            this.chart_zoom.options.responsive = true;
+            this.chart_zoom.options.maintainAspectRatio = false;
+            this.chart_zoom.options.aspectRatio = 1;
+            this.chart_zoom.options.legend.position = "bottom";
             this.chart_zoom.update()
+            let div_container = document.getElementById('charts-zoom')
+            div_container.classList.remove('disp-none')
             let div_chart = document.getElementById('div-chart-zoom')
             div_chart.classList.remove('disp-none')
         }
+    }
+
+    /**
+     * Concat all ges items and sort them by desc order, returning object with
+     * name, value and colors keys.
+     */
+    getSortedGes() {
+        let ges = [];
+        for (let mode in this.ges) {
+            for (item in this.ges[mode]) {
+                if (item) {
+                    ges.push({
+                        name: item,
+                        value: this.ges[mode][item],
+                        color: this.colors_mode[mode]
+                    })
+                }
+            }
+        }
+        ges.sort((a, b) => (a.value > b.value) ? -1 : (a.value < b.value) ? 1 : 0);
+        return ges;
     }
 
     /**
