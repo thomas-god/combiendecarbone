@@ -8,9 +8,12 @@ const options = {
   cert: fs.readFileSync('/etc/letsencrypt/live/combiendecarbone.fr/fullchain.pem', 'utf8')
 };
 
+// Write stream for logs
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
 const app = express();
 app.use(express.static('public'));
-app.use(morgan('combined'));
+app.use(morgan('combined', { stream: accessLogStream }));
 
 app.get('/', (req, res) => {
     res.send("Hello world !");
