@@ -1,299 +1,423 @@
-function Resultats(div_id, transport, logement, alimentation, consommation) {
-    this.div_id = div_id;
-    this.transport = transport;
-    this.logement = logement;
-    this.alimentation = alimentation;
-    this.consommation = consommation;
-
-    this.ges = {};
-
-    this.initDiv()
-    this.chart = new Chart(document.getElementById('ges-chart').getContext('2d'), {
-        // The type of chart we want to create
-        type: 'pie',
-    })
-    this.chart_zoom = new Chart(document.getElementById('ges-chart-zoom').getContext('2d'), {
-        // The type of chart we want to create
-        type: 'pie',
-    })
-
-    this.colors_mode = {
-        "Transports": "#5bc0eb",
-        "Logement": "#fde74c",
-        "Alimentation": "#9bc53d",
-        "Consommation": "#e55934"
-    }
-}
-
-Resultats.prototype.initDiv = function () {
-    const parent_div = document.getElementById(this.div_id)
-    parent_div.innerHTML = (
-        `<div class="center">
-            <h2>Émissions de CO2</h2>
-            <div class="resultats-selector">
-                <input type="button" value="Calculer" id="calculer-ges" class="form-button" style="margin: 0px !important;">
-                <p><span> ou </span></p>
-                <label for="select_saved_ges">Charger un bilan</label>
-                <select id="select_saved_ges" class="form-input"></select>
-            </div>
-            <div class="charts-area disp-none" id="charts-area">
-                <h2 id="total-ges"></h2>
-                <span>
-                    <input type="button" value="Sauvegarder bilan" id="save-ges" class="form-button disp-none" style="margin: 0px !important;">
-                    <input type="button" value="Supprimer bilan" id="delete-ges" class="form-button disp-none" style="margin: 0px !important;">
-                </span>
-                <div class="chart-ges disp-none" id="div-chart">
-                    <canvas id="ges-chart"></canvas>
-                </div>
-                <div class="chart-ges disp-none" id="div-chart-zoom">
-                    <canvas id="ges-chart-zoom"></canvas>
-                </div>
-            </div>
-        </div>`
-    )
-
-    const buttonComputeGes = document.getElementById('calculer-ges');
-    buttonComputeGes.addEventListener('click', () => { this.getGes() });
-
-    this.populateSelectSavedGes();
-    const selectGes = document.getElementById("select_saved_ges");
-    selectGes.onchange = ((event) => this.callbackSelectSavedGes(event));
-
-    const buttonSaveGes = document.getElementById("save-ges");
-    buttonSaveGes.addEventListener("click", () => this.saveGes());
-
-    const buttonDeleteGes = document.getElementById("delete-ges");
-    buttonDeleteGes.addEventListener("click", () => this.deleteSavedGes());
-}
-
-Resultats.prototype.getGes = function() {
-    Promise.all([
-        this.transport.computeGES(),
-        this.logement.computeGES(),
-        this.alimentation.computeGES(),
-        this.consommation.computeGES()
-    ])
-    .then((values) => {
-        values.forEach(val => {
-            console.log(val)
-            this.ges[val.name] = val.values
-        })
-        this.drawGes();
-        this.toggleAddDelButtons("save");
-        const div_chart = document.getElementById('div-chart-zoom')
-        div_chart.classList.add('disp-none')
-    })
-
-}
-
-Resultats.prototype.toggleAddDelButtons = function(button) {
-    const buttonSave = document.getElementById("save-ges");
-    const buttonDelete = document.getElementById("delete-ges");
-    if (button === "save") {
-        buttonSave.classList.remove("disp-none");
-        buttonDelete.classList.add("disp-none");
-    } else if (button === "delete") {
-        buttonSave.classList.add("disp-none");
-        buttonDelete.classList.remove("disp-none");
-    }
-}
-
-Resultats.prototype.populateSelectSavedGes = function() {
-    // Clear select of all its children
-    const select = document.getElementById("select_saved_ges")
-    while (select.firstChild) {
-        select.removeChild(select.firstChild);
-    }
-    // Load saved ges
-    const saved_ges = this.loadSavedGes();
-
-    // First value, placeholder
-    let option = document.createElement("option");
-    option.innerText = "-- Bilans sauvegardés --";
-    option.value = -1;
-    select.appendChild(option);
-
-    // Populate select
-    for (const [i, ges] of saved_ges.entries()) {
-        let name = `${ges.date} - ${ges.ges_tot} kg eq.CO2`;
-        let option = document.createElement("option");
-        option.innerText = name;
-        option.value = i;
-        select.appendChild(option);
-    }
-}
-
-Resultats.prototype.callbackSelectSavedGes = function(event) {
-    const saved_ges = this.loadSavedGes();
-    const id = event.target.value;
-    if (id >= 0) {
-        this.ges = saved_ges[id].ges;
-        this.drawGes();
-        this.toggleAddDelButtons("delete");
-    }
-}
-
-Resultats.prototype.loadSavedGes = function() {
-    return localStorage.getItem("ges") ? JSON.parse(localStorage.getItem("ges")) : [];
-}
-
-Resultats.prototype.saveGes = function() {
-    // Get previously saved ges bilans
-    let saved_ges = this.loadSavedGes();
-
-    // Format new ges
-    const ges_total = this.getTotalGes(this.ges);
-    const date = new Date();
-
-    // Push and write to local storage only if ges_tot > 0
-    if (ges_total > 0) {
-        saved_ges.push({
-            date: date.toLocaleDateString(),
-            ges_tot: ges_total,
-            ges: this.ges
-        });
-        localStorage.setItem("ges", JSON.stringify(saved_ges));
-        this.toggleAddDelButtons("delete");
-    }
-
-    // Update content of select for saved ges
-    this.populateSelectSavedGes();
-}
-
-Resultats.prototype.deleteSavedGes = function () {
-    const id = document.getElementById("select_saved_ges").value;
-    let saved_ges = this.loadSavedGes();
-    if (id >= 0 && id < saved_ges.length) {
-        saved_ges.splice(id, 1);
-    }
-    localStorage.setItem("ges", JSON.stringify(saved_ges));
-    this.populateSelectSavedGes()
-    const div_charts = document.getElementById("charts-area");
-    div_charts.classList.add("disp-none")
-}
-
-Resultats.prototype.getTotalGes = function(ges) {
-    var ges_by_mode = {}
-    for (const mode in ges) {
-        ges_by_mode[mode] = this.reduceByMode(ges[mode])
-    }
-    return Math.round(Object.values(ges_by_mode).reduce((a, b) => a+b))
-}
-
-Resultats.prototype.reduceByMode = function(mode) {
-    if (typeof mode === "number") {
-        return mode
-    } else if (typeof mode === "object") {
-        return Object.values(mode).reduce((a, b) => a + b)
-    } else {
-        return 0
-    }
-}
-
-Resultats.prototype.drawGes = function() {
-    var ges_by_mode = {}
-    for (const mode in this.ges) {
-        ges_by_mode[mode] = this.reduceByMode(this.ges[mode])
-    }
-    const ges_total = Math.round(Object.values(ges_by_mode).reduce((a, b) => a+b))
-    const totalGES = document.getElementById("total-ges")
-    totalGES.innerHTML = `Vos émissions annuelles sont de ${ges_total} kg de CO2.`
-
-    var colors = []
-    Object.keys(ges_by_mode).forEach(mode => {
-        colors.push(this.colors_mode[mode])
-    })
-
-    this.chart.clear();
-    this.chart_zoom.clear();
-    this.chart.data.labels = Object.keys(ges_by_mode)
-    this.chart.options = {
-        responsive: true,
-        maintainAspectRatio: false
-    }
-    this.chart.data.datasets = [{
-        label: 'GES emissions',
-        title: "Émissions par secteur",
-        data: Object.values(ges_by_mode),
-        backgroundColor: colors
-    }]
-    this.chart.options =  {
-        events: ['click'],
-        onClick: (e) => {
-            var activePoints = this.chart.getElementsAtEvent(e);
-            if (activePoints.length > 0) {
-                var selectedIndex = activePoints[0]._index;
-                var selectedColor = activePoints[0]._view.backgroundColor;
-                console.log(activePoints[0])
-                var posteSelected = this.chart.data.labels[selectedIndex]
-                var secondDataset = this.ges[posteSelected]
-
-                var secondColors = this.getSecondaryColors(selectedColor, Object.keys(secondDataset).length)
-                console.log(secondColors)
-                this.chart_zoom.clear();
-                this.chart_zoom.data.labels = Object.keys(secondDataset)
-                this.chart_zoom.data.datasets = [{
-                    label: posteSelected,
-                    data: Object.values(secondDataset),
-                    backgroundColor: secondColors
-                }]
-                this.chart_zoom.update()
-                var div_chart = document.getElementById('div-chart-zoom')
-                div_chart.classList.remove('disp-none')
+/**
+ * Class that will gather GES results, draw them and manage the saved GES.
+ */
+class Resultats {
+    /**
+     * Constructor of the results class that will gather GES results, draw them and manage the saved GES.
+     * @param {string} div_id Id of the div to put the Results content into.
+     * @param {Transport} transport Transport instance.
+     * @param {Logemement} logement Logement instance.
+     * @param {Alimentation} alimentation Alimentation instance.
+     * @param {Consommation} consommation Consommation instance.
+     */
+    constructor(div_id, transport, logement, alimentation, consommation) {
+        this.div_id = div_id;
+        this.transport = transport;
+        this.logement = logement;
+        this.alimentation = alimentation;
+        this.consommation = consommation;
+    
+        this.ges = {};
+    
+        this.initDiv()
+        this.chart_total = new Chart(document.getElementById('ges-chart-total').getContext('2d'), {
+            type: 'doughnut',
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
             }
+        })
+        this.chart_rank = new Chart(document.getElementById('ges-chart-rank').getContext('2d'), {
+            type: 'horizontalBar',
+        })
+        this.chart_zoom = new Chart(document.getElementById('ges-chart-zoom').getContext('2d'), {
+            // The type of chart we want to create
+            type: 'pie',
+        })
+    
+        this.colors_mode = {
+            "Transports": "#5bc0eb",
+            "Logement": "#fde74c",
+            "Alimentation": "#9bc53d",
+            "Consommation": "#e55934"
         }
     }
-    this.chart.update()
-    const div_chart = document.getElementById('div-chart')
-    div_chart.classList.remove('disp-none')
-    const div_charts = document.getElementById("charts-area");
-    div_charts.classList.remove("disp-none")
-}
 
-Resultats.prototype.getRandomColor = function() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+    /**
+     * Populate the div with HTML elements and add buttons callbacks.
+     */
+    initDiv() {
+        const parent_div = document.getElementById(this.div_id)
+        parent_div.innerHTML = (
+            `<div class="center">
+                <h2>Émissions de CO2</h2>
+                <div class="resultats-selector">
+                    <input type="button" value="Calculer" id="calculer-ges" class="form-button" style="margin: 0px !important;">
+                    <p><span> ou </span></p>
+                    <label for="select_saved_ges">Charger un bilan</label>
+                    <select id="select_saved_ges" class="form-input"></select>
+                </div>
+                <div class="charts-area disp-none" id="charts-area">
+                    <h2 id="total-ges"></h2>
+                    <span>
+                        <input type="button" value="Sauvegarder bilan" id="save-ges" class="form-button disp-none" style="margin: 0px !important;">
+                        <input type="button" value="Supprimer bilan" id="delete-ges" class="form-button disp-none" style="margin: 0px !important;">
+                    </span>
+                    <div id="charts-main">
+                        <div class="chart-ges disp-none" id="div-chart-total">
+                            <canvas id="ges-chart-total"></canvas>
+                        </div>
+                        <div class="chart-ges disp-none" id="div-chart-rank">
+                            <canvas id="ges-chart-rank"></canvas>
+                        </div>
+                    </div>
+                    <div id="charts-zoom" class="disp-none">
+                        <div class="chart-ges disp-none" id="div-chart-zoom">
+                            <canvas id="ges-chart-zoom"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+        )
+    
+        const buttonComputeGes = document.getElementById('calculer-ges');
+        buttonComputeGes.addEventListener('click', () => { this.getGes() });
+    
+        this.populateSelectSavedGes();
+        const selectGes = document.getElementById("select_saved_ges");
+        selectGes.onchange = ((event) => this.callbackSelectSavedGes(event));
+    
+        const buttonSaveGes = document.getElementById("save-ges");
+        buttonSaveGes.addEventListener("click", () => this.saveGes());
+    
+        const buttonDeleteGes = document.getElementById("delete-ges");
+        buttonDeleteGes.addEventListener("click", () => this.deleteSavedGes());
     }
-    return color;
-}
 
-Resultats.prototype.getSecondaryColors = function(masterColor, nbColors) {
-    var secondColors = []
-/*     var n_inf = -Math.floor(nbColors/2)
-    var n_sup = Math.floor(nbColors/2) + (nbColors % 2 == 0 ? 1: 0)
-    console.log(nbColors, n_inf, n_sup)
-    for(let i = -n_inf; i <= n_sup; i++) {
-        secondColors.push(this.pSBC(i * 0.1, masterColor))
-    } */
-    for(let i = 0; i < nbColors; i++) {
-        secondColors.push(this.pSBC(- 0.25 * i, masterColor))
+    /**
+     * Compute total GES by calling computeGES() on each categories objects (transport
+     * logement, alimentation, consommation) and then call drawGes method.
+     */
+    getGes() {
+        Promise.all([
+            this.transport.computeGES(),
+            this.logement.computeGES(),
+            this.alimentation.computeGES(),
+            this.consommation.computeGES()
+        ])
+        .then((values) => {
+            values.forEach(val => {
+                console.log(val)
+                this.ges[val.name] = val.values
+            })
+            this.drawGes();
+            this.toggleAddDelButtons("save");
+            const div_chart = document.getElementById('div-chart-zoom')
+            div_chart.classList.add('disp-none')
+        })
+    
     }
-    return secondColors
-}
 
-Resultats.prototype.pSBC = function(p,c0,c1,l) {
-    let r,g,b,P,f,t,h,i=parseInt,m=Math.round,a=typeof(c1)=="string";
-    if(typeof(p)!="number"||p<-1||p>1||typeof(c0)!="string"||(c0[0]!='r'&&c0[0]!='#')||(c1&&!a))return null;
-    if(!this.pSBCr)this.pSBCr=(d)=>{
-        let n=d.length,x={};
-        if(n>9){
-            [r,g,b,a]=d=d.split(","),n=d.length;
-            if(n<3||n>4)return null;
-            x.r=i(r[3]=="a"?r.slice(5):r.slice(4)),x.g=i(g),x.b=i(b),x.a=a?parseFloat(a):-1
-        }else{
-            if(n==8||n==6||n<4)return null;
-            if(n<6)d="#"+d[1]+d[1]+d[2]+d[2]+d[3]+d[3]+(n>4?d[4]+d[4]:"");
-            d=i(d.slice(1),16);
-            if(n==9||n==5)x.r=d>>24&255,x.g=d>>16&255,x.b=d>>8&255,x.a=m((d&255)/0.255)/1000;
-            else x.r=d>>16,x.g=d>>8&255,x.b=d&255,x.a=-1
-        }return x};
-    h=c0.length>9,h=a?c1.length>9?true:c1=="c"?!h:false:h,f=this.pSBCr(c0),P=p<0,t=c1&&c1!="c"?this.pSBCr(c1):P?{r:0,g:0,b:0,a:-1}:{r:255,g:255,b:255,a:-1},p=P?p*-1:p,P=1-p;
-    if(!f||!t)return null;
-    if(l)r=m(P*f.r+p*t.r),g=m(P*f.g+p*t.g),b=m(P*f.b+p*t.b);
-    else r=m((P*f.r**2+p*t.r**2)**0.5),g=m((P*f.g**2+p*t.g**2)**0.5),b=m((P*f.b**2+p*t.b**2)**0.5);
-    a=f.a,t=t.a,f=a>=0||t>=0,a=f?a<0?t:t<0?a:a*P+t*p:0;
-    if(h)return"rgb"+(f?"a(":"(")+r+","+g+","+b+(f?","+m(a*1000)/1000:"")+")";
-    else return"#"+(4294967296+r*16777216+g*65536+b*256+(f?m(a*255):0)).toString(16).slice(1,f?undefined:-2)
+    /**
+     * Toggle display state between save and delete GES buttons.
+     * @param {string} button "save" or "delete" to to choose the button to be displayed, the other being hidden.
+     */
+    toggleAddDelButtons(button) {
+        const buttonSave = document.getElementById("save-ges");
+        const buttonDelete = document.getElementById("delete-ges");
+        if (button === "save") {
+            buttonSave.classList.remove("disp-none");
+            buttonDelete.classList.add("disp-none");
+        } else if (button === "delete") {
+            buttonSave.classList.add("disp-none");
+            buttonDelete.classList.remove("disp-none");
+        }
+    }
+
+    /**
+     * Update the options of the select object with the GES found in the localStorage.
+     */
+    populateSelectSavedGes() {
+        // Clear select of all its children
+        const select = document.getElementById("select_saved_ges")
+        while (select.firstChild) {
+            select.removeChild(select.firstChild);
+        }
+        // Load saved ges
+        const saved_ges = this.loadSavedGes();
+    
+        // First value, placeholder
+        let option = document.createElement("option");
+        option.innerText = "-- Bilans sauvegardés --";
+        option.value = -1;
+        select.appendChild(option);
+    
+        // Populate select
+        for (const [i, ges] of saved_ges.entries()) {
+            let name = `${ges.date} - ${ges.ges_tot} kg eq.CO2`;
+            let option = document.createElement("option");
+            option.innerText = name;
+            option.value = i;
+            select.appendChild(option);
+        }
+    }
+
+    /**
+     * Callback when an option is selected in the saved GES select. Call drawGes method with the new GES values.
+     * @param {event} event event passed by the eventListener.
+     */
+    callbackSelectSavedGes(event) {
+        const saved_ges = this.loadSavedGes();
+        const id = event.target.value;
+        if (id >= 0) {
+            this.ges = saved_ges[id].ges;
+            this.drawGes();
+            this.toggleAddDelButtons("delete");
+        }
+    }
+
+    /**
+     * Load the GES data saved in the localStorage and parse them.
+     */
+    loadSavedGes() {
+        return localStorage.getItem("ges") ? JSON.parse(localStorage.getItem("ges")) : [];
+    }
+
+    /**
+     * Save the current GES data in the localStorage if the total amount of GES is >0.
+     */
+    saveGes() {
+        // Format new ges
+        const ges_total = this.getTotalGes();
+        const date = new Date();
+    
+        // Push and write to local storage only if ges_tot > 0
+        if (ges_total > 0) {
+            let saved_ges = this.loadSavedGes();
+            saved_ges.push({
+                date: date.toLocaleDateString(),
+                ges_tot: ges_total,
+                ges: this.ges
+            });
+            localStorage.setItem("ges", JSON.stringify(saved_ges));
+            this.toggleAddDelButtons("delete");
+        }
+    
+        // Update content of select for saved ges
+        this.populateSelectSavedGes();
+    }
+
+    /**
+     * Delete an item from the GES saved in the localStorage.
+     */
+    deleteSavedGes () {
+        const id = document.getElementById("select_saved_ges").value;
+        let saved_ges = this.loadSavedGes();
+        if (id >= 0 && id < saved_ges.length) {
+            saved_ges.splice(id, 1);
+        }
+        localStorage.setItem("ges", JSON.stringify(saved_ges));
+        this.populateSelectSavedGes()
+        const div_charts = document.getElementById("charts-area");
+        div_charts.classList.add("disp-none")
+    }
+
+    /**
+     * Compute the total number of GES by reducing across all categories.
+     */
+    getTotalGes() {
+        var ges_by_mode = {}
+        for (const mode in this.ges) {
+            ges_by_mode[mode] = this.reduceByMode(this.ges[mode])
+        }
+        return Math.round(Object.values(ges_by_mode).reduce((a, b) => a+b))
+    }
+
+    /**
+     * Get the sum of GES for a given category.
+     * @param {Object | number} mode Category to get the total GES from
+     */
+    reduceByMode(mode) {
+        if (typeof mode === "number") {
+            return mode
+        } else if (typeof mode === "object") {
+            return Object.values(mode).reduce((a, b) => a + b)
+        } else {
+            return 0
+        }
+    }
+
+    /**
+     * Draw the main chart.
+     */
+    drawGes() {
+        var ges_by_mode = {};
+        for (const mode in this.ges) {
+            ges_by_mode[mode] = this.reduceByMode(this.ges[mode]);
+        }
+        const ges_total = this.getTotalGes();
+        const totalGES = document.getElementById("total-ges");
+        totalGES.innerHTML = `Vos émissions annuelles sont de ${ges_total} kg de CO2.`;
+    
+        var colors = [];
+        Object.keys(ges_by_mode).forEach(mode => {
+            colors.push(this.colors_mode[mode]);
+        })
+    
+        // GES total
+        this.chart_total.clear();
+        this.chart_zoom.clear();
+        this.chart_rank.clear();
+        this.chart_total.data.labels = Object.keys(ges_by_mode);
+        this.chart_total.options.responsive = true;
+        this.chart_total.options.maintainAspectRatio = false;
+        this.chart_total.options.aspectRatio = 1;
+        this.chart_total.options.legend.position = "bottom";
+        this.chart_total.options.title.text = "Émissions totales";
+        this.chart_total.options.title.display = true;
+
+        this.chart_total.data.datasets.push({
+            data: Object.values(ges_by_mode),
+            backgroundColor: colors,
+        })
+
+        this.chart_total.options.events = ['click'];
+        this.chart_total.options.onClick = (e) => {this.drawGesZoom(e)};
+        this.chart_total.update();
+
+        //GES rank
+        let gesDesc = this.getSortedGes();
+        if (gesDesc.length > 5) {
+            gesDesc = gesDesc.slice(0, 5);
+        }
+        console.log(gesDesc)
+        let data = {
+            labels: gesDesc.map(a => a.name),
+            datasets: [
+                {
+                    data: gesDesc.map(a => a.value),
+                    backgroundColor: gesDesc.map(a => a.color),
+                }
+            ]
+        }
+        this.chart_rank.data = data;
+        console.log(this.chart_rank.options.scales.xAxes)
+        this.chart_rank.options.scales.xAxes[0] = { ticks: { min: 0 }, scaleLabel: { display: true, labelString: "kg eq.CO2"} };
+        this.chart_rank.options.responsive = true;
+        this.chart_rank.options.maintainAspectRatio = false;
+        this.chart_rank.options.aspectRatio = 1;
+        this.chart_rank.options.legend.display = false;
+        this.chart_rank.options.title.text = "Principales sources";
+        this.chart_rank.options.title.display = true;
+
+        // Update and set visibility
+        const div_chart_total = document.getElementById('div-chart-total')
+        div_chart_total.classList.remove('disp-none')
+        const div_chart_rank = document.getElementById('div-chart-rank')
+        div_chart_rank.classList.remove('disp-none')
+        const div_charts = document.getElementById("charts-area");
+        div_charts.classList.remove("disp-none")
+    }
+
+    /**
+     * Draw on the secondary chart.
+     * @param {event} e Event passed by ChartJS when clicking.
+     */
+    drawGesZoom(e) {
+        let activePoints = this.chart_total.getElementsAtEvent(e);
+        if (activePoints.length > 0) {
+            let selectedIndex = activePoints[0]._index;
+            let selectedColor = activePoints[0]._view.backgroundColor;
+            console.log(activePoints[0])
+            let posteSelected = this.chart_total.data.labels[selectedIndex]
+            let secondDataset = this.ges[posteSelected]
+
+            let secondColors = this.getSecondaryColors(selectedColor, Object.keys(secondDataset).length)
+            console.log(secondDataset)
+            this.chart_zoom.clear();
+            this.chart_zoom.data.labels = Object.keys(secondDataset)
+            this.chart_zoom.data.datasets = [{
+                label: posteSelected,
+                data: Object.values(secondDataset),
+                backgroundColor: secondColors
+            }]
+            this.chart_zoom.options.title.text = posteSelected;
+            this.chart_zoom.options.title.display = true;
+            this.chart_zoom.options.responsive = true;
+            this.chart_zoom.options.maintainAspectRatio = false;
+            this.chart_zoom.options.aspectRatio = 1;
+            this.chart_zoom.options.legend.position = "bottom";
+            this.chart_zoom.update()
+            let div_container = document.getElementById('charts-zoom')
+            div_container.classList.remove('disp-none')
+            let div_chart = document.getElementById('div-chart-zoom')
+            div_chart.classList.remove('disp-none')
+        }
+    }
+
+    /**
+     * Concat all ges items and sort them by desc order, returning object with
+     * name, value and colors keys.
+     */
+    getSortedGes() {
+        let ges = [];
+        for (let mode in this.ges) {
+            for (item in this.ges[mode]) {
+                if (item) {
+                    ges.push({
+                        name: item,
+                        value: this.ges[mode][item],
+                        color: this.colors_mode[mode]
+                    })
+                }
+            }
+        }
+        ges.sort((a, b) => (a.value > b.value) ? -1 : (a.value < b.value) ? 1 : 0);
+        return ges;
+    }
+
+    /**
+     * Generate colors from a master color by shading and lighting it.
+     * @param {string} masterColor Master color (rgb or hex representation) to get secondary colors from.
+     * @param {number} nbColors Number of colors to generate (including the master color).
+     */
+    getSecondaryColors(masterColor, nbColors) {
+        var secondColors = []
+        for(let i = 0; i < nbColors; i++) {
+            secondColors.push(this.pSBC(- 0.25 * i, masterColor))
+        }
+        return secondColors
+    }
+
+    /**
+     * https://github.com/PimpTrizkit/PJs/wiki/12.-Shade,-Blend-and-Convert-a-Web-Color-(pSBC.js)#stackoverflow-archive-begin
+     * @param {*} p 
+     * @param {*} c0 
+     * @param {*} c1 
+     * @param {*} l 
+     */
+    pSBC(p,c0,c1,l) {
+        let r,g,b,P,f,t,h,i=parseInt,m=Math.round,a=typeof(c1)=="string";
+        if(typeof(p)!="number"||p<-1||p>1||typeof(c0)!="string"||(c0[0]!='r'&&c0[0]!='#')||(c1&&!a))return null;
+        if(!this.pSBCr)this.pSBCr=(d)=>{
+            let n=d.length,x={};
+            if(n>9){
+                [r,g,b,a]=d=d.split(","),n=d.length;
+                if(n<3||n>4)return null;
+                x.r=i(r[3]=="a"?r.slice(5):r.slice(4)),x.g=i(g),x.b=i(b),x.a=a?parseFloat(a):-1
+            }else{
+                if(n==8||n==6||n<4)return null;
+                if(n<6)d="#"+d[1]+d[1]+d[2]+d[2]+d[3]+d[3]+(n>4?d[4]+d[4]:"");
+                d=i(d.slice(1),16);
+                if(n==9||n==5)x.r=d>>24&255,x.g=d>>16&255,x.b=d>>8&255,x.a=m((d&255)/0.255)/1000;
+                else x.r=d>>16,x.g=d>>8&255,x.b=d&255,x.a=-1
+            }return x};
+        h=c0.length>9,h=a?c1.length>9?true:c1=="c"?!h:false:h,f=this.pSBCr(c0),P=p<0,t=c1&&c1!="c"?this.pSBCr(c1):P?{r:0,g:0,b:0,a:-1}:{r:255,g:255,b:255,a:-1},p=P?p*-1:p,P=1-p;
+        if(!f||!t)return null;
+        if(l)r=m(P*f.r+p*t.r),g=m(P*f.g+p*t.g),b=m(P*f.b+p*t.b);
+        else r=m((P*f.r**2+p*t.r**2)**0.5),g=m((P*f.g**2+p*t.g**2)**0.5),b=m((P*f.b**2+p*t.b**2)**0.5);
+        a=f.a,t=t.a,f=a>=0||t>=0,a=f?a<0?t:t<0?a:a*P+t*p:0;
+        if(h)return"rgb"+(f?"a(":"(")+r+","+g+","+b+(f?","+m(a*1000)/1000:"")+")";
+        else return"#"+(4294967296+r*16777216+g*65536+b*256+(f?m(a*255):0)).toString(16).slice(1,f?undefined:-2)
+    }
 }
