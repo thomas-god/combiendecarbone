@@ -1,4 +1,4 @@
-body * {
+/* body * {
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
@@ -54,4 +54,4 @@ input[type="button"]::-moz-focus-inner {
   flex-grow: 1;
   border-bottom: 1px solid rgb(124, 124, 124);
   margin: 25px;
-}
+} */
