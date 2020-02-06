@@ -35,7 +35,7 @@ function Transport(div_id) {
 Transport.prototype.initDiv = function () {
     const parent_div = document.getElementById(this.div_id)
     parent_div.innerHTML = (
-        `<h2> Vos habitudes de transport</h2>
+        `
         <h3>Semaine type</h3>
         <p>Quels sont les trajets que vous effectuez chaque semaine ?</p>
         <ul> 

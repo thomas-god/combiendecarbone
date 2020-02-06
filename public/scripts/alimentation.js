@@ -8,7 +8,6 @@ function Alimentation (div_id) {
 Alimentation.prototype.initDiv = function () {
     const div = document.getElementById(this.div_id)
     div.innerHTML = `
-    <h2> Vos habitudes alimentaires</h2>
     <p>On considère trois régimes alimentaires: le régime omnivore (repas moyen en France), le régime fléxitarien qui limite les produits d'origine animale, et le régime végétarien qui est dépourvu de produits d'origine animale. Construisez votre régime personnel en distribuant les 14 repas de la semaine parmis les trois régimes proposés.</p>
     <span id="repas-total" class="repas-form">
         <label>Repas restants</label>

@@ -16,10 +16,17 @@
 }
 .form-main h2 {
     font-size: 1.3rem;
+    color: #525252;
 }
 
 .form-main h3 {
     font-size: 1.1rem;
+    border: 1px solid gray;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+    margin: 0;
+    background-color: rgb(129, 207, 255);
 }
 
 .form-main p, .form-main li {
