@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Combiendecarbone.fr</title>
     <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-hH8Oe7r8Uu5n51O2E-r0962S94JB-eM&libraries=places"></script>
@@ -26,7 +27,12 @@
     <link rel="stylesheet" href="styles/methodologie.css">
     <link rel="stylesheet" href="styles/resultats.css">
     <link rel="stylesheet" href="styles/misc.css">
+    <link rel="stylesheet" href="styles/forms.css">
     <link rel="icon" href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/microsoft/209/leaf-fluttering-in-wind_1f343.png">
+
+    <style>
+        body {font-family: Arial, Helvetica, sans-serif;}
+    </style>
 </head>
 
 <body>
@@ -48,14 +54,14 @@
             <input type="button" id="header-next" value=">" onclick="toggleHeader()"></nav>
 
         <div id="content-form">
-            <div id="form-accueil" class="main-form-content">
+            <div id="form-accueil" class="form-main">
                 <h2>🍃 Estimez votre empreinte carbone ! 🍃</h2>
                 <p>Si de plus en plus de personnes souhaitent modifier leurs habitudes de consommation pour faire face au changement climatique, il n'est pas facile de savoir par où commencer tant le problème est complexe. Comme presque toutes nos activités sont émettrices de gaz à effet de serre on ne sait pas toujours si un changement dans nos habitudes aura vraiment un impact et si on ne devrait pas mieux concentrer nos efforts sur autre chose.</p>
                 <p>Ce questionnaire va vous permettre d'estimer votre empreinte carbone annuelle en fonction de 4 catégories: le transport, le logement, l'alimentation et vos habitudes de consommation. Pour chaque catégorie vous saurez quel poste émet le plus : le vol Paris/New-York de vos dernières vacances ou le fait que vous alliez travailler tous les jours en voiture ?</p>
                 <p>En vous permettant d'identifier vos principaux postes d'émissions de gaz à effet de serre nous espérons que ce calculateur vous permettra de plus facilement choisir par quelle habitudes commencer !</p>
                 <p>Pour toute question concernant nos calculs vous pouvez consulter notre page <em>Méthodologie</em>.</p>
             </div>
-            <div id="form-transport" class="main-form-content"></div>
+            <div id="form-transport" class="form-main"></div>
             <div id="form-logement" class="main-form-content"></div>
             <div id="form-alimentation" class="main-form-content"></div>
             <div id="form-consommation" class="main-form-content"></div>
@@ -360,36 +366,7 @@
             div_methodo.classList.remove("disp-none")
             button_methodo.classList.add("menu-item-current")
         }
-    }
-
-    function toggleMode() {
-        var modes = [
-            "header-accueil",
-            "header-transport",
-            "header-logement",
-            "header-alimentation",
-            "header-consommation",
-            "header-resultats"
-        ]
-        modes.forEach((value) => {
-            mode = value.split("-")[1]
-            let mode_button = document.getElementById(value)
-            let form_mode = document.getElementById("form-" + mode)
-            let methodo_mode = document.getElementById("methodologie-" + mode)
-            if(value === event.target.id) {
-                mode_button.classList.add("header-active")
-                form_mode.classList.remove("disp-none")
-                methodo_mode.classList.remove("disp-none")
-            } else {
-                mode_button.classList.remove("header-active")
-                form_mode.classList.add("disp-none")
-                methodo_mode.classList.add("disp-none")
-            }
-        })
-    }
-
-    
-    
+    }    
     </script>
 
 </html>

@@ -5,3 +5,8 @@
 .hidden {
     visibility: hidden;
 }
+body * {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}

@@ -1,0 +1,116 @@
+/*
+* FORM MAIN
+*/
+.form-main {
+    background: rgb(255, 255, 255);
+    padding: 15px;
+    font-size: calc(1rem + 0.7vw);
+    text-align: justify;
+}
+.form-main h2{
+    font-size: calc(1rem + 2vw);
+}
+.form-main h3{
+    font-size: calc(1rem + 1vw);
+}
+.form-main p, .form-main li{
+    font-size: calc(1rem + 0.5vw);
+}
+
+/*
+* FORM INPUT
+*/
+.form-input {
+    box-sizing: border-box;
+    padding: 0.5em 0.7em;
+    font-size: 0.9em;
+    font-family: Arial, Helvetica, sans-serif;
+  
+    outline: none;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+input[type="number"].form-input::-webkit-inner-spin-button,
+input[type="number"].form-input::-webkit-outer-spin-button {
+    margin: 0;
+}
+input[type="number"].form-input {
+    text-align: center;
+    -moz-appearance: textfield;
+    max-width: 50px;
+    margin-left: 15px;
+}
+input[type="checkbox"].form-input {
+    -moz-appearance: checkbox;
+    -webkit-appearance: checkbox;
+    appearance: checkbox;
+}
+
+/*
+* FORM TRANSPORTS
+*/
+.form-transport-container {
+/*     display: flex;
+    flex-flow: column nowrap; */
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.form-transport-item {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-auto-rows: auto;
+    gap: 10px;
+    align-items: center;
+
+    margin: 15px;
+    min-width: 0;
+    border: 1px solid rgba(0, 0, 0, 0.288);
+    background-color: rgb(245, 244, 244);
+    border-radius: 4px;
+    padding: 15px;
+    box-shadow: 4px 4px #cecece;
+}
+.form-transport-item * {
+    min-width: 0;
+}
+
+.form-transport-item:hover { border: 2px solid rgba(0, 0, 0, 0.288); padding: 14px; }
+
+.form-transport-item-mode {  
+    grid-column: 1;
+    grid-row: 1;
+    font-weight: 600;
+}
+.form-transport-item-depart { grid-column: 1 / 3; grid-row: 2; }
+.form-transport-item-arrivee { grid-column: 1 / 3; grid-row: 3; }
+.form-transport-item-AR { grid-column: 1/3; grid-row: 4; }
+.form-transport-item-frequence {
+    grid-column: 1/3;
+    grid-row: 5;
+    display: flex;
+    align-items: center;
+}
+.form-transport-item-passagers { 
+    grid-column: 1/3; 
+    grid-row: 6;
+    display: flex;
+    align-items: center;
+}
+
+.form-transport-item-delete {
+    grid-column: 2;
+    grid-row: 1;
+    background-color: rgba(211, 79, 79, 0.897);
+    padding: 10px;
+    font-size: 0.8em;
+    color: black;
+    font-style: italic;
+}
+
+.form-transport-add {
+    margin: auto !important;
+    display: block;
+}
