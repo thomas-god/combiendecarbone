@@ -16,32 +16,37 @@
     <script type="text/javascript" src="scripts/alimentation.js"></script>
     <script type="text/javascript" src="scripts/consommation.js"></script>
     <script type="text/javascript" src="scripts/resultats.js"></script>
+    <script type="text/javascript" src="scripts/header.js"></script>
     <link rel="stylesheet" href="styles/transports.css">
     <link rel="stylesheet" href="styles/logement.css">
     <link rel="stylesheet" href="styles/alimentation.css">
     <link rel="stylesheet" href="styles/consommation.css">
     <link rel="stylesheet" href="styles/header.css">
-    <link rel="stylesheet" href="styles/header-modes.css">
+    <link rel="stylesheet" href="styles/navbar.css">
     <link rel="stylesheet" href="styles/methodologie.css">
     <link rel="stylesheet" href="styles/resultats.css">
+    <link rel="stylesheet" href="styles/misc.css">
     <link rel="icon" href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/microsoft/209/leaf-fluttering-in-wind_1f343.png">
 </head>
 
 <body>
-    <header>
+    <header class="disp-none">
         <p class="logo">CO2</p>
         <button class="menu-item" id="nav-form" onclick="toggleNav()">Calculateur</button>
         <button class="menu-item" id="nav-methodologie" onclick="toggleNav()">Méthodologie</button>
     </header>
+
     <section class="main-form">
-        <div class="header-modes">
-            <input type="button" id="header-modes-accueil" value="Accueil" onclick="toggleMode()">
-            <input type="button" id="header-modes-transport" value="Transports" onclick="toggleMode()">
-            <input type="button" id="header-modes-logement" value="Logement" onclick="toggleMode()">
-            <input type="button" id="header-modes-alimentation" value="Alimentation" onclick="toggleMode()">
-            <input type="button" id="header-modes-consommation" value="Consommation" onclick="toggleMode()">
-            <input type="button" id="header-modes-resultats" value="Résultats" onclick="toggleMode()">
-        </div>
+        <nav class="header">
+            <input type="button" id="header-previous" value="<" onclick="toggleHeader()">
+            <input type="button" id="header-accueil" value="Accueil" onclick="toggleHeader()">
+            <input type="button" id="header-transport" value="Transports" onclick="toggleHeader()">
+            <input type="button" id="header-logement" value="Logement" onclick="toggleHeader()">
+            <input type="button" id="header-alimentation" value="Alimentation" onclick="toggleHeader()">
+            <input type="button" id="header-consommation" value="Consommation" onclick="toggleHeader()">
+            <input type="button" id="header-resultats" value="Résultats" onclick="toggleHeader()">
+            <input type="button" id="header-next" value=">" onclick="toggleHeader()"></nav>
+
         <div id="content-form">
             <div id="form-accueil" class="main-form-content">
                 <h2>🍃 Estimez votre empreinte carbone ! 🍃</h2>
@@ -335,8 +340,9 @@
 
     const button_nav = document.getElementById("nav-form")
     button_nav.click()
-    const button_mode = document.getElementById("header-modes-accueil")
+    const button_mode = document.getElementById("header-accueil")
     button_mode.click()
+
 
     function toggleNav() {
         const div_form = document.getElementById("content-form")
@@ -358,29 +364,32 @@
 
     function toggleMode() {
         var modes = [
-            "header-modes-accueil",
-            "header-modes-transport",
-            "header-modes-logement",
-            "header-modes-alimentation",
-            "header-modes-consommation",
-            "header-modes-resultats"
+            "header-accueil",
+            "header-transport",
+            "header-logement",
+            "header-alimentation",
+            "header-consommation",
+            "header-resultats"
         ]
         modes.forEach((value) => {
-            mode = value.split("-")[2]
+            mode = value.split("-")[1]
             let mode_button = document.getElementById(value)
             let form_mode = document.getElementById("form-" + mode)
             let methodo_mode = document.getElementById("methodologie-" + mode)
             if(value === event.target.id) {
-                mode_button.classList.add("header-modes-active")
+                mode_button.classList.add("header-active")
                 form_mode.classList.remove("disp-none")
                 methodo_mode.classList.remove("disp-none")
             } else {
-                mode_button.classList.remove("header-modes-active")
+                mode_button.classList.remove("header-active")
                 form_mode.classList.add("disp-none")
                 methodo_mode.classList.add("disp-none")
             }
         })
     }
-</script>
+
+    
+    
+    </script>
 
 </html>
