@@ -67,6 +67,18 @@ input[type="checkbox"].form-input {
 }
 
 /*
+* FORM BUTTON
+*/
+.form-button {
+    font-size: 0.9em;
+    border: 1.5px solid #00000091;
+    border-radius: 2px;
+    outline: none;
+    padding: 7px;
+    margin-left: 2em;
+}
+
+/*
 * FORM TRANSPORTS
 */
 
