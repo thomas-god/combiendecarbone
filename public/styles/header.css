@@ -5,6 +5,10 @@
     justify-content: space-evenly;
     background-color: #79D059;
     margin: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
 }
 
 .header input[type="button"] {
