@@ -58,10 +58,8 @@ function renderHeader() {
     header_buttons.forEach(header => {
         let button = document.getElementById(header);
         if (header === header_active) {
-            button.classList.remove("disp-none");
             button.classList.add("header-active");
         } else {
-            button.classList.add("disp-none");
             button.classList.remove("header-active");
         }
     })

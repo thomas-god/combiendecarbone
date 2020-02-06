@@ -6,18 +6,26 @@
     background: rgb(255, 255, 255);
     padding: 15px;
     text-align: justify;
+    width: 100%;
+    box-sizing: border-box;
 }
-
+@media screen and (min-width: 700px) {
+    .form-main {
+        max-width: 700px;
+    }
+}
 .form-main h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
 }
 
 .form-main h3 {
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
 .form-main p, .form-main li {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    line-height: 1.4rem;
+    color: #414141;
 }
 
 /*
@@ -129,10 +137,17 @@ input[type="checkbox"].form-input {
     padding: 10px;
     font-size: 0.8em;
     color: black;
-    font-style: italic;
 }
 
 .form-transport-add {
     margin: auto !important;
     display: block;
 }
+
+.form-transport-item label{
+    font-size: 0.88rem;
+}
+
+/*
+* FORM ALIMENTATION
+*/
