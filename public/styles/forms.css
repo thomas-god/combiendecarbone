@@ -17,6 +17,7 @@
 .form-main h2 {
     font-size: 1.3rem;
     color: #525252;
+    padding: 5px;
 }
 
 .form-main h3 {
@@ -32,6 +33,7 @@
 .form-main p, .form-main li {
     font-size: 0.95rem;
     line-height: 1.4rem;
+    padding: 0px 20px;
     color: #414141;
 }
 
@@ -159,7 +161,7 @@ input[type="checkbox"].form-input {
 }
 
 .form-transport-add {
-    margin: auto !important;
+    margin: 10px auto 15px !important;
     display: block;
 }
 

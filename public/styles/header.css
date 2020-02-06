@@ -33,8 +33,9 @@
         font-size: 0.9rem;
     }
     .header-nav-button {
-        margin: 0 15px;
+        margin: 5px 15px;
         font-size: 2rem;
+        padding: 15px !important;
     }
 }
 
