@@ -16,13 +16,13 @@ class Resultats {
         this.logement = logement;
         this.alimentation = alimentation;
         this.consommation = consommation;
-    
+
         this.ges = {};
-    
+
         this.initDiv()
         this.chart_total = new Chart(document.getElementById('ges-chart-total').getContext('2d'), {
             type: 'doughnut',
-            options: {
+            options: {
                 responsive: true,
                 maintainAspectRatio: false,
             }
@@ -34,7 +34,7 @@ class Resultats {
             // The type of chart we want to create
             type: 'pie',
         })
-    
+
         this.colors_mode = {
             "Transports": "#5bc0eb",
             "Logement": "#fde74c",
@@ -50,7 +50,7 @@ class Resultats {
         const parent_div = document.getElementById(this.div_id)
         parent_div.innerHTML = (
             `<div class="center">
-                <h2>Émissions de CO2</h2>
+                <h3>Vos émissions de CO2</h3>
                 <div class="resultats-selector">
                     <input type="button" value="Calculer" id="calculer-ges" class="form-button" style="margin: 0px !important;">
                     <p><span> ou </span></p>
@@ -79,17 +79,17 @@ class Resultats {
                 </div>
             </div>`
         )
-    
+
         const buttonComputeGes = document.getElementById('calculer-ges');
         buttonComputeGes.addEventListener('click', () => { this.getGes() });
-    
+
         this.populateSelectSavedGes();
         const selectGes = document.getElementById("select_saved_ges");
         selectGes.onchange = ((event) => this.callbackSelectSavedGes(event));
-    
+
         const buttonSaveGes = document.getElementById("save-ges");
         buttonSaveGes.addEventListener("click", () => this.saveGes());
-    
+
         const buttonDeleteGes = document.getElementById("delete-ges");
         buttonDeleteGes.addEventListener("click", () => this.deleteSavedGes());
     }
@@ -105,17 +105,19 @@ class Resultats {
             this.alimentation.computeGES(),
             this.consommation.computeGES()
         ])
-        .then((values) => {
-            values.forEach(val => {
-                console.log(val)
-                this.ges[val.name] = val.values
+            .then((values) => {
+                values.forEach(val => {
+                    console.log(val)
+                    this.ges[val.name] = val.values
+                })
+                this.drawGes();
+                this.toggleAddDelButtons("save");
+                const div_chart = document.getElementById('div-chart-zoom')
+                div_chart.classList.add('disp-none')
+                const select = document.getElementById("select_saved_ges");
+                select.value = -1;
             })
-            this.drawGes();
-            this.toggleAddDelButtons("save");
-            const div_chart = document.getElementById('div-chart-zoom')
-            div_chart.classList.add('disp-none')
-        })
-    
+
     }
 
     /**
@@ -145,13 +147,13 @@ class Resultats {
         }
         // Load saved ges
         const saved_ges = this.loadSavedGes();
-    
+
         // First value, placeholder
         let option = document.createElement("option");
         option.innerText = "-- Bilans sauvegardés --";
         option.value = -1;
         select.appendChild(option);
-    
+
         // Populate select
         for (const [i, ges] of saved_ges.entries()) {
             let name = `${ges.date} - ${ges.ges_tot} kg eq.CO2`;
@@ -167,9 +169,9 @@ class Resultats {
      * @param {event} event event passed by the eventListener.
      */
     callbackSelectSavedGes(event) {
-        const saved_ges = this.loadSavedGes();
         const id = event.target.value;
         if (id >= 0) {
+            const saved_ges = this.loadSavedGes();
             this.ges = saved_ges[id].ges;
             this.drawGes();
             this.toggleAddDelButtons("delete");
@@ -190,7 +192,7 @@ class Resultats {
         // Format new ges
         const ges_total = this.getTotalGes();
         const date = new Date();
-    
+
         // Push and write to local storage only if ges_tot > 0
         if (ges_total > 0) {
             let saved_ges = this.loadSavedGes();
@@ -202,7 +204,7 @@ class Resultats {
             localStorage.setItem("ges", JSON.stringify(saved_ges));
             this.toggleAddDelButtons("delete");
         }
-    
+
         // Update content of select for saved ges
         this.populateSelectSavedGes();
     }
@@ -210,7 +212,7 @@ class Resultats {
     /**
      * Delete an item from the GES saved in the localStorage.
      */
-    deleteSavedGes () {
+    deleteSavedGes() {
         const id = document.getElementById("select_saved_ges").value;
         let saved_ges = this.loadSavedGes();
         if (id >= 0 && id < saved_ges.length) {
@@ -230,7 +232,7 @@ class Resultats {
         for (const mode in this.ges) {
             ges_by_mode[mode] = this.reduceByMode(this.ges[mode])
         }
-        return Math.round(Object.values(ges_by_mode).reduce((a, b) => a+b))
+        return Math.round(Object.values(ges_by_mode).reduce((a, b) => a + b))
     }
 
     /**
@@ -251,23 +253,24 @@ class Resultats {
      * Draw the main chart.
      */
     drawGes() {
+        this.chart_total.clear();
+        this.chart_rank.clear();
+        this.chart_zoom.clear();
+
         var ges_by_mode = {};
         for (const mode in this.ges) {
             ges_by_mode[mode] = this.reduceByMode(this.ges[mode]);
         }
         const ges_total = this.getTotalGes();
         const totalGES = document.getElementById("total-ges");
-        totalGES.innerHTML = `Vos émissions annuelles sont de ${ges_total} kg de CO2.`;
-    
+        totalGES.innerHTML = `Vos émissions annuelles sont de ${ges_total} kg eq.CO2.`;
+
         var colors = [];
         Object.keys(ges_by_mode).forEach(mode => {
             colors.push(this.colors_mode[mode]);
         })
-    
+
         // GES total
-        this.chart_total.clear();
-        this.chart_zoom.clear();
-        this.chart_rank.clear();
         this.chart_total.data.labels = Object.keys(ges_by_mode);
         this.chart_total.options.responsive = true;
         this.chart_total.options.maintainAspectRatio = false;
@@ -276,13 +279,13 @@ class Resultats {
         this.chart_total.options.title.text = "Émissions totales";
         this.chart_total.options.title.display = true;
 
-        this.chart_total.data.datasets.push({
+        this.chart_total.data.datasets = [{
             data: Object.values(ges_by_mode),
             backgroundColor: colors,
-        })
+        }];
 
         this.chart_total.options.events = ['click'];
-        this.chart_total.options.onClick = (e) => {this.drawGesZoom(e)};
+        this.chart_total.options.onClick = (e) => { this.drawGesZoom(e) };
         this.chart_total.update();
 
         //GES rank
@@ -301,14 +304,16 @@ class Resultats {
             ]
         }
         this.chart_rank.data = data;
-        console.log(this.chart_rank.options.scales.xAxes)
-        this.chart_rank.options.scales.xAxes[0] = { ticks: { min: 0 }, scaleLabel: { display: true, labelString: "kg eq.CO2"} };
+        this.chart_rank.options.scales.xAxes[0] = { ticks: { min: 0 }, scaleLabel: { display: true, labelString: "kg eq.CO2" } };
+        this.chart_rank.options.scales.yAxes[0] = { ticks: { maxRotation: 35, minRotation: 35 } };
+
         this.chart_rank.options.responsive = true;
         this.chart_rank.options.maintainAspectRatio = false;
         this.chart_rank.options.aspectRatio = 1;
         this.chart_rank.options.legend.display = false;
         this.chart_rank.options.title.text = "Principales sources";
         this.chart_rank.options.title.display = true;
+        this.chart_rank.update();
 
         // Update and set visibility
         const div_chart_total = document.getElementById('div-chart-total')
@@ -383,7 +388,7 @@ class Resultats {
      */
     getSecondaryColors(masterColor, nbColors) {
         var secondColors = []
-        for(let i = 0; i < nbColors; i++) {
+        for (let i = 0; i < nbColors; i++) {
             secondColors.push(this.pSBC(- 0.25 * i, masterColor))
         }
         return secondColors
@@ -396,28 +401,29 @@ class Resultats {
      * @param {*} c1 
      * @param {*} l 
      */
-    pSBC(p,c0,c1,l) {
-        let r,g,b,P,f,t,h,i=parseInt,m=Math.round,a=typeof(c1)=="string";
-        if(typeof(p)!="number"||p<-1||p>1||typeof(c0)!="string"||(c0[0]!='r'&&c0[0]!='#')||(c1&&!a))return null;
-        if(!this.pSBCr)this.pSBCr=(d)=>{
-            let n=d.length,x={};
-            if(n>9){
-                [r,g,b,a]=d=d.split(","),n=d.length;
-                if(n<3||n>4)return null;
-                x.r=i(r[3]=="a"?r.slice(5):r.slice(4)),x.g=i(g),x.b=i(b),x.a=a?parseFloat(a):-1
-            }else{
-                if(n==8||n==6||n<4)return null;
-                if(n<6)d="#"+d[1]+d[1]+d[2]+d[2]+d[3]+d[3]+(n>4?d[4]+d[4]:"");
-                d=i(d.slice(1),16);
-                if(n==9||n==5)x.r=d>>24&255,x.g=d>>16&255,x.b=d>>8&255,x.a=m((d&255)/0.255)/1000;
-                else x.r=d>>16,x.g=d>>8&255,x.b=d&255,x.a=-1
-            }return x};
-        h=c0.length>9,h=a?c1.length>9?true:c1=="c"?!h:false:h,f=this.pSBCr(c0),P=p<0,t=c1&&c1!="c"?this.pSBCr(c1):P?{r:0,g:0,b:0,a:-1}:{r:255,g:255,b:255,a:-1},p=P?p*-1:p,P=1-p;
-        if(!f||!t)return null;
-        if(l)r=m(P*f.r+p*t.r),g=m(P*f.g+p*t.g),b=m(P*f.b+p*t.b);
-        else r=m((P*f.r**2+p*t.r**2)**0.5),g=m((P*f.g**2+p*t.g**2)**0.5),b=m((P*f.b**2+p*t.b**2)**0.5);
-        a=f.a,t=t.a,f=a>=0||t>=0,a=f?a<0?t:t<0?a:a*P+t*p:0;
-        if(h)return"rgb"+(f?"a(":"(")+r+","+g+","+b+(f?","+m(a*1000)/1000:"")+")";
-        else return"#"+(4294967296+r*16777216+g*65536+b*256+(f?m(a*255):0)).toString(16).slice(1,f?undefined:-2)
+    pSBC(p, c0, c1, l) {
+        let r, g, b, P, f, t, h, i = parseInt, m = Math.round, a = typeof (c1) == "string";
+        if (typeof (p) != "number" || p < -1 || p > 1 || typeof (c0) != "string" || (c0[0] != 'r' && c0[0] != '#') || (c1 && !a)) return null;
+        if (!this.pSBCr) this.pSBCr = (d) => {
+            let n = d.length, x = {};
+            if (n > 9) {
+                [r, g, b, a] = d = d.split(","), n = d.length;
+                if (n < 3 || n > 4) return null;
+                x.r = i(r[3] == "a" ? r.slice(5) : r.slice(4)), x.g = i(g), x.b = i(b), x.a = a ? parseFloat(a) : -1
+            } else {
+                if (n == 8 || n == 6 || n < 4) return null;
+                if (n < 6) d = "#" + d[1] + d[1] + d[2] + d[2] + d[3] + d[3] + (n > 4 ? d[4] + d[4] : "");
+                d = i(d.slice(1), 16);
+                if (n == 9 || n == 5) x.r = d >> 24 & 255, x.g = d >> 16 & 255, x.b = d >> 8 & 255, x.a = m((d & 255) / 0.255) / 1000;
+                else x.r = d >> 16, x.g = d >> 8 & 255, x.b = d & 255, x.a = -1
+            } return x
+        };
+        h = c0.length > 9, h = a ? c1.length > 9 ? true : c1 == "c" ? !h : false : h, f = this.pSBCr(c0), P = p < 0, t = c1 && c1 != "c" ? this.pSBCr(c1) : P ? { r: 0, g: 0, b: 0, a: -1 } : { r: 255, g: 255, b: 255, a: -1 }, p = P ? p * -1 : p, P = 1 - p;
+        if (!f || !t) return null;
+        if (l) r = m(P * f.r + p * t.r), g = m(P * f.g + p * t.g), b = m(P * f.b + p * t.b);
+        else r = m((P * f.r ** 2 + p * t.r ** 2) ** 0.5), g = m((P * f.g ** 2 + p * t.g ** 2) ** 0.5), b = m((P * f.b ** 2 + p * t.b ** 2) ** 0.5);
+        a = f.a, t = t.a, f = a >= 0 || t >= 0, a = f ? a < 0 ? t : t < 0 ? a : a * P + t * p : 0;
+        if (h) return "rgb" + (f ? "a(" : "(") + r + "," + g + "," + b + (f ? "," + m(a * 1000) / 1000 : "") + ")";
+        else return "#" + (4294967296 + r * 16777216 + g * 65536 + b * 256 + (f ? m(a * 255) : 0)).toString(16).slice(1, f ? undefined : -2)
     }
 }

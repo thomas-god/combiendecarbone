@@ -1,0 +1,332 @@
+/*
+* FORM MAIN
+*/
+
+.form-main {
+    background: rgb(255, 255, 255);
+    padding: 15px;
+    text-align: justify;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media screen and (min-width: 750px) {
+    .form-main {
+        max-width: 750px;
+    }
+}
+
+.form-main h2 {
+    font-size: 1.3rem;
+    color: #525252;
+    padding: 5px;
+    text-align: left;
+}
+
+.form-main h3 {
+    font-size: 1.35rem;
+    color: rgb(98, 98, 98);
+    padding: 5px;
+    border-bottom: 1px solid rgb(98, 98, 98);
+    padding-bottom: 10px;
+    margin: 0px 2rem;
+    padding: 5px 5px 5px 10px;
+    text-align: left;
+}
+
+.form-main p {
+    padding: 0px 20px;
+}
+
+.form-main p, .form-main li {
+    font-size: 1rem;
+    line-height: 1.4rem;
+    color: #414141;
+    margin-bottom: 5px;
+}
+
+.form-main p+ul {
+    margin-top: 0px;
+}
+
+.form-main ul+h3 {
+    margin-top: 7px;
+}
+
+.form-main label {
+    padding-left: 20px;
+    display: inline-block;
+}
+
+.form-main li label {
+    padding-left: 0px;
+    display: inline-block;
+    color: #414141;
+}
+
+/*
+* FORM INPUTS
+*/
+
+.form-input {
+    box-sizing: border-box;
+    padding: 0.5em 0.7em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    outline: none;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+
+input[type="number"].form-input::-webkit-inner-spin-button, input[type="number"].form-input::-webkit-outer-spin-button {
+    margin: 0;
+}
+
+input[type="number"].form-input {
+    text-align: center;
+    -moz-appearance: textfield;
+    max-width: 50px;
+    margin-left: 15px;
+}
+
+input[type="checkbox"].form-input {
+    -moz-appearance: checkbox;
+    -webkit-appearance: checkbox;
+    appearance: checkbox;
+}
+
+/*
+* FORM BUTTON
+*/
+
+.form-button {
+    font-size: 1em;
+    border: 1.5px solid #00000091;
+    border-radius: 2px;
+    outline: none;
+    padding: 7px;
+    margin-left: 2em;
+}
+
+/*
+* FORM TRANSPORTS
+*/
+
+.form-transport-container {
+    /*     display: flex;
+    flex-flow: column nowrap; */
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.form-transport-item {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-auto-rows: auto;
+    gap: 10px;
+    align-items: center;
+    margin: 15px;
+    min-width: 0;
+    border: 1px solid rgba(0, 0, 0, 0.288);
+    background-color: rgb(245, 244, 244);
+    border-radius: 4px;
+    padding: 15px;
+    box-shadow: 4px 4px #cecece;
+}
+
+.form-transport-item * {
+    min-width: 0;
+}
+
+.form-transport-item:hover {
+    border: 2px solid rgba(0, 0, 0, 0.288);
+    padding: 14px;
+}
+
+.form-transport-item-mode {
+    grid-column: 1;
+    grid-row: 1;
+    font-weight: 600;
+}
+
+.form-transport-item-depart {
+    grid-column: 1 / 3;
+    grid-row: 2;
+}
+
+.form-transport-item-arrivee {
+    grid-column: 1 / 3;
+    grid-row: 3;
+}
+
+.form-transport-item-AR {
+    grid-column: 1/3;
+    grid-row: 4;
+}
+
+.form-transport-item-frequence {
+    grid-column: 1/3;
+    grid-row: 5;
+    display: flex;
+    align-items: center;
+}
+
+.form-transport-item-passagers {
+    grid-column: 1/3;
+    grid-row: 6;
+    display: flex;
+    align-items: center;
+}
+
+.form-transport-item-delete {
+    grid-column: 2;
+    grid-row: 1;
+    background-color: rgba(211, 79, 79, 0.897);
+    padding: 10px;
+    font-size: 0.8em;
+    color: black;
+}
+
+.form-transport-add {
+    margin: 0px auto 15px !important;
+    display: block;
+}
+
+.form-transport-item label {
+    font-size: 1rem;
+    align-self: stretch;
+}
+
+/*
+* FORM ALIMENTATION
+*/
+
+.form-repas {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: flex-start;
+    margin: 30px;
+}
+
+.form-repas-box {
+    /*     width: 100%;
+    height: 5vw; */
+    /*     display: inline-flex;
+    flex-flow: row wrap;
+    justify-content: stretch; */
+    align-self: center;
+    display: grid;
+    grid-template-columns: repeat(7, calc(2*10px + 1.5rem));
+    grid-template-rows: repeat(2, calc(2*10px + 1.5rem));
+    gap: 0px;
+    margin-bottom: 10px;
+}
+
+.form-repas-bos>span {}
+
+.form-repas-box-item {
+    background-color: rgb(223, 223, 223);
+    border: 0.5px solid black;
+    text-align: center;
+    padding: 10px;
+    font-size: 1.5rem;
+}
+
+.form-repas-controls {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+}
+
+.form-repas-controls label {
+    width: 200px;
+    padding: 0 !important;
+    margin-bottom: 7px;
+    text-align: center;
+}
+
+.form-repas-controls span {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, calc(2*10px + 1.5rem)));
+    grid-template-rows: repeat(1, minmax(0, calc(2*10px + 1.5rem)));
+    gap: 5px
+}
+
+.form-repas-controls button {
+    font-size: 1em;
+    border: 1.5px solid #686868;
+    border-radius: 5px;
+    outline: none;
+}
+
+.form-repas-controls input[type="number"] {
+    -moz-appearance: textfield;
+    max-width: calc(2*10px + 1.5rem);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* .form-repas-controls input[type="number"]::-webkit-inner-spin-button, .form-repas-controls input[type="number"]::-webkit-outer-spin-button {
+    margin: 0;
+} */
+
+/*
+* FORM CONSOMMATION
+*/
+
+.form-conso ul {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-left: 20px;
+    margin-bottom: 1em;
+}
+
+.form-conso li {
+    list-style-type: none;
+}
+
+.form-conso label {
+    display: flex !important;
+    flex-flow: row nowrap;
+    justify-content: stretch;
+    align-items: center;
+    width: 100%;
+}
+
+.form-conso label::text {
+    max-width: 10px;
+}
+
+.form-conso label p {
+    box-sizing: border-box;
+    text-align: right !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.form-conso label input {
+    max-height: 3rem !important;
+    max-width: 3rem !important;
+}
+
+@media screen and (max-width: 400px) {
+    .form-conso label p {
+        width: 50% !important;
+    }
+}
+
+@media screen and (min-width: 400px) {
+    .form-conso label p {
+        width: 200px !important;
+    }
+}
+
+/* .form-conso label input[type="number"] {
+    max-width: 150px !important;
+} */

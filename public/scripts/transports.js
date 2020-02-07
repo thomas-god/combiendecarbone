@@ -35,17 +35,16 @@ function Transport(div_id) {
 Transport.prototype.initDiv = function () {
     const parent_div = document.getElementById(this.div_id)
     parent_div.innerHTML = (
-        `<h2> Vos habitudes de transport</h2>
+        `
         <h3>Semaine type</h3>
         <p>Quels sont les trajets que vous effectuez chaque semaine ?</p>
         <ul> 
             <li>5 A/R domicile/travail en bus,</li>
             <li>2 A/R domicile/salle de sport en voiture,</li>
         </ul>
-        <div id="trajets-hebdos" class="transport-form"></div>
-        <table class="table-button"><tr>
-            <td><input type="button" value="Ajouter" id="add-voyage-hebdos" class="form-button"></td>
-        </tr></table>
+        <div id="trajets-hebdos" class="form-transport-container"></div>
+        <input type="button" value="Ajouter un trajet" id="add-voyage-hebdos" class="form-input form-transport-add"></td>
+
         <span class="divider"></span>
         <h3>Trajets occasionnels</h3>
         <p>Quels sont les trajets que vous réalisez occasionnellement dans l'année ?</p>
@@ -54,10 +53,9 @@ Transport.prototype.initDiv = function () {
             <li>2 Paris/Lyon en TGV,</li>
             <li>1 Paris/New-York en avion,</li>
         </ul>
-        <div id="trajets-occasionels" class="transport-form"></div>
-        <table class="table-button"><tr>
-            <td><input type="button" value="Ajouter" id="add-voyage-occas" class="form-button"></td>
-        </tr></table>`
+        <div id="trajets-occasionels" class="form-transport-container"></div>
+        <input type="button" value="Ajouter un trajet" id="add-voyage-occas" class="form-input form-transport-add"></td>
+        `
     )
 
     const buttonAddTravelHebdo = document.getElementById('add-voyage-hebdos')
@@ -70,15 +68,14 @@ Transport.prototype.initDiv = function () {
 
 Transport.prototype.addTravelRow = function (form_id) {
     const form = document.getElementById(form_id)
-    // New row div
-    const div_row = document.createElement('div')
-    div_row.className = "transport-form-row"
+    
+    // New item
+    const new_item = document.createElement('article')
+    new_item.classList.add("form-transport-item");
 
-    // New mode div
-    const div_mode = document.createElement('div')
-    div_mode.className = "transport-form-row-mode"
+    // New select mode
     const input_mode = document.createElement('select')
-    input_mode.className = "form-input"
+    input_mode.classList.add("form-input", "form-transport-item-mode");
     this.modes.forEach((mode) => {
         let option = document.createElement('option')
         option.value = mode
@@ -86,37 +83,34 @@ Transport.prototype.addTravelRow = function (form_id) {
         input_mode.appendChild(option)
     })
     input_mode.value = "Voiture"
-    div_mode.appendChild(input_mode)
-    div_row.appendChild(div_mode)
+    new_item.appendChild(input_mode)
 
-    // New inputs div
-    const div_inputs = document.createElement('div')
-    div_inputs.className = "transport-form-row-inputs"
-    // New inputs div row1
-    const div_inputs_row1 = document.createElement('div')
-    div_inputs_row1.className = "transport-form-row-inputs-row1"
+    // New inputs depart
     const input_depart = document.createElement('input')
     input_depart.type = 'text'
     input_depart.placeholder = 'Départ'
-    input_depart.className = 'form-input'
     autocomplete_depart = new google.maps.places.Autocomplete(input_depart)
-    div_inputs_row1.appendChild(input_depart)
+    input_depart.classList.add("form-input", "form-transport-item-depart");
+    new_item.appendChild(input_depart)
 
+    // New inputs arrivee
     const input_arrivee = document.createElement('input')
     input_arrivee.type = 'text'
     input_arrivee.placeholder = 'Arrivée'
-    input_arrivee.className = 'form-input'
     autocomplete_arrivee = new google.maps.places.Autocomplete(input_arrivee)
-    div_inputs_row1.appendChild(input_arrivee)
+    input_arrivee.classList.add("form-input", "form-transport-item-arrivee");
+    new_item.appendChild(input_arrivee)
 
+
+    // New delete button
     const button_delete = document.createElement('input')
     button_delete.type = 'button'
-    button_delete.value = 'Suppr.'
-    button_delete.className = 'form-input'
+    button_delete.value = 'X'
+    button_delete.classList.add("form-input", "form-transport-item-delete");
     var travel_id = this.travels.last_id // prevent passing reference to last_id
     button_delete.addEventListener('click', () => {
         // Remove HTML tr
-        div_row.parentNode.removeChild(div_row)
+        new_item.parentNode.removeChild(new_item)
 
         // Remove corresponding entry in this.travels object
         for (let i = 0; i < this.travels.items.length; i++) {
@@ -125,47 +119,46 @@ Transport.prototype.addTravelRow = function (form_id) {
             }
         }
     })
-    div_inputs_row1.appendChild(button_delete)
-    div_inputs.appendChild(div_inputs_row1)
-    // New inputs div row2
-    const div_inputs_row2 = document.createElement('div')
-    div_inputs_row2.className = "transport-form-row-inputs-row2"
+    new_item.appendChild(button_delete)
+    
+    // New A/R checkbox
     const label_ar = document.createElement('label')
     label_ar.appendChild(document.createTextNode('A/R'))
     const check_ar = document.createElement('input')
     check_ar.type = 'checkbox'
     check_ar.checked = true
-    check_ar.className = 'form-input'
+    check_ar.classList.add("form-input");
+    label_ar.classList.add("form-transport-item-AR");
     label_ar.appendChild(check_ar)
-    div_inputs_row2.appendChild(label_ar)
+    new_item.appendChild(label_ar)
 
-    const label_freq = document.createElement('label')
-    label_freq.appendChild(document.createTextNode('Fréquence'))
     const input_freq = document.createElement('input')
-    input_freq.className = 'form-input'
     input_freq.type = 'number'
     input_freq.min = 1
     input_freq.step = 1
     input_freq.value = (form_id === 'trajets-hebdos' ? 5 : 1)
+    input_freq.classList.add("form-input");
+    const label_freq = document.createElement('label')
+    label_freq.appendChild(document.createTextNode('Fréquence'))
+    label_freq.classList.add("form-transport-item-frequence");
     label_freq.appendChild(input_freq)
-    div_inputs_row2.appendChild(label_freq)
+    new_item.appendChild(label_freq)
 
     const label_passagers = document.createElement('label')
     // Uncomment if default mode is voiture
     //label_passagers.className = 'hidden'
     label_passagers.appendChild(document.createTextNode('Passagers'))
     const input_passagers = document.createElement('input')
-    input_passagers.className = 'form-input'
+    label_passagers.classList.add("form-transport-item-passagers");
     input_passagers.type = 'number'
     input_passagers.min = 1
     input_passagers.step = 1
     input_passagers.value = 1
+    input_passagers.classList.add("form-input");
     label_passagers.appendChild(input_passagers)
-    div_inputs_row2.appendChild(label_passagers)
-    div_inputs.appendChild(div_inputs_row2)
+    new_item.appendChild(label_passagers)
 
-    div_row.appendChild(div_inputs)
-    form.appendChild(div_row)
+    form.appendChild(new_item)
 
     input_mode.addEventListener("change", () => {
         if (input_mode.value === 'Voiture') {

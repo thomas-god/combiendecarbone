@@ -1,46 +1,70 @@
-html {
-    overflow-y: scroll; 
-}
-body {
-    margin: 0px;
-    background-color: rgb(230, 233, 230);
-}
-header{
+.header {
+    width: 100%;
     display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
     background-color: #79D059;
-    align-items: center;
-    margin: 0px;
-    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
 }
-header .logo {
-    margin-left: 25px;
-    margin-right: 75px;
-}
-header .menu-item {
-    padding: 15px;
-    margin-top: 8px;
-    margin-right: 15px;
+
+.header input[type="button"] {
+    padding: 5px;
+    margin: 10px 0px 5px 0px;
+    background-color: #79D059;
+    border-radius: 5px 5px 0 0;
     color: black;
     text-decoration: none;
-    background-color: #79D059;
     border-width: 0;
 }
-header .menu-item:hover {
-    background-color: #A3FF81;
-    border-radius: 5px 5px 0 0;
+
+@media screen and (max-width: 750px) {
+    .header-active {
+        width: 80% !important;
+        display: block !important;
+    }
+    .header-button {
+        display: none;
+    }
+    .header input[type="button"] {
+        font-size: 1.3rem;
+    }
+    .header-nav-button {
+        margin: 5px 15px;
+        font-size: 2rem;
+        padding: 15px !important;
+    }
 }
-header .menu-item-current {
-    padding: 14px 14px 15px 14px !important;
-    border-width: 1px 1px 0px 1px !important;
-    margin-top: 5px;
-    border-style: solid !important;
-    border-color: black !important;
-    background-color: #A3FF81;
-    border-radius: 5px 5px 0 0;
+
+@media screen and (min-width: 750px) {
+    .header-nav-button {
+        display: none;
+    }
+    .header-active {
+        border-width: 1px 1px 0px 1px !important;
+        border-style: solid !important;
+        border-color: black !important;
+        background-color: #A3FF81 !important;
+        padding: 4px 4px 9px 4px !important;
+        margin-bottom: 0px !important;
+        display: block !important;
+    }
+    .header input[type="button"]:hover:not(.header-active) {
+        box-shadow: none;
+        background-color: #A3FF81;
+        padding: 5px 5px 10px 5px !important;
+        margin-bottom: 0px !important;
+    }
+    .header input[type="button"] {
+        font-size: 0.9rem;
+    }
 }
-header .menu-item:visited {
-    color: black;
-}
-.disp-none {
-    display: none !important;
+
+@media screen and (min-width: 750px) {
+    .header {
+        max-width: 750px;
+    }
 }

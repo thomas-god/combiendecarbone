@@ -32,29 +32,29 @@ Consommation.prototype.initDiv = function() {
     const div = document.getElementById(this.div_id);
 
     div.innerHTML = `
-    <h2>Vos habitudes de consommation</h2>
+    <h3>Vos habitudes de consommation</h3>
     <p>Les objects que nous achetons participent indirectement à nos émissions puisque leurs procédés de fabrication et leur transports sont bien souvent très émetteurs. Nous avons considéré 3 catégories d'objets: les vêtements, les objets high-tech et l'électroménager.</p>
     <p>Pour les vêtements il vous suffit de renseigner combien vous achetez de chaque type par an.</p>
     <p>Pour les objets high-tech et l'électroménager renseigner combien d'années vous gardez en moyenne chaque produit.</p>
     <div class="form-conso">
-        <h3>Vêtements</h3>
+        <h3>Nombre de vêtements achetés</h3>
             <ul id="conso-form-vetements">
             </ul>
-        <h3>High-tech</h3>
+        <h3>Durée de vie de votre high-tech</h3>
             <ul id="conso-form-hightech">
             </ul>
-        <h3>Electroménager</h3>
+        <h3>Durée de vie de votre électroménager</h3>
             <ul id="conso-form-electromenager">
             </ul>
     </div>
     `
 
     // Vetements part: nb d'items achetés dans l'année
-    this.createFormInput("conso-form-vetements", "Nombre acheté", this.vetements);
+    this.createFormInput("conso-form-vetements", "0", this.vetements);
 
     // High-tech et electromenager parts: durée de renouvellement
-    this.createFormInput("conso-form-hightech", "Durée de renouvellement", this.high_tech);
-    this.createFormInput("conso-form-electromenager", "Durée de renouvellement", this.electromenager);
+    this.createFormInput("conso-form-hightech", "0", this.high_tech);
+    this.createFormInput("conso-form-electromenager", "0", this.electromenager);
     
 }
 
@@ -67,6 +67,7 @@ Consommation.prototype.createFormInput = function(ul_id, placeholder, itemsList)
         p.appendChild(document.createTextNode(item.full_name));
         label.appendChild(p);
         let input = document.createElement("input");
+        input.classList.add("form-input");
         input.type = "number";
         input.placeholder = placeholder;
         label.appendChild(input);
