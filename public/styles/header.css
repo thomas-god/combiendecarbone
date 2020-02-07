@@ -13,7 +13,7 @@
 
 .header input[type="button"] {
     padding: 5px;
-    margin-top: 5px;
+    margin: 10px 0px 5px 0px;
     background-color: #79D059;
     border-radius: 5px 5px 0 0;
     color: black;
@@ -48,20 +48,23 @@
         border-style: solid !important;
         border-color: black !important;
         background-color: #A3FF81 !important;
-        padding: 9px !important;
+        padding: 4px 4px 9px 4px !important;
+        margin-bottom: 0px !important;
         display: block !important;
     }
-    .header input[type="button"]:hover {
+    .header input[type="button"]:hover:not(.header-active) {
         box-shadow: none;
         background-color: #A3FF81;
+        padding: 5px 5px 10px 5px !important;
+        margin-bottom: 0px !important;
     }
     .header input[type="button"] {
         font-size: 0.9rem;
     }
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 750px) {
     .header {
-        max-width: 700px;
+        max-width: 750px;
     }
 }
