@@ -27,7 +27,7 @@
     text-align: center;
     padding: 5px;
     margin: 0;
-    background-color: rgb(129, 207, 255);
+    background-color: rgba(121, 208, 89, 0.593);
 }
 
 .form-main p, .form-main li {
@@ -161,7 +161,7 @@ input[type="checkbox"].form-input {
 }
 
 .form-transport-add {
-    margin: 10px auto 15px !important;
+    margin: 0px auto 15px !important;
     display: block;
 }
 
