@@ -8,18 +8,19 @@
     width: 20%;
     text-align: center;
     border-bottom: 1px solid #000;
-    line-height: 0.1rem;
-    margin: 20px 0 15px;
+    margin: 10px 0px 15px;
 }
 
 .resultats-selector p span {
     background: #fff;
     padding: 0 10px;
     font-size: 1rem;
+    position: relative;
+    top: 10px;
 }
 
 .resultats-selector label {
-    margin-bottom: 6px;
+    margin: 15px 0px 7px;
 }
 
 .center {
