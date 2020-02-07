@@ -4,11 +4,15 @@
     align-items: center;
 }
 
+#calculer-ges {
+    margin: 15px 0px 10px !important;
+}
+
 .resultats-selector p {
     width: 20%;
     text-align: center;
     border-bottom: 1px solid #000;
-    margin: 10px 0px 15px;
+    margin: 0px 0px 15px;
 }
 
 .resultats-selector p span {
@@ -21,6 +25,7 @@
 
 .resultats-selector label {
     margin: 15px 0px 7px;
+    padding: 0 !important;
 }
 
 .center {

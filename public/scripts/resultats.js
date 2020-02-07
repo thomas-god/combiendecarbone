@@ -52,7 +52,7 @@ class Resultats {
             `<div class="center">
                 <h3>Vos émissions de CO2</h3>
                 <div class="resultats-selector">
-                    <input type="button" value="Calculer" id="calculer-ges" class="form-button" style="margin: 0px !important;">
+                    <input type="button" value="Calculer" id="calculer-ges" class="form-button">
                     <p><span> ou </span></p>
                     <label for="select_saved_ges">Charger un bilan</label>
                     <select id="select_saved_ges" class="form-input"></select>
@@ -60,8 +60,8 @@ class Resultats {
                 <div class="charts-area disp-none" id="charts-area">
                     <h2 id="total-ges"></h2>
                     <span>
-                        <input type="button" value="Sauvegarder bilan" id="save-ges" class="form-button disp-none" style="margin: 0px !important;">
-                        <input type="button" value="Supprimer bilan" id="delete-ges" class="form-button disp-none" style="margin: 0px !important;">
+                        <input type="button" value="Sauvegarder bilan" id="save-ges" class="form-button disp-none">
+                        <input type="button" value="Supprimer bilan" id="delete-ges" class="form-button disp-none">
                     </span>
                     <div id="charts-main">
                         <div class="chart-ges disp-none" id="div-chart-total">
