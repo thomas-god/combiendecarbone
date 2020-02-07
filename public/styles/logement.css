@@ -1,9 +1,0 @@
-.logement-factures {
-    display: flex;
-    flex-direction: column;
-    justify-items: start;
-}
-
-.logement-factures li {
-    margin-top: 0.5em;
-}

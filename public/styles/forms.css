@@ -38,14 +38,24 @@
     padding: 0px 20px;
 }
 
-.form-main p, .form-main li, .form-main label {
+.form-main p, .form-main li{
     font-size: 1rem;
     line-height: 1.4rem;
     color: #414141;
+    margin-bottom: 5px;
 }
 
-.form-main p+ul {
-    margin-top: -10px;
+.form-main p + ul {
+    margin-top: 0px;
+}
+
+.form-main label {
+    padding-left: 20px;
+    display: inline-block;
+}
+.form-main li label {
+    padding-left: 0px;
+    display: inline-block;
 }
 
 /*
@@ -179,7 +189,8 @@ input[type="checkbox"].form-input {
 }
 
 .form-transport-item label {
-    font-size: 0.88rem;
+    font-size: 1rem;
+    align-self: stretch;
 }
 
 /*
