@@ -7,14 +7,14 @@ function Logement(div_id) {
 Logement.prototype.initDiv = function () {
     const div = document.getElementById(this.div_id);
     div.innerHTML = `
-    <h2> Votre consommation d'énergie</h2>
-    <label class="transport-form-row-mode">
-        Connaissez vous vos factures de gaz et d'électricité ?
+    <h3> Votre consommation d'énergie</h3>
+        <label>Connaissez vous vos factures de gaz et d'électricité ?
         <select class="form-input" id="logement-select">
             <option value="oui">Oui</option>
             <option value="non">Non</option>
         </select>
-    </label>
+        </label>
+        
     <div id="logement-factures" class="logement-factures">
         <ul>
         <li><label>

@@ -50,7 +50,7 @@ class Resultats {
         const parent_div = document.getElementById(this.div_id)
         parent_div.innerHTML = (
             `<div class="center">
-                <h2>Émissions de CO2</h2>
+                <h3>Vos émissions de CO2</h3>
                 <div class="resultats-selector">
                     <input type="button" value="Calculer" id="calculer-ges" class="form-button" style="margin: 0px !important;">
                     <p><span> ou </span></p>
