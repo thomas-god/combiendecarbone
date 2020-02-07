@@ -38,28 +38,33 @@
     padding: 0px 20px;
 }
 
-.form-main p, .form-main li{
+.form-main p, .form-main li {
     font-size: 1rem;
     line-height: 1.4rem;
     color: #414141;
     margin-bottom: 5px;
 }
 
-.form-main p + ul {
+.form-main p+ul {
     margin-top: 0px;
+}
+
+.form-main ul+h3 {
+    margin-top: 7px;
 }
 
 .form-main label {
     padding-left: 20px;
     display: inline-block;
 }
+
 .form-main li label {
     padding-left: 0px;
     display: inline-block;
 }
 
 /*
-* FORM INPUT
+* FORM INPUTS
 */
 
 .form-input {
@@ -194,5 +199,56 @@ input[type="checkbox"].form-input {
 }
 
 /*
-* FORM ALIMENTATION
+* FORM CONSOMMATION
 */
+
+.form-conso ul {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-left: 20px;
+    margin-bottom: 1em;
+}
+
+.form-conso li {
+    list-style-type: none;
+}
+
+.form-conso label {
+    display: flex !important;
+    flex-flow: row nowrap;
+    justify-content: stretch;
+    align-items: center;
+    width: 100%;
+}
+
+.form-conso label::text {
+    max-width: 10px;
+}
+
+.form-conso label p {
+    box-sizing: border-box;
+    text-align: right !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.form-conso label input {
+    max-height: 3rem !important;
+    max-width: 3rem !important;
+}
+
+@media screen and (max-width: 400px) {
+    .form-conso label p {
+        width: 50% !important;
+    }
+}
+@media screen and (min-width: 400px) {
+    .form-conso label p {
+        width: 200px !important;
+    }
+}
+
+/* .form-conso label input[type="number"] {
+    max-width: 150px !important;
+} */
