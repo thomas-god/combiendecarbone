@@ -1,8 +1,11 @@
-/* #form-accueil p{
-    font-size: 1em;
-    margin-bottom: 12px;
-    line-height: 1.4em;
-} */
+.methodo-button {
+    font-size: 2rem !important;
+    outline: none;
+    border: none;
+    right: 0px;
+    background-color: white;
+}
+
 .methodologie-content {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
@@ -34,6 +37,7 @@
     font-style: italic;
     font-weight: normal;
 }
+
 .methodologie-content p {
     font-size: 0.95em;
     margin: 0.75em 2em;
@@ -44,17 +48,18 @@
 .methodologie-content ul {
     margin: 0em 1.8em;
 }
+
 .methodologie-content li {
     font-size: 0.95em;
     text-align: justify;
     color: rgb(44, 44, 44);
 }
-.methodologie-content p + ul{
+
+.methodologie-content p+ul {
     margin-top: -0.35em;
 }
 
-.methodologie-content thead,
-.methodologie-content tfoot {
+.methodologie-content thead, .methodologie-content tfoot {
     background-color: #3f87a6;
     color: #fff;
 }
@@ -77,8 +82,7 @@
     margin: auto;
 }
 
-.methodologie-content td,
-.methodologie-content th {
+.methodologie-content td, .methodologie-content th {
     border: 1px solid rgb(190, 190, 190);
     padding: 5px 10px;
 }

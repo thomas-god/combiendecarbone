@@ -1,4 +1,5 @@
 var header_active = "header-accueil";
+var methodo_active = false;
 const header_buttons = [
     "header-accueil",
     "header-transport",
@@ -31,6 +32,17 @@ function toggleHeader() {
     }
     renderHeader();
     updateArticles();
+}
+
+/**
+ * Callback for toggling the methodology
+ */
+function toggleMethodo() {
+    let button_methodo = document.getElementById("header-methodo");
+    button_methodo.classList.toggle("header-methodo-active");
+    if (button_methodo.classList.contains("header-methodo-active")) {
+        methodo_active = !methodo_active;
+    }
 }
 
 /**

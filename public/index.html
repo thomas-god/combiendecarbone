@@ -40,17 +40,20 @@
             <input type="button" id="header-accueil" class="header-button" value="Accueil 🍃" onclick="toggleHeader()">
             <input type="button" id="header-transport" class="header-button" value="Transports ✈️"
                 onclick="toggleHeader()">
-            <input type="button" id="header-logement" class="header-button" value="Logement 🏘️" onclick="toggleHeader()">
+            <input type="button" id="header-logement" class="header-button" value="Logement 🏘️"
+                onclick="toggleHeader()">
             <input type="button" id="header-alimentation" class="header-button" value="Alimentation 🍽️"
                 onclick="toggleHeader()">
             <input type="button" id="header-consommation" class="header-button" value="Consommation 👕📱"
                 onclick="toggleHeader()">
-            <input type="button" id="header-resultats" class="header-button" value="Résultats 📊" onclick="toggleHeader()">
+            <input type="button" id="header-resultats" class="header-button" value="Résultats 📊"
+                onclick="toggleHeader()">
             <input type="button" id="header-next" class="header-nav-button" value=">" onclick="toggleHeader()">
+            <input type="button" id="header-methodo" class="header-button" value="ℹ️" onclick="toggleMethodo()">
         </nav>
 
         <div id="form-accueil" class="form-main">
-            <h2>Estimez votre empreinte carbone ! 🍃</h2>
+            <h3>Estimez votre empreinte carbone ! 🍃</h3>
             <p>Si de plus en plus de personnes souhaitent modifier leurs habitudes de consommation pour faire face au
                 changement climatique, il n'est pas facile de savoir par où commencer tant le problème est complexe.
                 Comme presque toutes nos activités sont émettrices de gaz à effet de serre on ne sait pas toujours si un
@@ -62,13 +65,14 @@
                 fait que vous alliez travailler tous les jours en voiture ?</p>
             <p>En vous permettant d'identifier vos principaux postes d'émissions de gaz à effet de serre nous espérons
                 que ce calculateur vous permettra de plus facilement choisir par quelle habitudes commencer !</p>
-            <p>Pour toute question concernant nos calculs vous pouvez consulter notre page <em>Méthodologie</em>.</p>
+            <p>Pour toute question concernant nos calculs vous pouvez consulter notre page <em>Méthodologie</em> ℹ️.</p>
         </div>
         <div id="form-transport" class="form-main"></div>
         <div id="form-logement" class="form-main"></div>
         <div id="form-alimentation" class="form-main"></div>
         <div id="form-consommation" class="form-main"></div>
         <div id="form-resultats" class="form-main"></div>
+
         <div id="content-methodologie" class="disp-none">
             <div id="methodologie-accueil" class="methodologie-content">
                 <h2>Introduction</h2>
@@ -466,6 +470,7 @@
             </div>
         </div>
 
+
     </section>
 </body>
 
@@ -476,8 +481,8 @@
     const consommation = new Consommation('form-consommation')
     const resultats = new Resultats('form-resultats', transport, logement, alimentation, consommation)
 
-/*     const button_nav = document.getElementById("nav-form")
-    button_nav.click() */
+    /*     const button_nav = document.getElementById("nav-form")
+        button_nav.click() */
     const button_mode = document.getElementById("header-accueil")
     button_mode.click()
 
