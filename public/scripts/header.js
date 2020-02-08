@@ -1,4 +1,5 @@
 var header_active = "header-accueil";
+var methodo_active = false;
 const header_buttons = [
     "header-accueil",
     "header-transport",
@@ -30,6 +31,16 @@ function toggleHeader() {
         console.log("Wrong caller");
     }
     renderHeader();
+    updateArticles();
+}
+
+/**
+ * Callback for toggling the methodology
+ */
+function toggleMethodo() {
+    let button_methodo = document.getElementById("header-methodo");
+    button_methodo.classList.toggle("header-methodo-active");
+    methodo_active = !methodo_active;
     updateArticles();
 }
 
@@ -74,8 +85,13 @@ function updateArticles() {
         let form_mode = document.getElementById("form-" + mode)
         let methodo_mode = document.getElementById("methodologie-" + mode)
         if(header === header_active) {
-            form_mode.classList.remove("disp-none")
-            methodo_mode.classList.remove("disp-none")
+            if (methodo_active) {
+                form_mode.classList.add("disp-none")
+                methodo_mode.classList.remove("disp-none")
+            } else {
+                form_mode.classList.remove("disp-none")
+                methodo_mode.classList.add("disp-none")
+            }
         } else {
             form_mode.classList.add("disp-none")
             methodo_mode.classList.add("disp-none")
