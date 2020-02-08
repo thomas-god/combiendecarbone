@@ -6,13 +6,13 @@
     background: rgb(255, 255, 255);
     padding: 15px 0 35px;
     text-align: justify;
-    width: 100%;
+    width: 100vw;
     box-sizing: border-box;
 }
 
 @media screen and (min-width: 750px) {
     .form-main {
-        max-width: 750px;
+        width: 750px;
     }
 }
 
@@ -30,9 +30,13 @@
     padding: 5px;
     border-bottom: 1px solid rgb(98, 98, 98);
     padding-bottom: 10px;
-    margin: 0 2rem;
+    margin: 1.5rem;
     padding: 5px 5px 5px 10px;
     text-align: left;
+}
+
+.form-main h3:first-of-type {
+    margin-top: 0px;
 }
 
 .form-main p {
@@ -68,6 +72,7 @@
 /*
 * FORM TABLE
 */
+
 .form-main thead, .form-main tfoot {
     background-color: #3f87a6;
     color: #fff;
@@ -88,7 +93,7 @@
     letter-spacing: 1px;
     font-family: sans-serif;
     font-size: .8rem;
-    margin: auto;
+    margin: 1.5rem auto;
 }
 
 .form-main td, .form-main th {
@@ -99,8 +104,6 @@
 .form-main td {
     text-align: center;
 }
-
-
 
 /*
 * FORM INPUTS
@@ -372,10 +375,11 @@ input[type="checkbox"].form-input {
 /* 
 * METHODO ENCART
 */
+
 .methodologie-encart {
     border: 1px solid rgb(146, 146, 146);
     border-radius: 10px;
-    padding: 5px 15px 15px 15px;
+    padding: 15px 15px 10px 15px !important;
     margin: 1em 3em;
     color: rgb(107, 107, 107);
     font-size: 0.9em;
