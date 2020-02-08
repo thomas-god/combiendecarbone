@@ -14,7 +14,8 @@
     padding: 0em 2em 1em 2em;
     border-radius: 0 0 5px 5px;
     min-width: 600px;
-    max-width: 700px;
+    max-width: 750px;
+    box-sizing: border-box;
 }
 
 .methodologie-content h1 {

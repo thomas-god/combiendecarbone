@@ -73,9 +73,9 @@
         <div id="form-consommation" class="form-main"></div>
         <div id="form-resultats" class="form-main"></div>
 
-        <div id="content-methodologie" class="disp-none">
-            <div id="methodologie-accueil" class="methodologie-content">
-                <h2>Introduction</h2>
+        <div id="content-methodologie">
+            <div id="methodologie-accueil" class="form-main">
+                <h3>Introduction</h3>
                 <p>Selon le <a
                         href="https://www.ipcc.ch/site/assets/uploads/2018/02/ipcc_wg3_ar5_summary-for-policymakers.pdf">GIEC</a>,
                     pour avoir une chance de limiter l'élévation de la température moyenne à 2°C à l'horizon 2100 il
@@ -117,7 +117,7 @@
                     sur les émissions de gaz à effet de serre, d'autres impacts environnementaux (consommation d'eau,
                     pollution des sols, déplétion des ressources naturelles) et sociaux (conditions de travail et
                     rémunération des acteurs) de nos usages ne sont pas abordés. </p>
-                <h2>Base carbone de l'ADEME</h2>
+                <h3>Base carbone de l'ADEME</h3>
                 <p>L'Agence de l'Environnement et de la Maîtrise de l'Énergie (<a
                         href="https://www.ademe.fr/">ADEME</a>) met à disposition une base de données publique, <a
                         href="https://www.bilans-ges.ademe.fr/fr/accueil">Base Carbone</a> (inscription obligatoire mais
@@ -127,8 +127,8 @@
                     chiffre pour connaître les hypothèses qui ont été faites et les éventuelles limites.</p>
 
             </div>
-            <div id="methodologie-transport" class="methodologie-content">
-                <h2>Émissions des transports</h2>
+            <div id="methodologie-transport" class="form-main">
+                <h3>Émissions des transports</h3>
                 <p>Lorsque nous regardons ce que nous émettons lors d'un déplacement nous devons prendre en compte deux
                     aspects:</p>
                 <ul>
@@ -142,7 +142,7 @@
                 <p>Les parties suivantes présentent donc comment les distances sont calculées pour chaque mode de
                     transport, quels facteurs d'émissions sont utilisés pour chaque mode de transport, et enfin comment
                     les trajets réguliers et occasionnels sont traités.</p>
-                <h2>Comment calculons-nous les distances parcourues ?</h2>
+                <h3>Comment calculons-nous les distances parcourues ?</h3>
                 <p>Quel que soit le mode de transport utilisé, chaque calcul de trajet commence par récupérer les lieux
                     de départ et d'arrivée via l'API <a href="https://cloud.google.com/maps-platform/places/">Places</a>
                     de Google Maps. Une fois ces lieux récupérés nous pouvons facilement obtenir leurs coordonnées ou
@@ -170,7 +170,7 @@
                     cercle est corrigée comme recommandé par <a
                         href="https://www.icao.int/environmental-protection/CarbonOffset/Documents/Methodology%20ICAO%20Carbon%20Calculator_v10-2017.pdf">l'ICAO</a>.
                 </p>
-                <h2>Quels facteurs d'émissions utilisons-nous ?</h2>
+                <h3>Quels facteurs d'émissions utilisons-nous ?</h3>
                 <p>Afin de pouvoir comparer entre eux les différents modes de transport on utilise le facteur d'émission
                     en g de CO2 par km et par passager. Ce facteur va dépendre:</p>
                 <ul>
@@ -227,7 +227,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <h2>Trajets réguliers <em>vs.</em> trajets occasionnels</h2>
+                <h3>Trajets réguliers <em>vs.</em> trajets occasionnels</h3>
                 <p>Pour des questions d'experience utilisateur nous avons choisi de différencier les trajets réguliers
                     des trajets occasionnels, afin de vous éviter de devoir préciser que vous avez fait 197 fois votre
                     trajets domicile/travail dans l'année. La semaine nous a semblé être la bonne unité de temps car
@@ -239,8 +239,8 @@
                         nombre moyen de jours de congés/RTT</a>.</p>
                 <p>Quand aux trajets occasionnels nous calculons simplement les emissions de chaque trajet.</p>
             </div>
-            <div id="methodologie-logement" class="methodologie-content">
-                <h2>Émissions liées au logement</h2>
+            <div id="methodologie-logement" class="form-main">
+                <h3>Émissions liées au logement</h3>
                 <p>La consommation énergétique d'un logement (et donc ses émissions) peuvent être classées en deux
                     catégories:</p>
                 <ul>
@@ -251,7 +251,7 @@
                     d'éléctricité qui vous donneront vos consommations éxactes de gaz et d'électricité en kWh. Une fois
                     vos consommations connues il nous suffit de les multiplier par les facteur d'émissions du système
                     électrique français et du gaz pour obtenir vous émissions de CO2.</p>
-                <h2>Facteur d'émission de l'électricité</h2>
+                <h3>Facteur d'émission de l'électricité</h3>
                 <p>Pour calculer le facteur d'émission de CO2 du secteur électrique français nous utilisons les <a
                         href="https://www.rte-france.com/fr/article/bilans-electriques-nationaux"> bilans électriques
                         nationaux de RTE</a>. Ces bilans donnent la production électrique totale de toutes les filières
@@ -260,11 +260,11 @@
                 <p>Ce facteur d'émissions pouvant varier d'une année à l'autre (hiver plus ou moins doux, disponibilité
                     des parcs hydraulique et nucléaire, etc.) nous avons pris la moyenne des facteurs d'émissions
                     annuels depuis 2010 pour obtenir une valeur de <strong>49 kgCO2/MWh</strong>.</p>
-                <h2>Facteur d'émission du gaz naturel</h2>
+                <h3>Facteur d'émission du gaz naturel</h3>
                 <p><a
                         href="https://www.grdf.fr/institutionnel/role-transition-ecologique/energie-avenir/energie-respect-environnement">GRDF</a>
                     donne pour du gaz naturel un facteur d'émissions de <strong>234 kgCO2/MWh</strong>.</p>
-                <h2>Pour aller plus loin</h2>
+                <h3>Pour aller plus loin</h3>
                 <ul>
                     <li>Comprendre ses relevés de compteurs gaz et électricité sur <a
                             href="https://www.energie-info.fr/fiche_pratique/releve-des-compteurs-et-calcul-de-la-consommation/">energie-info.fr</a>
@@ -275,8 +275,8 @@
                     </li>
                 </ul>
             </div>
-            <div id="methodologie-alimentation" class="methodologie-content">
-                <h2>Émissions liées à l'alimentation</h2>
+            <div id="methodologie-alimentation" class="form-main">
+                <h3>Émissions liées à l'alimentation</h3>
                 <p>Le secteur de l'agroalimentaire représente <a
                         href="http://multimedia.ademe.fr/animations/alimentation/">une part importante</a> des émissions
                     de gaz à effet de serre en France. Les émissions ont lieu lors de <a
@@ -330,8 +330,8 @@
                     </tbody>
                 </table>
             </div>
-            <div id="methodologie-consommation" class="methodologie-content">
-                <h2>Émissions liées à notre consommation de biens</h2>
+            <div id="methodologie-consommation" class="form-main">
+                <h3>Émissions liées à notre consommation de biens</h3>
                 <p>Les biens manufacturés engendrent des émissions de gaz à effet de serre tout au long de leur cycle de
                     vie, de la phase d'extraction des matières premières, aux processus de fabrication, en passant par
                     leur transport, leur utilisation et leur recyclage.</p>
@@ -341,7 +341,7 @@
                     se distinguent par la part importante de la fabrication (matières premières et assemblage) dans les
                     émissions.</p>
 
-                <h2>Électroménager et objets high-tech</h2>
+                <h3>Électroménager et objets high-tech</h3>
                 <p>L'électroménager et les équipements high-tech n'étant pas des achats récurrents et pouvant avoir une
                     durée de vie importante, nous avons choisi de ne pas comptabiliser la totalité des émissions
                     engendrées par l'achat du bien lors l'année d'achat, mais de les amortir par la durée de possession.
@@ -409,7 +409,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <h2>Vêtements et textile</h2>
+                <h3>Vêtements et textile</h3>
                 <p>Les achats de vêtements étant plus fréquents, les émissions engendrées ne sont pas amorties par la
                     durée d'utilisation dans votre bilan annuel.</p>
                 <p>Les émissions sont calculées "jusqu'au magasin", ne sont donc pas prises en compte les émissions
@@ -465,8 +465,8 @@
                     </tbody>
                 </table>
             </div>
-            <div id="methodologie-resultats" class="methodologie-content">
-                <h2>En travaux 🔧</h2>
+            <div id="methodologie-resultats" class="form-main">
+                <h3>En travaux 🔧</h3>
             </div>
         </div>
 
