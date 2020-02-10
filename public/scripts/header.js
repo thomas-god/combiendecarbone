@@ -97,4 +97,5 @@ function updateArticles() {
             methodo_mode.classList.add("disp-none")
         }
     })
+    window.scrollTo({top:0, left: 0, behavior: "smooth"});
 }
