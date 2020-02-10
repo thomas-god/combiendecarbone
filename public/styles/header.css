@@ -23,6 +23,8 @@
 
 @media screen and (max-width: 750px) {
     .header-active {
+        margin: 0px !important;
+        padding: 0px !important;
         width: 80% !important;
         display: block !important;
     }
@@ -37,7 +39,7 @@
         border-style: solid !important;
         border-color: black !important;
         background-color: #A3FF81 !important;
-        padding: 4px 4px 9px 4px !important;
+        padding: 4px 4px 10px 4px !important;
         margin-bottom: 0px !important;
         display: block !important;
     }
@@ -45,9 +47,11 @@
         font-size: 1.3rem;
     }
     .header-nav-button {
-        margin: 5px 15px;
+        margin: 0rem 0.8rem !important;
+        padding: 0rem !important;
+       /*  margin: 5px 15px;
         font-size: 2rem;
-        padding: 15px !important;
+        padding: 15px !important; */
     }
 }
 

@@ -4,7 +4,7 @@
     align-items: center;
 }
 
-#calculer-ges {
+#calculer-ges, #delete-ges, #save-ges {
     margin: 15px 0px 10px !important;
 }
 
