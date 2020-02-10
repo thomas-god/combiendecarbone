@@ -8,8 +8,17 @@ function Alimentation(div_id) {
 Alimentation.prototype.initDiv = function () {
     const div = document.getElementById(this.div_id)
     div.innerHTML = `
-    <h3>Vos habitudes alimentaires</h3>
-    <p>On considère trois régimes alimentaires: le régime omnivore (repas moyen en France), le régime fléxitarien qui limite les produits d'origine animale, et le régime végétarien qui est dépourvu de produits d'origine animale. Construisez votre régime personnel en distribuant les 14 repas de la semaine parmis les trois régimes proposés.</p>
+    <h3>Habitudes alimentaires</h3>
+    <p>Le secteur de l'agriculture est à l'origine d'environ <a href="https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2019-05/datalab-46-chiffres-cles-du-climat-edition-2019-novembre2018.pdf">16%</a> des émissions de gaz à effet de serre en France, principalement via le méthane émis par les animaux, et les engrais azotés. Les émissions de gaz à effet de serre variant d'un aliment à un autre, un moyen efficace d'estimer nos émissions dues à notre alimentation est de raisonner en terme de régimes alimentaires.</p>
+    <p>Nous avons retenu 3 régimes alimentaires suivant leur teneur en protéines animales ou végétales :</p>
+    <ul>
+        <li>le régime <strong>omnivore</strong>, ou régime moyen en France, </li>
+        <li>le régime <strong>fléxitarien</strong>, qui remplace environ 2/3 des protéines animales du régime omnivore par des protéines végétales, </li>
+        <li>le régime <strong>végétarien</strong>, qui ne contient pas de protéines animales. </li>
+    </ul>
+    <p>Comme changer ses habitudes alimentaires peut prendre du temps, vous pouvez composer votre régime alimentaire hebdomadaire typique à partir des 3 régimes précédents.</p>
+
+    <h3>Votre semaine type en 14 repas</h3>
     <div class="form-repas">
         <span id="repas-restants-box" class="form-repas-box">
         </span>

@@ -36,23 +36,16 @@ Transport.prototype.initDiv = function () {
     const parent_div = document.getElementById(this.div_id)
     parent_div.innerHTML = (
         `
-        <h3>Semaine type</h3>
-        <p>Quels sont les trajets que vous effectuez chaque semaine ?</p>
-        <ul> 
-            <li>5 A/R domicile/travail en bus,</li>
-            <li>2 A/R domicile/salle de sport en voiture,</li>
-        </ul>
+        <h3>Les transports</h3>
+        <p>Le secteur des transports est à l'origine d'environ <a href="https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2019-05/datalab-46-chiffres-cles-du-climat-edition-2019-novembre2018.pdf#page=38">29%</a> des émissions de gaz à effet de serre en France, dont la moitié pour les véhicules particuliers. Ces émissions peuvent être directes (lors de la combustion d'essence dans une voiture) ou indirectes (lors de la production d'électricité pour faire rouler un train). Pour un trajet la quantité de gaz à effet de serre émise va dépendre du <strong>mode utilisé</strong> (voiture, vélo, train, etc.) et de la <strong>distance parcourue</strong>.</p>
+        <p>Nous avons découpé vos trajets 2 catégories : vos trajets <strong>réguliers hebdomadaires</strong>, et vos trajets <strong>occasionnels</strong> (lors de vos vacances par exemple).</p>
+        <p>Pour les deux catégories vous pouvez ajouter vos trajets via le bouton <em>Ajouter un trajet</em> puis préciser le mode de transport utilisé, les lieux de départ et d'arrivée, si c'est un aller retour et la fréquence de ce trajet (dans la semaine pour les trajets hebdomadaires ou dans l'année pour les trajets occasionnels).</p>
+        <h3>Trajets hebdomadaires</h3>
         <div id="trajets-hebdos" class="form-transport-container"></div>
         <input type="button" value="Ajouter un trajet" id="add-voyage-hebdos" class="form-input form-transport-add"></td>
 
         <span class="divider"></span>
         <h3>Trajets occasionnels</h3>
-        <p>Quels sont les trajets que vous réalisez occasionnellement dans l'année ?</p>
-        <ul> 
-            <li>3 A/R chez mamie en voiture,</li>
-            <li>2 Paris/Lyon en TGV,</li>
-            <li>1 Paris/New-York en avion,</li>
-        </ul>
         <div id="trajets-occasionels" class="form-transport-container"></div>
         <input type="button" value="Ajouter un trajet" id="add-voyage-occas" class="form-input form-transport-add"></td>
         `
