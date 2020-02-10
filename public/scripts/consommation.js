@@ -61,19 +61,51 @@ Consommation.prototype.initDiv = function() {
 Consommation.prototype.createFormInput = function(ul_id, placeholder, itemsList) {
     const ul_vet = document.getElementById(ul_id);
     for (item of itemsList) {
-        let li = document.createElement("li");
-        let label = document.createElement("label");
-        let p = document.createElement("p");
-        p.appendChild(document.createTextNode(item.full_name));
-        label.appendChild(p);
+        //Number input
         let input = document.createElement("input");
         input.classList.add("form-input");
         input.type = "number";
         input.placeholder = placeholder;
-        label.appendChild(input);
+        input.valueAsNumber = 0;
+        input.id = `form-conso-${item.name}`;
+
+        // Remove item button
+        let remove = document.createElement("button");
+        remove.appendChild(document.createTextNode("-"));
+        remove.addEventListener("click", () => this.callBackAddRemove(input, "remove"));
+
+        // Add item button
+        let add = document.createElement("button");
+        add.appendChild(document.createTextNode("+"));
+        add.addEventListener("click", () => this.callBackAddRemove(input, "add"));
+
+        // Containing span
+        let span = document.createElement("span");
+        span.appendChild(remove);
+        span.appendChild(input);
+        span.appendChild(add);
+
+        // Label
+        let label = document.createElement("label");
+        label.htmlFor = input.id;
+        label.appendChild(document.createTextNode(item.full_name));
+
+        // List item
+        let li = document.createElement("li");
+        li.classList.add("form-conso-controls");
         li.appendChild(label);
+        li.appendChild(span);
         ul_vet.appendChild(li)
         item.value = input;
+    }
+}
+
+Consommation.prototype.callBackAddRemove = function(input, mode) {
+    // input.valueAsNumber is NaN when not set
+    if (mode === "add") {
+        input.valueAsNumber += 1;
+    } else if (mode === "remove" && input.valueAsNumber > 0) {
+        input.valueAsNumber -= 1;
     }
 }
 
