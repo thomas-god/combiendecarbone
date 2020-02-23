@@ -76,7 +76,7 @@
             <div id="methodologie-accueil" class="form-main">
                 <h3>Introduction</h3>
                 <p>Selon le <a
-                        href="https://www.ipcc.ch/site/assets/uploads/2018/02/ipcc_wg3_ar5_summary-for-policymakers.pdf">GIEC</a>,
+                        href="https://www.ipcc.ch/site/assets/uploads/2018/02/ipcc_wg3_ar5_summary-for-policymakers.pdf" target="_blank">GIEC</a>,
                     pour avoir une chance de limiter l'élévation de la température moyenne à 2°C à l'horizon 2100 il
                     convient de ne pas dépasser une concentration de gaz à effet de serre de 450 ppm eq.CO2 à ce même
                     horizon.</p>
@@ -90,7 +90,7 @@
                     souffrés, etc, avec une contribution plus ou moins importante. Pour agréger l'impact de tous ces gaz
                     les quantités émises sont converties en equivalent CO2 en utilisant leur pouvoir réchauffant global
                     (<a
-                        href="https://www.ghgprotocol.org/sites/default/files/ghgp/Global-Warming-Potential-Values%20%28Feb%2016%202016%29_1.pdf">PRG</a>):
+                        href="https://www.ghgprotocol.org/sites/default/files/ghgp/Global-Warming-Potential-Values%20%28Feb%2016%202016%29_1.pdf" target="_blank">PRG</a>):
                     par exemple pour 1 kg de méthane émis, sont PRG étant de 28, il sera comptabilisé comme 28 kg eq.CO2
                     émis.</p>
 
@@ -118,8 +118,8 @@
                     rémunération des acteurs) de nos usages ne sont pas abordés. </p>
                 <h3>Base carbone de l'ADEME</h3>
                 <p>L'Agence de l'Environnement et de la Maîtrise de l'Énergie (<a
-                        href="https://www.ademe.fr/">ADEME</a>) met à disposition une base de données publique, <a
-                        href="https://www.bilans-ges.ademe.fr/fr/accueil">Base Carbone</a> (inscription obligatoire mais
+                        href="https://www.ademe.fr/" target="_blank">ADEME</a>) met à disposition une base de données publique, <a
+                        href="https://www.bilans-ges.ademe.fr/fr/accueil" target="_blank">Base Carbone</a> (inscription obligatoire mais
                     gratuite), de facteurs d'émission de gaz à effet de serre pour un certain nombre d'activités en
                     France.</p>
                 <p>Pour chaque entrée de la base de données il est possible de consulter l'étude qui a produit ce
@@ -143,31 +143,31 @@
                     les trajets réguliers et occasionnels sont traités.</p>
                 <h3>Comment calculons-nous les distances parcourues ?</h3>
                 <p>Quel que soit le mode de transport utilisé, chaque calcul de trajet commence par récupérer les lieux
-                    de départ et d'arrivée via l'API <a href="https://cloud.google.com/maps-platform/places/">Places</a>
+                    de départ et d'arrivée via l'API <a href="https://cloud.google.com/maps-platform/places/" target="_blank">Places</a>
                     de Google Maps. Une fois ces lieux récupérés nous pouvons facilement obtenir leurs coordonnées ou
                     utiliser d'autres API pour calculer des distances.</p>
                 <h3>Voiture, car, vélo</h3>
                 <p>Ces modes de transport sont les plus simples à traiter puisque il suffit de calculer la longueur de
                     la route reliant les points de départ et d"arrivée, ce qui est fait via l'API <a
-                        href="https://cloud.google.com/maps-platform/routes/">Routes</a> de Google Maps.</p>
+                        href="https://cloud.google.com/maps-platform/routes/" target="_blank">Routes</a> de Google Maps.</p>
                 <h3>Transports en commun</h3>
                 <p>Les trajets en transports en commun ont cela de plus compliqué qu'ils sont souvent multimodaux,
                     c'est-à-dire que plusieurs mode de transport différents sont utilisés. La distance totale doit donc
                     être subdivisée par mode de transport, chaque partie contribuant aux émissions totales du trajet
                     suivant l'intensité de son mode de transport. Les différentes étapes du trajet sont retournées par
-                    l'API <a href="https://cloud.google.com/maps-platform/routes/">Routes</a> de Google Maps.</p>
+                    l'API <a href="https://cloud.google.com/maps-platform/routes/" target="_blank">Routes</a> de Google Maps.</p>
                 <h3>TGV</h3>
                 <p>Les trajets en train se font de gare à gare et les distances retournées par l'API <a
-                        href="https://cloud.google.com/maps-platform/routes/">Routes</a> de Google Maps.</p>
+                        href="https://cloud.google.com/maps-platform/routes/" target="_blank">Routes</a> de Google Maps.</p>
                 <h3>Avion</h3>
                 <p>À l'inverse des modes précédents qui doivent utiliser un réseau existant pour se déplacer (réseau
                     routier ou ferroviaire), l'avion permet lui de rallier sa destination en ligne droite. En partant
                     des coordonnées retournées de départ et de destination on peut calculer la distance la plus courte
-                    sur une sphère ou <a href="https://fr.wikipedia.org/wiki/Distance_du_grand_cercle">distance du grand
+                    sur une sphère ou <a href="https://fr.wikipedia.org/wiki/Distance_du_grand_cercle" target="_blank">distance du grand
                         cercle</a>.</p>
                 <p>Pour tenir compte des éventuelles émission hors vol (temps de taxi par exemple), la distance du grand
                     cercle est corrigée comme recommandé par <a
-                        href="https://www.icao.int/environmental-protection/CarbonOffset/Documents/Methodology%20ICAO%20Carbon%20Calculator_v10-2017.pdf">l'ICAO</a>.
+                        href="https://www.icao.int/environmental-protection/CarbonOffset/Documents/Methodology%20ICAO%20Carbon%20Calculator_v10-2017.pdf" target="_blank">l'ICAO</a>.
                 </p>
                 <h3>Quels facteurs d'émissions utilisons-nous ?</h3>
                 <p>Afin de pouvoir comparer entre eux les différents modes de transport on utilise le facteur d'émission
@@ -180,10 +180,10 @@
                     <li>et du nombre de passagers dans le véhicule ou de la fréquentation moyenne.</li>
                 </ul>
                 <p>Estimer correctement tous ces paramètres est une tache complexe aussi nous nous basons sur <a
-                        href="http://www.basecarbone.fr/">la base carbone</a> établie par l'ADEME afin d'avoir des
+                        href="http://www.basecarbone.fr/" target="_blank">la base carbone</a> établie par l'ADEME afin d'avoir des
                     données cohérentes entre elles.</p>
                 <table>
-                    <caption>Facteurs d'émissions (source: <a href="http://www.basecarbone.fr/">Base carbone ADEME</a>)
+                    <caption>Facteurs d'émissions (source: <a href="http://www.basecarbone.fr/" target="_blank">Base carbone ADEME</a>)
                     </caption>
                     <thead>
                         <tr>
@@ -234,7 +234,7 @@
                     de télétravail, activités hebdomadaires, etc.).</p>
                 <p>Une fois votre semaine type renseignée nous calculons les emissions de tous vos trajets et nous
                     multiplions le total par <strong>44 semaines</strong> afin prendre en compte <a
-                        href="https://dares.travail-emploi.gouv.fr/dares-etudes-et-statistiques/etudes-et-syntheses/dares-analyses-dares-indicateurs-dares-resultats/article/les-conges-payes-et-jours-de-rtt">le
+                        href="https://dares.travail-emploi.gouv.fr/dares-etudes-et-statistiques/etudes-et-syntheses/dares-analyses-dares-indicateurs-dares-resultats/article/les-conges-payes-et-jours-de-rtt" target="_blank">le
                         nombre moyen de jours de congés/RTT</a>.</p>
                 <p>Quand aux trajets occasionnels nous calculons simplement les emissions de chaque trajet.</p>
             </div>
@@ -252,7 +252,7 @@
                     électrique français et du gaz pour obtenir vous émissions de CO2.</p>
                 <h3>Facteur d'émission de l'électricité</h3>
                 <p>Pour calculer le facteur d'émission de CO2 du secteur électrique français nous utilisons les <a
-                        href="https://www.rte-france.com/fr/article/bilans-electriques-nationaux"> bilans électriques
+                        href="https://www.rte-france.com/fr/article/bilans-electriques-nationaux" target="_blank"> bilans électriques
                         nationaux de RTE</a>. Ces bilans donnent la production électrique totale de toutes les filières
                     de production en TWh ainsi que la quantité émise de CO2 en MT, le ratio des deux permettant
                     d'obtenir le facteur d'émission moyen pour le système électrique.</p>
@@ -261,32 +261,32 @@
                     annuels depuis 2010 pour obtenir une valeur de <strong>49 kgCO2/MWh</strong>.</p>
                 <h3>Facteur d'émission du gaz naturel</h3>
                 <p><a
-                        href="https://www.grdf.fr/institutionnel/role-transition-ecologique/energie-avenir/energie-respect-environnement">GRDF</a>
+                        href="https://www.grdf.fr/institutionnel/role-transition-ecologique/energie-avenir/energie-respect-environnement" target="_blank">GRDF</a>
                     donne pour du gaz naturel un facteur d'émissions de <strong>234 kgCO2/MWh</strong>.</p>
                 <h3>Pour aller plus loin</h3>
                 <ul>
                     <li>Comprendre ses relevés de compteurs gaz et électricité sur <a
-                            href="https://www.energie-info.fr/fiche_pratique/releve-des-compteurs-et-calcul-de-la-consommation/">energie-info.fr</a>
+                            href="https://www.energie-info.fr/fiche_pratique/releve-des-compteurs-et-calcul-de-la-consommation/" target="_blank">energie-info.fr</a>
                     </li>
                     <li>Comprendre le coefficient de conversion pour le gaz naturel sur <a
-                            href="https://www.grdf.fr/particuliers/coefficient-conversion-commune">grdf.fr</a></li>
-                    <li>Le site de la Commission de Régulation de l'Energie (<a href="https://www.cre.fr/">cre.fr</a>).
+                            href="https://www.grdf.fr/particuliers/coefficient-conversion-commune" target="_blank">grdf.fr</a></li>
+                    <li>Le site de la Commission de Régulation de l'Energie (<a href="https://www.cre.fr/" target="_blank">cre.fr</a>).
                     </li>
                 </ul>
             </div>
             <div id="methodologie-alimentation" class="form-main">
                 <h3>Émissions liées à l'alimentation</h3>
                 <p>Le secteur de l'agroalimentaire représente <a
-                        href="http://multimedia.ademe.fr/animations/alimentation/">une part importante</a> des émissions
+                        href="http://multimedia.ademe.fr/animations/alimentation/" target="_blank">une part importante</a> des émissions
                     de gaz à effet de serre en France. Les émissions ont lieu lors de <a
-                        href="https://www.ademe.fr/manger-mieux-gaspiller-moins">quatre phases</a>: la production
+                        href="https://www.ademe.fr/manger-mieux-gaspiller-moins" target="_blank">quatre phases</a>: la production
                     (élevage, agriculture), la transformation, la distribution (transport, chaîne du froid) et
                     l'utilisation finale (conservation, cuisson).</p>
                 <p>Les émissions de chaque aliment vont donc dépendre du type d'aliment (viande, céréales, légumes), du
                     mode de production (fruit et légumes de saison, culture en serre) et du transport (production locale
                     ou non).</p>
                 <p>Les données de la base <a
-                        href="http://www.bilans-ges.ademe.fr/fr/actualite/actualite/detail/id/23">Food'GES</a> montrent
+                        href="http://www.bilans-ges.ademe.fr/fr/actualite/actualite/detail/id/23" target="_blank">Food'GES</a> montrent
                     que la phase "amont agricole" est de loin la plus émettrice. C'est pourquoi nous avons choisi
                     d'utiliser les régimes alimentaires comme critère distinctif. Chaque régime alimentaire remplit les
                     besoins nutritifs quotidiens nécessaires avec différents types d'aliments:</p>
@@ -294,7 +294,7 @@
                     <li>le régime omnivore (assiette moyenne française) fait la part belle aux produits carnés et
                         d'origine animale ainsi qu'aux produits transformés.</li>
                     <li>le régime <a
-                            href="https://www.wwf.fr/sites/default/files/doc-2017-11/171109_rapport_vers_une_alimentation_bas_carbone_saine_abordable_0.pdf">fléxitarien</a>
+                            href="https://www.wwf.fr/sites/default/files/doc-2017-11/171109_rapport_vers_une_alimentation_bas_carbone_saine_abordable_0.pdf" target="_blank">fléxitarien</a>
                         tend à réduire la part d'origine animale pour favoriser les légumes, céréales et légumineuses.
                     </li>
                     <li>le régime végétarien exclue tout produit d'origine animale.</li>
@@ -305,7 +305,7 @@
                     rubrique <em>Logement</em>)</p>
                 <table>
                     <caption>Emissions par type de régimes alimentaires (source <a
-                            href="http://www.bilans-ges.ademe.fr/fr/accueil/documentation-gene/index/page/Repas">Base
+                            href="http://www.bilans-ges.ademe.fr/fr/accueil/documentation-gene/index/page/Repas" target="_blank">Base
                             Carbone ADEME</a>, hors cuisson et gestion des déchets).</caption>
                     <thead>
                         <tr>
@@ -335,7 +335,7 @@
                     vie, de la phase d'extraction des matières premières, aux processus de fabrication, en passant par
                     leur transport, leur utilisation et leur recyclage.</p>
                 <p>Trois segments ont été identifiés dans la <a
-                        href="https://www.ademe.fr/sites/default/files/assets/documents/poids_carbone-biens-equipement-201809-rapport.pdf">base
+                        href="https://www.ademe.fr/sites/default/files/assets/documents/poids_carbone-biens-equipement-201809-rapport.pdf" target="_blank">base
                         carbone</a> de l'ADEME: le textile, les équipements high-tech et l'électroménager. Ces segments
                     se distinguent par la part importante de la fabrication (matières premières et assemblage) dans les
                     émissions.</p>
@@ -351,7 +351,7 @@
                     logement) ni au recyclage des objets.</p>
                 <table>
                     <caption>Emissions des objets high-tech (source <a
-                            href="https://www.ademe.fr/sites/default/files/assets/documents/poids_carbone-biens-equipement-201809-rapport.pdf">Base
+                            href="https://www.ademe.fr/sites/default/files/assets/documents/poids_carbone-biens-equipement-201809-rapport.pdf" target="_blank">Base
                             Carbone ADEME</a>, hors utilisation et recyclage).</caption>
                     <thead>
                         <tr>
@@ -381,7 +381,7 @@
 
                 <table>
                     <caption>Emissions des objets électroménagers (source <a
-                            href="https://www.ademe.fr/sites/default/files/assets/documents/poids_carbone-biens-equipement-201809-rapport.pdf">Base
+                            href="https://www.ademe.fr/sites/default/files/assets/documents/poids_carbone-biens-equipement-201809-rapport.pdf" target="_blank">Base
                             Carbone ADEME</a>, hors utilisation et recyclage).</caption>
                     <thead>
                         <tr>
