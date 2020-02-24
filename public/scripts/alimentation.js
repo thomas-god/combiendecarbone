@@ -2,6 +2,7 @@ function Alimentation(div_id) {
   this.div_id = div_id;
   this.repas_boxes = {};
   this.repas_restants = 14;
+  this.regime_custom = false;
   this.repas = [
     {
       name: "viande-rouge",
@@ -42,6 +43,10 @@ function Alimentation(div_id) {
   this.initDiv();
 }
 
+/**
+ * Initialize the Alimentation form: add the html template, generate the
+ * form and all callbacks for inputs.
+ */
 Alimentation.prototype.initDiv = function() {
   const div = document.getElementById(this.div_id);
   div.innerHTML = `
@@ -55,20 +60,91 @@ Alimentation.prototype.initDiv = function() {
     </ul>
     <p>Comme changer ses habitudes alimentaires peut prendre du temps, vous pouvez composer votre régime alimentaire hebdomadaire typique à partir des 3 régimes précédents.</p>
 
-    <h3>Votre semaine type en 14 repas</h3>
-    <div id="repas-form" class="form-repas">
-        <span id="repas-box" class="form-repas-box">
-        </span>
+    <h3>Votre régime alimentaire</h3>
+    <div class="form-repas">
+      <label>
+        Votre régime alimentaire
+        <select id="repas-regime" class="form-input">
+          <option value="" selected disabled=true>----</option>
+          <option value="classique">Classique</option>
+          <option value="flexitarien">Fléxitarien</option>
+          <option value="vegetarien">Végétarien</option>
+          <option value="custom">Personnalisé</option>
+        </select>
+      </label>
     </div>
-    `;
+
+    <h3 id="repas-form-title" class="disp-none">Votre semaine type (en 14 repas)</h3>
+    <div id="repas-form" class="form-repas disp-none">
+      <span id="repas-box" class="form-repas-box">
+      </span>
+    </div>
+  `;
+
+  const select = document.getElementById("repas-regime");
+  select.addEventListener("input", event => {
+    this.defaultRegimesCallback(event);
+  });
+
   this.repas_boxes["restants"] = this.addRepasBox();
   const form_div = document.getElementById("repas-form");
   for (const repas of this.repas) {
     form_div.appendChild(this.createSingleRepasSpan(repas));
   }
-  this.renderRepasBoxes("restants", this.repas_restants);
+  let buttonReset = document.createElement("button");
+  buttonReset.classList.add("form-input");
+  buttonReset.textContent = "Réinitialiser";
+  buttonReset.addEventListener("click", () => this.resetRepas());
+  form_div.appendChild(buttonReset);
+  this.renderRepasBoxes();
 };
 
+/**
+ * Callback to be executed when the user select a regime from the select.
+ * Will populate the repas box whith the corresponding amount of each meal
+ * type depending on the regime chosen.
+ */
+Alimentation.prototype.defaultRegimesCallback = function(event) {
+  let regime = event.target.value;
+  let newRepas = {};
+  this.repas.forEach(repas => (newRepas[repas.name] = 0));
+  switch (regime) {
+    case "classique": {
+      newRepas["viande-rouge"] = 14;
+      break;
+    }
+    case "flexitarien": {
+      newRepas["vegetal-viande-blanche"] = 14;
+      break;
+    }
+    case "vegetarien": {
+      newRepas["vegetarien"] = 14;
+      break;
+    }
+    case "custom": {
+      const div_form = document.getElementById("repas-form");
+      div_form.classList.remove("disp-none");
+      const title = document.getElementById("repas-form-title");
+      title.classList.remove("disp-none");
+      break;
+    }
+  }
+  if (regime !== "custom") {
+    this.regime_custom = true;
+    this.resetRepas();
+    for ([key, value] of Object.entries(newRepas)) {
+      let button = document.getElementById("repas__" + key + "__add");
+      for (let i = 0; i < value; i++) {
+        button.click();
+      }
+    }
+    this.regime_custom = false;
+  }
+};
+
+/**
+ * Add a span for a meal type, containing label, buttons and link to this.repas.
+ */
 Alimentation.prototype.createSingleRepasSpan = function(repas) {
   let span = document.createElement("span");
   span.id = "repas__" + repas.name;
@@ -101,16 +177,19 @@ Alimentation.prototype.createSingleRepasSpan = function(repas) {
   span_controls.appendChild(button_add);
   span.appendChild(span_controls);
 
-  button_del.addEventListener("click", () => {
+  button_del.addEventListener("click", event => {
     this.removeRepasCallback(repas, input_num.id);
   });
-  button_add.addEventListener("click", () => {
+  button_add.addEventListener("click", event => {
     this.addRepasCallback(repas, input_num.id);
   });
 
   return span;
 };
 
+/**
+ * Create the 14 boxes to hold the user's custom week meals.
+ */
 Alimentation.prototype.addRepasBox = function() {
   const span = document.getElementById("repas-box");
   const repas_boxes = [];
@@ -123,6 +202,10 @@ Alimentation.prototype.addRepasBox = function() {
   return repas_boxes;
 };
 
+/**
+ * Callback when adding a new meal to the week's meal list.
+ * Check if ther is enough meal left before adding a new one.
+ */
 Alimentation.prototype.addRepasCallback = function(repas, input_id) {
   const num = document.getElementById(input_id);
   if (num.valueAsNumber < 14 && this.repas_restants > 0) {
@@ -130,9 +213,16 @@ Alimentation.prototype.addRepasCallback = function(repas, input_id) {
     repas.count += 1;
     this.repas_restants -= 1;
     this.renderRepasBoxes();
+    if (!this.regime_custom) {
+      this.setSelectToCustom();
+    }
   }
 };
 
+/**
+ * Callback when removing a new meal from the week's meal list.
+ * Check to avoid negative number of meals.
+ */
 Alimentation.prototype.removeRepasCallback = function(repas, input_id) {
   const num = document.getElementById(input_id);
   if (num.valueAsNumber > 0 && this.repas_restants < 14) {
@@ -140,9 +230,36 @@ Alimentation.prototype.removeRepasCallback = function(repas, input_id) {
     repas.count -= 1;
     this.repas_restants += 1;
     this.renderRepasBoxes();
+    if (!this.regime_custom) {
+      this.setSelectToCustom();
+    }
   }
 };
 
+/**
+ * Reset all meals counts.
+ */
+Alimentation.prototype.resetRepas = function() {
+  for (let repas of this.repas) {
+    let button_del = document.getElementById("repas__" + repas.name + "__del");
+    while (repas.count > 0) {
+      button_del.click();
+    }
+  }
+};
+
+/**
+ *
+ */
+Alimentation.prototype.setSelectToCustom = function() {
+  const select = document.getElementById("repas-regime");
+  select.value = "custom";
+};
+
+/**
+ * Render the repas box (i.e. display the emojis of this.repas.icone) based on
+ * meals in the user's custome meal week.
+ */
 Alimentation.prototype.renderRepasBoxes = function() {
   const repas_box = document.getElementById("repas-box");
   let i = 0;
@@ -158,6 +275,9 @@ Alimentation.prototype.renderRepasBoxes = function() {
   }
 };
 
+/**
+ * Compute the yearly amount of GHG using the user's meal week.
+ */
 Alimentation.prototype.computeGES = function() {
   return new Promise((resolve, reject) => {
     const ges = {};
