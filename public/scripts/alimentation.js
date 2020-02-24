@@ -51,16 +51,16 @@ Alimentation.prototype.initDiv = function() {
   const div = document.getElementById(this.div_id);
   div.innerHTML = `
     <h3>Habitudes alimentaires</h3>
-    <p>Le secteur de l'agriculture est à l'origine d'environ <a href="https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2019-05/datalab-46-chiffres-cles-du-climat-edition-2019-novembre2018.pdf">16%</a> des émissions de gaz à effet de serre en France, principalement via le méthane émis par les animaux, et les engrais azotés. Les émissions de gaz à effet de serre variant d'un aliment à un autre, un moyen efficace d'estimer nos émissions dues à notre alimentation est de raisonner en terme de régimes alimentaires.</p>
-    <p>Nous avons retenu 3 régimes alimentaires suivant leur teneur en protéines animales ou végétales :</p>
+    <p>Le secteur de l'agriculture est à l'origine d'environ <a href="https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2019-05/datalab-46-chiffres-cles-du-climat-edition-2019-novembre2018.pdf" target="_blank">16%</a> des émissions de gaz à effet de serre en France, principalement via le méthane émis par les animaux d'élevage, et les engrais azotés. Les émissions de gaz à effet de serre variant d'un aliment à un autre, un moyen efficace d'estimer nos émissions dues à notre alimentation est de raisonner en terme de régimes alimentaires.</p>
+    <p>Trois régimes alimentaires ont été retenus suivant leur teneur en protéines animales et végétales :</p>
     <ul>
-        <li>le régime <strong>omnivore</strong>, ou régime moyen en France, </li>
-        <li>le régime <strong>fléxitarien</strong>, qui remplace environ 2/3 des protéines animales du régime omnivore par des protéines végétales, </li>
+        <li>le régime <strong>omnivore</strong>, ou régime moyen en France, dans lequel la majorité des besoins en proteines sont d'origine animale.</li>
+        <li>le régime <strong>fléxitarien</strong>, qui remplace une partie des protéines animales du régime omnivore par des protéines végétales, </li>
         <li>le régime <strong>végétarien</strong>, qui ne contient pas de protéines animales. </li>
     </ul>
-    <p>Comme changer ses habitudes alimentaires peut prendre du temps, vous pouvez composer votre régime alimentaire hebdomadaire typique à partir des 3 régimes précédents.</p>
 
     <h3>Votre régime alimentaire</h3>
+    <p>Choisissez votre régime alimentaire, ou composez en un personnalisé.</p>
     <div class="form-repas">
       <label>
         Votre régime alimentaire
@@ -72,13 +72,27 @@ Alimentation.prototype.initDiv = function() {
           <option value="custom">Personnalisé</option>
         </select>
       </label>
+      <br>
     </div>
 
-    <h3 id="repas-form-title" class="disp-none">Votre semaine type (en 14 repas)</h3>
-    <div id="repas-form" class="form-repas disp-none">
-      <span id="repas-box" class="form-repas-box">
-      </span>
+    <div id="repas-form-container" class="disp-none">
+      <h3 style="margin-top: 1rem;">Personnalisez votre régime alimentaire</h3>
+      <p>Pour constuire votre régime alimentaire personnalisé nous avons choisi de raisonner en une semaine type, composée en 14 repas (7 jours x 2 repas par jour, déjeuner et diner), à choisir parmi 5 types:</p>
+      <ul>
+        <li><em>classique avec viande rouge</em>, la majorité des besoin en protéines sont apportés par de la viande rouge.</li>
+        <li><em>classique avec viande blanche</em>, la majorité des besoin en protéines sont apportés par de la viande blanche.</li>
+        <li><em>à dominate végétale avec de la viande rouge</em>, une partie des besoins en protéines sont couverts par des protéines végétales et le reste par de la viande rouge.</li>
+        <li><em>à dominate végétale avec de la viande blanche</em>, une partie des besoins en protéines sont couverts par des protéines végétales et le reste par de la viande blanche.</li>
+        <li><em>végétarien</em>, toutes les protéines sont d'origines végétales.</li>
+      </ul>
+      <p> </p>
+      <br>
+      <div id="repas-form" class="form-repas">
+        <span id="repas-box" class="form-repas-box">
+        </span>
+      </div>
     </div>
+
   `;
 
   const select = document.getElementById("repas-regime");
@@ -94,6 +108,7 @@ Alimentation.prototype.initDiv = function() {
   let buttonReset = document.createElement("button");
   buttonReset.classList.add("form-input");
   buttonReset.textContent = "Réinitialiser";
+  buttonReset.style = "margin-left: 3rem; margin-top: 1rem;";
   buttonReset.addEventListener("click", () => this.resetRepas());
   form_div.appendChild(buttonReset);
   this.renderRepasBoxes();
@@ -122,10 +137,8 @@ Alimentation.prototype.defaultRegimesCallback = function(event) {
       break;
     }
     case "custom": {
-      const div_form = document.getElementById("repas-form");
+      const div_form = document.getElementById("repas-form-container");
       div_form.classList.remove("disp-none");
-      const title = document.getElementById("repas-form-title");
-      title.classList.remove("disp-none");
       break;
     }
   }

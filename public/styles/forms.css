@@ -51,6 +51,10 @@
   margin-bottom: 5px;
 }
 
+.form-main li {
+  padding-right: 15px;
+}
+
 .form-main p + ul {
   margin-top: 0px;
 }
@@ -253,14 +257,14 @@ input[type="checkbox"].form-input {
   flex-direction: column;
   justify-content: stretch;
   align-items: flex-start;
-  margin: 30px;
+  /* margin: 30px; */
 }
 
 .form-repas-box {
   align-self: center;
   display: grid;
-  grid-template-columns: repeat(7, calc(2.3 * 10px + 1.5rem));
-  grid-template-rows: repeat(2, calc(2.7 * 10px + 1.5rem));
+  grid-template-columns: repeat(7, calc(2 * 10px + 1.5rem));
+  grid-template-rows: repeat(2, calc(2 * 10px + 2.5rem));
   gap: 0px;
   margin-bottom: 10px;
 }
@@ -282,7 +286,7 @@ input[type="checkbox"].form-input {
 }
 
 .form-repas-controls label {
-  width: 300px;
+  width: 265px;
   padding: 0 !important;
   margin: 7px auto;
   text-align: center;
