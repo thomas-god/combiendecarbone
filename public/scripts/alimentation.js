@@ -2,7 +2,7 @@ function Alimentation(div_id) {
   this.div_id = div_id;
   this.repas_boxes = {};
   this.repas_restants = 14;
-  this.regime_custom = false;
+  this.resetRegimeSelect = true;
   this.repas = [
     {
       name: "viande-rouge",
@@ -130,7 +130,7 @@ Alimentation.prototype.defaultRegimesCallback = function(event) {
     }
   }
   if (regime !== "custom") {
-    this.regime_custom = true;
+    this.resetRegimeSelect = false;
     this.resetRepas();
     for ([key, value] of Object.entries(newRepas)) {
       let button = document.getElementById("repas__" + key + "__add");
@@ -138,7 +138,7 @@ Alimentation.prototype.defaultRegimesCallback = function(event) {
         button.click();
       }
     }
-    this.regime_custom = false;
+    this.resetRegimeSelect = true;
   }
 };
 
@@ -213,7 +213,7 @@ Alimentation.prototype.addRepasCallback = function(repas, input_id) {
     repas.count += 1;
     this.repas_restants -= 1;
     this.renderRepasBoxes();
-    if (!this.regime_custom) {
+    if (this.resetRegimeSelect) {
       this.setSelectToCustom();
     }
   }
@@ -230,7 +230,7 @@ Alimentation.prototype.removeRepasCallback = function(repas, input_id) {
     repas.count -= 1;
     this.repas_restants += 1;
     this.renderRepasBoxes();
-    if (!this.regime_custom) {
+    if (this.resetRegimeSelect) {
       this.setSelectToCustom();
     }
   }
@@ -249,7 +249,7 @@ Alimentation.prototype.resetRepas = function() {
 };
 
 /**
- *
+ * Reset the select of predefined regimes to custom
  */
 Alimentation.prototype.setSelectToCustom = function() {
   const select = document.getElementById("repas-regime");
