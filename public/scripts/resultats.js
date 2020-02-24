@@ -67,10 +67,6 @@ class Resultats {
                 </div>
                 <div class="charts-area disp-none" id="charts-area">
                     <h2 id="total-ges"></h2>
-                    <span>
-                        <input type="button" value="Sauvegarder bilan" id="save-ges" class="form-button disp-none">
-                        <input type="button" value="Supprimer bilan" id="delete-ges" class="form-button disp-none">
-                    </span>
                     <div id="charts-main">
                         <div class="chart-ges disp-none" id="div-chart-total">
                             <canvas id="ges-chart-total"></canvas>
@@ -84,6 +80,10 @@ class Resultats {
                             <canvas id="ges-chart-zoom"></canvas>
                         </div>
                     </div>
+                    <span>
+                        <input type="button" value="Sauvegarder bilan" id="save-ges" class="form-button disp-none">
+                        <input type="button" value="Supprimer bilan" id="delete-ges" class="form-button disp-none">
+                    </span>
                 </div>
             </div>`;
 
