@@ -125,11 +125,20 @@ Alimentation.prototype.defaultRegimesCallback = function(event) {
   this.repas.forEach(repas => (newRepas[repas.name] = 0));
   switch (regime) {
     case "classique": {
-      newRepas["viande-rouge"] = 14;
+      newRepas["viande-rouge"] = 2;
+      newRepas["viande-blanche"] = 8;
+      newRepas["vegetal-viande-rouge"] = 4;
+      newRepas["vegetal-viande-blanche"] = 0;
+      newRepas["vegetarien"] = 0;
+
       break;
     }
     case "flexitarien": {
-      newRepas["vegetal-viande-blanche"] = 14;
+      newRepas["viande-rouge"] = 0;
+      newRepas["viande-blanche"] = 3;
+      newRepas["vegetal-viande-rouge"] = 6;
+      newRepas["vegetal-viande-blanche"] = 4;
+      newRepas["vegetarien"] = 1;
       break;
     }
     case "vegetarien": {
