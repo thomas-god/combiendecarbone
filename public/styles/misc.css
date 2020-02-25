@@ -37,6 +37,7 @@ html input[type="button"] {
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0px;
 }
 
 #main-content {
