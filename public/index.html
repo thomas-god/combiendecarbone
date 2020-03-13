@@ -18,6 +18,8 @@
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"
     ></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/http-vue-loader"></script>
     <script type="text/javascript" src="scripts/transports.js"></script>
     <script type="text/javascript" src="scripts/logement.js"></script>
     <script type="text/javascript" src="scripts/alimentation.js"></script>
@@ -129,8 +131,12 @@
         </p>
         <p>
           Pour toute question concernant notre méthodologie vous pouvez
-          consulter notre page <em>Méthodologie</em> ℹ️.
+          consulter notre page
+          <em>Méthodologie</em> ℹ️.
         </p>
+        <div id="app-test">
+          <transports></transports>
+        </div>
       </div>
       <div id="form-transport" class="form-main"></div>
       <div id="form-logement" class="form-main"></div>
@@ -823,8 +829,16 @@
       consommation
     );
 
+    new window.Vue({
+      el: "#app-test",
+
+      components: {
+        transports: window.httpVueLoader("./scripts/components/Transports.vue")
+      }
+    });
+
     /*     const button_nav = document.getElementById("nav-form")
-        button_nav.click() */
+      button_nav.click() */
     const button_mode = document.getElementById("header-accueil");
     button_mode.click();
 
