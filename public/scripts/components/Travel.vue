@@ -111,6 +111,7 @@
         <button class="default-input button" @click="deleteTravel">Supprimer</button>
       </div>
     </div>
+    <travel-ges :inputs="inputs"></travel-ges>
   </div>
 </template>
 
@@ -126,6 +127,9 @@ const modes_emoji = {
 
 module.exports = {
   props: ["id"],
+  components: {
+    "travel-ges": window.httpVueLoader("./scripts/components/TravelGes.vue")
+  },
   data: function() {
     return {
       constants: {
