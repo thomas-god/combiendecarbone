@@ -30,7 +30,12 @@ module.exports = {
       steps: []
     };
   },
-  render: function() {},
+  render: function() {
+    return this.$scopedSlots.default({
+      distance: this.distance,
+      ges: this.ges
+    });
+  },
   mounted: function() {
     this.$watch(
       vm => (
@@ -46,10 +51,10 @@ module.exports = {
             this.steps.push(await this.distanceDrive());
             break;
           case "TGV":
-            this.steps.push(await this.distanceTransit(["TRAIN"]));
+            this.steps = await this.distanceTransit(["TRAIN"]);
             break;
           case "Métro/Bus":
-            this.steps.push(await this.distanceTransit(["BUS", "RAIL"]));
+            this.steps = await this.distanceTransit(["BUS", "RAIL"]);
             break;
           default:
             console.log(
@@ -61,25 +66,27 @@ module.exports = {
   },
   computed: {
     distance: function() {
-      console.log(this.steps);
-
+      let distance = 0;
       if (this.steps.length > 0) {
-        return this.steps.reduce((sum, step) => sum + step.distance, 0);
-      } else {
-        return 0;
+        distance = this.steps.reduce((sum, step) => sum + step.distance, 0);
       }
+      this.$emit("distance", distance);
+      return distance;
     },
     ges: function() {
+      let ges = 0;
       if (this.steps.length > 0) {
-        let sum = 0;
         for (let i = 0; i < this.steps.length; i++) {
           const step = this.steps[i];
-          sum += (step.distance * this.modes_ges[step.mode]) / 1000;
+          ges +=
+            (((step.distance * this.modes_ges[step.mode]) / 1000) *
+              (this.inputs.ar ? 2 : 1) *
+              this.inputs.freq) /
+            (this.inputs.mode === "Voiture" ? this.inputs.passagers : 1);
         }
-        return sum;
-      } else {
-        return 0;
       }
+      this.$emit("ges", ges);
+      return ges;
     }
   },
   methods: {
@@ -88,7 +95,7 @@ module.exports = {
      * when transportation mode is plane.
      * @returns {Object} {Distance in km, mode}
      */
-    distancePlane() {
+    distancePlane: function() {
       const departure = {
         lat: this.inputs.departure.geometry.location.lat(),
         lng: this.inputs.departure.geometry.location.lng()

@@ -104,14 +104,17 @@
         <p>{{ inputs.arrival.name }}</p>
       </div>
 
-      <p class="travel-card-infos">3000km / 45 kg eq.CO2</p>
+      <travel-ges class="travel-card-infos" :inputs="inputs">
+        <p
+          slot-scope="{ distance, ges }"
+        >{{ distance.toFixed(0) }} km / {{ ges.toFixed(0) }} kg eq.CO2</p>
+      </travel-ges>
 
       <div class="travel-card-buttons">
         <button class="default-input button" @click="showPopup">Modifier</button>
         <button class="default-input button" @click="deleteTravel">Supprimer</button>
       </div>
     </div>
-    <travel-ges :inputs="inputs"></travel-ges>
   </div>
 </template>
 
@@ -150,6 +153,8 @@ module.exports = {
       display_popup: true,
       display_card: false,
       errors: []
+      /*      distance: 0,
+      ges: 0 */
     };
   },
   mounted: function() {
