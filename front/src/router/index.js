@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import FormTransports from '../views/FormTransports.vue'
-import FormAlimentation from '../views/FormAlimentation.vue'
-import FormLogement from '../views/FormLogement.vue'
-import FormConso from '../views/FormConso.vue'
+import Forms from '../views/Forms.vue'
 
 Vue.use(VueRouter)
 
@@ -15,24 +12,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/form/transports',
-    name: 'formTransports',
-    component: FormTransports
-  },
-  {
-    path: '/form/logement',
-    name: 'formLogement',
-    component: FormLogement
-  },
-  {
-    path: '/form/conso',
-    name: 'formConso',
-    component: FormConso
-  },
-  {
-    path: '/form/alimentation',
-    name: 'formAlimentation',
-    component: FormAlimentation
+    path: '/forms',
+    name: 'forms',
+    component: Forms
   }
 ]
 

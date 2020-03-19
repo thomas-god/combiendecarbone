@@ -1,15 +1,19 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <template v-for="link in links">
-        <router-link :to="{ name: link.url }" class="spacing" :key="link.url">{{
-          link.name
-        }}</router-link>
-        *
-      </template>
+  <v-app>
+    <div id="app">
+      <div id="nav">
+        <template v-for="link in links">
+          <router-link
+            :to="{ name: link.url }"
+            class="spacing"
+            :key="link.url"
+            >{{ link.name }}</router-link
+          >
+        </template>
+      </div>
+      <router-view />
     </div>
-    <router-view />
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -22,20 +26,8 @@ export default {
           url: 'Home'
         },
         {
-          name: 'Transports',
-          url: 'formTransports'
-        },
-        {
-          name: 'Logement',
-          url: 'formLogement'
-        },
-        {
-          name: 'Alimentation',
-          url: 'formAlimentation'
-        },
-        {
-          name: 'Consommation',
-          url: 'formConso'
+          name: 'Calculateur',
+          url: 'forms'
         }
       ]
     }
@@ -69,5 +61,10 @@ export default {
 <style scoped>
 .spacing {
   margin: 0 5px;
+}
+.redbox {
+  background-color: red;
+  width: 100%;
+  height: 50px;
 }
 </style>
