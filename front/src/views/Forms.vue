@@ -1,15 +1,15 @@
 <template>
   <div>
-    <form-container />
+    <transports-form />
   </div>
 </template>
 
 <script>
-import FormContainer from '../components/FormContainer.vue'
+import TransportsForm from '../components/TransportsForm.vue'
 
 export default {
   components: {
-    FormContainer
+    TransportsForm
   }
 }
 </script>
