@@ -1,23 +1,29 @@
 <template>
-  <div>
-    <v-card dark>
-      <v-card-title>Nouveau trajet</v-card-title>
-      <v-card-actions class="d-flex flex-column align-stretch flex-sm-row">
+  <v-card class="pa-3">
+    <v-card-title class="mb-0 pb-0 align-self-center">
+      <p class="ma-auto">Ajouter un nouveau trajet</p>
+    </v-card-title>
+    <v-card-actions class="d-flex flex-column align-stretch flex-sm-row">
+      <v-form ref="form">
         <v-select
           :items="modes"
           label="Mode de transport"
           v-model="mode"
+          required
+          :rules="rulesMode"
         ></v-select>
         <v-text-field
           label="Départ"
           id="departure"
           :value="departure.placeholder"
           clearable
+          :rules="rulesPlace"
         ></v-text-field>
         <v-text-field
           label="Arrivée"
           id="arrival"
           clearable
+          :rules="rulesPlace"
           :value="arrival.placeholder"
         ></v-text-field>
         <v-text-field
@@ -25,6 +31,7 @@
           v-model="freq"
           type="number"
           min="1"
+          :rules="rulesNum"
         ></v-text-field>
         <v-text-field
           label="Nombre de passagers"
@@ -32,17 +39,18 @@
           type="number"
           v-show="mode === 'Voiture'"
           min="1"
+          :rules="rulesNum"
         ></v-text-field>
         <v-checkbox v-model="ar" label="Aller/retour"></v-checkbox>
 
-        <v-btn @click="insertTravel(travel)">OK</v-btn>
-      </v-card-actions>
-    </v-card>
-  </div>
+        <v-btn @click="validate" color="success">Ajouter</v-btn>
+      </v-form>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -62,7 +70,10 @@ export default {
         placeholder: '',
         lat: 0,
         long: 0
-      }
+      },
+      rulesMode: [value => !!value || 'Champs requis.'],
+      rulesPlace: [value => !!value || 'Champs requis.'],
+      rulesNum: [value => (value - 0 > 0 ? true : 'Doit être > 0.')]
     }
   },
   mounted() {
@@ -98,8 +109,10 @@ export default {
   },
   computed: {
     ...mapState({
-      travels: state => state.transports.travels,
-      modes: state => state.transports.modes
+      travels: state => state.transports.travels
+    }),
+    ...mapGetters({
+      modes: 'transports/getModesNames'
     }),
     travel() {
       return {
@@ -112,12 +125,15 @@ export default {
       }
     }
   },
-  methods: mapActions('transports', ['insertTravel', 'deleteTravel'])
+  methods: {
+    ...mapActions('transports', ['insertTravel', 'deleteTravel']),
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.insertTravel(this.travel)
+      }
+    }
+  }
 }
 </script>
 
-<style scoped>
-div {
-  margin: 10px;
-}
-</style>
+<style scoped></style>
