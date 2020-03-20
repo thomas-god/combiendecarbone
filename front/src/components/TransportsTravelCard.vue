@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card max-width="550px" class="mx-auto my-3">
     <v-card-title class="flex-row flex-nowrap align-start">
       <v-icon large class="mr-2 mt-1" color="success">{{ icon_mode }}</v-icon>
       <span class="text-left text-nowrap">
