@@ -1,9 +1,9 @@
 <template>
-  <v-card class="pa-3">
+  <v-card class="pa-3 ma-0">
     <v-card-title class="mb-0 pb-0 align-self-center">
       <p class="ma-auto">Ajouter un nouveau trajet</p>
     </v-card-title>
-    <v-card-actions class="d-flex flex-column align-stretch flex-sm-row">
+    <v-card-actions class="d-flex flex-column align-stretch">
       <v-form ref="form">
         <v-select
           :items="modes"
@@ -129,8 +129,26 @@ export default {
     ...mapActions('transports', ['insertTravel', 'deleteTravel']),
     validate() {
       if (this.$refs.form.validate()) {
-        this.insertTravel(this.travel)
+        this.insertTravel(this.travel).then(() => {
+          this.resetForm()
+          this.$emit('close')
+        })
       }
+    },
+    resetForm() {
+      this.mode = ''
+      this.freq = 1
+      this.passengers = 1
+      this.ar = true
+      this.departure.name = ''
+      this.departure.placeholder = ''
+      this.departure.lat = 0
+      this.departure.long = 0
+      this.arrival.name = ''
+      this.arrival.placeholder = ''
+      this.arrival.lat = 0
+      this.arrival.long = 0
+      this.$refs.form.resetValidation()
     }
   }
 }

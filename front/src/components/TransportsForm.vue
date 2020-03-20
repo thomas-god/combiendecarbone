@@ -1,6 +1,11 @@
 <template>
   <div>
-    <travel-form></travel-form>
+    <v-dialog v-model="form_travel" max-width="550px">
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on">Ajouter un trajet</v-btn>
+      </template>
+      <travel-form @close="form_travel = false"></travel-form>
+    </v-dialog>
 
     <travel-card
       v-for="travel in travels"
@@ -21,7 +26,9 @@ export default {
     'travel-card': TransportsTravelCard
   },
   data() {
-    return {}
+    return {
+      form_travel: false
+    }
   },
   computed: {
     ...mapState({
