@@ -15,7 +15,7 @@
         <v-text-field
           label="Départ"
           id="departure"
-          v-model="travel.departure.placeholder"
+          :value="travel.departure.placeholder"
           ref="departure"
           clearable
           :rules="rulesPlace"
@@ -46,10 +46,10 @@
         ></v-text-field>
         <v-checkbox v-model="travel.ar" label="Aller/retour"></v-checkbox>
 
-        <v-btn @click="validate" color="success" v-if="!update_travel">
+        <v-btn @click="validate" color="success" v-if="travel_id === -1">
           Ajouter
         </v-btn>
-        <v-btn @click="validate" color="success" v-if="update_travel">
+        <v-btn @click="validate" color="success" v-if="travel_id > -1">
           Modifier
         </v-btn>
       </v-form>
