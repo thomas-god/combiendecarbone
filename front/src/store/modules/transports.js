@@ -1,4 +1,5 @@
 import { mdiAirplane, mdiCar, mdiTrain, mdiBike, mdiBusMultiple } from '@mdi/js'
+import { computeDistance } from '../../plugins/transports_distance.js'
 
 const modes = [
   { name: 'Voiture', icon: mdiCar },
@@ -52,17 +53,15 @@ export default {
     }
   },
   actions: {
-    insertTravel(context, travel) {
-      return new Promise(resolve => {
-        context.commit('insertTravel', travel)
-        resolve()
-      })
+    async insertTravel(context, travel) {
+      travel = await computeDistance(travel)
+      context.commit('insertTravel', travel)
+      return 1
     },
-    updateTravel(context, new_travel) {
-      return new Promise(resolve => {
-        context.commit('updateTravel', new_travel)
-        resolve()
-      })
+    async updateTravel(context, new_travel) {
+      new_travel.distances = await computeDistance(new_travel)
+      context.commit('updateTravel', new_travel)
+      return 1
     },
     deleteTravel(context, travelId) {
       context.commit('deleteTravel', travelId)

@@ -109,8 +109,8 @@ export default {
       this.travel.departure = {
         name: place.name,
         placeholder: input_dep.value + '',
-        lat: place.geometry.location.lat,
-        long: place.geometry.location.lng
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
       }
     })
 
@@ -124,8 +124,8 @@ export default {
       this.travel.arrival = {
         name: place.name,
         placeholder: input_arr.value,
-        lat: place.geometry.location.lat,
-        long: place.geometry.location.lng
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
       }
     })
   },
@@ -149,13 +149,13 @@ export default {
             name: '',
             placeholder: '',
             lat: 0,
-            long: 0
+            lng: 0
           },
           arrival: {
             name: '',
             placeholder: '',
             lat: 0,
-            long: 0
+            lng: 0
           }
         }
       } else {
