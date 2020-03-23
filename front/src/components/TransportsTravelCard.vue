@@ -9,9 +9,8 @@
       </span>
     </v-card-title>
     <v-card-text>
-      <!-- {{ travel.distance }}km - {{ travel.ges }} kg eq. CO2 -->
-      <!-- 356km - 45.6 kg eq. CO2 -->
-      Fréquence: {{ travel.freq }}
+      {{ travel.distance.toFixed(0) }}km - {{ travel.ges.toFixed(0) }} kg eq.
+      CO2
     </v-card-text>
     <v-card-actions class="justify-center">
       <v-btn color="warning" outlined rounded @click="updateTravel(travel.id)">

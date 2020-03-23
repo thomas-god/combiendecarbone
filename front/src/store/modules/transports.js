@@ -1,5 +1,6 @@
 import { mdiAirplane, mdiCar, mdiTrain, mdiBike, mdiBusMultiple } from '@mdi/js'
 import { computeDistance } from '../../plugins/transports_distance.js'
+import { computeGes } from '../../plugins/transports_ges.js'
 
 const modes = [
   { name: 'Voiture', icon: mdiCar },
@@ -55,11 +56,13 @@ export default {
   actions: {
     async insertTravel(context, travel) {
       travel = await computeDistance(travel)
+      travel = await computeGes(travel)
       context.commit('insertTravel', travel)
       return 1
     },
     async updateTravel(context, new_travel) {
-      new_travel.distances = await computeDistance(new_travel)
+      new_travel = await computeDistance(new_travel)
+      new_travel = await computeGes(new_travel)
       context.commit('updateTravel', new_travel)
       return 1
     },
