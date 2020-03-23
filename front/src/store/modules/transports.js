@@ -1,13 +1,24 @@
-var id = 3
+import { mdiAirplane, mdiCar, mdiTrain, mdiBike, mdiBusMultiple } from '@mdi/js'
 
-const modes = ['Voiture', 'Métro/Bus', 'Vélo', 'TGV', 'Avion']
-
+const modes = [
+  { name: 'Voiture', icon: mdiCar },
+  { name: 'Métro/Bus', icon: mdiBusMultiple },
+  { name: 'Vélo', icon: mdiBike },
+  { name: 'TGV', icon: mdiTrain },
+  { name: 'Avion', icon: mdiAirplane }
+]
 export default {
   namespaced: true,
   state: {
     travels: [],
     modes
   },
+    getModesNames(state) {
+      return state.modes.map(mode => mode.name)
+    },
+    getIconByMode: state => modeName => {
+      return state.modes.find(mode => mode.name === modeName).icon
+    },
   mutations: {
     insertTravel(state, travel) {
       id++
