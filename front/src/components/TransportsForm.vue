@@ -1,16 +1,21 @@
 <template>
   <div>
-    <v-dialog v-model="form_travel" max-width="550px">
-      <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">Ajouter un trajet</v-btn>
-      </template>
-      <travel-form @close="form_travel = false"></travel-form>
+    <v-btn color="primary" dark @click.stop="openForm(-1)"
+      >Ajouter un trajet</v-btn
+    >
+    <v-dialog
+      v-model="form_travel"
+      max-width="550px"
+      @click:outside="closeForm"
+    >
+      <travel-form @close="closeForm" :travel_id="travel_id"></travel-form>
     </v-dialog>
 
     <travel-card
       v-for="travel in travels"
       :travel="travel"
       :key="travel.id"
+      @update-travel="openForm"
     ></travel-card>
   </div>
 </template>
@@ -27,13 +32,24 @@ export default {
   },
   data() {
     return {
-      form_travel: false
+      form_travel: false,
+      travel_id: -1
     }
   },
   computed: {
     ...mapState({
       travels: state => state.transports.travels
     })
+  },
+  methods: {
+    openForm(id) {
+      this.travel_id = id
+      this.form_travel = true
+    },
+    closeForm() {
+      this.form_travel = false
+      this.travel_id = -2
+    }
   }
 }
 </script>

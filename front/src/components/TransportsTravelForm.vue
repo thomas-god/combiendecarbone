@@ -1,49 +1,57 @@
 <template>
   <v-card class="pa-3 ma-0">
     <v-card-title class="mb-0 pb-0 align-self-center">
-      <p class="ma-auto">Ajouter un nouveau trajet</p>
+      <p class="ma-auto">{{ title }}</p>
     </v-card-title>
     <v-card-actions class="d-flex flex-column align-stretch">
       <v-form ref="form">
         <v-select
           :items="modes"
           label="Mode de transport"
-          v-model="mode"
+          v-model="travel.mode"
           required
           :rules="rulesMode"
         ></v-select>
         <v-text-field
           label="Départ"
           id="departure"
-          :value="departure.placeholder"
+          v-model="travel.departure.placeholder"
+          ref="departure"
           clearable
           :rules="rulesPlace"
+          placeholder=""
         ></v-text-field>
         <v-text-field
           label="Arrivée"
           id="arrival"
           clearable
           :rules="rulesPlace"
-          :value="arrival.placeholder"
+          :value="travel.arrival.placeholder"
+          placeholder=""
         ></v-text-field>
         <v-text-field
           label="Fréquence du trajet"
-          v-model="freq"
+          v-model="travel.freq"
           type="number"
           min="1"
           :rules="rulesNum"
         ></v-text-field>
         <v-text-field
           label="Nombre de passagers"
-          v-model="passengers"
+          v-model="travel.passengers"
           type="number"
-          v-show="mode === 'Voiture'"
+          v-show="travel.mode === 'Voiture'"
           min="1"
           :rules="rulesNum"
         ></v-text-field>
-        <v-checkbox v-model="ar" label="Aller/retour"></v-checkbox>
+        <v-checkbox v-model="travel.ar" label="Aller/retour"></v-checkbox>
 
-        <v-btn @click="validate" color="success">Ajouter</v-btn>
+        <v-btn @click="validate" color="success" v-if="!update_travel">
+          Ajouter
+        </v-btn>
+        <v-btn @click="validate" color="success" v-if="update_travel">
+          Modifier
+        </v-btn>
       </v-form>
     </v-card-actions>
   </v-card>
@@ -53,23 +61,36 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
+  props: {
+    travel_id: {
+      type: Number,
+      default: -1
+    },
+    update_travel: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
-      mode: '',
-      freq: 1,
-      passengers: 1,
-      ar: true,
-      departure: {
-        name: '',
-        placeholder: '',
-        lat: 0,
-        long: 0
-      },
-      arrival: {
-        name: '',
-        placeholder: '',
-        lat: 0,
-        long: 0
+      travel: {
+        id: -1,
+        mode: '',
+        freq: 1,
+        passengers: 1,
+        ar: true,
+        departure: {
+          name: '',
+          placeholder: '',
+          lat: 0,
+          long: 0
+        },
+        arrival: {
+          name: '',
+          placeholder: '',
+          lat: 0,
+          long: 0
+        }
       },
       rulesMode: [value => !!value || 'Champs requis.'],
       rulesPlace: [value => !!value || 'Champs requis.'],
@@ -82,11 +103,12 @@ export default {
     var departure = new google.maps.places.Autocomplete(input_dep)
     departure.setFields(['formatted_address', 'name', 'geometry'])
     // eslint-disable-next-line no-undef
-    google.maps.event.addListener(departure, 'place_changed', () => {
+    departure.addListener('place_changed', () => {
       const place = departure.getPlace()
-      this.departure = {
+      this.travel_departure = input_dep.value
+      this.travel.departure = {
         name: place.name,
-        placeholder: input_dep.value,
+        placeholder: input_dep.value + '',
         lat: place.geometry.location.lat,
         long: place.geometry.location.lng
       }
@@ -99,7 +121,7 @@ export default {
     // eslint-disable-next-line no-undef
     google.maps.event.addListener(arrival, 'place_changed', () => {
       const place = arrival.getPlace()
-      this.arrival = {
+      this.travel.arrival = {
         name: place.name,
         placeholder: input_arr.value,
         lat: place.geometry.location.lat,
@@ -107,48 +129,76 @@ export default {
       }
     })
   },
+  watch: {
+    travel_id: function() {
+      // Reset form validation
+      if (this.travel_id === -2) {
+        this.$refs.form.resetValidation()
+      }
+
+      // Initialisation of travel object
+      let travel = {}
+      if (this.travel_id < 0) {
+        travel = {
+          id: -1,
+          mode: '',
+          freq: 1,
+          passengers: 1,
+          ar: true,
+          departure: {
+            name: '',
+            placeholder: '',
+            lat: 0,
+            long: 0
+          },
+          arrival: {
+            name: '',
+            placeholder: '',
+            lat: 0,
+            long: 0
+          }
+        }
+      } else {
+        travel = this.getTravelCopy(this.travel_id)
+      }
+      // Avoid breaking Vue reactivity
+      this.travel = Object.assign({}, this.travel, travel)
+    }
+  },
   computed: {
     ...mapState({
       travels: state => state.transports.travels
     }),
     ...mapGetters({
-      modes: 'transports/getModesNames'
+      modes: 'transports/getModesNames',
+      getTravelCopy: 'transports/getTravelCopy'
     }),
-    travel() {
-      return {
-        mode: this.mode,
-        departure: this.departure,
-        arrival: this.arrival,
-        freq: this.freq,
-        passengers: this.passengers,
-        ar: this.ar
+    title() {
+      let title = 'Ajouter un nouveau trajet'
+      if (this.travel_id > -1) {
+        title = `Modifier le trajet #${this.travel_id}`
       }
+      return title
     }
   },
   methods: {
-    ...mapActions('transports', ['insertTravel', 'deleteTravel']),
+    ...mapActions('transports', [
+      'insertTravel',
+      'updateTravel',
+      'deleteTravel'
+    ]),
     validate() {
       if (this.$refs.form.validate()) {
-        this.insertTravel(this.travel).then(() => {
-          this.resetForm()
+        let pr
+        if (this.travel_id > -1) {
+          pr = this.updateTravel(this.travel)
+        } else {
+          pr = this.insertTravel(this.travel)
+        }
+        pr.then(() => {
           this.$emit('close')
         })
       }
-    },
-    resetForm() {
-      this.mode = ''
-      this.freq = 1
-      this.passengers = 1
-      this.ar = true
-      this.departure.name = ''
-      this.departure.placeholder = ''
-      this.departure.lat = 0
-      this.departure.long = 0
-      this.arrival.name = ''
-      this.arrival.placeholder = ''
-      this.arrival.lat = 0
-      this.arrival.long = 0
-      this.$refs.form.resetValidation()
     }
   }
 }

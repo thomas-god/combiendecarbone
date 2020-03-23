@@ -10,10 +10,13 @@
     </v-card-title>
     <v-card-text>
       <!-- {{ travel.distance }}km - {{ travel.ges }} kg eq. CO2 -->
-      356km - 45.6 kg eq. CO2
+      <!-- 356km - 45.6 kg eq. CO2 -->
+      Fréquence: {{ travel.freq }}
     </v-card-text>
     <v-card-actions class="justify-center">
-      <v-btn color="warning" outlined rounded>Modifier</v-btn>
+      <v-btn color="warning" outlined rounded @click="updateTravel(travel.id)">
+        Modifier
+      </v-btn>
       <v-btn @click="deleteTravel(travel.id)" color="error" outlined rounded>
         Supprimer
       </v-btn>
@@ -28,7 +31,10 @@ import { mdiSwapHorizontalBold, mdiArrowRightBold } from '@mdi/js'
 export default {
   props: ['travel'],
   methods: {
-    ...mapActions('transports', ['deleteTravel'])
+    ...mapActions('transports', ['deleteTravel']),
+    updateTravel(id) {
+      this.$emit('update-travel', id)
+    }
   },
   computed: {
     ...mapGetters({ getIconByMode: 'transports/getIconByMode' }),
