@@ -1,6 +1,7 @@
 import { mdiAirplane, mdiCar, mdiTrain, mdiBike, mdiBusMultiple } from '@mdi/js'
 import { computeDistance } from '../../plugins/transports_distance.js'
 import { computeGes } from '../../plugins/transports_ges.js'
+import Vue from 'vue'
 
 const modes = [
   { name: 'Voiture', icon: mdiCar },
@@ -27,6 +28,12 @@ export default {
       return JSON.parse(
         JSON.stringify(state.travels.find(travel => travel.id === travelId))
       )
+    },
+    getTravelsReguliers: state => {
+      return state.travels.filter(travel => travel.type === 'Régulier')
+    },
+    getTravelsOccasionnels: state => {
+      return state.travels.filter(travel => travel.type === 'Occasionnel')
     }
   },
   mutations: {
@@ -58,12 +65,14 @@ export default {
       travel = await computeDistance(travel)
       travel = await computeGes(travel)
       context.commit('insertTravel', travel)
+      // ? Qu'est ce que je dois retourner ?
       return 1
     },
     async updateTravel(context, new_travel) {
       new_travel = await computeDistance(new_travel)
       new_travel = await computeGes(new_travel)
       context.commit('updateTravel', new_travel)
+      // ? Qu'est ce que je dois retourner ?
       return 1
     },
     deleteTravel(context, travelId) {

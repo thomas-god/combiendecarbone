@@ -44,7 +44,15 @@
 
     <v-card-title>Trajets hebdomadaires</v-card-title>
     <travel-card
-      v-for="travel in travels"
+      v-for="travel in travelsReguliers"
+      :travel="travel"
+      :key="travel.id"
+      @update-travel="openForm"
+    ></travel-card>
+
+    <v-card-title>Trajets occasionnels</v-card-title>
+    <travel-card
+      v-for="travel in travelsOccasionnels"
       :travel="travel"
       :key="travel.id"
       @update-travel="openForm"
@@ -53,7 +61,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import TransportsTravelForm from './TransportsTravelForm.vue'
 import TransportsTravelCard from './TransportsTravelCard.vue'
 
@@ -69,8 +77,9 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      travels: state => state.transports.travels
+    ...mapGetters({
+      travelsReguliers: 'transports/getTravelsReguliers',
+      travelsOccasionnels: 'transports/getTravelsOccasionnels'
     })
   },
   methods: {
