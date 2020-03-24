@@ -142,9 +142,8 @@ async function computeDistance(travel) {
       steps = await distanceTransit(['BUS', 'RAIL'], travel)
       break
     default:
-      console.log(`Cannot find function to compute ges for mode ${travel.mode}`)
+      throw `Cannot find function to compute ges for mode ${travel.mode}`
   }
-  console.log(steps)
 
   travel.distances = steps
   travel.distance = steps.reduce((sum, step) => sum + step.distance, 0)
