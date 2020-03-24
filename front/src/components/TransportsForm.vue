@@ -1,6 +1,5 @@
 <template>
-  <v-card class="ma-auto pa-3" max-width="650px">
-    <v-card-title>Transports</v-card-title>
+  <v-card class="mx-auto my-3 pa-3" max-width="650px">
     <v-card-text class="text-justify"
       ><p>
         Le secteur des transports est à l'origine d'environ
@@ -38,6 +37,7 @@
       v-model="form_travel"
       max-width="550px"
       @click:outside="closeForm"
+      class="ma-0"
     >
       <travel-form @close="closeForm" :travel_id="travel_id"></travel-form>
     </v-dialog>
@@ -95,8 +95,4 @@ export default {
 }
 </script>
 
-<style scoped>
-div {
-  margin: 10px;
-}
-</style>
+<style scoped></style>
