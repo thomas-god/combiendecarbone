@@ -10,7 +10,7 @@
     </v-card-title>
     <v-card-text>
       {{ travel.distance.toFixed(0) }}km - {{ travel.ges.toFixed(0) }} kg eq.
-      CO2
+      CO2 {{ travel.type }}
     </v-card-text>
     <v-card-actions class="justify-center">
       <v-btn color="warning" outlined rounded @click="updateTravel(travel.id)">
