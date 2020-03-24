@@ -1,17 +1,16 @@
 <template>
   <div>
-    <div>
+    <div class="d-flex justify-space-between px-4">
       <v-btn icon @click="updateCatBtn(-1)" v-show="$vuetify.breakpoint.xsOnly">
         <v-icon>{{ prev }}</v-icon>
       </v-btn>
       <v-btn
         v-for="cat in categories"
         :key="cat"
-        :text="cat !== current_cat"
-        :outlined="cat === current_cat"
+        :text="cat !== current_cat || $vuetify.breakpoint.xsOnly"
+        :outlined="cat === current_cat && $vuetify.breakpoint.smAndUp"
         @click="updateCat(cat)"
         :class="cat === current_cat ? active : inactive"
-        class="px-2 body-2"
         >{{ cat }}</v-btn
       >
       <v-btn icon @click="updateCatBtn(1)" v-show="$vuetify.breakpoint.xsOnly">
