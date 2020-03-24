@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="max-width: 800px; margin: auto">
     <div class="d-flex justify-space-between px-4">
       <v-btn icon @click="updateCatBtn(-1)" v-show="$vuetify.breakpoint.xsOnly">
         <v-icon>{{ prev }}</v-icon>
@@ -17,7 +17,6 @@
         <v-icon>{{ next }}</v-icon>
       </v-btn>
     </div>
-
     <transports-form v-show="current_cat === 'Transports'" />
   </div>
 </template>
