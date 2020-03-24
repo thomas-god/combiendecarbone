@@ -43,13 +43,13 @@ export default {
         travel => travel.id === new_travel.id
       )
       if (travel_id > -1) {
-        state.travels[travel_id] = new_travel
+        Vue.set(state.travels, travel_id, new_travel)
       }
     },
     deleteTravel(state, id) {
-      const arrId = state.travels.findIndex(item => item.id === id)
-      if (arrId > -1) {
-        state.travels.splice(arrId, 1)
+      const travel_id = state.travels.findIndex(item => item.id === id)
+      if (travel_id > -1) {
+        Vue.delete(state.travels, travel_id)
       }
     }
   },
