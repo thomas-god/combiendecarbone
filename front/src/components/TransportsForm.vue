@@ -1,5 +1,36 @@
 <template>
-  <div>
+  <v-card class="ma-auto pa-3" max-width="650px">
+    <v-card-title>Transports</v-card-title>
+    <v-card-text class="text-justify"
+      ><p>
+        Le secteur des transports est à l'origine d'environ
+        <a
+          href="https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2019-05/datalab-46-chiffres-cles-du-climat-edition-2019-novembre2018.pdf#page=38"
+          target="_blank"
+          >29%</a
+        >
+        des émissions de gaz à effet de serre en France, dont la moitié pour les
+        véhicules particuliers. Ces émissions peuvent être directes (lors de la
+        combustion d'essence dans une voiture) ou indirectes (lors de la
+        production d'électricité pour faire rouler un train). Pour un trajet la
+        quantité de gaz à effet de serre émise va dépendre du
+        <strong>mode utilisé</strong> (voiture, vélo, train, etc.) et de la
+        <strong>distance parcourue</strong>.
+      </p>
+      <p>
+        Nous avons découpé vos trajets 2 catégories : vos trajets
+        <strong>réguliers hebdomadaires</strong>, et vos trajets
+        <strong>occasionnels</strong> (lors de vos vacances par exemple).
+      </p>
+      <p>
+        Pour les deux catégories vous pouvez ajouter vos trajets via le bouton
+        <em>Ajouter un trajet</em> puis préciser le mode de transport utilisé,
+        les lieux de départ et d'arrivée, si c'est un aller retour et la
+        fréquence de ce trajet (dans la semaine pour les trajets hebdomadaires
+        ou dans l'année pour les trajets occasionnels).
+      </p>
+    </v-card-text>
+
     <v-btn color="primary" dark @click.stop="openForm(-1)"
       >Ajouter un trajet</v-btn
     >
@@ -11,13 +42,14 @@
       <travel-form @close="closeForm" :travel_id="travel_id"></travel-form>
     </v-dialog>
 
+    <v-card-title>Trajets hebdomadaires</v-card-title>
     <travel-card
       v-for="travel in travels"
       :travel="travel"
       :key="travel.id"
       @update-travel="openForm"
     ></travel-card>
-  </div>
+  </v-card>
 </template>
 
 <script>
