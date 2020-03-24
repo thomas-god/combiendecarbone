@@ -6,6 +6,13 @@
     <v-card-actions class="d-flex flex-column align-stretch">
       <v-form ref="form">
         <v-select
+          :items="['Régulier', 'Occasionnel']"
+          label="Type de trajet"
+          v-model="travel.type"
+          required
+          :rules="rulesMode"
+        ></v-select>
+        <v-select
           :items="modes"
           label="Mode de transport"
           v-model="travel.mode"
@@ -75,6 +82,7 @@ export default {
     return {
       travel: {
         id: -1,
+        type: '',
         mode: '',
         freq: 1,
         passengers: 1,
@@ -141,6 +149,7 @@ export default {
       if (this.travel_id < 0) {
         travel = {
           id: -1,
+          type: '',
           mode: '',
           freq: 1,
           passengers: 1,
