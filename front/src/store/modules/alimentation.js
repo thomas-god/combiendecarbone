@@ -1,33 +1,19 @@
 import Vue from 'vue'
-
-const labels = [
-  'Jamais',
-  '1-2 fois par semaine',
-  '1 fois par jour',
-  'A tous les repas'
-]
-
-const regime_items = [
-  { name: 'viande_rouge', text: 'Viande rouge' },
-  { name: 'viande_blanche', text: 'Viande blanche' },
-  { name: 'oeufs_fromage', text: 'Oeufs et produits laitiers' },
-  { name: 'bio', text: 'Produits bios' },
-  { name: 'local', text: 'Produits locaux' }
-]
+import { alimentation } from '../../plugins/alimentation_ges.js'
 
 export default {
   namespaced: true,
   state: {
-    labels: labels,
-    regime_items: regime_items,
+    freq: alimentation.freq,
+    items: alimentation.items,
     regime: {}
   },
   getters: {
-    getLabels(state) {
-      return state.labels
+    getFreq(state) {
+      return state.freq
     },
-    getRegimeItems(state) {
-      return state.regime_items
+    getItems(state) {
+      return state.items
     },
     getRegime(state) {
       return state.regime
@@ -41,6 +27,7 @@ export default {
   actions: {
     setRegime(context, new_regime) {
       // TODO add GES computation
+      new_regime.ges = alimentation.computeGes(new_regime)
       context.commit('setRegime', new_regime)
     }
   }
