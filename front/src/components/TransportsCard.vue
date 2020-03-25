@@ -13,7 +13,7 @@
       CO2 {{ travel.type }}
     </v-card-text>
     <v-card-actions class="justify-center">
-      <v-btn color="warning" outlined rounded @click="updateTravel(travel.id)">
+      <v-btn color="warning" outlined rounded @click="update(travel.id)">
         Modifier
       </v-btn>
       <v-btn @click="deleteTravel(travel.id)" color="error" outlined rounded>
@@ -30,8 +30,9 @@ import { mdiSwapHorizontalBold, mdiArrowRightBold } from '@mdi/js'
 export default {
   props: ['travel'],
   methods: {
-    ...mapActions('transports', ['deleteTravel']),
-    updateTravel(id) {
+    ...mapActions('transports', ['deleteTravel', 'updateCurrentId']),
+    update(id) {
+      this.updateCurrentId(id)
       this.$emit('update-travel', id)
     }
   },

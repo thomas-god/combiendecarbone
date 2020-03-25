@@ -15,7 +15,8 @@ export default {
   namespaced: true,
   state: {
     travels: [],
-    modes
+    modes,
+    current_id: -1
   },
   getters: {
     getModesNames(state) {
@@ -58,6 +59,9 @@ export default {
       if (travel_id > -1) {
         Vue.delete(state.travels, travel_id)
       }
+    },
+    updateCurrentId(state, new_id) {
+      state.current_id = new_id
     }
   },
   actions: {
@@ -77,6 +81,9 @@ export default {
     },
     deleteTravel(context, travelId) {
       context.commit('deleteTravel', travelId)
+    },
+    updateCurrentId(context, new_id) {
+      context.commit('updateCurrentId', new_id)
     }
   }
 }

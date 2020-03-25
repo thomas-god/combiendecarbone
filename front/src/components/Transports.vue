@@ -1,7 +1,10 @@
 <template>
-  <v-card class="mx-auto my-3 pa-3" max-width="650px">
-    <v-card-text class="text-justify"
-      ><p>
+  <category
+    :btn-name="{ dirty: 'Ajouter un trajet', clean: 'Ajouter un trajet' }"
+    @closing="updateCurrentId(-2)"
+  >
+    <template v-slot:text>
+      <p>
         Le secteur des transports est à l'origine d'environ
         <a
           href="https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2019-05/datalab-46-chiffres-cles-du-climat-edition-2019-novembre2018.pdf#page=38"
@@ -28,53 +31,51 @@
         fréquence de ce trajet (dans la semaine pour les trajets hebdomadaires
         ou dans l'année pour les trajets occasionnels).
       </p>
-    </v-card-text>
+    </template>
 
-    <v-btn color="primary" dark @click.stop="openForm(-1)"
+    <template v-slot:form="{ close }">
+      <transports-form @close="close"></transports-form>
+    </template>
+
+    <template v-slot:card="{ touched, open }">
+      <v-card-title v-show="touched">Vos trajets</v-card-title>
+      <transports-card
+        v-for="travel in travelsReguliers"
+        :travel="travel"
+        :key="travel.id"
+        @update-travel="open"
+        v-show="touched"
+      />
+
+      <transports-card
+        v-for="travel in travelsOccasionnels"
+        :travel="travel"
+        :key="travel.id"
+        @update-travel="open"
+        v-show="touched"
+      />
+    </template>
+  </category>
+
+  <!--   <v-btn color="primary" dark @click.stop="openForm(-1)"
       >Ajouter un trajet</v-btn
-    >
-    <v-dialog
-      v-model="form_travel"
-      max-width="550px"
-      @click:outside="closeForm"
-      class="ma-0"
-    >
-      <transports-form
-        @close="closeForm"
-        :travel_id="travel_id"
-      ></transports-form>
-    </v-dialog>
-
-    <v-card-title>Vos trajets</v-card-title>
-    <transports-card
-      v-for="travel in travelsReguliers"
-      :travel="travel"
-      :key="travel.id"
-      @update-travel="openForm"
-    ></transports-card>
-
-    <transports-card
-      v-for="travel in travelsOccasionnels"
-      :travel="travel"
-      :key="travel.id"
-      @update-travel="openForm"
-    ></transports-card>
-  </v-card>
+    > -->
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import Category from './base/Category.vue'
 import TransportsForm from './TransportsForm.vue'
 import TransportsCard from './TransportsCard.vue'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
     TransportsForm,
-    TransportsCard
+    TransportsCard,
+    Category
   },
   data() {
     return {
-      form_travel: false,
       travel_id: -1
     }
   },
@@ -85,14 +86,9 @@ export default {
     })
   },
   methods: {
-    openForm(id) {
-      this.travel_id = id
-      this.form_travel = true
-    },
-    closeForm() {
-      this.form_travel = false
-      this.travel_id = -2
-    }
+    ...mapActions({
+      updateCurrentId: 'transports/updateCurrentId'
+    })
   }
 }
 </script>

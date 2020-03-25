@@ -53,11 +53,8 @@
         ></v-text-field>
         <v-checkbox v-model="travel.ar" label="Aller/retour"></v-checkbox>
 
-        <v-btn @click="validate" color="success" v-if="travel_id === -1">
-          Ajouter
-        </v-btn>
-        <v-btn @click="validate" color="success" v-if="travel_id > -1">
-          Modifier
+        <v-btn @click="validate" color="success">
+          {{ travel_id === -1 ? 'Ajouter' : 'Modifier' }}
         </v-btn>
       </v-form>
     </v-card-actions>
@@ -69,10 +66,6 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   props: {
-    travel_id: {
-      type: Number,
-      default: -1
-    },
     update_travel: {
       type: Boolean,
       default: false
@@ -176,7 +169,8 @@ export default {
   },
   computed: {
     ...mapState({
-      travels: state => state.transports.travels
+      travels: state => state.transports.travels,
+      travel_id: state => state.transports.current_id
     }),
     ...mapGetters({
       modes: 'transports/getModesNames',
@@ -194,7 +188,8 @@ export default {
     ...mapActions('transports', [
       'insertTravel',
       'updateTravel',
-      'deleteTravel'
+      'deleteTravel',
+      'updateCurrentId'
     ]),
     validate() {
       if (this.$refs.form.validate()) {
@@ -205,6 +200,7 @@ export default {
           pr = this.insertTravel(this.travel)
         }
         pr.then(() => {
+          this.updateCurrentId(-2)
           this.$emit('close')
         })
       }
