@@ -10,21 +10,21 @@
         </p>
       </slot>
     </v-card-text>
-    <v-btn color="primary" dark @click="form = true">
-      {{ form_touched ? btn_name.dirty : btn_name.clean }}
+    <v-btn color="primary" dark @click="openForm">
+      {{ form_touched ? btnName.dirty : btnName.clean }}
     </v-btn>
     <v-dialog
       v-model="form"
       max-width="550px"
-      @click:outside="form = false"
+      @click:outside="closeFormUntouched"
       class="ma-0"
     >
       <slot name="form" :close="closeForm">
         <v-form></v-form>
       </slot>
     </v-dialog>
-    <slot name="card" :touched="form_touched">
-      <v-card>
+    <slot name="card" :touched="form_touched" :open="openForm">
+      <v-card v-show="form_touched">
         <v-card-title>Titre de la carte</v-card-title>
         <v-card-text>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat, ea
@@ -40,7 +40,7 @@
 <script>
 export default {
   props: {
-    btn_name: {
+    btnName: {
       type: Object,
       default() {
         return {
@@ -57,9 +57,18 @@ export default {
     }
   },
   methods: {
+    openForm() {
+      this.form = true
+      this.$emit('opening')
+    },
     closeForm() {
+      this.$emit('closing')
       this.form = false
       this.form_touched = true
+    },
+    closeFormUntouched() {
+      this.$emit('closing')
+      this.form = false
     }
   }
 }
