@@ -61,13 +61,17 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-btn color="primary" dark @click="form = true">Modifier</v-btn>
     <v-card class="mx-auto my-3">
       <v-card-title>Votre consommation</v-card-title>
       <v-card-text class="text-left">
         <p>Électricité: {{ factures.elec === '' ? 0 : factures.elec }} MWh</p>
         <p>Gaz: {{ factures.gaz === '' ? 0 : factures.gaz }} MWh</p>
       </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+
+        <v-btn color="primary" dark @click="form = true">Modifier</v-btn>
+      </v-card-actions>
     </v-card>
   </v-card>
 </template>

@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { computeGes } from '../../plugins/logement_ges.js'
 
 export default {
   namespaced: true,
@@ -20,15 +21,21 @@ export default {
     },
     resetFactures(state) {
       Vue.set(state, 'factures', {})
+    },
+    updateGes(state) {
+      let ges = computeGes(state)
+      Vue.set(state, 'ges', ges)
     }
   },
   actions: {
     updateFactures(context, new_factures) {
       // TODO: new_factures = await computeGes(new_factures)
       context.commit('updateFactures', new_factures)
+      context.commit('updateGes')
     },
-    resetFactures(context, facturesId) {
-      context.commit('resetFactures', facturesId)
+    resetFactures(context) {
+      context.commit('resetFactures')
+      context.commit('updateGes')
     }
   }
 }
