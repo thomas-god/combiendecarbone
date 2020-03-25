@@ -42,7 +42,7 @@
       <travel-form @close="closeForm" :travel_id="travel_id"></travel-form>
     </v-dialog>
 
-    <v-card-title>Trajets hebdomadaires</v-card-title>
+    <v-card-title>Vos trajets</v-card-title>
     <travel-card
       v-for="travel in travelsReguliers"
       :travel="travel"
@@ -50,7 +50,6 @@
       @update-travel="openForm"
     ></travel-card>
 
-    <v-card-title>Trajets occasionnels</v-card-title>
     <travel-card
       v-for="travel in travelsOccasionnels"
       :travel="travel"
