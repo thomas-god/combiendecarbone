@@ -18,17 +18,20 @@
       </v-btn>
     </div>
     <transports-form v-show="current_cat === 'Transports'" />
+    <logement-form v-show="current_cat === 'Logement'" />
   </div>
 </template>
 
 <script>
 import TransportsForm from '../components/TransportsForm.vue'
+import LogementForm from '../components/LogementForm.vue'
 import { mapGetters } from 'vuex'
 import { mdiArrowLeft, mdiArrowRight } from '@mdi/js'
 
 export default {
   components: {
-    TransportsForm
+    TransportsForm,
+    LogementForm
   },
   computed: {
     ...mapGetters({
