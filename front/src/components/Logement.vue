@@ -18,25 +18,23 @@
         les mesures utilisées dans nos factures d'énergie.
       </p>
     </v-card-text>
+    <v-btn color="primary" dark @click="form = true">
+      {{ form_touched ? 'Modifier' : 'Remplir' }}
+    </v-btn>
     <v-dialog
       v-model="form"
       max-width="550px"
       @click:outside="form = false"
       class="ma-0"
     >
-      <logement-form @close="form = false" />
+      <logement-form @close="closeForm" />
     </v-dialog>
-    <v-card class="mx-auto my-3">
+    <v-card class="mx-auto my-3" v-show="form_touched">
       <v-card-title>Votre consommation</v-card-title>
-      <v-card-text class="text-left">
+      <v-card-text class="text-left" v-show="factures.flag === 'Oui'">
         <p>Électricité: {{ factures.elec === '' ? 0 : factures.elec }} MWh</p>
         <p>Gaz: {{ factures.gaz === '' ? 0 : factures.gaz }} MWh</p>
       </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-
-        <v-btn color="primary" dark @click="form = true">Modifier</v-btn>
-      </v-card-actions>
     </v-card>
   </v-card>
 </template>
@@ -51,7 +49,8 @@ export default {
   },
   data() {
     return {
-      form: false
+      form: false,
+      form_touched: false
     }
   },
   computed: {
@@ -62,6 +61,12 @@ export default {
       set(value) {
         mapActions('logement/updateFactures', value)
       }
+    }
+  },
+  methods: {
+    closeForm() {
+      this.form = false
+      this.form_touched = true
     }
   }
 }
