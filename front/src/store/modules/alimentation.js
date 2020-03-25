@@ -28,6 +28,9 @@ export default {
     },
     getRegimeItems(state) {
       return state.regime_items
+    },
+    getRegime(state) {
+      return state.regime
     }
   },
   mutations: {

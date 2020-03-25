@@ -1,17 +1,24 @@
 <template>
   <v-card class="mx-auto my-3">
     <v-card-title>Votre consommation</v-card-title>
-    <v-card-text>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque doloribus
-      ad facilis ea, voluptatibus error enim, vel voluptatum consectetur magni
-      vero recusandae quod nesciunt iure excepturi minus explicabo repudiandae
-      laboriosam.
+    <v-card-text class="text-left">
+      <p v-for="r in regime_items" :key="r.name">
+        {{ r.text }}: {{ regime[r.name] }}
+      </p>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters({
+      regime: 'alimentation/getRegime',
+      regime_items: 'alimentation/getRegimeItems'
+    })
+  }
+}
 </script>
 
 <style></style>
