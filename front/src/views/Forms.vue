@@ -19,19 +19,22 @@
     </div>
     <transports v-show="current_cat === 'Transports'" />
     <logement v-show="current_cat === 'Logement'" />
+    <alimentation v-show="current_cat === 'Alimentation'" />
   </div>
 </template>
 
 <script>
 import Transports from '../components/Transports.vue'
 import Logement from '../components/Logement.vue'
+import Alimentation from '../components/Alimentation.vue'
 import { mapGetters } from 'vuex'
 import { mdiArrowLeft, mdiArrowRight } from '@mdi/js'
 
 export default {
   components: {
     Transports,
-    Logement
+    Logement,
+    Alimentation
   },
   computed: {
     ...mapGetters({
