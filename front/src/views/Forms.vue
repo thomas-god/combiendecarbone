@@ -20,6 +20,7 @@
     <transports v-show="current_cat === 'Transports'" />
     <logement v-show="current_cat === 'Logement'" />
     <alimentation v-show="current_cat === 'Alimentation'" />
+    <consommation v-show="current_cat === 'Consommation'" />
   </div>
 </template>
 
@@ -27,6 +28,7 @@
 import Transports from '../components/Transports.vue'
 import Logement from '../components/Logement.vue'
 import Alimentation from '../components/Alimentation.vue'
+import Consommation from '../components/Consommation.vue'
 import { mapGetters } from 'vuex'
 import { mdiArrowLeft, mdiArrowRight } from '@mdi/js'
 
@@ -34,7 +36,8 @@ export default {
   components: {
     Transports,
     Logement,
-    Alimentation
+    Alimentation,
+    Consommation
   },
   computed: {
     ...mapGetters({

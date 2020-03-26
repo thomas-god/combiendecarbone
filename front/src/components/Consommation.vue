@@ -23,8 +23,21 @@
       </p>
     </template>
 
+    <template v-slot:btn="{ open }">
+      <v-btn
+        v-for="cat in cats"
+        :key="cat"
+        color="primary"
+        dark
+        @click="openForm(cat, open)"
+        class="mx-3"
+      >
+        {{ cat }}
+      </v-btn>
+    </template>
+
     <template v-slot:form="{ close }">
-      <consommation-form @close="close" />
+      <consommation-form @close="close" :category="current_cat" />
     </template>
 
     <template v-slot:card> </template>
@@ -38,6 +51,18 @@ export default {
   components: {
     Category,
     ConsommationForm
+  },
+  data() {
+    return {
+      cats: ['Vêtements', 'High-tech', 'Électroménager'],
+      current_cat: ''
+    }
+  },
+  methods: {
+    openForm(cat, open) {
+      this.current_cat = cat
+      open()
+    }
   }
 }
 </script>

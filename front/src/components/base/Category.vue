@@ -10,9 +10,13 @@
         </p>
       </slot>
     </v-card-text>
-    <v-btn color="primary" dark @click="openForm">
-      {{ form_touched ? btnName.dirty : btnName.clean }}
-    </v-btn>
+
+    <slot name="btn" :open="openForm" :touched="form_touched">
+      <v-btn color="primary" dark @click="openForm">
+        {{ form_touched ? btnName.dirty : btnName.clean }}
+      </v-btn>
+    </slot>
+
     <v-dialog
       v-model="form"
       max-width="550px"

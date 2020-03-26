@@ -1,60 +1,44 @@
 <template>
-  <v-card class="pa-0 ma-0">
+  <v-card class="pa-3 ma-0">
     <!-- <v-card-title class="mb-0 pb-0 align-self-center justify-center">
       <p>Vos habitudes de consommation</p>
     </v-card-title> -->
-    <v-card-actions class="pa-0 d-flex flex-column align-stretch">
+    <v-card-actions class="d-flex flex-column align-stretch">
       <v-form ref="form">
-        <v-stepper v-model="cur_cat" class="elevation-0">
-          <v-stepper-header>
-            <template v-for="(cat, idx) in ['vet', 'ht', 'elec']">
-              <v-stepper-step :key="`${cat}-step`" :step="idx + 1" editable>
-              </v-stepper-step>
-            </template>
-          </v-stepper-header>
-          <v-stepper-items>
-            <v-stepper-content
-              v-for="(cat, idx) in ['vet', 'ht', 'elec']"
-              :key="`${cat}-content`"
-              :step="idx + 1"
-              class="pa-3"
-            >
-              <v-card-title class="align-self-start pa-3 subtitle-1">
-                {{ titles[cat] }}
-              </v-card-title>
-              <v-select
-                label="Choisir"
-                :items="items[cat]"
-                item-text="full_name"
-                return-object
-                @input="e => addVet(cat, e)"
-              ></v-select>
-              <div
-                v-for="item in active[cat]"
-                :key="item.name"
-                class="d-flex flex-row align-center justify-center mx-auto"
-              >
-                <num-btn
-                  v-model="consommation[item.name]"
-                  :prefix="item.full_name + ': '"
-                  :min="0"
-                  :max="10"
-                  class="my-4"
-                />
-                <v-btn
-                  @click="deleteVet(cat, item.name)"
-                  fab
-                  x-small
-                  outlined
-                  color="warning"
-                  class="ml-3"
-                >
-                  <v-icon dark>mdi-delete</v-icon>
-                </v-btn>
-              </div>
-            </v-stepper-content>
-          </v-stepper-items>
-        </v-stepper>
+        <v-card-title class="align-self-start">
+          {{ titles[current_cat] }}
+        </v-card-title>
+        <v-select
+          label="Ajouter"
+          :items="items[current_cat]"
+          item-text="full_name"
+          return-object
+          @input="e => addVet(current_cat, e)"
+        ></v-select>
+        <div
+          v-for="item in active[current_cat]"
+          :key="item.name"
+          class="d-flex flex-row align-center justify-center mx-auto"
+        >
+          <num-btn
+            v-model="consommation[item.name]"
+            :prefix="item.full_name + ': '"
+            :min="0"
+            :max="10"
+            class="my-4"
+          />
+          <v-btn
+            @click="deleteVet(current_cat, item.name)"
+            fab
+            x-small
+            outlined
+            color="warning"
+            class="ml-3"
+          >
+            <v-icon dark>mdi-delete</v-icon>
+          </v-btn>
+        </div>
+
         <v-btn @click="validate" color="success" class="ma-3">Ok</v-btn>
       </v-form>
     </v-card-actions>
@@ -69,6 +53,7 @@ export default {
   components: {
     numBtn: BaseNumPM
   },
+  props: ['category'],
   data() {
     return {
       rulesMode: [value => !!value || 'Champs requis.'],
@@ -89,7 +74,15 @@ export default {
   computed: {
     ...mapGetters({
       items: 'consommation/getItems'
-    })
+    }),
+    current_cat() {
+      const cats = {
+        Vêtements: 'vet',
+        'High-tech': 'ht',
+        Électroménager: 'elec'
+      }
+      return cats[this.category]
+    }
   },
   mounted() {
     let conso = {}
