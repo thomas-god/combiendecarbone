@@ -44,6 +44,8 @@ export default {
       freq: 'alimentation/getFreq',
       items: 'alimentation/getItems'
     }),
+    // ! It's a hack, updating properties is not reactive
+    // ! Ok if no need to display/use in a child component
     regime() {
       let regime = {}
       this.items.forEach(item => {
