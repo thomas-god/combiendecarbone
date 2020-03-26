@@ -25,6 +25,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
+      regime: {},
       rulesMode: [value => !!value || 'Champs requis.']
     }
   },
@@ -39,20 +40,19 @@ export default {
       }
     }
   },
+  mounted() {
+    let regime = {}
+    this.items.forEach(item => {
+      regime[item.name] = ''
+    })
+    this.regime = regime
+    this.$refs.form.resetValidation()
+  },
   computed: {
     ...mapGetters({
       freq: 'alimentation/getFreq',
       items: 'alimentation/getItems'
-    }),
-    // ! It's a hack, updating properties is not reactive
-    // ! Ok if no need to display/use in a child component
-    regime() {
-      let regime = {}
-      this.items.forEach(item => {
-        regime[item.name] = ''
-      })
-      return regime
-    }
+    })
   }
 }
 </script>
