@@ -4,6 +4,7 @@ import transports from './modules/transports.js'
 import categories from './modules/categories.js'
 import logement from './modules/logement.js'
 import alimentation from './modules/alimentation.js'
+import consommation from './modules/consommation.js'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     transports,
     categories,
     logement,
-    alimentation
+    alimentation,
+    consommation
   }
 })
