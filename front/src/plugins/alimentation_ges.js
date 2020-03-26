@@ -14,6 +14,7 @@ const items = [
 ]
 
 function computeGes(regime) {
+  // TODO: utiliser des valeurs cohérentes des ges
   // Regime de base
   let ges = 300 * 14
 

@@ -26,7 +26,6 @@ export default {
   },
   actions: {
     setRegime(context, new_regime) {
-      // TODO add GES computation
       new_regime.ges = alimentation.computeGes(new_regime)
       context.commit('setRegime', new_regime)
     }
