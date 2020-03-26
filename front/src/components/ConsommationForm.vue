@@ -48,7 +48,7 @@
 <script>
 import Vue from 'vue'
 import BaseNumPM from './base/BaseNumPM.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
     numBtn: BaseNumPM
@@ -95,6 +95,9 @@ export default {
     this.$refs.form.resetValidation()
   },
   methods: {
+    ...mapActions({
+      updateConso: 'consommation/updateConso'
+    }),
     addVet(cat, item) {
       let idx = this.active[cat].findIndex(v => v.name === item.name)
       if (idx === -1) {
@@ -110,6 +113,7 @@ export default {
     },
     validate() {
       if (this.$refs.form.validate()) {
+        this.updateConso(this.consommation)
         this.$emit('close')
       }
     },
