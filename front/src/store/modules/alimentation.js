@@ -6,7 +6,8 @@ export default {
   state: {
     freq: alimentation.freq,
     items: alimentation.items,
-    regime: {}
+    regime: {},
+    ges: 0
   },
   getters: {
     getFreq(state) {
@@ -22,12 +23,15 @@ export default {
   mutations: {
     setRegime(state, new_regime) {
       Vue.set(state, 'regime', new_regime)
+    },
+    updateGes(state) {
+      Vue.set(state, 'ges', alimentation.computeGes(state.regime))
     }
   },
   actions: {
     setRegime(context, new_regime) {
-      new_regime.ges = alimentation.computeGes(new_regime)
       context.commit('setRegime', new_regime)
+      context.commit('updateGes')
     }
   }
 }

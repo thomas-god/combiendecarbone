@@ -8,7 +8,8 @@ export default {
       flag: '',
       elec: 0,
       gaz: 0
-    }
+    },
+    ges: 0
   },
   getters: {
     getFactures(state) {

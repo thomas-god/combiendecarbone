@@ -9,7 +9,8 @@ export default {
       'High-tech': consommation.high_tech,
       Électroménager: consommation.electromenager
     },
-    consommation: {}
+    consommation: {},
+    ges: 0
   },
   getters: {
     getItems(state) {
@@ -35,7 +36,7 @@ export default {
       Vue.set(state.consommation, category, update)
     },
     updateGes(state) {
-      state.ges = consommation.computeGes(state.consommation)
+      Vue.set(state, 'ges', consommation.computeGes(state.consommation))
     }
   },
   actions: {
