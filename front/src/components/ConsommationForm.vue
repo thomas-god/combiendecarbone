@@ -95,8 +95,6 @@ export default {
           conso[item.name] = 0
         })
       }
-      console.log(this.items)
-
       this.consommation = conso
 
       // Deduce the list of active items
