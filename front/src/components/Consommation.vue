@@ -26,7 +26,7 @@
     <template v-slot:btn="{ open }">
       <v-btn
         v-for="cat in cats"
-        :key="cat"
+        :key="`${cat}-form`"
         color="primary"
         dark
         @click="openForm(cat, open)"
@@ -37,31 +37,52 @@
     </template>
 
     <template v-slot:form="{ close }">
-      <consommation-form @close="close" :category="current_cat" />
+      <consommation-form
+        @close="closeForm(current_cat, close)"
+        :category="current_cat"
+      />
     </template>
 
-    <template v-slot:card> </template>
+    <template v-slot:card>
+      <consommation-card
+        v-for="cat in cats"
+        :key="`${cat}-card`"
+        :title="cat"
+        v-show="touched[cat] ? true : false"
+      >
+      </consommation-card>
+    </template>
   </category>
 </template>
 
 <script>
 import Category from './base/Category.vue'
 import ConsommationForm from './ConsommationForm.vue'
+import ConsommationCard from './ConsommationCard.vue'
+
 export default {
   components: {
     Category,
-    ConsommationForm
+    ConsommationForm,
+    ConsommationCard
   },
   data() {
     return {
       cats: ['Vêtements', 'High-tech', 'Électroménager'],
-      current_cat: ''
+      current_cat: '',
+      touched: { Vêtements: false, 'High-tech': false, Électroménager: false }
     }
   },
   methods: {
     openForm(cat, open) {
       this.current_cat = cat
       open()
+    },
+    closeForm(cat, close) {
+      if (!(cat in this.touched)) {
+        this.touched.push(cat)
+      }
+      close()
     }
   }
 }

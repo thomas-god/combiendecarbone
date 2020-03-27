@@ -4,36 +4,35 @@ import { consommation } from '../../plugins/consommation_ges.js'
 export default {
   namespaced: true,
   state: {
-    vetements: consommation.vetements,
-    high_tech: consommation.high_tech,
-    electromenager: consommation.electromenager,
+    items: {
+      Vêtements: consommation.vetements,
+      'High-tech': consommation.high_tech,
+      Électroménager: consommation.electromenager
+    },
     consommation: {}
   },
   getters: {
-    getVetements(state) {
-      return state.vetements
-    },
-    getHighTech(state) {
-      return state.high_tech
-    },
-    getElectromenager(state) {
-      return state.electromenager
-    },
     getItems(state) {
-      return {
-        vet: state.vetements,
-        elec: state.high_tech,
-        ht: state.electromenager
+      return state.items
+    },
+    getItemsByCategory(state) {
+      return cat => {
+        return state.items[cat]
+      }
+    },
+    getConsoByCategory(state) {
+      return cat => {
+        if (cat in state.consommation) {
+          return state.consommation[cat]
+        } else {
+          return {}
+        }
       }
     }
   },
   mutations: {
-    updateConso(state, update) {
-      let new_conso = {
-        ...this.consommation,
-        ...update
-      }
-      Vue.set(state, 'consommation', new_conso)
+    updateConso(state, { category, update }) {
+      Vue.set(state.consommation, category, update)
     }
   },
   actions: {

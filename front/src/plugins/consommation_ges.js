@@ -23,14 +23,14 @@ const electromenager = [
 ]
 
 const consommation = {
-  vetements: vetements.map(vet => {
-    return { name: vet.name, full_name: vet.full_name }
+  vetements: vetements.map(item => {
+    return { name: item.name, full_name: item.full_name, value: 0 }
   }),
-  high_tech: high_tech.map(vet => {
-    return { name: vet.name, full_name: vet.full_name }
+  high_tech: high_tech.map(item => {
+    return { name: item.name, full_name: item.full_name, value: 0 }
   }),
-  electromenager: electromenager.map(vet => {
-    return { name: vet.name, full_name: vet.full_name }
+  electromenager: electromenager.map(item => {
+    return { name: item.name, full_name: item.full_name, value: 0 }
   })
 }
 

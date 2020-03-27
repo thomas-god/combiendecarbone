@@ -1,22 +1,20 @@
 <template>
   <v-card class="pa-3 ma-0">
-    <!-- <v-card-title class="mb-0 pb-0 align-self-center justify-center">
-      <p>Vos habitudes de consommation</p>
-    </v-card-title> -->
+    <v-card-title class="align-self-start">
+      {{ titles[category] }}
+    </v-card-title>
     <v-card-actions class="d-flex flex-column align-stretch">
       <v-form ref="form">
-        <v-card-title class="align-self-start">
-          {{ titles[current_cat] }}
-        </v-card-title>
         <v-select
           label="Ajouter"
-          :items="items[current_cat]"
+          :items="items"
           item-text="full_name"
+          item-value="name"
           return-object
-          @input="e => addVet(current_cat, e)"
+          @input="addActiveItem"
         ></v-select>
         <div
-          v-for="item in active[current_cat]"
+          v-for="item in active_items"
           :key="item.name"
           class="d-flex flex-row align-center justify-center mx-auto"
         >
@@ -28,7 +26,7 @@
             class="my-4"
           />
           <v-btn
-            @click="deleteVet(current_cat, item.name)"
+            @click="deleteActiveItem(item.name)"
             fab
             x-small
             outlined
@@ -56,73 +54,73 @@ export default {
   props: ['category'],
   data() {
     return {
-      rulesMode: [value => !!value || 'Champs requis.'],
+      items: [],
       consommation: {},
-      active: {
-        vet: [],
-        elec: [],
-        ht: []
-      },
+      active_items: [],
       titles: {
-        vet: 'Combien de vêtements achetez-vous tous les ans ?',
-        elec: 'Combien de temps gardez vous votre électroménager (en années) ?',
-        ht: 'Combien de temps gardez vous votre high-tech (en années) ?'
-      },
-      cur_cat: 1
+        Vêtements: 'Combien de vêtements achetez-vous tous les ans ?',
+        Électroménager:
+          'Combien de temps gardez vous votre électroménager (en années) ?',
+        'High-tech':
+          'Combien de temps gardez vous votre high-tech (en années) ?'
+      }
     }
   },
   computed: {
     ...mapGetters({
-      items: 'consommation/getItems'
-    }),
-    current_cat() {
-      const cats = {
-        Vêtements: 'vet',
-        'High-tech': 'ht',
-        Électroménager: 'elec'
-      }
-      return cats[this.category]
-    }
+      getItems: 'consommation/getItemsByCategory',
+      getConso: 'consommation/getConsoByCategory'
+    })
   },
-  mounted() {
-    let conso = {}
-    for (let cat in this.items) {
-      this.items[cat].forEach(vet => {
-        conso[vet.name] = 0
+  watch: {
+    category(new_category) {
+      // Get list of items for current category
+      this.items = this.getItems(new_category)
+
+      // Get conso object for current category
+      let conso = this.getConso(new_category)
+      if (Object.keys(conso).length === 0) {
+        this.items.forEach(item => {
+          conso[item.name] = 0
+        })
+      }
+      console.log(this.items)
+
+      this.consommation = conso
+
+      // Deduce the list of active items
+      this.active_items = []
+      this.items.forEach(item => {
+        if (this.consommation[item.name] > 0) {
+          this.active_items.push(item)
+        }
       })
+
+      this.$refs.form.resetValidation()
     }
-    this.consommation = conso
-    this.$refs.form.resetValidation()
   },
   methods: {
     ...mapActions({
       updateConso: 'consommation/updateConso'
     }),
-    addVet(cat, item) {
-      let idx = this.active[cat].findIndex(v => v.name === item.name)
+    addActiveItem(item) {
+      let idx = this.active_items.findIndex(v => v.name === item.name)
       if (idx === -1) {
-        this.active[cat].push(item)
+        this.active_items.push(item)
       }
     },
-    deleteVet(cat, item_name) {
-      let idx = this.active[cat].findIndex(v => v.name === item_name)
+    deleteActiveItem(item_name) {
+      let idx = this.active_items.findIndex(v => v.name === item_name)
       if (idx > -1) {
-        Vue.delete(this.active[cat], idx)
+        Vue.delete(this.active_items, idx)
         this.consommation[item_name] = ''
       }
     },
     validate() {
       if (this.$refs.form.validate()) {
-        this.updateConso(this.consommation)
+        this.updateConso({ category: this.category, update: this.consommation })
         this.$emit('close')
       }
-    },
-    update(e) {
-      this.$nextTick(() => {
-        console.log('old jeans', this.consommation.jeans)
-        Vue.set(this.consommation, 'jeans', e)
-        console.log('jeans', this.consommation.jeans)
-      })
     }
   }
 }
