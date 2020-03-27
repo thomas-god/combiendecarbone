@@ -7,11 +7,11 @@ import {
 } from '@mdi/js'
 
 const categories = [
-  { id: 1, name: 'Transports', icon: mdiAirplane },
-  { id: 2, name: 'Logement', icon: mdiHomeCity },
-  { id: 3, name: 'Alimentation', icon: mdiFoodForkDrink },
-  { id: 4, name: 'Consommation', icon: mdiCart },
-  { id: 5, name: 'Résultats', icon: mdiChartPie }
+  { id: 1, name: 'Transports', icon: mdiAirplane, color: 'red' },
+  { id: 2, name: 'Logement', icon: mdiHomeCity, color: 'blue' },
+  { id: 3, name: 'Alimentation', icon: mdiFoodForkDrink, color: 'green' },
+  { id: 4, name: 'Consommation', icon: mdiCart, color: 'orange' },
+  { id: 5, name: 'Résultats', icon: mdiChartPie, color: '' }
 ]
 
 export default {
@@ -31,6 +31,13 @@ export default {
     },
     getIconByMode: state => modeName => {
       return state.categories.find(mode => mode.name === modeName).icon
+    },
+    getCategoriesColors(state) {
+      let colors = {}
+      state.categories.forEach(cat => {
+        colors[cat.name] = cat.color
+      })
+      return colors
     }
   }
 }
