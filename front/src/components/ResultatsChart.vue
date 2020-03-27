@@ -7,8 +7,21 @@ const options = {
   scales: {
     yAxes: [
       {
+        gridLines: {
+          display: false
+        },
         ticks: {
-          beginAtZero: true
+          display: false
+        }
+      }
+    ],
+    xAxes: [
+      {
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          display: false
         }
       }
     ]
