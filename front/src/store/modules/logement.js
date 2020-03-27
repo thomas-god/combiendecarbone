@@ -9,7 +9,7 @@ export default {
       elec: 0,
       gaz: 0
     },
-    ges: 0
+    ges: { total: 0 }
   },
   getters: {
     getFactures(state) {

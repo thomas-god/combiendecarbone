@@ -74,7 +74,8 @@ export default {
       })
 
       this.data_chart = data_fmt
-      this.renderChart(this.data_chart, this.options)
+      if (data_fmt.datasets[0].data.reduce((sum, i) => sum + i) > 0)
+        this.renderChart(this.data_chart, this.options)
     }
   }
 }

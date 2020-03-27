@@ -5,6 +5,7 @@ import categories from './modules/categories.js'
 import logement from './modules/logement.js'
 import alimentation from './modules/alimentation.js'
 import consommation from './modules/consommation.js'
+import ges from './modules/ges.js'
 
 Vue.use(Vuex)
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     categories,
     logement,
     alimentation,
-    consommation
+    consommation,
+    ges
   }
 })

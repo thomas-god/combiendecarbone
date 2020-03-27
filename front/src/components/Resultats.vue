@@ -1,14 +1,12 @@
 <template>
-  <resultats-chart
-    :height="'50%'"
-    :width="'50%'"
-    class="ma-10"
-    :input_data="data"
-  ></resultats-chart>
+  <div class="chart">
+    <resultats-chart class="ma-10" :input_data="ges"></resultats-chart>
+  </div>
 </template>
 
 <script>
 import ResultatsChart from './ResultatsChart.vue'
+import { mapGetters } from 'vuex'
 const data = {
   Transports: 10,
   Logement: 20,
@@ -23,8 +21,18 @@ export default {
     return {
       data: data
     }
+  },
+  computed: {
+    ...mapGetters({
+      ges: 'ges/getTotalGes'
+    })
   }
 }
 </script>
 
-<style></style>
+<style>
+.chart {
+  width: 75%;
+  margin: auto;
+}
+</style>
