@@ -24,16 +24,20 @@
     </template>
 
     <template v-slot:btn="{ open }">
-      <v-btn
-        v-for="cat in categories"
-        :key="`${cat}-form`"
-        color="primary"
-        dark
-        @click="openForm(cat, open)"
-        class="mx-3"
+      <div
+        class="d-flex flex-column align-center flex-sm-row justify-sm-space-around"
       >
-        {{ cat }}
-      </v-btn>
+        <v-btn
+          v-for="cat in categories"
+          :key="`${cat}-form`"
+          color="primary"
+          dark
+          @click="openForm(cat, open)"
+          class="ma-3"
+        >
+          {{ cat }}
+        </v-btn>
+      </div>
     </template>
 
     <template v-slot:form="{ close }">
