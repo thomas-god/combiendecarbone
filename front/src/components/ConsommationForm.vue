@@ -20,7 +20,8 @@
         >
           <num-btn
             v-model="consommation[item.name]"
-            :prefix="item.full_name + ': '"
+            :label="$vuetify.breakpoint.xsOnly ? item.full_name : ''"
+            :prefix="!$vuetify.breakpoint.xsOnly ? item.full_name + ': ' : ''"
             :min="0"
             :max="10"
             class="my-4"
