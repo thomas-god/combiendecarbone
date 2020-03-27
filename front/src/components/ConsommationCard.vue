@@ -3,6 +3,9 @@
     <v-card-title>
       {{ category }}
     </v-card-title>
+    <v-card-subtitle class="text-left">
+      {{ subtitle }}
+    </v-card-subtitle>
     <v-card-text>
       <ul>
         <li v-for="item in conso" :key="item.name" class="text-left">
@@ -42,6 +45,13 @@ export default {
     },
     conso_length() {
       return Object.keys(this.conso).length
+    },
+    subtitle() {
+      if (this.category === 'Vêtements') {
+        return `Nombre achetés par an`
+      } else {
+        return `Durée de vie (en années)`
+      }
     }
   }
 }
