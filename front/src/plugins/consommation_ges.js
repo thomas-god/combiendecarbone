@@ -22,6 +22,40 @@ const electromenager = [
   { name: 'frigo', full_name: 'Réfrigérateur', ges: 257 }
 ]
 
+function getItem(arr, item_name) {
+  return arr.find(item => item.name === item_name).ges
+}
+function mul(a, b) {
+  return a * b
+}
+function div(a, b) {
+  return b === 0 ? 0 : a / b
+}
+
+function computeGesByCategory(category, conso, ges_values) {
+  let ges = 0
+  let op = category === 'Vêtements' ? mul : div
+  for (let item in conso[category]) {
+    ges += op(getItem(ges_values, item), conso[category][item])
+  }
+  return ges
+}
+
+function computeGes(consommation) {
+  let ges = {
+    Vêtements: computeGesByCategory('Vêtements', consommation, vetements),
+    'High-tech': computeGesByCategory('High-tech', consommation, high_tech),
+    Électroménager: computeGesByCategory(
+      'Électroménager',
+      consommation,
+      electromenager
+    )
+  }
+  ges.total = ges['Vêtements'] + ges['High-tech'] + ges['Électroménager']
+
+  return ges
+}
+
 const consommation = {
   vetements: vetements.map(item => {
     return { name: item.name, full_name: item.full_name, value: 0 }
@@ -31,7 +65,8 @@ const consommation = {
   }),
   electromenager: electromenager.map(item => {
     return { name: item.name, full_name: item.full_name, value: 0 }
-  })
+  }),
+  computeGes: computeGes
 }
 
 export { consommation }

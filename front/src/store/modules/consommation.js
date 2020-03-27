@@ -33,11 +33,15 @@ export default {
   mutations: {
     updateConso(state, { category, update }) {
       Vue.set(state.consommation, category, update)
+    },
+    updateGes(state) {
+      state.ges = consommation.computeGes(state.consommation)
     }
   },
   actions: {
-    updateConso(context, update) {
-      context.commit('updateConso', update)
+    updateConso(context, payload) {
+      context.commit('updateConso', payload)
+      context.commit('updateGes')
     }
   }
 }
