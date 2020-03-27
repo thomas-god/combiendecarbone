@@ -72,13 +72,24 @@ export default {
       getConso: 'consommation/getConsoByCategory'
     })
   },
+  mounted() {
+    this.updateCycle()
+  },
   watch: {
-    category(new_category) {
+    category() {
+      this.updateCycle()
+    }
+  },
+  methods: {
+    ...mapActions({
+      updateConso: 'consommation/updateConso'
+    }),
+    updateCycle() {
       // Get list of items for current category
-      this.items = this.getItems(new_category)
+      this.items = this.getItems(this.category)
 
       // Get conso object for current category
-      let conso = this.getConso(new_category)
+      let conso = this.getConso(this.category)
       if (Object.keys(conso).length === 0) {
         this.items.forEach(item => {
           conso[item.name] = 0
@@ -95,14 +106,8 @@ export default {
           this.active_items.push(item)
         }
       })
-
       this.$refs.form.resetValidation()
-    }
-  },
-  methods: {
-    ...mapActions({
-      updateConso: 'consommation/updateConso'
-    }),
+    },
     addActiveItem(item) {
       let idx = this.active_items.findIndex(v => v.name === item.name)
       if (idx === -1) {
