@@ -117,7 +117,7 @@ export default {
       let idx = this.active_items.findIndex(v => v.name === item_name)
       if (idx > -1) {
         Vue.delete(this.active_items, idx)
-        this.consommation[item_name] = ''
+        this.consommation[item_name] = 0
       }
     },
     validate() {
