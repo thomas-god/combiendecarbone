@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="650px" class="mx-auto my-3 pa-3">
+  <v-card max-width="650px" :class="class_card">
     <v-card-title>
       <h3 class="text-center mx-auto">Estimez votre empreinte carbone ! 🍃</h3>
     </v-card-title>
@@ -43,5 +43,11 @@
 </template>
 
 <script>
-export default {}
+export default {
+  computed: {
+    class_card() {
+      return `mx-auto my-${this.$vuetify.breakpoint.xsOnly ? 3 : 10} pa-3`
+    }
+  }
+}
 </script>

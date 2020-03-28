@@ -1,12 +1,13 @@
 <template>
-  <div style="max-width: 800px; margin: auto">
-    <v-app-bar app scroll-off-screen width="100%" color="#2E7D32">
-      <div class="d-flex justify-space-between align-center px-4 mx-auto">
+  <div class="mx-auto">
+    <v-app-bar app scroll-off-screen width="100%" color="#2E7D32" class="px-0">
+      <div class="d-flex justify-space-between align-center px-0 mx-auto">
         <v-btn
           icon
           @click="updateCatBtn(-1)"
           v-show="$vuetify.breakpoint.xsOnly"
           class="white--text"
+          :disabled="current_cat === 'Transports'"
         >
           <v-icon>{{ prev }}</v-icon>
         </v-btn>
@@ -16,8 +17,9 @@
           :text="cat !== current_cat || $vuetify.breakpoint.xsOnly"
           :outlined="cat === current_cat && $vuetify.breakpoint.smAndUp"
           @click="updateCat(cat)"
-          :class="cat === current_cat ? active : inactive"
-          class="white--text"
+          :class="cat === current_cat ? class_btn_cat_current : class_btn_cat"
+          :width="$vuetify.breakpoint.xsOnly ? '170px' : 'auto'"
+          :small="$vuetify.breakpoint.smOnly"
         >
           {{ cat }}
         </v-btn>
@@ -26,6 +28,7 @@
           @click="updateCatBtn(1)"
           v-show="$vuetify.breakpoint.xsOnly"
           class="white--text"
+          :disabled="current_cat === 'Résultats'"
         >
           <v-icon>{{ next }}</v-icon>
         </v-btn>
@@ -62,15 +65,27 @@ export default {
   computed: {
     ...mapGetters({
       categories: 'categories/getCategoriesNames'
-    })
+    }),
+    class_btn_cat_current() {
+      let base = 'white--text'
+      if (this.$vuetify.breakpoint.smAndUp) {
+        base += ' px-2'
+      }
+      return base
+    },
+    class_btn_cat() {
+      let base = this.class_btn_cat_current
+      if (this.$vuetify.breakpoint.xsOnly) {
+        base += ' hidden-xs-only'
+      }
+      return base
+    }
   },
   data() {
     return {
       prev: mdiArrowLeft,
       next: mdiArrowRight,
-      current_cat: '',
-      active: '',
-      inactive: 'hidden-xs-only'
+      current_cat: ''
     }
   },
   mounted() {
@@ -91,4 +106,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.v-toolbar__content {
+  padding: 0 !important;
+}
+</style>
