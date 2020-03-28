@@ -24,8 +24,8 @@
     </template>
 
     <template v-slot:btn="{ open }">
-      <div
-        class="d-flex flex-column align-center flex-sm-row justify-sm-space-around"
+      <v-card-actions
+        class="d-flex flex-column align-center flex-sm-row justify-sm-space-around py-0 px-10"
       >
         <v-btn
           v-for="cat in categories"
@@ -37,7 +37,7 @@
         >
           {{ cat }}
         </v-btn>
-      </div>
+      </v-card-actions>
     </template>
 
     <template v-slot:form="{ close }">

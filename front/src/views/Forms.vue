@@ -1,6 +1,13 @@
 <template>
   <div class="mx-auto">
-    <v-app-bar app scroll-off-screen width="100%" color="#2E7D32" class="px-0">
+    <v-app-bar
+      app
+      scroll-off-screen
+      width="100%"
+      color="#2E7D32"
+      elevation="1"
+      class="px-0"
+    >
       <div class="d-flex justify-space-between align-center px-0 mx-auto">
         <v-btn
           icon
