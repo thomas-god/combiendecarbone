@@ -21,7 +21,10 @@
     <logement v-show="current_cat === 'Logement'" />
     <alimentation v-show="current_cat === 'Alimentation'" />
     <consommation v-show="current_cat === 'Consommation'" />
-    <resultats v-show="current_cat === 'Résultats'" />
+    <resultats
+      v-show="current_cat === 'Résultats'"
+      @go-start="updateCat('Transports')"
+    />
   </div>
 </template>
 

@@ -1,31 +1,41 @@
 <template>
-  <div class="chart">
-    <resultats-chart class="ma-10" :input_data="ges"></resultats-chart>
-  </div>
+  <v-card max-width="650px" class="mx-auto my-3 pa-3">
+    <v-card-title v-if="ges_total === 0" class="d-flex flex-column">
+      <p>Vous n'avez pas encore renseigner d'émissions.</p>
+
+      <v-btn color="primary" @click="$emit('go-start')">Commencer</v-btn>
+    </v-card-title>
+
+    <v-card-title v-show="ges_total > 0">
+      {{ `Vos émissions annuelles sont de ${ges_total.toFixed(2)} kg eq. CO2` }}
+    </v-card-title>
+    <resultats-chart
+      class="ma-10"
+      :input_data="ges"
+      v-show="ges_total > 0"
+    ></resultats-chart>
+  </v-card>
 </template>
 
 <script>
 import ResultatsChart from './ResultatsChart.vue'
 import { mapGetters } from 'vuex'
-const data = {
-  Transports: 10,
-  Logement: 20,
-  Alimentation: 15,
-  Consommation: 7
-}
+
 export default {
   components: {
     ResultatsChart
   },
-  data() {
-    return {
-      data: data
-    }
-  },
   computed: {
     ...mapGetters({
       ges: 'ges/getTotalGes'
-    })
+    }),
+    ges_total() {
+      let ges = 0
+      for (let cat in this.ges) {
+        ges += this.ges[cat]
+      }
+      return ges
+    }
   }
 }
 </script>

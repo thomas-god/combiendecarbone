@@ -38,6 +38,10 @@ const data_template = {
   labels: ['Red', 'Yellow', 'Blue']
 }
 
+function round(num, n) {
+  return Math.round((num + Number.EPSILON) * 10 ** n) / 10 ** n
+}
+
 export default {
   extends: Doughnut,
   props: ['input_data'],
@@ -67,7 +71,7 @@ export default {
       data_fmt.datasets[0].data = []
 
       data_fmt.labels.forEach(cat => {
-        data_fmt.datasets[0].data.push(this.input_data[cat])
+        data_fmt.datasets[0].data.push(round(this.input_data[cat], 2))
         data_fmt.datasets[0].backgroundColor.push(
           colors[this.categories_colors[cat]].base
         )
