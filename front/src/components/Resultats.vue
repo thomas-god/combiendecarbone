@@ -1,7 +1,7 @@
 <template>
   <v-card max-width="650px" class="mx-auto my-3 pa-3">
     <v-card-title v-if="ges_total === 0" class="d-flex flex-column">
-      <p>Vous n'avez pas encore renseigner d'émissions.</p>
+      <p>Vous n'avez pas encore renseigné d'émissions.</p>
 
       <v-btn color="primary" @click="$emit('go-start')">Commencer</v-btn>
     </v-card-title>
