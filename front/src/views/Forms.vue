@@ -1,22 +1,36 @@
 <template>
   <div style="max-width: 800px; margin: auto">
-    <div class="d-flex justify-space-between px-4">
-      <v-btn icon @click="updateCatBtn(-1)" v-show="$vuetify.breakpoint.xsOnly">
-        <v-icon>{{ prev }}</v-icon>
-      </v-btn>
-      <v-btn
-        v-for="cat in categories"
-        :key="cat"
-        :text="cat !== current_cat || $vuetify.breakpoint.xsOnly"
-        :outlined="cat === current_cat && $vuetify.breakpoint.smAndUp"
-        @click="updateCat(cat)"
-        :class="cat === current_cat ? active : inactive"
-        >{{ cat }}</v-btn
-      >
-      <v-btn icon @click="updateCatBtn(1)" v-show="$vuetify.breakpoint.xsOnly">
-        <v-icon>{{ next }}</v-icon>
-      </v-btn>
-    </div>
+    <v-app-bar app scroll-off-screen width="100%" color="#2E7D32">
+      <div class="d-flex justify-space-between align-center px-4 mx-auto">
+        <v-btn
+          icon
+          @click="updateCatBtn(-1)"
+          v-show="$vuetify.breakpoint.xsOnly"
+          class="white--text"
+        >
+          <v-icon>{{ prev }}</v-icon>
+        </v-btn>
+        <v-btn
+          v-for="cat in categories"
+          :key="cat"
+          :text="cat !== current_cat || $vuetify.breakpoint.xsOnly"
+          :outlined="cat === current_cat && $vuetify.breakpoint.smAndUp"
+          @click="updateCat(cat)"
+          :class="cat === current_cat ? active : inactive"
+          class="white--text"
+        >
+          {{ cat }}
+        </v-btn>
+        <v-btn
+          icon
+          @click="updateCatBtn(1)"
+          v-show="$vuetify.breakpoint.xsOnly"
+          class="white--text"
+        >
+          <v-icon>{{ next }}</v-icon>
+        </v-btn>
+      </div>
+    </v-app-bar>
     <transports v-show="current_cat === 'Transports'" />
     <logement v-show="current_cat === 'Logement'" />
     <alimentation v-show="current_cat === 'Alimentation'" />

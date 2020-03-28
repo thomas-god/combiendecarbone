@@ -1,18 +1,10 @@
 <template>
-  <v-app>
-    <div id="app">
-      <div id="nav">
-        <template v-for="link in links">
-          <router-link
-            :to="{ name: link.url }"
-            class="spacing"
-            :key="link.url"
-            >{{ link.name }}</router-link
-          >
-        </template>
-      </div>
-      <router-view />
-    </div>
+  <v-app id="app">
+    <v-content>
+      <v-container fluid>
+        <router-view id="content" />
+      </v-container>
+    </v-content>
   </v-app>
 </template>
 
@@ -41,30 +33,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
-
-<style scoped>
-.spacing {
-  margin: 0 5px;
-}
-.redbox {
-  background-color: red;
-  width: 100%;
-  height: 50px;
+  color: black; /* #2c3e50; */
+  background-color: #4caf50;
 }
 </style>
