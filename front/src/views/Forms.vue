@@ -26,7 +26,9 @@
           @click="updateCat(cat)"
           :class="cat === current_cat ? class_btn_cat_current : class_btn_cat"
           :width="$vuetify.breakpoint.xsOnly ? '170px' : 'auto'"
-          :small="$vuetify.breakpoint.smOnly"
+          :small="
+            $vuetify.breakpoint.width < 700 && $vuetify.breakpoint.width > 600
+          "
         >
           {{ cat }}
         </v-btn>
