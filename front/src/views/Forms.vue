@@ -8,11 +8,28 @@
       elevation="1"
       class="px-0"
     >
+      <v-app-bar-nav-icon absolute>
+        <v-menu open-on-hover>
+          <template v-slot:activator="{ on }">
+            <v-btn icon dark v-on="on">
+              <v-icon>mdi-menu</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item v-for="route in navigation" :key="route.name">
+              <v-list-item-title>
+                <router-link :to="route.path">{{ route.name }}</router-link>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-app-bar-nav-icon>
+
       <div class="d-flex justify-space-between align-center px-0 mx-auto">
         <v-btn
           icon
           @click="updateCatBtn(-1)"
-          v-show="$vuetify.breakpoint.xsOnly"
+          v-show="$vuetify.breakpoint.width < width_small"
           class="white--text"
           :disabled="current_cat === 'Transports'"
         >
@@ -21,13 +38,16 @@
         <v-btn
           v-for="cat in categories"
           :key="cat"
-          :text="cat !== current_cat || $vuetify.breakpoint.xsOnly"
-          :outlined="cat === current_cat && $vuetify.breakpoint.smAndUp"
+          text
+          :outlined="
+            cat === current_cat && $vuetify.breakpoint.width > width_small
+          "
           @click="updateCat(cat)"
           :class="cat === current_cat ? class_btn_cat_current : class_btn_cat"
-          :width="$vuetify.breakpoint.xsOnly ? '170px' : 'auto'"
+          :width="$vuetify.breakpoint.width < width_small ? '170px' : 'auto'"
           :small="
-            $vuetify.breakpoint.width < 700 && $vuetify.breakpoint.width > 600
+            $vuetify.breakpoint.width < 700 &&
+              $vuetify.breakpoint.width > width_small
           "
         >
           {{ cat }}
@@ -35,7 +55,7 @@
         <v-btn
           icon
           @click="updateCatBtn(1)"
-          v-show="$vuetify.breakpoint.xsOnly"
+          v-show="$vuetify.breakpoint.width < width_small"
           class="white--text"
           :disabled="current_cat === 'Résultats'"
         >
@@ -43,14 +63,16 @@
         </v-btn>
       </div>
     </v-app-bar>
-    <transports v-show="current_cat === 'Transports'" />
-    <logement v-show="current_cat === 'Logement'" />
-    <alimentation v-show="current_cat === 'Alimentation'" />
-    <consommation v-show="current_cat === 'Consommation'" />
-    <resultats
-      v-show="current_cat === 'Résultats'"
-      @go-start="updateCat('Transports')"
-    />
+    <v-content>
+      <transports v-show="current_cat === 'Transports'" />
+      <logement v-show="current_cat === 'Logement'" />
+      <alimentation v-show="current_cat === 'Alimentation'" />
+      <consommation v-show="current_cat === 'Consommation'" />
+      <resultats
+        v-show="current_cat === 'Résultats'"
+        @go-start="updateCat('Transports')"
+      />
+    </v-content>
   </div>
 </template>
 
@@ -71,6 +93,19 @@ export default {
     Consommation,
     Resultats
   },
+  data() {
+    return {
+      prev: mdiArrowLeft,
+      next: mdiArrowRight,
+      current_cat: '',
+      width_small: 620,
+      navigation: [
+        { name: 'Accueil', path: '/' },
+        { name: 'Calculateur', path: '/forms' },
+        { name: 'Méthodologie', path: '/methodologie' }
+      ]
+    }
+  },
   computed: {
     ...mapGetters({
       categories: 'categories/getCategoriesNames'
@@ -84,17 +119,10 @@ export default {
     },
     class_btn_cat() {
       let base = this.class_btn_cat_current
-      if (this.$vuetify.breakpoint.xsOnly) {
-        base += ' hidden-xs-only'
+      if (this.$vuetify.breakpoint.width < this.width_small) {
+        base += ' d-none'
       }
       return base
-    }
-  },
-  data() {
-    return {
-      prev: mdiArrowLeft,
-      next: mdiArrowRight,
-      current_cat: ''
     }
   },
   mounted() {
@@ -118,5 +146,9 @@ export default {
 <style scoped>
 .v-toolbar__content {
   padding: 0 !important;
+}
+
+.v-btn--outlined {
+  border-color: rgb(255, 255, 255) !important;
 }
 </style>
