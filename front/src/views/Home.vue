@@ -33,7 +33,7 @@
       </p>
     </v-card-text>
     <v-card-actions>
-      <router-link :to="{ name: 'forms' }" class="mx-auto">
+      <router-link to="/forms/transports" class="mx-auto">
         <v-btn color="primary">
           Commencer !
         </v-btn>

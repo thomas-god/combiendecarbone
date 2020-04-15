@@ -33,7 +33,7 @@
           class="white--text"
           :disabled="current_cat === 'Transports'"
         >
-          <v-icon>{{ prev }}</v-icon>
+          <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <v-btn
           v-for="cat in categories"
@@ -59,45 +59,22 @@
           class="white--text"
           :disabled="current_cat === 'Résultats'"
         >
-          <v-icon>{{ next }}</v-icon>
+          <v-icon>mdi-arrow-right</v-icon>
         </v-btn>
       </div>
     </v-app-bar>
     <v-content>
-      <transports v-show="current_cat === 'Transports'" />
-      <logement v-show="current_cat === 'Logement'" />
-      <alimentation v-show="current_cat === 'Alimentation'" />
-      <consommation v-show="current_cat === 'Consommation'" />
-      <resultats
-        v-show="current_cat === 'Résultats'"
-        @go-start="updateCat('Transports')"
-      />
+      <router-view> </router-view>
     </v-content>
   </div>
 </template>
 
 <script>
-import Transports from '../components/Transports.vue'
-import Logement from '../components/Logement.vue'
-import Alimentation from '../components/Alimentation.vue'
-import Consommation from '../components/Consommation.vue'
-import Resultats from '../components/Resultats.vue'
 import { mapGetters } from 'vuex'
-import { mdiArrowLeft, mdiArrowRight } from '@mdi/js'
 
 export default {
-  components: {
-    Transports,
-    Logement,
-    Alimentation,
-    Consommation,
-    Resultats
-  },
   data() {
     return {
-      prev: mdiArrowLeft,
-      next: mdiArrowRight,
-      current_cat: '',
       width_small: 620,
       navigation: [
         { name: 'Accueil', path: '/' },
@@ -110,6 +87,13 @@ export default {
     ...mapGetters({
       categories: 'categories/getCategoriesNames'
     }),
+    current_cat() {
+      if (this.$route.meta.cat) {
+        return this.$route.meta.cat
+      } else {
+        return ''
+      }
+    },
     class_btn_cat_current() {
       let base = 'white--text'
       if (this.$vuetify.breakpoint.smAndUp) {
@@ -125,21 +109,28 @@ export default {
       return base
     }
   },
-  mounted() {
-    this.current_cat = this.categories[0]
-  },
   methods: {
     updateCat(cat) {
-      this.current_cat = cat
+      let old_path = this.$route.path.split('/')
+      old_path[old_path.length - 1] = delAccentLower(cat)
+      let new_path = old_path.join('/')
+      this.$router.push(new_path)
     },
     updateCatBtn(val) {
       let cur_id = this.categories.findIndex(cat => cat === this.current_cat)
       let new_id = cur_id + val
       if (new_id >= 0 && new_id < this.categories.length) {
-        this.current_cat = this.categories[new_id]
+        this.updateCat(this.categories[new_id])
       }
     }
   }
+}
+
+function delAccentLower(str) {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
 }
 </script>
 
