@@ -35,10 +35,10 @@ const routes = [
       )
   },
   {
-    path: 'general',
+    path: 'accueil',
     component: () =>
       import(
-        /* webpackChunkName: "methodo-general" */ `../components/GeneralMethodo.vue`
+        /* webpackChunkName: "methodo-accueil" */ `../components/AccueilMethodo.vue`
       )
   }
 ]

@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="650px" class="mx-auto my-3 pa-3">
+  <v-card max-width="650px" class="mx-auto my-0 pa-3">
     <v-card-title v-if="ges_total === 0" class="d-flex flex-column">
       <p>Vous n'avez pas encore renseigné d'émissions.</p>
 

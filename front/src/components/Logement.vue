@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto my-3 pa-3" max-width="650px">
+  <v-card class="mx-auto my-0 pa-3" max-width="650px">
     <v-card-text class="text-justify">
       <p>
         Le secteur résidentiel-tertiaire est directement à l'origine d'environ

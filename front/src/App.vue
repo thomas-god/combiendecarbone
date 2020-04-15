@@ -1,15 +1,19 @@
 <template>
   <v-app id="app">
-    <v-content>
-      <v-container fluid>
-        <router-view id="content" />
-      </v-container>
-    </v-content>
+    <navbar />
+    <v-container fluid>
+      <router-view id="content" />
+    </v-container>
   </v-app>
 </template>
 
 <script>
+import Navbar from './components/NavbarApp.vue'
+
 export default {
+  components: {
+    Navbar
+  },
   data() {
     return {
       links: [

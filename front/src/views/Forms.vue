@@ -1,30 +1,13 @@
 <template>
-  <div class="mx-auto">
+  <v-content class="mx-auto">
     <v-app-bar
-      app
       scroll-off-screen
       width="100%"
-      color="#2E7D32"
+      max-width="650px"
+      color="#8BC34A"
       elevation="1"
-      class="px-0"
+      class="mx-auto my-0"
     >
-      <v-app-bar-nav-icon absolute>
-        <v-menu open-on-hover>
-          <template v-slot:activator="{ on }">
-            <v-btn icon dark v-on="on">
-              <v-icon>mdi-menu</v-icon>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item v-for="route in navigation" :key="route.name">
-              <v-list-item-title>
-                <router-link :to="route.path">{{ route.name }}</router-link>
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-app-bar-nav-icon>
-
       <div class="d-flex justify-space-between align-center px-0 mx-auto">
         <v-btn
           icon
@@ -43,7 +26,8 @@
             cat === current_cat && $vuetify.breakpoint.width > width_small
           "
           @click="updateCat(cat)"
-          :class="cat === current_cat ? class_btn_cat_current : class_btn_cat"
+          class="'white--text'"
+          :class="class_btn(cat)"
           :width="$vuetify.breakpoint.width < width_small ? '170px' : 'auto'"
           :small="
             $vuetify.breakpoint.width < 700 &&
@@ -63,10 +47,8 @@
         </v-btn>
       </div>
     </v-app-bar>
-    <v-content>
-      <router-view> </router-view>
-    </v-content>
-  </div>
+    <router-view> </router-view>
+  </v-content>
 </template>
 
 <script>
@@ -78,8 +60,8 @@ export default {
       width_small: 620,
       navigation: [
         { name: 'Accueil', path: '/' },
-        { name: 'Calculateur', path: '/forms' },
-        { name: 'Méthodologie', path: '/methodologie' }
+        { name: 'Calculateur', path: '/forms/transports' },
+        { name: 'Méthodologie', path: '/methodologie/accueil' }
       ]
     }
   },
@@ -93,20 +75,6 @@ export default {
       } else {
         return ''
       }
-    },
-    class_btn_cat_current() {
-      let base = 'white--text'
-      if (this.$vuetify.breakpoint.smAndUp) {
-        base += ' px-2'
-      }
-      return base
-    },
-    class_btn_cat() {
-      let base = this.class_btn_cat_current
-      if (this.$vuetify.breakpoint.width < this.width_small) {
-        base += ' d-none'
-      }
-      return base
     }
   },
   methods: {
@@ -122,6 +90,18 @@ export default {
       if (new_id >= 0 && new_id < this.categories.length) {
         this.updateCat(this.categories[new_id])
       }
+    },
+    class_btn(cat) {
+      let base = 'white--text'
+      if (cat !== this.current_cat) {
+        if (this.$vuetify.breakpoint.width < this.width_small) {
+          base += ' d-none'
+        }
+        base += ' btn_padding'
+      } else {
+        base += ' btn_selected_padding'
+      }
+      return base
     }
   }
 }
@@ -138,8 +118,15 @@ function delAccentLower(str) {
 .v-toolbar__content {
   padding: 0 !important;
 }
-
 .v-btn--outlined {
   border-color: rgb(255, 255, 255) !important;
+}
+.btn_padding {
+  padding-left: 9px !important;
+  padding-right: 9px !important;
+}
+.btn_selected_padding {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
 }
 </style>
