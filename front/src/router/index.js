@@ -11,18 +11,19 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Accueil',
+    meta: { name: 'Accueil' },
     component: Home
   },
   {
     path: '/forms',
-    name: 'forms',
+    name: 'Calculateur',
     component: Forms,
     children: FormsRoute
   },
   {
     path: '/methodologie',
-    name: 'methodologie',
+    name: 'Méthodologie',
     component: Methodology,
     children: MethodoRoutes
   }

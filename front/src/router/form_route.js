@@ -1,7 +1,9 @@
+const meta = { name: 'Calculateur' }
+
 const routes = [
   {
     path: 'transports',
-    meta: { cat: 'Transports' },
+    meta: { ...meta, cat: 'Transports' },
     component: () =>
       import(
         /* webpackChunkName: "transports" */ `../components/Transports.vue`
@@ -9,13 +11,13 @@ const routes = [
   },
   {
     path: 'logement',
-    meta: { cat: 'Logement' },
+    meta: { ...meta, cat: 'Logement' },
     component: () =>
       import(/* webpackChunkName: "logement" */ `../components/Logement.vue`)
   },
   {
     path: 'alimentation',
-    meta: { cat: 'Alimentation' },
+    meta: { ...meta, cat: 'Alimentation' },
     component: () =>
       import(
         /* webpackChunkName: "alimentation" */ `../components/Alimentation.vue`
@@ -23,7 +25,7 @@ const routes = [
   },
   {
     path: 'consommation',
-    meta: { cat: 'Consommation' },
+    meta: { ...meta, cat: 'Consommation' },
     component: () =>
       import(
         /* webpackChunkName: "consommation" */ `../components/Consommation.vue`
@@ -31,7 +33,7 @@ const routes = [
   },
   {
     path: 'resultats',
-    meta: { cat: 'Résultats' },
+    meta: { ...meta, cat: 'Résultats' },
     component: () =>
       import(/* webpackChunkName: "resultats" */ `../components/Resultats.vue`)
   }
