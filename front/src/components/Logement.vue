@@ -1,6 +1,6 @@
 <template>
-  <v-card class="mx-auto my-0 pa-3" max-width="650px">
-    <v-card-text class="text-justify">
+  <category @closing="updateCurrentId(-2)">
+    <template v-slot:text>
       <p>
         Le secteur résidentiel-tertiaire est directement à l'origine d'environ
         <a
@@ -17,35 +17,35 @@
         <strong>gaz</strong> et <strong>d'électricité</strong> est d'utiliser
         les mesures utilisées dans nos factures d'énergie.
       </p>
-    </v-card-text>
-    <v-btn color="primary" dark @click="form = true">
-      {{ form_touched ? 'Modifier' : 'Remplir' }}
-    </v-btn>
-    <v-dialog
-      v-model="form"
-      max-width="550px"
-      @click:outside="form = false"
-      class="ma-0"
-    >
-      <logement-form @close="closeForm" />
-    </v-dialog>
-    <v-card class="mx-auto my-3" v-show="form_touched">
-      <v-card-title>Votre consommation</v-card-title>
-      <v-card-text class="text-left" v-show="factures.flag === 'Oui'">
-        <p>Électricité: {{ factures.elec === '' ? 0 : factures.elec }} MWh</p>
-        <p>Gaz: {{ factures.gaz === '' ? 0 : factures.gaz }} MWh</p>
-      </v-card-text>
-    </v-card>
-  </v-card>
+    </template>
+
+    <template v-slot:form="{ close }">
+      <logement-form @close="close"></logement-form>
+    </template>
+
+    <template v-slot:card="{ touched }">
+      <v-card max-width="550px" class="mx-auto my-3">
+        <v-card-title v-show="touched">
+          Votre consommation
+        </v-card-title>
+        <v-card-text class="text-left" v-show="touched">
+          <p>Électricité: {{ factures.elec === '' ? 0 : factures.elec }} MWh</p>
+          <p>Gaz: {{ factures.gaz === '' ? 0 : factures.gaz }} MWh</p>
+        </v-card-text>
+      </v-card>
+    </template>
+  </category>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import Category from './base/Category.vue'
 import LogementForm from './LogementForm.vue'
 
 export default {
   components: {
-    LogementForm
+    LogementForm,
+    Category
   },
   data() {
     return {
