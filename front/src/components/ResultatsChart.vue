@@ -4,6 +4,19 @@ import { mapGetters } from 'vuex'
 import colors from 'vuetify/lib/util/colors'
 
 const options = {
+  maintainAspectRatio: false,
+  title: {
+    text: 'Émissions totales',
+    display: true
+  },
+  legend: {
+    position: 'bottom'
+  },
+  tooltips: {
+    callbacks: {
+      label: drawLabel
+    }
+  },
   scales: {
     yAxes: [
       {
@@ -82,6 +95,20 @@ export default {
         this.renderChart(this.data_chart, this.options)
     }
   }
+}
+function drawLabel(tooltipItem, data) {
+  var label = data.labels[tooltipItem.index] || ''
+
+  if (label) {
+    label += ': '
+  }
+  let val = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+  let tot = data.datasets[tooltipItem.datasetIndex].data.reduce((a, b) => a + b)
+  label += val
+  label += ' kg eq.CO2 ('
+  label += ((val / tot) * 100).toFixed(2)
+  label += ' %)'
+  return label
 }
 </script>
 

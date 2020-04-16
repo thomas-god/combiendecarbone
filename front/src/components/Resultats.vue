@@ -2,8 +2,9 @@
   <v-card max-width="700" class="mx-auto my-0 pa-3">
     <v-card-title v-if="ges_total === 0" class="d-flex flex-column">
       <p>Vous n'avez pas encore renseigné d'émissions.</p>
-
-      <v-btn color="primary" @click="$emit('go-start')">Commencer</v-btn>
+      <router-link to="/forms/transports">
+        <v-btn color="primary">Commencer</v-btn>
+      </router-link>
     </v-card-title>
 
     <v-card-title v-show="ges_total > 0">
