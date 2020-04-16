@@ -37,7 +37,7 @@ export default {
       navigation: [
         { name: 'Accueil', path: '/' },
         { name: 'Calculateur', path: '/forms/transports' },
-        { name: 'Méthodologie', path: '/methodologie/accueil' }
+        { name: 'Méthodologie', path: '/methodologie/general' }
       ]
     }
   },

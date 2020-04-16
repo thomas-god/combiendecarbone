@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto my-0 pa-3" max-width="650px">
+  <v-card class="mx-auto my-0 pa-3" max-width="700px">
     <v-card-text class="text-justify">
       <slot name="text">
         <p>

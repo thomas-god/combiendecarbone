@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Forms from '../views/Forms.vue'
 import FormsRoute from './form_route.js'
-/* import Methodology from '../views/Methodology.vue' */
+import Methodology from '../views/Methodology.vue'
 import MethodoRoutes from './methodo_routes.js'
 
 Vue.use(VueRouter)
@@ -23,7 +23,7 @@ const routes = [
   {
     path: '/methodologie',
     name: 'methodologie',
-    component: Forms,
+    component: Methodology,
     children: MethodoRoutes
   }
 ]

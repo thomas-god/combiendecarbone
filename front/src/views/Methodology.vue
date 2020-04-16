@@ -1,16 +1,32 @@
 <template>
-  <v-card max-width="650px" :class="class_card">
-    <router-view />
-  </v-card>
+  <v-content class="mx-auto">
+    <navbar-cat :categories="categories" :width_switch="width_small" />
+    <v-card max-width="700px" class="mx-auto pa-3">
+      <v-card-text class="text-justify">
+        <router-view> </router-view>
+      </v-card-text>
+    </v-card>
+  </v-content>
 </template>
 
 <script>
+import NavbarCat from '../components/NavbarCat.vue'
+
 export default {
-  computed: {
-    class_card() {
-      return `mx-auto text-justify my-${
-        this.$vuetify.breakpoint.xsOnly ? 3 : 10
-      } pa-3`
+  components: {
+    NavbarCat
+  },
+  data() {
+    return {
+      width_small: 700,
+      categories: [
+        'Général',
+        'Transports',
+        'Logement',
+        'Alimentation',
+        'Consommation',
+        'Résultats'
+      ]
     }
   }
 }
