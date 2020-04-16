@@ -1,11 +1,10 @@
 <template>
   <v-app-bar
-    scroll-off-screen
     width="100%"
     max-width="700px"
     elevation="1"
     dark
-    class="mx-auto my-0"
+    class="mx-auto my-0 sticky_navbar"
   >
     <div class="d-flex justify-space-between align-center px-0 mx-auto">
       <v-btn
@@ -107,5 +106,11 @@ function delAccentLower(str) {
 .btn_selected_padding {
   padding-left: 8px !important;
   padding-right: 8px !important;
+}
+.sticky_navbar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  z-index: 2;
 }
 </style>

@@ -1,11 +1,9 @@
 <template>
   <v-app-bar
-    app
-    scroll-off-screen
     width="100%"
     color="#2E7D32"
     elevation="1"
-    class="px-0"
+    class="px-0 flex-grow-0"
   >
     <v-app-bar-nav-icon>
       <v-menu open-on-hover>
