@@ -6,7 +6,7 @@
     color="#2E7D32"
     class="mx-auto my-0 sticky_navbar"
   >
-    <div class="d-flex justify-space-between align-center px-0 mx-auto">
+    <div class="d-flex justify-space-between align-center flex-grow-1 px-0">
       <v-btn
         icon
         @click="updateCatBtn(-1)"
@@ -58,9 +58,12 @@ export default {
   methods: {
     updateCat(cat) {
       let old_path = this.$route.path.split('/')
-      old_path[old_path.length - 1] = delAccentLower(cat)
-      let new_path = old_path.join('/')
-      this.$router.push(new_path)
+      let old_cat = old_path[old_path.length - 1]
+      if (cat !== old_cat) {
+        old_path[old_path.length - 1] = delAccentLower(cat)
+        let new_path = old_path.join('/')
+        this.$router.push(new_path)
+      }
     },
     updateCatBtn(val) {
       let cur_id = this.categories.findIndex(cat => cat === this.current_cat)
