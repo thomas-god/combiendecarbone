@@ -1,5 +1,5 @@
 <template>
-  <category @closing="updateCurrentId(-2)">
+  <category>
     <template v-slot:text>
       <p>
         Le secteur résidentiel-tertiaire est directement à l'origine d'environ
