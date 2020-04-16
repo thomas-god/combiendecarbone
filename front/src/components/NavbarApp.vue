@@ -1,8 +1,9 @@
 <template>
   <v-app-bar
     width="100%"
-    color="#2E7D32"
+    color="#757575"
     elevation="1"
+    dense
     class="px-0 flex-grow-0"
   >
     <v-app-bar-nav-icon v-show="$vuetify.breakpoint.width < 600">

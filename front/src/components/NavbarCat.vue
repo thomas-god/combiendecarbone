@@ -3,7 +3,7 @@
     width="100%"
     max-width="700px"
     elevation="1"
-    dark
+    color="#2E7D32"
     class="mx-auto my-0 sticky_navbar"
   >
     <div class="d-flex justify-space-between align-center px-0 mx-auto">
