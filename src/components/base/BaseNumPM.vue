@@ -2,29 +2,30 @@
   <div class="d-flex flex-row nowrap align-center">
     <v-btn
       :color="btnColor"
-      @click="updateValue(-step)"
+      @click.native.capture="e => updateValue(-step)"
       class="pa-0"
       outlined
       fab
-      small
+      x-small
     >
       <v-icon dark>mdi-minus</v-icon>
     </v-btn>
     <v-text-field
       ref="input"
       :label="label"
+      :prefix="prefix"
       class="mx-4 pa-0"
-      :value="value"
+      :value="localValue"
       :rules="rules"
-      @input="checkInput"
+      @input.native.stop="checkInput"
     ></v-text-field>
     <v-btn
       :color="btnColor"
-      @click="updateValue(step)"
+      @click.native.stop="e => updateValue(step)"
       class="pa-0"
       outlined
       fab
-      small
+      x-small
     >
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>
@@ -39,7 +40,8 @@ export default {
       default: 'success'
     },
     value: {
-      type: Number,
+      // ? Using Number makes an error at init
+      //type: Number,
       required: true
     },
     min: {
@@ -56,7 +58,10 @@ export default {
     },
     label: {
       type: String,
-      required: true
+      required: false
+    },
+    prefix: {
+      required: false
     }
   },
   data() {
@@ -72,18 +77,29 @@ export default {
       ]
     }
   },
+  computed: {
+    localValue: {
+      get() {
+        return this.value
+      },
+      set(new_value) {
+        this.$emit('input', new_value)
+      }
+    }
+  },
   methods: {
-    checkInput(new_value) {
+    checkInput(event) {
+      let new_value = event.target.value
       this.$nextTick().then(() => {
         if (this.$refs.input.errorBucket.length === 0) {
-          this.$emit('input', Number(new_value))
+          this.localValue = Number(new_value)
         }
       })
     },
     updateValue(n) {
       let new_value = this.value + n
       if (new_value >= this.min && new_value <= this.max) {
-        this.$emit('input', new_value)
+        this.localValue = new_value
       }
     }
   }

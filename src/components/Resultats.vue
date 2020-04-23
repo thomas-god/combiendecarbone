@@ -11,7 +11,7 @@
       {{ `Vos émissions annuelles sont de ${ges_total.toFixed(2)} kg eq. CO2` }}
     </v-card-title>
     <resultats-chart
-      class="ma-10"
+      class="ma-2"
       :input_data="ges"
       v-show="ges_total > 0"
     ></resultats-chart>
