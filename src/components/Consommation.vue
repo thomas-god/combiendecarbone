@@ -1,6 +1,8 @@
 <template>
   <category>
     <template v-slot:text>
+      <h2 class="mb-4 text-center">Vos achats</h2>
+
       <p>
         L'industrie est à l'origine d'environ
         <a

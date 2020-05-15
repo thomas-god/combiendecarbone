@@ -4,6 +4,7 @@
     @closing="updateCurrentId(-2)"
   >
     <template v-slot:text>
+      <h2 class="mb-4 text-center">Vos déplacements</h2>
       <p>
         Le secteur des transports est à l'origine d'environ
         <a
