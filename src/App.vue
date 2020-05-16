@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
     <navbar />
-    <v-container fluid>
+    <v-container fluid :class="padding">
       <router-view id="content" />
     </v-container>
   </v-app>
@@ -27,6 +27,11 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    padding() {
+      return `pa-${this.$vuetify.breakpoint.width > 600 ? 4 : 0}`
+    }
   }
 }
 </script>
@@ -39,5 +44,10 @@ export default {
   text-align: center;
   color: black; /* #2c3e50; */
   background-color: #4caf50;
+}
+
+#app p,
+#app li {
+  font-size: 1rem;
 }
 </style>

@@ -32,7 +32,9 @@
         <p>
           Pour toute question concernant notre méthodologie vous pouvez
           consulter notre page
-          <em>Méthodologie</em> ℹ️.
+          <router-link to="/methodologie/general">
+            <em>Méthodologie</em> </router-link
+          >.
         </p>
       </v-card-text>
       <v-card-actions>
