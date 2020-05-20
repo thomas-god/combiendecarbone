@@ -1,8 +1,9 @@
 <template>
   <category>
+    <template v-slot:title>
+      Votre consommation d'énergie
+    </template>
     <template v-slot:text>
-      <h2 class="mb-4 text-center">Votre consommation d'énergie</h2>
-
       <p>
         Le secteur résidentiel-tertiaire est directement à l'origine d'environ
         <a

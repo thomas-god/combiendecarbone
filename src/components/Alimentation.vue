@@ -1,7 +1,9 @@
 <template>
   <category>
+    <template v-slot:title>
+      Votre alimentation
+    </template>
     <template v-slot:text>
-      <h2 class="mb-4 text-center">Votre alimentation</h2>
       <p>
         Le secteur de l'agriculture est à l'origine d'environ
         <a

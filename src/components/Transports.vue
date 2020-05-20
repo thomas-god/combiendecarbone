@@ -3,8 +3,10 @@
     :btn-name="{ dirty: 'Ajouter un trajet', clean: 'Ajouter un trajet' }"
     @closing="updateCurrentId(-2)"
   >
+    <template v-slot:title>
+      Vos déplacements
+    </template>
     <template v-slot:text>
-      <h2 class="mb-4 text-center">Vos déplacements</h2>
       <p>
         Le secteur des transports est à l'origine d'environ
         <a

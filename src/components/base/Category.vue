@@ -1,6 +1,12 @@
 <template>
   <v-card class="mx-auto my-0 pa-3 pb-6" max-width="700px">
-    <v-card-text class="text-justify">
+    <h2>
+      <slot name="title">
+        Titre par défaut
+      </slot>
+    </h2>
+
+    <v-card-text class="text-justify" color="black">
       <slot name="text">
         <p>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Asperiores

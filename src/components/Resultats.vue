@@ -1,10 +1,8 @@
 <template>
   <v-card max-width="700" class="mx-auto my-0 pa-3">
-    <v-card-text class="pb-0">
-      <h2 class="mb-4 text-center">Vos émissions annuelles</h2>
-    </v-card-text>
+    <h2>Vos émissions annuelles</h2>
 
-    <v-card-text v-if="ges_total === 0" class="d-flex pt-0 flex-column">
+    <v-card-text v-if="ges_total === 0" class="d-flex flex-column">
       <h3 class="pb-4">Vous n'avez pas encore renseigné d'émissions.</h3>
       <router-link to="/forms/transports">
         <v-btn color="primary">Commencer</v-btn>

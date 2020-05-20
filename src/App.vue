@@ -44,10 +44,14 @@ export default {
   text-align: center;
   color: black; /* #2c3e50; */
   background-color: #4caf50;
+  word-break: normal;
+  hyphens: auto;
 }
 
 #app p,
 #app li {
-  font-size: 1rem;
+  font-size: 1.1rem;
+  color: black;
+  line-height: 25px;
 }
 </style>
