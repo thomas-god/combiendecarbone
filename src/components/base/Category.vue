@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto my-0 pa-3 pb-6" max-width="700px">
-    <h2>
+    <h2 class="pt-1">
       <slot name="title">
         Titre par défaut
       </slot>
