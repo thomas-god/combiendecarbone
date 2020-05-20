@@ -1,6 +1,6 @@
 <template>
   <v-content class="mx-auto">
-    <v-card max-width="650px" class="mx-auto my-0">
+    <v-card max-width="650px" class="mx-auto my-0 pa-3">
       <v-card-title>
         <h3 class="text-center mx-auto">
           Estimez votre empreinte carbone ! 🍃
