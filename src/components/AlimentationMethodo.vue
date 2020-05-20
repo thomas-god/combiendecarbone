@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Émissions liées à l'alimentation</h3>
+    <h2>Émissions liées à l'alimentation</h2>
     <p>
       Le secteur de l'agroalimentaire représente
       <a
@@ -59,7 +59,7 @@
       <em>Transports</em>) et la conversation et cuisson chez vous (émissions
       déjà couvertes dans votre rubrique <em>Logement</em>)
     </p>
-    <table>
+    <v-simple-table dense>
       <caption>
         Emissions par type de régimes alimentaires (source
         <a
@@ -91,6 +91,6 @@
           <td>1.9</td>
         </tr>
       </tbody>
-    </table>
+    </v-simple-table>
   </div>
 </template>

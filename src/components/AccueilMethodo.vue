@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Introduction</h3>
+    <h2>Introduction</h2>
     <p>
       Selon le
       <a

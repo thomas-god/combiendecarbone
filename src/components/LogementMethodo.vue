@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Émissions liées au logement</h3>
+    <h2>Émissions liées au logement</h2>
     <p>
       La consommation énergétique d'un logement (et donc ses émissions) peuvent
       être classées en deux catégories:

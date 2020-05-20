@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Émissions liées à notre consommation de biens</h3>
+    <h2>Émissions liées à notre consommation de biens</h2>
     <p>
       Les biens manufacturés engendrent des émissions de gaz à effet de serre
       tout au long de leur cycle de vie, de la phase d'extraction des matières
@@ -36,7 +36,7 @@
       notamment, qui est déjà prise en compte dans votre bilan logement) ni au
       recyclage des objets.
     </p>
-    <table>
+    <v-simple-table dense>
       <caption>
         Emissions des objets high-tech (source
         <a
@@ -72,9 +72,9 @@
           <td>350</td>
         </tr>
       </tbody>
-    </table>
+    </v-simple-table>
 
-    <table>
+    <v-simple-table dense>
       <caption>
         Emissions des objets électroménagers (source
         <a
@@ -110,7 +110,7 @@
           <td>257</td>
         </tr>
       </tbody>
-    </table>
+    </v-simple-table>
     <h3>Vêtements et textile</h3>
     <p>
       Les achats de vêtements étant plus fréquents, les émissions engendrées ne
@@ -122,7 +122,7 @@
       repassage) ni à leur recyclage.
     </p>
 
-    <table>
+    <v-simple-table dense>
       <caption>
         Emissions du textile (source
         <a
@@ -177,6 +177,6 @@
           <td>19</td>
         </tr>
       </tbody>
-    </table>
+    </v-simple-table>
   </div>
 </template>

@@ -1,30 +1,18 @@
 <template>
   <div>
-    <h3>Émissions des transports</h3>
+    <h2>Émissions des transports</h2>
     <p>
-      Lorsque nous regardons ce que nous émettons lors d'un déplacement nous
-      devons prendre en compte deux aspects:
+      Pour calculer les émissions d'un trajet il faut tenir compte de la
+      <strong>distance parcourue</strong> (en km) et de
+      <strong>l'intensité carbone du moyen de transport utilisé</strong> (en g
+      de CO2/km). Pour obtenir les emissions annuelles il faut ensuite sommer
+      les emissions de tous les trajets effectués dans l'année. On distingue
+      alors les trajets <strong>réguliers</strong>, qui se font sur des
+      distances faibles mais avec une grande fréquence; et les trajets
+      <strong>occasionnels</strong>, pour les vacances notamment, pour lesquels
+      les distances parcourues peuvent être très grande.
     </p>
-    <ul>
-      <li>la distance parcourue (en km),</li>
-      <li>
-        et l'intensité carbone du mode de transport utilisé (en g de CO2/km).
-      </li>
-    </ul>
-    <p>
-      Mais lorsque nous nous intéressons à notre impact annuel il convient de
-      distinguer nos trajets
-      <strong>réguliers</strong> (domicile-travail notamment), qui s'ils
-      n'émettent pas énormément individuellement peuvent représenter une part
-      importante une fois agrégés; et nos trajets
-      <strong>occasionnels</strong> (pour les vacances notamment).
-    </p>
-    <p>
-      Les parties suivantes présentent donc comment les distances sont calculées
-      pour chaque mode de transport, quels facteurs d'émissions sont utilisés
-      pour chaque mode de transport, et enfin comment les trajets réguliers et
-      occasionnels sont traités.
-    </p>
+
     <h3>Comment calculons-nous les distances parcourues ?</h3>
     <p>
       Quel que soit le mode de transport utilisé, chaque calcul de trajet
@@ -116,13 +104,7 @@
       <a href="http://www.basecarbone.fr/" target="_blank">la base carbone</a>
       établie par l'ADEME afin d'avoir des données cohérentes entre elles.
     </p>
-    <table>
-      <caption>
-        Facteurs d'émissions (source:
-        <a href="http://www.basecarbone.fr/" target="_blank"
-          >Base carbone ADEME</a
-        >)
-      </caption>
+    <v-simple-table dense>
       <thead>
         <tr>
           <th scope="col">Mode de transport</th>
@@ -166,7 +148,13 @@
           <td>280.5</td>
         </tr>
       </tbody>
-    </table>
+      <caption>
+        Facteurs d'émissions (source:
+        <a href="http://www.basecarbone.fr/" target="_blank"
+          >Base carbone ADEME</a
+        >)
+      </caption>
+    </v-simple-table>
     <h3>Trajets réguliers <em>vs.</em> trajets occasionnels</h3>
     <p>
       Pour des questions d'experience utilisateur nous avons choisi de
