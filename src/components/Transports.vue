@@ -46,7 +46,7 @@
         v-for="travel in travelsReguliers"
         :travel="travel"
         :key="travel.id"
-        @update-travel="open"
+        @update-travel="updateTravel(open, travel.id)"
         v-show="nbTrajets > 0"
       />
 
@@ -54,7 +54,7 @@
         v-for="travel in travelsOccasionnels"
         :travel="travel"
         :key="travel.id"
-        @update-travel="open"
+        @update-travel="updateTravel(open, travel.id)"
         v-show="nbTrajets > 0"
       />
     </template>
@@ -94,7 +94,11 @@ export default {
   methods: {
     ...mapActions({
       updateCurrentId: 'transports/updateCurrentId'
-    })
+    }),
+    updateTravel(open, travel_id) {
+      this.updateCurrentId(travel_id)
+      open()
+    }
   }
 }
 </script>
