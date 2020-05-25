@@ -17,7 +17,7 @@
       </h3>
     </v-card-text>
     <resultats-chart
-      class="ma-2"
+      class="ma-2 chart"
       :input_data="ges"
       v-show="ges_total > 0"
     ></resultats-chart>
@@ -49,7 +49,8 @@ export default {
 
 <style>
 .chart {
-  width: 75%;
-  margin: auto;
+  position: relative;
+  height: 100%;
+  width: 100%;
 }
 </style>
