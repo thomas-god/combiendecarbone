@@ -16,7 +16,11 @@ export default {
   state: {
     travels: [],
     modes,
-    current_id: -1
+    current_id: -1,
+    ges: {
+      total: 0,
+      items: []
+    }
   },
   getters: {
     getModesNames(state) {
@@ -35,6 +39,14 @@ export default {
     },
     getTravelsOccasionnels: state => {
       return state.travels.filter(travel => travel.type === 'Occasionnel')
+    },
+    getGes(state) {
+      let ges = { total: 0, items: {} }
+      state.travels.forEach(travel => {
+        ges.items[travel.name] = travel.ges
+        ges.total += travel.ges
+      })
+      return ges
     }
   },
   mutations: {
@@ -42,6 +54,7 @@ export default {
       id++
       let newTravel = {
         ...travel,
+        name: `${travel.departure.name} - ${travel.arrival.name} (${travel.mode})`,
         id
       }
       state.travels.push(JSON.parse(JSON.stringify(newTravel)))

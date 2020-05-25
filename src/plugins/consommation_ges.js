@@ -42,7 +42,8 @@ function computeGesByCategory(category, conso, ges_values) {
 }
 
 function computeGes(consommation) {
-  let ges = {
+  let ges = {}
+  ges.items = {
     Vêtements: computeGesByCategory('Vêtements', consommation, vetements),
     'High-tech': computeGesByCategory('High-tech', consommation, high_tech),
     Électroménager: computeGesByCategory(
@@ -51,7 +52,10 @@ function computeGes(consommation) {
       electromenager
     )
   }
-  ges.total = ges['Vêtements'] + ges['High-tech'] + ges['Électroménager']
+  ges.total =
+    ges.items['Vêtements'] +
+    ges.items['High-tech'] +
+    ges.items['Électroménager']
 
   return ges
 }

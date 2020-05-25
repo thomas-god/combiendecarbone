@@ -16,34 +16,68 @@
         }}
       </h3>
     </v-card-text>
-    <resultats-chart
-      class="ma-2 chart"
-      :input_data="ges"
-      v-show="ges_total > 0"
-    ></resultats-chart>
+
+    <v-container class="d-flex mx-auto flex-wrap">
+      <chart-doughnut
+        class="ma-2 mx-auto chart"
+        :input_data="gesTotalByCat"
+        v-show="ges_total > 0"
+      ></chart-doughnut>
+      <chart-bar
+        class="ma-2 mx-auto me-10 chart"
+        :input_data="top_ges"
+        v-show="ges_total > 0"
+      ></chart-bar>
+    </v-container>
   </v-card>
 </template>
 
 <script>
-import ResultatsChart from './ResultatsChart.vue'
+import ChartDoughnut from './ResultatsChartDoughnut.vue'
+import ChartBar from './ResultatsChartBar.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    ResultatsChart
+    ChartDoughnut,
+    ChartBar
   },
   computed: {
     ...mapGetters({
-      ges: 'ges/getTotalGes'
+      gesTotalByCat: 'ges/getTotalGesByCat',
+      gesByCat: 'ges/getGesByCat'
     }),
     ges_total() {
       let ges = 0
-      for (let cat in this.ges) {
-        ges += this.ges[cat]
+      for (let cat in this.gesTotalByCat) {
+        ges += this.gesTotalByCat[cat]
       }
       return ges
+    },
+    top_ges() {
+      let ges = []
+      Object.keys(this.gesByCat).forEach(cat => {
+        Object.keys(this.gesByCat[cat].items).forEach(item => {
+          ges.push({ name: item, ges: this.gesByCat[cat].items[item] })
+        })
+      })
+      ges.sort((a, b) => b.ges - a.ges)
+      ges = ges.slice(0, 5)
+      return {
+        datasets: [
+          {
+            barThickness: 30,
+            data: ges.map(e => round(e.ges, 2)),
+            backgroundColor: ges.map(() => '#607D8B')
+          }
+        ],
+        labels: ges.map(e => e.name)
+      }
     }
   }
+}
+function round(num, n) {
+  return Math.round((num + Number.EPSILON) * 10 ** n) / 10 ** n
 }
 </script>
 

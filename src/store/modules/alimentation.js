@@ -7,7 +7,10 @@ export default {
     freq: alimentation.freq,
     items: alimentation.items,
     regime: {},
-    ges: 0
+    ges: {
+      total: 0,
+      items: {}
+    }
   },
   getters: {
     getFreq(state) {

@@ -8,19 +8,20 @@ function num(value) {
 }
 
 function computeGesFactures(factures) {
-  let ges = 0
+  let ges = { items: {}, total: 0 }
   if (factures.flag === 'Oui') {
-    ges += num(factures.elec) * ges_values.elec
-    ges += num(factures.gaz) * ges_values.gaz
+    ges.items['Électricité'] = num(factures.elec) * ges_values.elec
+    ges.total += ges.items['Électricité']
+    ges.items['Gaz'] = num(factures.gaz) * ges_values.gaz
+    ges.total += ges.items['Gaz']
   }
   return ges
 }
 
 function computeGes(logement) {
-  let ges = { total: 0 }
+  let ges = { items: {}, total: 0 }
   if (logement.factures !== undefined) {
-    ges.factures = computeGesFactures(logement.factures)
-    ges.total += ges.factures
+    ges = computeGesFactures(logement.factures)
   }
   return ges
 }

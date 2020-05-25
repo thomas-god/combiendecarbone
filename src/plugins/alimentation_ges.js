@@ -28,7 +28,7 @@ function computeGes(regime) {
   ges *= (freq[regime['local']] / 14) * (1 - 0.1)
 
   // Émissions annuelles en kg
-  return (ges * 52) / 1000
+  return { total: (ges * 52) / 1000, items: { viande: 10 } }
 }
 
 const alimentation = {
