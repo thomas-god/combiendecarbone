@@ -62,7 +62,7 @@ export default {
           ? delAccentLower(this.$route.meta.cat)
           : 'transports'
       }
-      return ''
+      return 'transports'
     },
     navigation() {
       this.base_navigation.forEach(s => {
