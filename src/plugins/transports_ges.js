@@ -28,13 +28,13 @@ function computeGes(travel) {
   if (travel.distances.length > 0) {
     for (let i = 0; i < travel.distances.length; i++) {
       const step = travel.distances[i]
-      ges +=
-        (((step.distance * modes_ges[step.mode]) / 1000) *
-          (travel.ar ? 2 : 1) *
-          travel.freq) /
-        (travel.mode === 'Voiture' ? travel.passengers : 1)
+      ges += (step.distance * modes_ges[step.mode]) / 1000
     }
   }
+  ges *= travel.ar ? 2 : 1
+  ges *= travel.freq
+  ges *= travel.mode === 'Voiture' ? travel.passengers : 1
+  ges *= travel.type === 'Régulier' ? 44 : 1
   travel.ges = ges
   return travel
 }
