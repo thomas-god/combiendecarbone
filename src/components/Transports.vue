@@ -41,13 +41,13 @@
     </template>
 
     <template v-slot:card="{ touched, open }">
-      <v-card-title v-show="touched">Vos trajets</v-card-title>
+      <v-card-title v-show="nbTrajets > 0">Vos trajets</v-card-title>
       <transports-card
         v-for="travel in travelsReguliers"
         :travel="travel"
         :key="travel.id"
         @update-travel="open"
-        v-show="touched"
+        v-show="nbTrajets > 0"
       />
 
       <transports-card
@@ -55,7 +55,7 @@
         :travel="travel"
         :key="travel.id"
         @update-travel="open"
-        v-show="touched"
+        v-show="nbTrajets > 0"
       />
     </template>
   </category>
@@ -86,7 +86,10 @@ export default {
     ...mapGetters({
       travelsReguliers: 'transports/getTravelsReguliers',
       travelsOccasionnels: 'transports/getTravelsOccasionnels'
-    })
+    }),
+    nbTrajets() {
+      return this.travelsReguliers.length + this.travelsOccasionnels.length
+    }
   },
   methods: {
     ...mapActions({

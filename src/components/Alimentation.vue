@@ -41,8 +41,8 @@
       <alimentation-form @close="close" />
     </template>
 
-    <template v-slot:card="{ touched }">
-      <alimentation-card v-show="touched" />
+    <template v-slot:card>
+      <alimentation-card v-show="isRegime" />
     </template>
   </category>
 </template>
@@ -51,6 +51,7 @@
 import Category from './base/Category.vue'
 import AlimentationForm from './AlimentationForm.vue'
 import AlimentationCard from './AlimentationCard.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -60,6 +61,14 @@ export default {
   },
   data() {
     return {}
+  },
+  computed: {
+    ...mapGetters({
+      regime: 'alimentation/getRegime'
+    }),
+    isRegime() {
+      return !(Object.keys(this.regime).length === 0)
+    }
   }
 }
 </script>
