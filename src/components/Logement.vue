@@ -5,20 +5,11 @@
     </template>
     <template v-slot:text>
       <p>
-        Le secteur résidentiel-tertiaire est directement à l'origine d'environ
-        <a
-          href="https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2019-05/datalab-46-chiffres-cles-du-climat-edition-2019-novembre2018.pdf"
-          target="_blank"
-          >17%</a
-        >
-        des émissions de gaz à effet de serre en France (la majorité pour nos
-        besoins de chauffage), et ce sans compter les émissions indirectes dues
-        à notre consommation d'électricité.
-      </p>
-      <p>
-        Le moyen le plus fiable d'estimer l'impact de notre consommation de
-        <strong>gaz</strong> et <strong>d'électricité</strong> est d'utiliser
-        les mesures utilisées dans nos factures d'énergie.
+        Pour calculer l'impact de votre logement (chauffage, eau chaude
+        sanitaire, appareils électriques, etc.) nous avons besoin de connaître
+        vos consommation <em>annuelles</em> d'électricité et/ou de gaz, que vous
+        pouvez trouver sur vos factures. Si vous ne les connaissez pas nous
+        utiliserons une valeur moyenne à l'échelle de la population française.
       </p>
     </template>
 
