@@ -57,7 +57,7 @@ function round(num, n) {
 
 export default {
   extends: Doughnut,
-  props: ['input_data'],
+  props: ['input_data', 'category'],
   data() {
     return {
       options: options,
@@ -80,28 +80,29 @@ export default {
   },
   methods: {
     updateChart() {
+      let cat_colors = shuffle(
+        Object.values(colors[this.categories_colors[this.category]])
+      )
       let data_fmt = { ...data_template }
       data_fmt.labels = Object.keys(this.input_data)
       data_fmt.datasets[0].data = []
+      data_fmt.datasets[0].backgroundColor = []
 
-      data_fmt.labels.forEach(cat => {
+      data_fmt.labels.forEach((cat, id) => {
         data_fmt.datasets[0].data.push(round(this.input_data[cat], 2))
-        data_fmt.datasets[0].backgroundColor.push(
-          colors[this.categories_colors[cat]].base
-        )
+        data_fmt.datasets[0].backgroundColor.push(cat_colors[id])
       })
-
       this.data_chart = data_fmt
-      if (data_fmt.datasets[0].data.reduce((sum, i) => sum + i) > 0)
-        this.renderChart(this.data_chart, this.options)
+
+      this.options.title.text = `Émissions de : ${this.category}`
+
+      this.renderChart(this.data_chart, this.options)
     },
     clickCallback(evt) {
-      if (this.$data._chart.getElementsAtEvent(evt)[0]) {
-        this.$emit(
-          'category-selected',
-          this.$data._chart.getElementsAtEvent(evt)[0]._model.label
-        )
-      }
+      this.$emit(
+        'category-selected',
+        this.$data._chart.getElementsAtEvent(evt)[0]._model.label
+      )
     }
   }
 }
@@ -118,6 +119,24 @@ function drawLabel(tooltipItem, data) {
   label += ((val / tot) * 100).toFixed(2)
   label += ' %)'
   return label
+}
+function shuffle(array) {
+  let m = array.length,
+    t,
+    i
+
+  // While there remain elements to shuffle…
+  while (m) {
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * m--)
+
+    // And swap it with the current element.
+    t = array[m]
+    array[m] = array[i]
+    array[i] = t
+  }
+
+  return array
 }
 </script>
 
