@@ -1,7 +1,7 @@
 <template>
   <category>
     <template v-slot:title>
-      Vos achat
+      Vos achats
     </template>
     <template v-slot:text>
       <p>
