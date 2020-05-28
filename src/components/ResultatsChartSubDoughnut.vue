@@ -70,7 +70,6 @@ export default {
     })
   },
   mounted() {
-    this.options.onClick = this.clickCallback
     this.updateChart()
   },
   watch: {
@@ -80,29 +79,25 @@ export default {
   },
   methods: {
     updateChart() {
-      let cat_colors = shuffle(
-        Object.values(colors[this.categories_colors[this.category]])
-      )
-      let data_fmt = { ...data_template }
-      data_fmt.labels = Object.keys(this.input_data)
-      data_fmt.datasets[0].data = []
-      data_fmt.datasets[0].backgroundColor = []
+      if (this.category) {
+        let cat_colors = shuffle(
+          Object.values(colors[this.categories_colors[this.category]])
+        )
+        let data_fmt = { ...data_template }
+        data_fmt.labels = Object.keys(this.input_data)
+        data_fmt.datasets[0].data = []
+        data_fmt.datasets[0].backgroundColor = []
 
-      data_fmt.labels.forEach((cat, id) => {
-        data_fmt.datasets[0].data.push(round(this.input_data[cat], 2))
-        data_fmt.datasets[0].backgroundColor.push(cat_colors[id])
-      })
-      this.data_chart = data_fmt
+        data_fmt.labels.forEach((cat, id) => {
+          data_fmt.datasets[0].data.push(round(this.input_data[cat], 2))
+          data_fmt.datasets[0].backgroundColor.push(cat_colors[id])
+        })
+        this.data_chart = data_fmt
 
-      this.options.title.text = `Émissions de : ${this.category}`
+        this.options.title.text = `Émissions de : ${this.category}`
 
-      this.renderChart(this.data_chart, this.options)
-    },
-    clickCallback(evt) {
-      this.$emit(
-        'category-selected',
-        this.$data._chart.getElementsAtEvent(evt)[0]._model.label
-      )
+        this.renderChart(this.data_chart, this.options)
+      }
     }
   }
 }

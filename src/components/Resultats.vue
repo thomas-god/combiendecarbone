@@ -24,11 +24,13 @@
         v-show="ges_total > 0"
         @category-selected="subplotCallback"
       ></chart-doughnut>
+
       <chart-bar
         class="ma-2 mx-auto me-10 chart"
         :input_data="top_ges"
         v-show="ges_total > 0"
       ></chart-bar>
+
       <chart-sub-doughnut
         class="ma-2 mx-auto me-10 chart"
         :input_data="subplot.data"
