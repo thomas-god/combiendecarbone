@@ -32,8 +32,6 @@ function computeGes(regime) {
 
   // Émissions annuelles en kg
   ges.total = Object.keys(ges.items).reduce((s, c) => s + ges.items[c], 0)
-  console.log(ges)
-
   return ges
 }
 
