@@ -1,4 +1,5 @@
 const ges_values = {
+  // kg CO2 eq./MWh
   gaz: 234,
   elec: 49.02
 }
@@ -8,14 +9,14 @@ const equipements = {
   // Source: Bilan RTE 2016
   Aucun: 3.4,
   'Quelques-un': 1.3 + (3.4 - 1.3) * 0.75,
-  'La pluspart': 1.3 + (3.4 - 1.3) * 0.25,
+  'La plupart': 1.3 + (3.4 - 1.3) * 0.25,
   Tous: 1.3
 }
 
 const chauffage = {
   // Source: Bilan RTE 2016
   Électrique: 0.052 * 30, // kWhe/m^2 * m^2
-  'Au gaz': 4.2 // https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
+  'Au gaz': 4.3 // https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
 }
 
 const isolation = {
@@ -48,7 +49,7 @@ function computeGesForm(form) {
     ges.items['Gaz'] =
       chauffage[form.chauffage] * isolation[form.isolation] * ges_values.gaz
   } else {
-    ges.items['Électricité'] =
+    ges.items['Électricité'] +=
       chauffage[form.chauffage] * isolation[form.isolation] * ges_values.elec
   }
 
