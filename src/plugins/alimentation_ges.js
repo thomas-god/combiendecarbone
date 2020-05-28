@@ -8,27 +8,33 @@ const freq = {
 const items = [
   { name: 'viande_rouge', text: 'Viande rouge', value: 0 },
   { name: 'viande_blanche', text: 'Viande blanche', value: 0 },
-  { name: 'oeufs_fromage', text: 'Oeufs et produits laitiers', value: 0 },
+  //{ name: 'oeufs_fromage', text: 'Oeufs et produits laitiers', value: 0 },
   { name: 'bio', text: 'Produits bios', value: 0 },
   { name: 'local', text: 'Produits locaux', value: 0 }
 ]
 
 function computeGes(regime) {
   // TODO: utiliser des valeurs cohérentes des ges
-  // Regime de base
-  let ges = 300 * 14
+  let ges = { items: {}, total: 0 }
+  // Discout bio/local
+  let discount =
+    (1 - (0.02 * freq[regime['bio']]) / 14) *
+    (1 - (0.1 * freq[regime['local']]) / 14)
 
-  // Contribution viande
-  ges += freq[regime['viande_rouge']] * 1600
-  ges += freq[regime['viande_blanche']] * 800
-  ges += freq[regime['oeufs_fromage']] * 500
+  // Regime de base sur une semaine (14 repas) * 52 semaines
+  ges.items['Alimentaire hors viande'] = (510 * 14 * 52 * discount) / 1e3
 
-  // Réductions bio et local
-  ges *= (freq[regime['bio']] / 14) * (1 - 0.02)
-  ges *= (freq[regime['local']] / 14) * (1 - 0.1)
+  // Contributions viande
+  ges.items['Viande rouge'] =
+    ((6290 - 510) * freq[regime['viande_rouge']] * 52 * discount) / 1e3
+  ges.items['Viande blanche'] =
+    ((1350 - 510) * freq[regime['viande_blanche']] * 52 * discount) / 1e3
 
   // Émissions annuelles en kg
-  return { total: (ges * 52) / 1000, items: { viande: 10 } }
+  ges.total = Object.keys(ges.items).reduce((s, c) => s + ges.items[c], 0)
+  console.log(ges)
+
+  return ges
 }
 
 const alimentation = {
