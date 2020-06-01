@@ -85,10 +85,11 @@ export default {
 }
 
 .methodologie .methodologie-encart {
-  margin: 0.8rem;
+  margin: 1rem 2rem;
   padding: 1rem;
-  border: 1px solid rgb(110, 110, 110);
+  border: 1px solid grey;
   border-radius: 10px;
   font-size: 1rem !important;
+  color: grey !important;
 }
 </style>
