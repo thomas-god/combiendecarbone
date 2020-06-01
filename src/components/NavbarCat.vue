@@ -53,9 +53,6 @@ export default {
       } else {
         return ''
       }
-    },
-    scroll_offset() {
-      return this.$vuetify.breakpoint.width < this.width_switch ? 48 : 64
     }
   },
   methods: {
@@ -65,10 +62,9 @@ export default {
       if (cat !== old_cat) {
         old_path[old_path.length - 1] = delAccentLower(cat)
         let new_path = old_path.join('/')
-        this.$vuetify.goTo(this.scroll_offset, {
-          duration: 500,
-          easing: 'easeInCubic'
-        })
+        if (this.getScrollOffset() > 0) {
+          window.scroll(0, this.getScrollOffset())
+        }
         this.$router.push(new_path)
       }
     },
@@ -90,6 +86,13 @@ export default {
         base += ' btn_selected_padding'
       }
       return base
+    },
+    getScrollOffset() {
+      let offset = -1
+      if (window.scrollY > 64) {
+        offset = this.$vuetify.breakpoint.width < this.width_switch ? 48 : 64
+      }
+      return offset
     }
   }
 }
