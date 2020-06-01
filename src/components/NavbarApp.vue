@@ -1,8 +1,8 @@
 <template>
   <v-app-bar
     width="100%"
-    color="#757575"
-    elevation="1"
+    color="#607D8B"
+    elevation="0"
     dense
     class="px-0 flex-grow-0"
   >

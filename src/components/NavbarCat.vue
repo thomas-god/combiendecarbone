@@ -2,8 +2,8 @@
   <v-app-bar
     width="100%"
     max-width="700px"
-    elevation="1"
-    color="#2E7D32"
+    elevation="5"
+    color="#43A047"
     class="mx-auto my-0 sticky_navbar"
   >
     <div class="d-flex justify-space-between align-center flex-grow-1 px-0">
@@ -24,7 +24,7 @@
           cat === current_cat && $vuetify.breakpoint.width > width_switch
         "
         @click="updateCat(cat)"
-        class="white--text body-2"
+        class="body-2"
         :class="class_btn(cat)"
         :width="$vuetify.breakpoint.width < width_switch ? '170px' : 'auto'"
       >
@@ -73,7 +73,7 @@ export default {
       }
     },
     class_btn(cat) {
-      let base = 'white--text'
+      let base = 'white--text font-weight-medium'
       if (cat !== this.current_cat) {
         if (this.$vuetify.breakpoint.width < this.width_switch) {
           base += ' d-none'

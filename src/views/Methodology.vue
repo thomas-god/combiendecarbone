@@ -1,7 +1,7 @@
 <template>
   <v-content class="mx-auto">
     <navbar-cat :categories="categories" :width_switch="width_small" />
-    <v-card max-width="700px" class="mx-auto pa-7">
+    <v-card max-width="700px" class="mx-auto pa-7 pt-3">
       <router-view class="methodologie"> </router-view>
     </v-card>
   </v-content>
@@ -44,11 +44,11 @@ export default {
 }
 
 .methodologie h4 {
-  font-size: 19px;
+  font-size: 17px;
   text-align: start;
   margin-top: 14px;
   margin-bottom: 0px;
-  padding-left: 5px;
+  padding-left: 0px;
 }
 
 .methodologie p {
@@ -82,5 +82,13 @@ export default {
 .methodologie table caption {
   padding-top: 5px;
   font-size: 0.875rem;
+}
+
+.methodologie .methodologie-encart {
+  margin: 0.8rem;
+  padding: 1rem;
+  border: 1px solid rgb(110, 110, 110);
+  border-radius: 10px;
+  font-size: 1rem !important;
 }
 </style>

@@ -43,7 +43,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: black; /* #2c3e50; */
-  background-color: #4caf50;
+  background-color: #eceff1;
   word-break: normal;
   hyphens: auto;
 }
