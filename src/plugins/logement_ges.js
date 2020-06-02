@@ -8,7 +8,7 @@ const ges_values = {
 const equipements = {
   // Source: Bilan RTE 2016
   Aucun: 3.4,
-  'Quelques-un': 1.3 + (3.4 - 1.3) * 0.75,
+  'Quelques-uns': 1.3 + (3.4 - 1.3) * 0.75,
   'La plupart': 1.3 + (3.4 - 1.3) * 0.25,
   Tous: 1.3
 }
