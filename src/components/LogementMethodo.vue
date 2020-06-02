@@ -1,25 +1,24 @@
 <template>
   <div>
-    <h2>Émissions liées au logement</h2>
+    <h3>Contexte</h3>
     <p>
-      La consommation énergétique d'un logement (et donc ses émissions) peuvent
-      être classées en deux catégories:
+      La consommation énergétique d'un logement regroupe une vaste gamme
+      d'usages : chauffage, cuisson, eau chaude sanitaire, consommations
+      électriques, etc. Pour chaque usage la consommation dépend de l'intensité
+      de l'usage (influence du climat sur le chauffage, mais aussi des
+      préférences de confort de chacun et qualité de l'isolation) et de
+      l'efficacité énergétique de l'équipement utilisé (classe énergétique mais
+      aussi le type d'énergie utilisé).
     </p>
-    <ul>
-      <li>
-        celles liées au chauffage (qu'il soit au gaz ou à l'électricité),
-      </li>
-      <li>
-        et le reste des consommations électriques (électroménager, éclairage,
-        etc.).
-      </li>
-    </ul>
+
     <p>
-      La méthode la plus fiable est de se baser sur les factures de vos
-      fournisseurs de gaz et d'éléctricité qui vous donneront vos consommations
-      éxactes de gaz et d'électricité en kWh. Une fois vos consommations connues
-      il nous suffit de les multiplier par les facteur d'émissions du système
-      électrique français et du gaz pour obtenir vous émissions de CO2.
+      Une méthode simple et fiable consiste à se baser sur les factures des
+      fournisseurs de gaz et d'éléctricité qui donnent les consommations éxactes
+      du logement en gaz et électricité en kWh. Une fois les consommations
+      connues il suffit de les multiplier par les facteur d'émissions du système
+      électrique français et du gaz pour obtenir les émissions de CO2
+      correspondantes. Si vous ne connaissez pas vos factures ou n'en avez pas,
+      un formulaire simple est proposé pour estimer votre consommation.
     </p>
     <h3>Facteur d'émission de l'électricité</h3>
     <p>
@@ -31,16 +30,16 @@
       >
         bilans électriques nationaux de RTE</a
       >. Ces bilans donnent la production électrique totale de toutes les
-      filières de production en TWh ainsi que la quantité émise de CO2 en MT, le
-      ratio des deux permettant d'obtenir le facteur d'émission moyen pour le
-      système électrique.
+      filières de production en TWh ainsi que la quantité émise de CO2 en
+      millions de tonnes, le ratio des deux permettant d'obtenir le facteur
+      d'émission moyen pour le système électrique.
     </p>
     <p>
       Ce facteur d'émissions pouvant varier d'une année à l'autre (hiver plus ou
-      moins doux, disponibilité des parcs hydraulique et nucléaire, etc.) nous
-      avons pris la moyenne des facteurs d'émissions annuels depuis 2010 pour
-      obtenir une valeur de
-      <strong>49 kgCO2/MWh</strong>.
+      moins doux, disponibilité des parcs hydraulique et nucléaire, etc.), la
+      moyenne des facteurs d'émissions annuels depuis 2010 pour donne une valeur
+      de
+      <strong>49 kg eq.CO2/MWh</strong>.
     </p>
     <h3>Facteur d'émission du gaz naturel</h3>
     <p>
@@ -50,7 +49,64 @@
         >GRDF</a
       >
       donne pour du gaz naturel un facteur d'émissions de
-      <strong>234 kgCO2/MWh</strong>.
+      <strong>227 kg eq.CO2/MWh</strong>.
+    </p>
+
+    <h3>Estimation en cas des factures manquantes</h3>
+    <p>
+      Afin de construire une estimation simple de la consommation énergétique
+      d'un logement on considère 2 postes de consommation : une base électrique
+      qui correspond aux consommations des appareils électriques, et une partie
+      gaz ou électricité qui correspond à la partie chauffage.
+    </p>
+
+    <p>
+      La base électrique dépend de l'efficacité énergétique des équipements
+      utilisés ainsi que des habitudes d'usage. RTE, dans son
+      <a
+        href="https://www.rte-france.com/sites/default/files/bp2016_complet_vf.pdf"
+        target="_blank"
+        >Bilan Prévisionnel</a
+      >
+      (p. 22), estime que la consommation électrique des usages domestiques
+      correspond en moyenne à 2,6 MWh par an. Cette consommation annuelle peut
+      atteindre 3,4 MWh pour des équipements très énergivores, et 1,3 MWh pour
+      des équipements économes. Le formulaire contient 4 paliers pour le taux
+      d'équipements en appareils économes :
+      <em>Aucun équipements</em> (3,4 MWh/an), <em>Quelques-uns</em> (2,875
+      MWh/an), <em></em> (1,825 MWh/an), <em>Tout équipé</em> (1,3 MWh/an).
+    </p>
+
+    <p>
+      La partie chauffage dépend du type d'énergie utilisé (électricité ou gaz)
+      et du niveau d'isolation du logement. Pour un logement ancien (mauvaise
+      isolation) les besoins en chauffage correspondent à un consommation
+      d'électricité de 52 kWh/m<sup>2</sup> (source :
+      <a
+        href="https://www.rte-france.com/sites/default/files/bp2016_complet_vf.pdf"
+        target="_blank"
+      >
+        Bilan Prévisionnel RTE, p. 19</a
+      >), et pour le gaz à 143 kWh/m<sup>2</sup> (source:
+      <a
+        href="https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html"
+        target="_blank"
+      >
+        Gaz Tarif Réglementé</a
+      >). On considère ensuite une surface moyenne de 30m<sup>2</sup> par
+      personne. Que ce soit pour un chauffage gaz ou électrique, des travaux
+      d'isolation peuvent diminuer la consommation énergétique jusqu'à -75%
+      (mêmes sources).
+    </p>
+
+    <p class="methodologie-encart">
+      <v-icon large color="red" class="float-left ml-1 mr-2 mt-2"
+        >mdi-alert-circle-outline</v-icon
+      >Cette approche se base sur des données moyennes des ménages français et
+      est forcément moins précise qu'une connaissance exacte de vos
+      consommation. Il est notamment difficile de prendre en compte les
+      habitudes de consommation, les particularités du logement et de la
+      localisation, etc.
     </p>
     <h3>Pour aller plus loin</h3>
     <ul>
@@ -75,6 +131,13 @@
           href="https://www.cre.fr/"
           target="_blank"
           >cre.fr</a
+        >).
+      </li>
+      <li>
+        Réduire sa facture d'électricité au quotidien (<a
+          href="https://www.ademe.fr/sites/default/files/assets/documents/guide-pratique-reduire-facture-electricite.pdf"
+          target="_blank"
+          >ADEME</a
         >).
       </li>
     </ul>
