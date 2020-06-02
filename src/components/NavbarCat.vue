@@ -2,9 +2,9 @@
   <v-app-bar
     width="100%"
     max-width="700px"
-    elevation="5"
+    elevation="3"
     color="#43A047"
-    class="mx-auto my-0 sticky_navbar"
+    class="mx-auto my-0 mb-4 sticky_navbar"
   >
     <div class="d-flex justify-space-between align-center flex-grow-1 px-0">
       <v-btn
