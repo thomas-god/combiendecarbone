@@ -1,5 +1,5 @@
 <template>
-  <category>
+  <category :btnName="btn_names">
     <template v-slot:title>
       Votre alimentation
     </template>
@@ -35,7 +35,12 @@ export default {
     AlimentationCard
   },
   data() {
-    return {}
+    return {
+      btn_names: {
+        clean: 'Répondre',
+        dirty: 'Modifier'
+      }
+    }
   },
   computed: {
     ...mapGetters({

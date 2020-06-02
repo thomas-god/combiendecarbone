@@ -1,5 +1,5 @@
 <template>
-  <category>
+  <category :btnName="btn_names">
     <template v-slot:title>
       Votre consommation d'énergie
     </template>
@@ -37,7 +37,11 @@ export default {
   data() {
     return {
       form: false,
-      form_touched: false
+      form_touched: false,
+      btn_names: {
+        clean: 'Répondre',
+        dirty: 'Modifier'
+      }
     }
   },
   methods: {
