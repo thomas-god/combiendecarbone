@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Émissions liées à notre consommation de biens</h2>
+    <h3>Contexte</h3>
     <p>
       Les biens manufacturés engendrent des émissions de gaz à effet de serre
       tout au long de leur cycle de vie, de la phase d'extraction des matières
