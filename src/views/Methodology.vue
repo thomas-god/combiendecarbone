@@ -22,8 +22,8 @@ export default {
         'Transports',
         'Logement',
         'Alimentation',
-        'Consommation',
-        'Résultats'
+        'Consommation'
+        //'Résultats'
       ]
     }
   }
