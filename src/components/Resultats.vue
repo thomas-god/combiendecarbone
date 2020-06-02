@@ -39,16 +39,19 @@
       </div>
     </v-card>
 
-    <v-card max-width="700" class="mx-auto my-3 pa-3" v-show="ges_total > 0">
+    <v-card
+      max-width="700"
+      class="mx-auto my-3 pa-3"
+      v-show="ges_total > 0 && subplot.display"
+    >
       <v-card-title>
-        Vos émissions pour la catégorie :
-        <em>{{ '&nbsp;' + subplot.category }}</em>
+        Vos émissions pour la catégorie
+        <em>{{ ': ' + subplot.category }}</em>
       </v-card-title>
       <chart-sub-doughnut
         class="ma-2 mx-auto me-10 chart"
         :input_data="subplot.data"
         :category="subplot.category"
-        v-show="ges_total > 0 && subplot.display"
       ></chart-sub-doughnut>
     </v-card>
   </v-container>
