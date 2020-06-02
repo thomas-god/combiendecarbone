@@ -1,4 +1,4 @@
-import { mdiAirplane, mdiCar, mdiTrain, mdiBike, mdiBusMultiple } from '@mdi/js'
+import { mdiAirplane, mdiCar, mdiTrain, mdiBusMultiple } from '@mdi/js'
 import { computeDistance } from '../../plugins/transports_distance.js'
 import { computeGes } from '../../plugins/transports_ges.js'
 import Vue from 'vue'
@@ -6,7 +6,7 @@ import Vue from 'vue'
 const modes = [
   { name: 'Voiture', icon: mdiCar },
   { name: 'Métro/Bus', icon: mdiBusMultiple },
-  { name: 'Vélo', icon: mdiBike },
+  //{ name: 'Vélo', icon: mdiBike },
   { name: 'TGV', icon: mdiTrain },
   { name: 'Avion', icon: mdiAirplane }
 ]
