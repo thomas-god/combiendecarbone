@@ -7,10 +7,13 @@ const options = {
   maintainAspectRatio: false,
   title: {
     text: 'Émissions totales',
-    display: true
+    display: false
   },
   legend: {
-    position: 'bottom'
+    position: 'top',
+    labels: {
+      fontSize: 14
+    }
   },
   tooltips: {
     callbacks: {
@@ -70,6 +73,7 @@ export default {
     })
   },
   mounted() {
+    this.options.onClick = this.clickCallback
     this.updateChart()
   },
   watch: {
@@ -93,6 +97,14 @@ export default {
       this.data_chart = data_fmt
       if (data_fmt.datasets[0].data.reduce((sum, i) => sum + i) > 0)
         this.renderChart(this.data_chart, this.options)
+    },
+    clickCallback(evt) {
+      if (this.$data._chart.getElementsAtEvent(evt)[0]) {
+        this.$emit(
+          'category-selected',
+          this.$data._chart.getElementsAtEvent(evt)[0]._model.label
+        )
+      }
     }
   }
 }

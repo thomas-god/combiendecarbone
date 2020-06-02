@@ -6,30 +6,61 @@
     <v-card-actions class="d-flex flex-column align-stretch">
       <v-form ref="form">
         <v-select
-          :items="['Oui', 'Non']"
+          :items="[
+            { text: 'Oui', value: 'factures' },
+            { text: 'Non', value: 'form' }
+          ]"
           label="Je connais mes factures d'énergie"
-          v-model="factures.flag"
+          v-model="consommation.type"
           required
           :rules="rulesReq"
         ></v-select>
-        <v-text-field
-          label="Facture d'éléctricité (MWh)"
-          v-model="factures.elec"
-          type="number"
-          v-show="factures.flag === 'Oui'"
-          min="0"
-          step="0.05"
-          :rules="rulesNum"
-        ></v-text-field>
-        <v-text-field
-          label="Facture de gaz (MWh)"
-          v-model="factures.gaz"
-          type="number"
-          v-show="factures.flag === 'Oui'"
-          min="0"
-          step="0.05"
-          :rules="rulesNum"
-        ></v-text-field>
+
+        <!-- Factures connues -->
+        <div v-if="consommation.type === 'factures'">
+          <v-text-field
+            label="Facture d'éléctricité (MWh)"
+            v-model="consommation.factures.elec"
+            type="number"
+            min="0"
+            step="0.05"
+            :rules="rulesNum"
+          ></v-text-field>
+          <v-text-field
+            label="Facture de gaz (MWh)"
+            v-model="consommation.factures.gaz"
+            type="number"
+            min="0"
+            step="0.05"
+            :rules="rulesNum"
+          ></v-text-field>
+        </div>
+
+        <!-- Factures non connues -->
+        <div v-if="consommation.type === 'form'">
+          <v-select
+            label="Vos appareils basse consommation (classe A ou supérieure)"
+            :items="equipements"
+            required
+            :rules="rulesReq"
+            v-model="consommation.form.equipements"
+          ></v-select>
+          <v-select
+            label="Vous avez un chauffage"
+            :items="chauffage"
+            required
+            :rules="rulesReq"
+            v-model="consommation.form.chauffage"
+          ></v-select>
+          <v-select
+            label="Votre niveau d'isolation"
+            :items="isolation"
+            required
+            :rules="rulesReq"
+            v-model="consommation.form.isolation"
+          ></v-select>
+        </div>
+
         <v-spacer></v-spacer>
         <v-btn @click="validate" color="success">Ok</v-btn>
       </v-form>
@@ -38,7 +69,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -50,22 +81,28 @@ export default {
     }
   },
   computed: {
-    factures: {
+    ...mapGetters({
+      equipements: 'logement/getEquipements',
+      chauffage: 'logement/getChauffage',
+      isolation: 'logement/getIsolation'
+    }),
+    consommation: {
       get() {
-        return this.$store.state.logement.factures
+        return this.$store.state.logement.consommation
       },
       set(value) {
-        mapActions('logement/updateFactures', value)
+        //? Dead code ?
+        mapActions('logement/updateConsommation', value)
       }
     }
   },
   methods: {
     ...mapActions({
-      updateFactures: 'logement/updateFactures'
+      updateConsommation: 'logement/updateConsommation'
     }),
     validate() {
       if (this.$refs.form.validate()) {
-        this.updateFactures(this.factures)
+        this.updateConsommation(this.consommation)
         this.$emit('close')
       }
     }

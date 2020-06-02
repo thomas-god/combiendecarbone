@@ -25,7 +25,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      regime: {},
       rulesMode: [value => !!value || 'Champs requis.']
     }
   },
@@ -40,16 +39,9 @@ export default {
       }
     }
   },
-  mounted() {
-    let regime = {}
-    this.items.forEach(item => {
-      regime[item.name] = ''
-    })
-    this.regime = regime
-    this.$refs.form.resetValidation()
-  },
   computed: {
     ...mapGetters({
+      regime: 'alimentation/getRegime',
       freq: 'alimentation/getFreq',
       items: 'alimentation/getItems'
     })

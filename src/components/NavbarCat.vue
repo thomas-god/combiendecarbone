@@ -2,9 +2,9 @@
   <v-app-bar
     width="100%"
     max-width="700px"
-    elevation="1"
-    color="#2E7D32"
-    class="mx-auto my-0 sticky_navbar"
+    elevation="3"
+    color="#43A047"
+    class="mx-auto my-0 mb-4 sticky_navbar"
   >
     <div class="d-flex justify-space-between align-center flex-grow-1 px-0">
       <v-btn
@@ -24,7 +24,7 @@
           cat === current_cat && $vuetify.breakpoint.width > width_switch
         "
         @click="updateCat(cat)"
-        class="white--text body-2"
+        class="body-2"
         :class="class_btn(cat)"
         :width="$vuetify.breakpoint.width < width_switch ? '170px' : 'auto'"
       >
@@ -62,6 +62,9 @@ export default {
       if (cat !== old_cat) {
         old_path[old_path.length - 1] = delAccentLower(cat)
         let new_path = old_path.join('/')
+        if (this.getScrollOffset() > 0) {
+          window.scroll(0, this.getScrollOffset())
+        }
         this.$router.push(new_path)
       }
     },
@@ -73,7 +76,7 @@ export default {
       }
     },
     class_btn(cat) {
-      let base = 'white--text'
+      let base = 'white--text font-weight-medium'
       if (cat !== this.current_cat) {
         if (this.$vuetify.breakpoint.width < this.width_switch) {
           base += ' d-none'
@@ -83,6 +86,13 @@ export default {
         base += ' btn_selected_padding'
       }
       return base
+    },
+    getScrollOffset() {
+      let offset = -1
+      if (window.scrollY > 64) {
+        offset = this.$vuetify.breakpoint.width < this.width_switch ? 48 : 64
+      }
+      return offset
     }
   }
 }

@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5b6c70cb-dbbb-4a9f-b537-d2eb16a7a7ea/deploy-status)](https://app.netlify.com/sites/jovial-allen-d47faf/deploys)
+
 # front
 
 ## Project setup

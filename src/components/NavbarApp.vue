@@ -1,8 +1,8 @@
 <template>
   <v-app-bar
     width="100%"
-    color="#757575"
-    elevation="1"
+    color="#607D8B"
+    elevation="0"
     dense
     class="px-0 flex-grow-0"
   >
@@ -45,16 +45,32 @@ export default {
   data() {
     return {
       width_small: 620,
-      navigation: [
+      base_navigation: [
         { name: 'Accueil', path: '/' },
-        { name: 'Calculateur', path: '/forms/transports' },
-        { name: 'Méthodologie', path: '/methodologie/general' }
+        { name: 'Calculateur', basePath: '/forms/' },
+        { name: 'Méthodologie', basePath: '/methodologie/' }
       ]
     }
   },
   computed: {
     current_route() {
       return this.$route.meta.name
+    },
+    current_cat() {
+      if (this.$route.meta.cat) {
+        return this.$route.meta.cat !== 'Général'
+          ? delAccentLower(this.$route.meta.cat)
+          : 'transports'
+      }
+      return 'transports'
+    },
+    navigation() {
+      this.base_navigation.forEach(s => {
+        if (s.basePath) {
+          s.path = s.basePath + this.current_cat
+        }
+      })
+      return this.base_navigation
     },
     class_btn_cat_current() {
       let base = 'white--text'
@@ -71,6 +87,13 @@ export default {
       return base
     }
   }
+}
+
+function delAccentLower(str) {
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
 }
 </script>
 

@@ -4,7 +4,7 @@ export default {
     toto: 'toto'
   },
   getters: {
-    getTotalGes(state, getters, rootState) {
+    getTotalGesByCat(state, getters, rootState) {
       let ges = {}
       if (rootState.transports.travels.length > 0) {
         ges.Transports = rootState.transports.travels
@@ -16,9 +16,18 @@ export default {
 
       ges.Logement = rootState.logement.ges.total
 
-      ges.Alimentation = rootState.alimentation.ges
+      ges.Alimentation = rootState.alimentation.ges.total
 
       ges.Consommation = rootState.consommation.ges.total
+      return ges
+    },
+    getGesByCat(state, getters, rootState, rootGetters) {
+      let ges = {
+        Transports: rootGetters['transports/getGes'],
+        Logement: rootState.logement.ges,
+        Alimentation: rootState.alimentation.ges,
+        Consommation: rootState.consommation.ges
+      }
       return ges
     }
   }

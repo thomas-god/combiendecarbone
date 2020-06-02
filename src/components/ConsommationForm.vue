@@ -4,15 +4,25 @@
       {{ titles[category] }}
     </v-card-title>
     <v-card-actions class="d-flex flex-column align-stretch">
-      <v-form ref="form">
-        <v-select
-          label="Ajouter"
-          :items="items"
-          item-text="full_name"
-          item-value="name"
-          return-object
-          @input="addActiveItem"
-        ></v-select>
+      <v-form ref="form" class="d-flex flex-column align-center">
+        <v-menu :offset-y="true">
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" color="primary" class="mb-3">
+              Choisir
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="item in remaining_items_sorted"
+              :key="item.name"
+              @click="addActiveItem(item)"
+            >
+              <v-list-item-title>
+                {{ item.full_name }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
         <div
           v-for="item in active_items"
           :key="item.name"
@@ -23,11 +33,11 @@
             :label="$vuetify.breakpoint.xsOnly ? item.full_name : ''"
             :prefix="!$vuetify.breakpoint.xsOnly ? item.full_name + ': ' : ''"
             :min="0"
-            :max="10"
             class="my-4"
+            max-width="380px"
           />
           <v-btn
-            @click="deleteActiveItem(item.name)"
+            @click="deleteActiveItem(item)"
             fab
             x-small
             outlined
@@ -38,7 +48,13 @@
           </v-btn>
         </div>
 
-        <v-btn @click="validate" color="success" class="ma-3">Ok</v-btn>
+        <v-btn
+          @click="validate"
+          color="success"
+          class="ma-3"
+          v-show="active_items.length > 0"
+          >Ok</v-btn
+        >
       </v-form>
     </v-card-actions>
   </v-card>
@@ -58,12 +74,11 @@ export default {
       items: [],
       consommation: {},
       active_items: [],
+      remaining_items: [],
       titles: {
         Vêtements: 'Combien de vêtements achetez-vous tous les ans ?',
-        Électroménager:
-          'Combien de temps gardez vous votre électroménager (en années) ?',
-        'High-tech':
-          'Combien de temps gardez vous votre high-tech (en années) ?'
+        Électroménager: "Combien d'années gardez-vous votre électroménager ?",
+        'High-tech': "Combien d'années gardez-vous votre high-tech ?"
       }
     }
   },
@@ -71,7 +86,10 @@ export default {
     ...mapGetters({
       getItems: 'consommation/getItemsByCategory',
       getConso: 'consommation/getConsoByCategory'
-    })
+    }),
+    remaining_items_sorted() {
+      return this.remaining_items.concat().sort((a, b) => a.name > b.name)
+    }
   },
   mounted() {
     this.updateCycle()
@@ -100,25 +118,24 @@ export default {
 
       // Deduce the list of active items
       this.active_items = []
+      this.remaining_items = []
       this.items.forEach(item => {
         if (this.consommation[item.name] > 0) {
           this.active_items.push(item)
+        } else {
+          this.remaining_items.push(item)
         }
       })
       this.$refs.form.resetValidation()
     },
     addActiveItem(item) {
-      let idx = this.active_items.findIndex(v => v.name === item.name)
-      if (idx === -1) {
-        this.active_items.push(item)
-      }
+      addToArray(this.active_items, item)
+      removeFromArray(this.remaining_items, item)
     },
-    deleteActiveItem(item_name) {
-      let idx = this.active_items.findIndex(v => v.name === item_name)
-      if (idx > -1) {
-        Vue.delete(this.active_items, idx)
-        this.consommation[item_name] = 0
-      }
+    deleteActiveItem(item) {
+      addToArray(this.remaining_items, item)
+      removeFromArray(this.active_items, item)
+      this.consommation[item.name] = 0
     },
     validate() {
       if (this.$refs.form.validate()) {
@@ -126,6 +143,20 @@ export default {
         this.$emit('close')
       }
     }
+  }
+}
+
+function addToArray(arr, item) {
+  let idx = arr.findIndex(v => v.name === item.name)
+  if (idx === -1) {
+    arr.push(item)
+  }
+}
+
+function removeFromArray(arr, item) {
+  let idx = arr.findIndex(v => v.name === item.name)
+  if (idx > -1) {
+    Vue.delete(arr, idx)
   }
 }
 </script>

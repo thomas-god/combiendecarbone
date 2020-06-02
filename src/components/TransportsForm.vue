@@ -12,6 +12,7 @@
           required
           :rules="rulesMode"
         ></v-select>
+
         <v-select
           :items="modes"
           label="Mode de transport"
@@ -19,6 +20,7 @@
           required
           :rules="rulesMode"
         ></v-select>
+
         <v-text-field
           label="Départ"
           id="departure"
@@ -28,6 +30,7 @@
           :rules="rulesPlace"
           placeholder=""
         ></v-text-field>
+
         <v-text-field
           label="Arrivée"
           id="arrival"
@@ -36,6 +39,7 @@
           :value="travel.arrival.placeholder"
           placeholder=""
         ></v-text-field>
+
         <v-text-field
           label="Fréquence du trajet"
           v-model="travel.freq"
@@ -43,6 +47,7 @@
           min="1"
           :rules="rulesNum"
         ></v-text-field>
+
         <v-text-field
           label="Nombre de passagers"
           v-model="travel.passengers"
@@ -51,6 +56,7 @@
           min="1"
           :rules="rulesNum"
         ></v-text-field>
+
         <v-checkbox v-model="travel.ar" label="Aller/retour"></v-checkbox>
 
         <v-btn @click="validate" color="success">
@@ -106,7 +112,6 @@ export default {
     // eslint-disable-next-line no-undef
     departure.addListener('place_changed', () => {
       const place = departure.getPlace()
-      this.travel_departure = input_dep.value
       this.travel.departure = {
         name: place.name,
         placeholder: input_dep.value + '',

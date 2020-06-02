@@ -1,41 +1,56 @@
 import Vue from 'vue'
-import { computeGes } from '../../plugins/logement_ges.js'
+import { logement } from '../../plugins/logement_ges.js'
 
 export default {
   namespaced: true,
   state: {
-    factures: {
-      flag: '',
-      elec: 0,
-      gaz: 0
+    consommation: {
+      type: '',
+      factures: {},
+      form: {}
     },
-    ges: { total: 0 }
+    equipements: logement.equipements,
+    chauffage: logement.chauffage,
+    isolation: logement.isolation,
+    ges: {
+      total: 0,
+      items: {}
+    }
   },
   getters: {
-    getFactures(state) {
-      return state.factures
+    getConsommation(state) {
+      return state.consommation
+    },
+    getEquipements(state) {
+      return state.equipements
+    },
+    getChauffage(state) {
+      return state.chauffage
+    },
+    getIsolation(state) {
+      return state.isolation
     }
   },
   mutations: {
-    updateFactures(state, new_factures) {
-      Vue.set(state, 'factures', new_factures)
+    updateConsommation(state, new_conso) {
+      Vue.set(state, 'consommation', new_conso)
     },
-    resetFactures(state) {
-      Vue.set(state, 'factures', {})
+    resetConsommation(state) {
+      Vue.set(state, 'consommation', {})
     },
     updateGes(state) {
-      let ges = computeGes(state)
+      let ges = logement.computeGes(state.consommation)
       Vue.set(state, 'ges', ges)
     }
   },
   actions: {
-    updateFactures(context, new_factures) {
+    updateConsommation(context, new_conso) {
       // TODO: new_factures = await computeGes(new_factures)
-      context.commit('updateFactures', new_factures)
+      context.commit('updateConsommation', new_conso)
       context.commit('updateGes')
     },
-    resetFactures(context) {
-      context.commit('resetFactures')
+    resetConsommation(context) {
+      context.commit('resetConsommation')
       context.commit('updateGes')
     }
   }

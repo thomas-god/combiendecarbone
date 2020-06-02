@@ -1,21 +1,17 @@
 <template>
-  <category>
+  <category :btnName="btn_names">
+    <template v-slot:title>
+      Votre consommation d'énergie
+    </template>
     <template v-slot:text>
       <p>
-        Le secteur résidentiel-tertiaire est directement à l'origine d'environ
-        <a
-          href="https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2019-05/datalab-46-chiffres-cles-du-climat-edition-2019-novembre2018.pdf"
-          target="_blank"
-          >17%</a
-        >
-        des émissions de gaz à effet de serre en France (la majorité pour nos
-        besoins de chauffage), et ce sans compter les émissions indirectes dues
-        à notre consommation d'électricité.
-      </p>
-      <p>
-        Le moyen le plus fiable d'estimer l'impact de notre consommation de
-        <strong>gaz</strong> et <strong>d'électricité</strong> est d'utiliser
-        les mesures utilisées dans nos factures d'énergie.
+        Pour estimer l'impact de votre logement (chauffage, eau chaude
+        sanitaire, appareils électriques, etc.) commencez par renseigner vos
+        consommation <em>annuelles</em> d'électricité et/ou de gaz, que vous
+        pouvez trouver sur les factures de vos fournisseurs d'énergie. Si vous
+        ne les connaissez pas ou n'en avez pas, nous vous proposons de répondre
+        à un rapide questionnaire pour estimer de vos consommation en se basant
+        sur les moyennes nationales.
       </p>
     </template>
 
@@ -23,43 +19,30 @@
       <logement-form @close="close"></logement-form>
     </template>
 
-    <template v-slot:card="{ touched }">
-      <v-card max-width="550px" class="mx-auto my-3">
-        <v-card-title v-show="touched">
-          Votre consommation
-        </v-card-title>
-        <v-card-text class="text-left" v-show="touched">
-          <p>Électricité: {{ factures.elec === '' ? 0 : factures.elec }} MWh</p>
-          <p>Gaz: {{ factures.gaz === '' ? 0 : factures.gaz }} MWh</p>
-        </v-card-text>
-      </v-card>
+    <template v-slot:card>
+      <logement-card />
     </template>
   </category>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import Category from './base/Category.vue'
 import LogementForm from './LogementForm.vue'
+import logementCard from './LogementCard.vue'
 
 export default {
   components: {
     LogementForm,
+    logementCard,
     Category
   },
   data() {
     return {
       form: false,
-      form_touched: false
-    }
-  },
-  computed: {
-    factures: {
-      get() {
-        return this.$store.state.logement.factures
-      },
-      set(value) {
-        mapActions('logement/updateFactures', value)
+      form_touched: false,
+      btn_names: {
+        clean: 'Répondre',
+        dirty: 'Modifier'
       }
     }
   },

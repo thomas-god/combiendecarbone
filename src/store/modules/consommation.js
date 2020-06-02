@@ -10,7 +10,10 @@ export default {
       Électroménager: consommation.electromenager
     },
     consommation: {},
-    ges: { total: 0 }
+    ges: {
+      total: 0,
+      items: {}
+    }
   },
   getters: {
     getItems(state) {

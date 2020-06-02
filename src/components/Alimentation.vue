@@ -1,45 +1,22 @@
 <template>
-  <category>
+  <category :btnName="btn_names">
+    <template v-slot:title>
+      Votre alimentation
+    </template>
     <template v-slot:text>
       <p>
-        Le secteur de l'agriculture est à l'origine d'environ
-        <a
-          href="https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2019-05/datalab-46-chiffres-cles-du-climat-edition-2019-novembre2018.pdf"
-          target="_blank"
-          >16%</a
-        >
-        des émissions de gaz à effet de serre en France, principalement via le
-        méthane émis par les animaux d'élevage, et les engrais azotés. Les
-        émissions de gaz à effet de serre variant d'un aliment à un autre, un
-        moyen efficace d'estimer nos émissions dues à notre alimentation est de
-        raisonner en terme de régimes alimentaires.
+        Pour estimer l'impact de vos habitudes alimentaires, répondez à ces
+        quelques questions sur votre régime alimentaire habituel (consommation
+        de viande, de produits locaux, etc.).
       </p>
-      <p>
-        Trois régimes alimentaires ont été retenus suivant leur teneur en
-        protéines animales et végétales :
-      </p>
-      <ul>
-        <li>
-          le régime <strong>omnivore</strong>, ou régime moyen en France, dans
-          lequel la majorité des besoins en proteines sont d'origine animale.
-        </li>
-        <li>
-          le régime <strong>fléxitarien</strong>, qui remplace une partie des
-          protéines animales du régime omnivore par des protéines végétales,
-        </li>
-        <li>
-          le régime <strong>végétarien</strong>, qui ne contient pas de
-          protéines animales.
-        </li>
-      </ul>
     </template>
 
     <template v-slot:form="{ close }">
       <alimentation-form @close="close" />
     </template>
 
-    <template v-slot:card="{ touched }">
-      <alimentation-card v-show="touched" />
+    <template v-slot:card>
+      <alimentation-card v-show="isRegime" />
     </template>
   </category>
 </template>
@@ -48,6 +25,7 @@
 import Category from './base/Category.vue'
 import AlimentationForm from './AlimentationForm.vue'
 import AlimentationCard from './AlimentationCard.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -56,7 +34,20 @@ export default {
     AlimentationCard
   },
   data() {
-    return {}
+    return {
+      btn_names: {
+        clean: 'Répondre',
+        dirty: 'Modifier'
+      }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      regime: 'alimentation/getRegime'
+    }),
+    isRegime() {
+      return !(Object.keys(this.regime).length === 0)
+    }
   }
 }
 </script>
