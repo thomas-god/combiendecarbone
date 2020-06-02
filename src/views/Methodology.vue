@@ -68,6 +68,11 @@ export default {
 .methodologie table {
   max-width: 300px;
   margin: auto;
+  caption-side: bottom;
+}
+
+.methodologie .table-wide table {
+  max-width: 500px;
 }
 
 .methodologie table thead th {
@@ -75,8 +80,9 @@ export default {
   text-align: center !important;
 }
 
-.methodologie table {
-  caption-side: bottom;
+.methodologie table td,
+.methodologie table th {
+  text-align: center !important;
 }
 
 .methodologie table caption {
