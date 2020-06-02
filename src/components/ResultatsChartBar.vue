@@ -1,11 +1,11 @@
 <script>
-import { HorizontalBar } from 'vue-chartjs'
+import { Bar } from 'vue-chartjs'
 
 const options = {
   maintainAspectRatio: false,
   title: {
     text: "Principaux postes d'émissions",
-    display: true
+    display: false
   },
   legend: {
     display: false
@@ -16,20 +16,20 @@ const options = {
     }
   },
   scales: {
-    yAxes: [
+    xAxes: [
       {
         gridLines: {
           display: false
         },
         ticks: {
           beginAtZero: true,
-          display: true
-          /* maxRotation: 38,
-          minRotation: 38 */
+          display: true,
+          maxRotation: 0,
+          minRotation: 0
         }
       }
     ],
-    xAxes: [
+    yAxes: [
       {
         gridLines: {
           display: true
@@ -58,7 +58,7 @@ const options = {
 } */
 
 export default {
-  extends: HorizontalBar,
+  extends: Bar,
   props: ['input_data'],
   data() {
     return {
@@ -78,7 +78,7 @@ export default {
     updateChart() {
       this.data_chart = this.input_data
       this.data_chart.labels = this.data_chart.labels.map(label =>
-        wordWrap(label, 30)
+        wordWrap(label, 20)
       )
       this.renderChart(this.input_data, this.options)
     }
@@ -97,27 +97,19 @@ function drawLabel(tooltipItem, data) {
 }
 
 function wordWrap(str, maxWidth) {
-  let newLineStr = '\n'
-  let res = ''
+  let res = []
   while (str.length > maxWidth) {
-    let found = false
     // Inserts new line at first whitespace of the line
     for (let i = maxWidth - 1; i >= 0; i--) {
       if (testWhite(str.charAt(i))) {
-        res = res + [str.slice(0, i), newLineStr].join('')
+        res.push(str.slice(0, i))
         str = str.slice(i + 1)
-        found = true
         break
       }
     }
-    // Inserts new line at maxWidth position, the word is too long to wrap
-    if (!found) {
-      res += [str.slice(0, maxWidth), newLineStr].join('')
-      str = str.slice(maxWidth)
-    }
   }
-
-  return res + str
+  res.push(str)
+  return res
 }
 function testWhite(x) {
   var white = new RegExp(/^\s$/)
