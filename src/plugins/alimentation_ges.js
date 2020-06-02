@@ -18,17 +18,17 @@ function computeGes(regime) {
   let ges = { items: {}, total: 0 }
   // Discout bio/local
   let discount =
-    (1 - (0.02 * freq[regime['bio']]) / 14) *
-    (1 - (0.1 * freq[regime['local']]) / 14)
+    (1 - (0.0 * freq[regime['bio']]) / 14) *
+    (1 - (0.0 * freq[regime['local']]) / 14)
 
   // Regime de base sur une semaine (14 repas) * 52 semaines
-  ges.items['Alimentaire hors viande'] = (510 * 14 * 52 * discount) / 1e3
+  ges.items['Alimentaire hors viande'] = 0.9 * 14 * 52 * discount
 
   // Contributions viande
   ges.items['Viande rouge'] =
-    ((6290 - 510) * freq[regime['viande_rouge']] * 52 * discount) / 1e3
+    (6 - 0.9) * freq[regime['viande_rouge']] * 52 * discount
   ges.items['Viande blanche'] =
-    ((1350 - 510) * freq[regime['viande_blanche']] * 52 * discount) / 1e3
+    (1.9 - 0.9) * freq[regime['viande_blanche']] * 52 * discount
 
   // Émissions annuelles en kg
   ges.total = Object.keys(ges.items).reduce((s, c) => s + ges.items[c], 0)
