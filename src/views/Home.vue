@@ -13,10 +13,10 @@
           facile de savoir par où commencer tant le problème est complexe. Comme
           la plupart nos activités émettent des gaz à effet de serre on ne sait
           pas toujours quel sera l'impact d'une modification de nos habitudes et
-          si on ne devrait pas mieux concentrer nos efforts ailleurs.
+          si l'on ne devrait pas mieux concentrer nos efforts ailleurs.
         </p>
         <p>
-          Pour y voir plus clair nous vous proposons donc de commencer par faire
+          Pour commencer à y voir plus clair nous vous proposons donc de faire
           un état des lieux de vos émissions de gaz à effet de serre selon 4
           catégories : le transport, le logement, l'alimentation et la
           consommation de biens. Une fois vos principaux postes d'émissions
@@ -25,8 +25,8 @@
         </p>
         <p class="mt-2">
           Enfin, pour aller plus loin et pour toute question concernant
-          l'élaboration de votre diagnostic carbone n'hésitez pas à consulter
-          notre page
+          l'élaboration de votre impact carbone n'hésitez pas à consulter notre
+          page
           <router-link to="/methodologie/general">
             <em>Méthodologie</em> </router-link
           >.

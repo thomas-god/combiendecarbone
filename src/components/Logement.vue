@@ -5,11 +5,13 @@
     </template>
     <template v-slot:text>
       <p>
-        Pour calculer l'impact de votre logement (chauffage, eau chaude
-        sanitaire, appareils électriques, etc.) nous avons besoin de connaître
-        vos consommation <em>annuelles</em> d'électricité et/ou de gaz, que vous
-        pouvez trouver sur vos factures. Si vous ne les connaissez pas nous
-        utiliserons une valeur moyenne à l'échelle de la population française.
+        Pour estimer l'impact de votre logement (chauffage, eau chaude
+        sanitaire, appareils électriques, etc.) commencez par renseigner vos
+        consommation <em>annuelles</em> d'électricité et/ou de gaz, que vous
+        pouvez trouver sur les factures de vos fournisseurs d'énergie. Si vous
+        ne les connaissez pas ou n'en avez pas, nous vous proposons de répondre
+        à un rapide questionnaire pour estimer de vos consommation en se basant
+        sur les moyennes nationales.
       </p>
     </template>
 

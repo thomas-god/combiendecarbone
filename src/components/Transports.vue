@@ -8,11 +8,11 @@
     </template>
     <template v-slot:text>
       <p>
-        Pour estimer l'impact dus à vos transports lister tous vos trajets
+        Pour estimer l'impact dû à vos déplacements, listez tous vos trajets
         effectués dans l'années, qu'ils soient occasionnels (week-end, vacances)
         ou réguliers (navette domicile-travail, activités hebdomadaires), et
         pour tous les modes de transports émetteurs (voiture, transports en
-        commun, train, avion, etc.).
+        commun, train, avion).
       </p>
     </template>
 

@@ -5,10 +5,10 @@
     </template>
     <template v-slot:text>
       <p>
-        Enfin, nous émettons de manière indirecte lorsque que nous achetons
-        vêtements, électro-ménager, appareils high-tech. Renseigner vos
-        habitudes de consommation : nombre de vêtements que vous achetez en un
-        an et durée de vie de vos appareils.
+        Pour estimer l'impact de vos habitudes d'achat renseignez pour les
+        vêtements les quantités que vous achetez habituellement dans l'année, et
+        pour l'électroménager et le high-tech les durées de vie habituelles de
+        vos appareils.
       </p>
     </template>
 

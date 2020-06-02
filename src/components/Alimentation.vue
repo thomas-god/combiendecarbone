@@ -5,10 +5,9 @@
     </template>
     <template v-slot:text>
       <p>
-        L'impact de l'alimentation dépendant en premier lieu du régime
-        alimentaire (plus ou moins carné, produits locaux et de saison, etc.),
-        répondez à ces quelques questions pour que nous puissions connaître le
-        vôtre.
+        Pour estimer l'impact de vos habitudes alimentaires, répondez à ces
+        quelques questions sur votre régime alimentaire habituel (consommation
+        de viande, de produits locaux, etc.).
       </p>
     </template>
 
