@@ -7,10 +7,13 @@ const options = {
   maintainAspectRatio: false,
   title: {
     text: 'Émissions totales',
-    display: true
+    display: false
   },
   legend: {
-    position: 'bottom'
+    position: 'top',
+    labels: {
+      fontSize: 14
+    }
   },
   tooltips: {
     callbacks: {
