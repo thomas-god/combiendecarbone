@@ -6,8 +6,8 @@ import colors from 'vuetify/lib/util/colors'
 const options = {
   maintainAspectRatio: false,
   title: {
-    text: 'Émissions totales',
-    display: true
+    text: 'Émissions de la catégorie XXX',
+    display: false
   },
   legend: {
     position: 'bottom'
