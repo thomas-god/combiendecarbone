@@ -43,6 +43,7 @@ const routes = [
   },
   {
     path: 'resultats',
+    redirect: '/methodologie/general',
     meta: { ...meta, cat: 'Résultats' },
     component: () =>
       import(
