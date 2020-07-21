@@ -14,7 +14,7 @@ const routes = [
     meta: { ...meta, cat: 'Transports' },
     component: () =>
       import(
-        /* webpackChunkName: "methodo-transports" */ `../components/TransportsMethodo.vue`
+        /* webpackChunkName: "methodo-transports" */ `../components/transports/TransportsMethodo.vue`
       )
   },
   {
@@ -22,7 +22,7 @@ const routes = [
     meta: { ...meta, cat: 'Logement' },
     component: () =>
       import(
-        /* webpackChunkName: "methodo-logement" */ `../components/LogementMethodo.vue`
+        /* webpackChunkName: "methodo-logement" */ `../components/logement/LogementMethodo.vue`
       )
   },
   {
@@ -30,7 +30,7 @@ const routes = [
     meta: { ...meta, cat: 'Alimentation' },
     component: () =>
       import(
-        /* webpackChunkName: "methodo-alimentation" */ `../components/AlimentationMethodo.vue`
+        /* webpackChunkName: "methodo-alimentation" */ `../components/alimentation/AlimentationMethodo.vue`
       )
   },
   {
@@ -38,7 +38,7 @@ const routes = [
     meta: { ...meta, cat: 'Consommation' },
     component: () =>
       import(
-        /* webpackChunkName: "methodo-consommation" */ `../components/ConsommationMethodo.vue`
+        /* webpackChunkName: "methodo-consommation" */ `../components/consommation/ConsommationMethodo.vue`
       )
   },
   {
@@ -47,7 +47,7 @@ const routes = [
     meta: { ...meta, cat: 'Résultats' },
     component: () =>
       import(
-        /* webpackChunkName: "methodo-resultats" */ `../components/ResultatsMethodo.vue`
+        /* webpackChunkName: "methodo-resultats" */ `../components/resultats/ResultatsMethodo.vue`
       )
   }
 ]

@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import Category from './base/Category.vue'
+import Category from '../base/Category.vue'
 import ConsommationForm from './ConsommationForm.vue'
 import ConsommationCard from './ConsommationCard.vue'
 

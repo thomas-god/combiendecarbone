@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Category from './base/Category.vue'
+import Category from '../base/Category.vue'
 import LogementForm from './LogementForm.vue'
 import logementCard from './LogementCard.vue'
 

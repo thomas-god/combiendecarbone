@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Category from './base/Category.vue'
+import Category from '../base/Category.vue'
 import AlimentationForm from './AlimentationForm.vue'
 import AlimentationCard from './AlimentationCard.vue'
 import { mapGetters } from 'vuex'

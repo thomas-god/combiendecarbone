@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import Category from './base/Category.vue'
+import Category from '../base/Category.vue'
 import TransportsForm from './TransportsForm.vue'
 import TransportsCard from './TransportsCard.vue'
 import { mapGetters, mapActions } from 'vuex'

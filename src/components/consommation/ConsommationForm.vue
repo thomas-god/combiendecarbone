@@ -62,7 +62,7 @@
 
 <script>
 import Vue from 'vue'
-import BaseNumPM from './base/BaseNumPM.vue'
+import BaseNumPM from '../base/BaseNumPM.vue'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
