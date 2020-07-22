@@ -7,6 +7,7 @@
       outlined
       fab
       x-small
+      ref="minus"
     >
       <v-icon dark>mdi-minus</v-icon>
     </v-btn>
@@ -26,6 +27,7 @@
       outlined
       fab
       x-small
+      ref="plus"
     >
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>
