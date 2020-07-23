@@ -1,5 +1,5 @@
 <template>
-  <category :btnName="btn_names">
+  <category :btnName="btnName">
     <template v-slot:title>
       Votre consommation d'énergie
     </template>
@@ -29,6 +29,7 @@
 import Category from '../base/Category.vue'
 import LogementForm from './LogementForm.vue'
 import logementCard from './LogementCard.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -36,20 +37,13 @@ export default {
     logementCard,
     Category
   },
-  data() {
-    return {
-      form: false,
-      form_touched: false,
-      btn_names: {
-        clean: 'Répondre',
-        dirty: 'Modifier'
-      }
-    }
-  },
-  methods: {
-    closeForm() {
-      this.form = false
-      this.form_touched = true
+  computed: {
+    ...mapGetters({ logement: 'logement/getConsommation' }),
+    isLogementFilled() {
+      return this.logement.type !== ''
+    },
+    btnName() {
+      return this.isLogementFilled ? 'Modifier' : 'Répondre'
     }
   }
 }

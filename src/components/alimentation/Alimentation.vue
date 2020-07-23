@@ -1,5 +1,5 @@
 <template>
-  <category :btnName="btn_names">
+  <category :btnName="btnName">
     <template v-slot:title>
       Votre alimentation
     </template>
@@ -33,20 +33,15 @@ export default {
     AlimentationForm,
     AlimentationCard
   },
-  data() {
-    return {
-      btn_names: {
-        clean: 'Répondre',
-        dirty: 'Modifier'
-      }
-    }
-  },
   computed: {
     ...mapGetters({
       regime: 'alimentation/getRegime'
     }),
     isRegime() {
       return !(Object.keys(this.regime).length === 0)
+    },
+    btnName() {
+      return this.isRegime ? 'Modifier' : 'Répondre'
     }
   }
 }

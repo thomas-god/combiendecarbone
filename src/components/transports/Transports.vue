@@ -1,8 +1,5 @@
 <template>
-  <category
-    :btn-name="{ dirty: 'Ajouter un trajet', clean: 'Ajouter un trajet' }"
-    @closing="updateCurrentId(-2)"
-  >
+  <category btn-name="Ajouter un trajet" @closing="updateCurrentId(-2)">
     <template v-slot:title>
       Vos déplacements
     </template>
@@ -39,10 +36,6 @@
       />
     </template>
   </category>
-
-  <!--   <v-btn color="primary" dark @click.stop="openForm(-1)"
-      >Ajouter un trajet</v-btn
-    > -->
 </template>
 
 <script>
