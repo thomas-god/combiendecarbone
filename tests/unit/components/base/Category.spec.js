@@ -17,7 +17,7 @@ describe('Category component', () => {
           return {}
         },
         template: `
-          <category data-app ref="component" @closing="log">
+          <category data-app ref="component">
             <template v-slot:title>
               Mon titre
             </template>
@@ -34,12 +34,7 @@ describe('Category component', () => {
             </template>
           </category>
         `,
-        components: { category: Component },
-        methods: {
-          log() {
-            console.log('form closing...')
-          }
-        }
+        components: { category: Component }
       },
       { localVue, vuetify }
     )
