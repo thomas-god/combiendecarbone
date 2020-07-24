@@ -26,13 +26,15 @@
       v-for="route in navigation"
       :key="route.name"
       :to="route.path"
-      v-show="$vuetify.breakpoint.width >= 600 || route.name === current_route"
+      v-show="
+        $vuetify.breakpoint.width >= 600 || route.name === current_route_name
+      "
     >
       <v-btn
         text
         class="white--text"
         :outlined="
-          $vuetify.breakpoint.width >= 600 && route.name === current_route
+          $vuetify.breakpoint.width >= 600 && route.name === current_route_name
         "
         >{{ route.name }}</v-btn
       >
@@ -53,24 +55,19 @@ export default {
     }
   },
   computed: {
-    current_route() {
+    current_route_name() {
       return this.$route.meta.name
     },
-    current_cat() {
-      if (this.$route.meta.cat) {
-        return this.$route.meta.cat !== 'Général'
-          ? delAccentLower(this.$route.meta.cat)
-          : 'transports'
-      }
-      return 'transports'
+    current_route_cat() {
+      return this.$route.meta.cat ? delAccentLower(this.$route.meta.cat) : ''
     },
     navigation() {
-      this.base_navigation.forEach(s => {
+      return this.base_navigation.map(s => {
         if (s.basePath) {
-          s.path = s.basePath + this.current_cat
+          s.path = s.basePath + this.current_route_cat
         }
+        return s
       })
-      return this.base_navigation
     },
     class_btn_cat_current() {
       let base = 'white--text'

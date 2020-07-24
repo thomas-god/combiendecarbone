@@ -40,6 +40,15 @@ const routes = [
       import(
         /* webpackChunkName: "resultats" */ `../components/resultats/Resultats.vue`
       )
+  },
+  {
+    path: '*',
+    redirect: '/forms/transports',
+    meta: { ...meta, cat: 'Transports' },
+    component: () =>
+      import(
+        /* webpackChunkName: "methodo-resultats" */ `../components/resultats/ResultatsMethodo.vue`
+      )
   }
 ]
 

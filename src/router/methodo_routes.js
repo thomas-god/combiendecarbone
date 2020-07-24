@@ -42,9 +42,9 @@ const routes = [
       )
   },
   {
-    path: 'resultats',
+    path: '*',
     redirect: '/methodologie/general',
-    meta: { ...meta, cat: 'Résultats' },
+    meta: { ...meta, cat: 'Général' },
     component: () =>
       import(
         /* webpackChunkName: "methodo-resultats" */ `../components/resultats/ResultatsMethodo.vue`
