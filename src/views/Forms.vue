@@ -1,8 +1,8 @@
 <template>
-  <v-content class="mx-auto">
+  <v-main class="mx-auto">
     <navbar-cat :categories="categories" :width_switch="width_small" />
     <router-view> </router-view>
-  </v-content>
+  </v-main>
 </template>
 
 <script>
