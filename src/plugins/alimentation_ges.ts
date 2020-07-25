@@ -1,3 +1,5 @@
+import * as Alimentation from '@/types/alimentation'
+
 const items: Alimentation.regimeItem[] = [
   { name: 'viande_rouge', text: 'Viande rouge' },
   { name: 'viande_blanche', text: 'Viande blanche' },

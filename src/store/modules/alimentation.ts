@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { alimentation } from '@/plugins/alimentation_ges'
+import * as Alimentation from '@/types/alimentation'
 
 export default {
   namespaced: true,

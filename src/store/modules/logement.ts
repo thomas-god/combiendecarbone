@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { computeGes } from '../../plugins/logement_ges'
+import * as Logement from '@/types/logement'
 
 const store: Logement.store = {
   consommation: {

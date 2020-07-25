@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { consommation, computeGes } from '../../plugins/consommation_ges'
+import * as Consommation from '@/types/consommation'
 
 const state: Consommation.store = {
   items: {

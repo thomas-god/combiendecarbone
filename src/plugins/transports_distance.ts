@@ -1,3 +1,5 @@
+import * as Transports from '@/types/transports'
+
 /**
  * Compute the distance in km between departure and arrival places
  * when transportation mode is plane.

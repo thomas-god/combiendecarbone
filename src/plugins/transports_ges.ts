@@ -1,3 +1,5 @@
+import * as Transports from '@/types/transports'
+
 enum modes_ges {
   // From GMaps Directions API, gCO2/km
   RAIL = 8.9,

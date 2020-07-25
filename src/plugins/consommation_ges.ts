@@ -1,3 +1,5 @@
+import * as Consommation from '@/types/consommation'
+
 const vetements_ges: Consommation.ConsommationItem[] = [
   { name: 'jeans', full_name: 'Jeans', value: 25 },
   { name: 'tee-shirt', full_name: 'Tee-shirt', value: 7 },

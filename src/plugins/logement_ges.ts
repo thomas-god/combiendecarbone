@@ -1,3 +1,5 @@
+import * as Logement from '@/types/logement'
+
 const ges_values: Logement.LogementFactures = {
   // kg CO2 eq./MWh
   gaz: 234,
