@@ -41,8 +41,15 @@ export default {
       return ges
     },
     getGesByCat(state, getters, rootState: RootState, rootGetters): GesByCat {
+      const ges_transports: Record<string, number> = {}
+      if (rootState.transports.travels.length > 0) {
+        rootState.transports.travels.forEach(
+          travel => (ges_transports[travel.name] = travel.ges as number)
+        )
+      }
+
       const ges: GesByCat = {
-        Transports: rootGetters['transports/getGes'],
+        Transports: ges_transports,
         Logement: rootState.logement.ges.items,
         Alimentation: rootState.alimentation.ges.items,
         Consommation: rootState.consommation.ges.items
