@@ -11,16 +11,16 @@
             { text: 'Non', value: 'form' }
           ]"
           label="Je connais mes factures d'énergie"
-          v-model="consommation.type"
+          v-model="user_consommation.type"
           required
           :rules="rulesReq"
         ></v-select>
 
         <!-- Factures connues -->
-        <div v-if="consommation.type === 'factures'">
+        <div v-if="user_consommation.type === 'factures'">
           <v-text-field
             label="Facture d'éléctricité (MWh)"
-            v-model="consommation.factures.elec"
+            v-model="user_consommation.factures.elec"
             type="number"
             min="0"
             step="0.05"
@@ -28,7 +28,7 @@
           ></v-text-field>
           <v-text-field
             label="Facture de gaz (MWh)"
-            v-model="consommation.factures.gaz"
+            v-model="user_consommation.factures.gaz"
             type="number"
             min="0"
             step="0.05"
@@ -37,27 +37,27 @@
         </div>
 
         <!-- Factures non connues -->
-        <div v-if="consommation.type === 'form'">
+        <div v-if="user_consommation.type === 'form'">
           <v-select
             label="Vos appareils basse consommation (classe A ou supérieure)"
-            :items="equipements"
+            :items="equipementsFiltered"
             required
             :rules="rulesReq"
-            v-model="consommation.form.equipements"
+            v-model="user_consommation.form.equipements"
           ></v-select>
           <v-select
             label="Vous avez un chauffage"
-            :items="chauffage"
+            :items="chauffageFiltered"
             required
             :rules="rulesReq"
-            v-model="consommation.form.chauffage"
+            v-model="user_consommation.form.chauffage"
           ></v-select>
           <v-select
             label="Votre niveau d'isolation"
-            :items="isolation"
+            :items="isolationFiltered"
             required
             :rules="rulesReq"
-            v-model="consommation.form.isolation"
+            v-model="user_consommation.form.isolation"
           ></v-select>
         </div>
 
@@ -68,46 +68,62 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-export default {
+import { UserForm } from '../../plugins/logement_ges'
+
+export default Vue.extend({
   data() {
     return {
       rulesReq: [value => !!value || 'Champs requis.'],
       rulesNum: [
         value => (value !== '' ? true : 'Doit être un nombre.'),
         value => (value >= 0 ? true : 'Doit être positif.')
-      ]
+      ],
+      user_consommation: {
+        type: '',
+        factures: { gaz: 0, elec: 0 },
+        form: { isolation: '', equipements: '', chauffage: '' }
+      } as UserForm
     }
   },
   computed: {
     ...mapGetters({
       equipements: 'logement/getEquipements',
       chauffage: 'logement/getChauffage',
-      isolation: 'logement/getIsolation'
+      isolation: 'logement/getIsolation',
+      consommation: 'logement/getConsommation'
     }),
-    consommation: {
-      get() {
-        return this.$store.state.logement.consommation
-      },
-      set(value) {
-        //? Dead code ?
-        mapActions('logement/updateConsommation', value)
-      }
+    equipementsFiltered(): string[] {
+      return this.equipements.filter(item => item !== '')
+    },
+    chauffageFiltered(): string[] {
+      return this.chauffage.filter(item => item !== '')
+    },
+    isolationFiltered(): string[] {
+      return this.isolation.filter(item => item !== '')
     }
   },
   methods: {
     ...mapActions({
       updateConsommation: 'logement/updateConsommation'
     }),
-    validate() {
-      if (this.$refs.form.validate()) {
-        this.updateConsommation(this.consommation)
+    validate(): void {
+      if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
+        this.updateConsommation(this.user_consommation)
         this.$emit('close')
       }
+    },
+    resetForm(): void {
+      this.user_consommation = JSON.parse(
+        JSON.stringify(this.consommation as UserForm)
+      ) as UserForm
+      let form = this.$refs.form as Vue & { resetValidation: () => void }
+      form.resetValidation()
     }
   }
-}
+})
 </script>
 
 <style></style>

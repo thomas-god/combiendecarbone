@@ -29,13 +29,13 @@ export default {
       return state.consommation
     },
     getEquipements(): string[] {
-      return Object.keys(Logement.Equipements)
+      return Logement.EquipementsKeys
     },
     getChauffage(): string[] {
-      return Object.keys(Logement.Chauffage)
+      return Logement.ChauffageKeys
     },
     getIsolation(): string[] {
-      return Object.keys(Logement.Isolation)
+      return Logement.IsolationKeys
     }
   },
   mutations: {

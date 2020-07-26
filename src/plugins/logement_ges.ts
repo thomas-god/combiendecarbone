@@ -25,20 +25,43 @@ export enum Equipements {
   Aucun = 3.4,
   'Quelques-uns' = 1.3 + (3.4 - 1.3) * 0.75,
   'La plupart' = 1.3 + (3.4 - 1.3) * 0.25,
-  Tous = 1.3
+  Tous = 1.3,
+  '' = 0
 }
+
+export const EquipementsKeys: Array<keyof typeof Equipements> = [
+  'Aucun',
+  'Quelques-uns',
+  'La plupart',
+  'Tous',
+  ''
+]
 
 export enum Chauffage {
   // Source: Bilan RTE 2016
   Électrique = 0.052 * 30, // kWhe/m^2 * m^2
-  'Au gaz' = 4.3 // https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
+  'Au gaz' = 4.3, // https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
+  '' = 0
 }
+
+export const ChauffageKeys: Array<keyof typeof Chauffage> = [
+  'Électrique',
+  'Au gaz',
+  ''
+]
 
 export enum Isolation {
   // Source: Bilan RTE 2016
   Ancien = 1,
-  Neuf = 0.25
+  Neuf = 0.25,
+  '' = 0
 }
+
+export const IsolationKeys: Array<keyof typeof Isolation> = [
+  'Ancien',
+  'Neuf',
+  ''
+]
 
 export interface store {
   consommation: UserForm
