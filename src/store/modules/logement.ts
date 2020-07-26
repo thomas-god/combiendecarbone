@@ -4,7 +4,16 @@ import * as Logement from '@/types/logement'
 
 const store: Logement.store = {
   consommation: {
-    type: ''
+    type: '',
+    form: {
+      isolation: '',
+      equipements: '',
+      chauffage: ''
+    },
+    factures: {
+      elec: 0,
+      gaz: 0
+    }
   },
   ges: {
     total: 0,

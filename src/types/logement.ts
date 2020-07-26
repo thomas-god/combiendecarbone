@@ -9,15 +9,15 @@ export interface LogementFactures {
 }
 
 export interface LogementForm {
-  isolation: keyof typeof Isolation
-  equipements: keyof typeof Equipements
-  chauffage: keyof typeof Chauffage
+  isolation: keyof typeof Isolation | ''
+  equipements: keyof typeof Equipements | ''
+  chauffage: keyof typeof Chauffage | ''
 }
 
 export interface UserForm {
   type: 'factures' | 'form' | ''
-  form?: LogementForm
-  factures?: LogementFactures
+  form: LogementForm
+  factures: LogementFactures
 }
 // Part des items électroménagers d'un foyer certifiés basse consommation
 export enum Equipements {
@@ -25,22 +25,19 @@ export enum Equipements {
   Aucun = 3.4,
   'Quelques-uns' = 1.3 + (3.4 - 1.3) * 0.75,
   'La plupart' = 1.3 + (3.4 - 1.3) * 0.25,
-  Tous = 1.3,
-  'Not set' = 0
+  Tous = 1.3
 }
 
 export enum Chauffage {
   // Source: Bilan RTE 2016
   Électrique = 0.052 * 30, // kWhe/m^2 * m^2
-  'Au gaz' = 4.3, // https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
-  'Not set' = 0
+  'Au gaz' = 4.3 // https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
 }
 
 export enum Isolation {
   // Source: Bilan RTE 2016
   Ancien = 1,
-  Neuf = 0.25,
-  'Not set' = 0
+  Neuf = 0.25
 }
 
 export interface store {
