@@ -7,12 +7,12 @@
       <v-form ref="form">
         <v-select
           v-for="item in items"
-          :items="freq"
+          :items="freqFiltered"
           :label="item.text"
           required
           :rules="rulesMode"
           :key="item.name"
-          v-model="regime[item.name]"
+          v-model="user_regime[item.name]"
         ></v-select>
         <v-btn @click="validate" color="success">Ok</v-btn>
       </v-form>
@@ -20,12 +20,15 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
-export default {
+
+export default Vue.extend({
   data() {
     return {
-      rulesMode: [value => !!value || 'Champs requis.']
+      rulesMode: [value => !!value || 'Champs requis.'],
+      user_regime: {}
     }
   },
   methods: {
@@ -33,10 +36,15 @@ export default {
       setRegime: 'alimentation/setRegime'
     }),
     validate() {
-      if (this.$refs.form.validate()) {
-        this.setRegime(this.regime)
+      if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
+        this.setRegime(this.user_regime)
         this.$emit('close')
       }
+    },
+    resetRegime(): void {
+      this.user_regime = JSON.parse(JSON.stringify(this.regime))
+      let form = this.$refs.form as Vue & { resetValidation: () => void }
+      form.resetValidation()
     }
   },
   computed: {
@@ -44,9 +52,12 @@ export default {
       regime: 'alimentation/getRegime',
       freq: 'alimentation/getFreq',
       items: 'alimentation/getItems'
-    })
+    }),
+    freqFiltered(): string[] {
+      return this.freq.filter(item => item !== '')
+    }
   }
-}
+})
 </script>
 
 <style></style>
