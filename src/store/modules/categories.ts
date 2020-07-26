@@ -6,14 +6,14 @@ import {
   mdiCart
 } from '@mdi/js'
 
-interface category {
+export interface category {
   id: number
   name: string
   icon: string
   color: string
 }
 
-interface store {
+export interface store {
   categories: category[]
 }
 

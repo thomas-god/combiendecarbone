@@ -1,3 +1,5 @@
+import { RootState } from '@/store/index'
+
 interface GesTotalByCat {
   Transports: number
   Logement: number
@@ -6,19 +8,17 @@ interface GesTotalByCat {
 }
 
 interface GesByCat {
-  Transports: Record<string, number>[]
-  Logement: Record<string, number>[]
-  Alimentation: Record<string, number>[]
-  Consommation: Record<string, number>[]
+  Transports: Record<string, number>
+  Logement: Record<string, number>
+  Alimentation: Record<string, number>
+  Consommation: Record<string, number>
 }
 
 export default {
   namespaced: true,
-  state: {
-    toto: 'toto'
-  },
+  state: {},
   getters: {
-    getTotalGesByCat(state, getters, rootState): GesTotalByCat {
+    getTotalGesByCat(state, getters, rootState: RootState): GesTotalByCat {
       const ges: GesTotalByCat = {
         Transports: 0,
         Logement: 0,
@@ -28,7 +28,7 @@ export default {
       if (rootState.transports.travels.length > 0) {
         ges.Transports = rootState.transports.travels
           .map(travel => travel.ges)
-          .reduce((sum, i) => sum + i)
+          .reduce((sum, i) => (sum as number) + (i as number)) as number
       } else {
         ges.Transports = 0
       }
@@ -40,12 +40,12 @@ export default {
       ges.Consommation = rootState.consommation.ges.total
       return ges
     },
-    getGesByCat(state, getters, rootState, rootGetters): GesByCat {
+    getGesByCat(state, getters, rootState: RootState, rootGetters): GesByCat {
       const ges: GesByCat = {
         Transports: rootGetters['transports/getGes'],
-        Logement: rootState.logement.ges,
-        Alimentation: rootState.alimentation.ges,
-        Consommation: rootState.consommation.ges
+        Logement: rootState.logement.ges.items,
+        Alimentation: rootState.alimentation.ges.items,
+        Consommation: rootState.consommation.ges.items
       }
       return ges
     }
