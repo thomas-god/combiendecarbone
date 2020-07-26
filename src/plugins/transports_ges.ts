@@ -1,4 +1,49 @@
-import * as Transports from '@/types/transports'
+export interface Place {
+  lat: number
+  lng: number
+}
+
+export interface PlaceForm extends Place {
+  name: string
+  placeholder: string
+}
+
+export interface Travel {
+  id: number
+  name: string
+  departure: PlaceForm
+  arrival: PlaceForm
+  mode: google.maps.TravelMode | google.maps.VehicleType | 'Voiture' | 'Avion'
+  ar: boolean
+  freq: number
+  passengers: number
+  type: 'Régulier' | 'Occasionnel'
+  distance?: number
+  distances?: Distance[]
+  ges?: number
+}
+
+export interface Distance {
+  distance: number
+  mode: google.maps.TravelMode | google.maps.VehicleType | 'Voiture' | 'Avion'
+}
+
+export interface GesValues {
+  total: number
+  items: Record<string, number>
+}
+
+export interface Mode {
+  name: string
+  icon: string
+}
+
+export interface store {
+  current_id: number
+  ges: GesValues
+  travels: Travel[]
+  modes: Mode[]
+}
 
 enum modes_ges {
   // From GMaps Directions API, gCO2/km
@@ -31,7 +76,7 @@ enum modes_ges {
   Avion = 249.6
 }
 
-function computeGes(travel: Transports.Travel): Transports.Travel {
+function computeGes(travel: Travel): Travel {
   let ges = 0
   if (travel.distances && travel.distances.length > 0) {
     for (let i = 0; i < travel.distances.length; i++) {

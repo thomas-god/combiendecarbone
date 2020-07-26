@@ -1,6 +1,51 @@
-import * as Logement from '@/types/logement'
+export interface GesValues {
+  total: number
+  items: Record<string, number>
+}
 
-const ges_values: Logement.LogementFactures = {
+export interface LogementFactures {
+  gaz: number
+  elec: number
+}
+
+export interface LogementForm {
+  isolation: keyof typeof Isolation | ''
+  equipements: keyof typeof Equipements | ''
+  chauffage: keyof typeof Chauffage | ''
+}
+
+export interface UserForm {
+  type: 'factures' | 'form' | ''
+  form: LogementForm
+  factures: LogementFactures
+}
+// Part des items électroménagers d'un foyer certifiés basse consommation
+export enum Equipements {
+  // Source: Bilan RTE 2016, en MWh
+  Aucun = 3.4,
+  'Quelques-uns' = 1.3 + (3.4 - 1.3) * 0.75,
+  'La plupart' = 1.3 + (3.4 - 1.3) * 0.25,
+  Tous = 1.3
+}
+
+export enum Chauffage {
+  // Source: Bilan RTE 2016
+  Électrique = 0.052 * 30, // kWhe/m^2 * m^2
+  'Au gaz' = 4.3 // https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
+}
+
+export enum Isolation {
+  // Source: Bilan RTE 2016
+  Ancien = 1,
+  Neuf = 0.25
+}
+
+export interface store {
+  consommation: UserForm
+  ges: GesValues
+}
+
+const ges_values: LogementFactures = {
   // kg CO2 eq./MWh
   gaz: 234,
   elec: 49.02
@@ -10,10 +55,8 @@ function num(value: number): number {
   return isNaN(Number(value)) ? 0 : Number(value)
 }
 
-function computeGesFactures(
-  factures: Logement.LogementFactures
-): Logement.GesValues {
-  const ges: Logement.GesValues = {
+function computeGesFactures(factures: LogementFactures): GesValues {
+  const ges: GesValues = {
     items: { Électricité: 0, Gaz: 0 },
     total: 0
   }
@@ -24,24 +67,19 @@ function computeGesFactures(
   return ges
 }
 
-function computeGesForm(form: Logement.LogementForm): Logement.GesValues {
+function computeGesForm(form: LogementForm): GesValues {
   const ges = { items: { Électricité: 0, Gaz: 0 }, total: 0 }
 
   // Équipements
-  ges.items['Électricité'] =
-    Logement.Equipements[form.equipements] * ges_values.elec
+  ges.items['Électricité'] = Equipements[form.equipements] * ges_values.elec
 
   // Chauffage
   if (form.chauffage === 'Au gaz') {
     ges.items['Gaz'] =
-      Logement.Chauffage[form.chauffage] *
-      Logement.Isolation[form.isolation] *
-      ges_values.gaz
+      Chauffage[form.chauffage] * Isolation[form.isolation] * ges_values.gaz
   } else {
     ges.items['Électricité'] +=
-      Logement.Chauffage[form.chauffage] *
-      Logement.Isolation[form.isolation] *
-      ges_values.elec
+      Chauffage[form.chauffage] * Isolation[form.isolation] * ges_values.elec
   }
 
   // Total
@@ -49,8 +87,8 @@ function computeGesForm(form: Logement.LogementForm): Logement.GesValues {
   return ges
 }
 
-function computeGes(consommation: Logement.UserForm): Logement.GesValues {
-  let ges: Logement.GesValues = { items: {}, total: 0 }
+function computeGes(consommation: UserForm): GesValues {
+  let ges: GesValues = { items: {}, total: 0 }
   if (consommation.type === 'factures' && consommation.factures) {
     ges = computeGesFactures(consommation.factures)
   } else if (consommation.type === 'form' && consommation.form) {

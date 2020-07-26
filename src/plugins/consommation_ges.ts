@@ -1,6 +1,27 @@
-import * as Consommation from '@/types/consommation'
+export interface ConsommationItem {
+  name: string
+  full_name: string
+  value: number
+}
 
-const vetements_ges: Consommation.ConsommationItem[] = [
+export enum Categories {
+  'Vêtements',
+  'High-tech',
+  'Électroménager'
+}
+
+export interface GesValues {
+  total: number
+  items: Record<string, number>
+}
+
+export interface store {
+  items: Record<string, ConsommationItem[]>
+  consommation: any
+  ges: GesValues
+}
+
+const vetements_ges: ConsommationItem[] = [
   { name: 'jeans', full_name: 'Jeans', value: 25 },
   { name: 'tee-shirt', full_name: 'Tee-shirt', value: 7 },
   { name: 'chemise', full_name: 'Chemise', value: 13 },
@@ -11,23 +32,20 @@ const vetements_ges: Consommation.ConsommationItem[] = [
   { name: 'manteau', full_name: 'Manteau', value: 89 },
   { name: 'chaussure', full_name: 'Chaussures', value: 19 }
 ]
-const high_tech_ges: Consommation.ConsommationItem[] = [
+const high_tech_ges: ConsommationItem[] = [
   { name: 'smartphone', full_name: 'Smartphone', value: 30 },
   { name: 'portable', full_name: 'Ordinateur portable', value: 156 },
   { name: 'fixe', full_name: 'Ordinateur fixe', value: 200 },
   { name: 'tele', full_name: 'Télévision', value: 350 }
 ]
-const electromenager_ges: Consommation.ConsommationItem[] = [
+const electromenager_ges: ConsommationItem[] = [
   { name: 'four', full_name: 'Four', value: 217 },
   { name: 'lave-vaisselle', full_name: 'Lave-vaisselle', value: 253 },
   { name: 'lave-linge', full_name: 'Lave-linge', value: 320 },
   { name: 'frigo', full_name: 'Réfrigérateur', value: 257 }
 ]
 
-function getItem(
-  arr: Consommation.ConsommationItem[],
-  item_name: string
-): number {
+function getItem(arr: ConsommationItem[], item_name: string): number {
   const res = arr.find(item => item.name === item_name)
   return res ? res.value : 0
 }
@@ -39,9 +57,9 @@ function div(a: number, b: number): number {
 }
 
 function computeGesByCategory(
-  category: keyof typeof Consommation.Categories,
-  consommation: Record<string, Consommation.ConsommationItem[]>,
-  ges_values: Consommation.ConsommationItem[]
+  category: keyof typeof Categories,
+  consommation: Record<string, ConsommationItem[]>,
+  ges_values: ConsommationItem[]
 ): number {
   let ges = 0
   const op = category === 'Vêtements' ? mul : div
@@ -52,9 +70,9 @@ function computeGesByCategory(
 }
 
 function computeGes(
-  consommation: Record<string, Consommation.ConsommationItem[]>
-): Consommation.GesValues {
-  const ges: Consommation.GesValues = { total: 0, items: {} }
+  consommation: Record<string, ConsommationItem[]>
+): GesValues {
+  const ges: GesValues = { total: 0, items: {} }
   ges.items = {
     Vêtements: computeGesByCategory('Vêtements', consommation, vetements_ges),
     'High-tech': computeGesByCategory('High-tech', consommation, high_tech_ges),
@@ -72,9 +90,9 @@ function computeGes(
   return ges
 }
 
-const consommation: Record<string, Consommation.ConsommationItem[]> = {
+const consommation: Record<string, ConsommationItem[]> = {
   vetements: vetements_ges.map(
-    (item: Consommation.ConsommationItem): Consommation.ConsommationItem => {
+    (item: ConsommationItem): ConsommationItem => {
       return { name: item.name, full_name: item.full_name, value: 0 }
     }
   ),

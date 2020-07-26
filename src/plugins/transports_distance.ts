@@ -1,4 +1,4 @@
-import * as Transports from '@/types/transports'
+import * as Transports from '@/plugins/transports_ges'
 
 /**
  * Compute the distance in km between departure and arrival places

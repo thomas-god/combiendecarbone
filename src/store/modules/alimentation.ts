@@ -1,26 +1,31 @@
 import Vue from 'vue'
 import { alimentation } from '@/plugins/alimentation_ges'
-import * as Alimentation from '@/types/alimentation'
+import * as Alimentation from '@/plugins/alimentation_ges'
+
+const store: Alimentation.store = {
+  freq: alimentation.freq,
+  regimes: alimentation.regimes,
+  regime: {
+    bio: '',
+    local: '',
+    viande_blanche: '',
+    viande_rouge: ''
+  },
+  ges: {
+    total: 0,
+    items: {}
+  }
+}
 
 export default {
   namespaced: true,
-  state: {
-    freq: alimentation.freq,
-    items: alimentation.items,
-    regime: {},
-    ges: {
-      total: 0,
-      items: {}
-    }
-  },
+  state: store,
   getters: {
-    getFreq(
-      state: Alimentation.store
-    ): keyof typeof Alimentation.WeeklyFrequency {
+    getFreq(state: Alimentation.store): Alimentation.weekFreq[] {
       return state.freq
     },
     getItems(state: Alimentation.store): Alimentation.regimeItem[] {
-      return state.items
+      return state.regimes
     },
     getRegime(state: Alimentation.store): Alimentation.userRegime {
       return state.regime

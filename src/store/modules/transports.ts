@@ -1,4 +1,4 @@
-import * as Transports from '@/types/transports'
+import * as Transports from '@/plugins/transports_ges'
 
 import { mdiAirplane, mdiCar, mdiTrain, mdiBusMultiple } from '@mdi/js'
 import { computeDistance } from '@/plugins/transports_distance'
