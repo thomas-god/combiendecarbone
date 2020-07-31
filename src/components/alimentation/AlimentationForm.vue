@@ -23,26 +23,32 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
+import { userRegime } from '../../plugins/alimentation_ges'
 
 export default Vue.extend({
   data() {
     return {
       rulesMode: [value => !!value || 'Champs requis.'],
-      user_regime: {}
+      user_regime: {
+        bio: '',
+        local: '',
+        viande_rouge: '',
+        viande_blanche: ''
+      } as userRegime
     }
   },
   methods: {
     ...mapActions({
       setRegime: 'alimentation/setRegime'
     }),
-    validate() {
+    validate(): void {
       if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
         this.setRegime(this.user_regime)
         this.$emit('close')
       }
     },
     resetRegime(): void {
-      this.user_regime = JSON.parse(JSON.stringify(this.regime))
+      this.user_regime = JSON.parse(JSON.stringify(this.regime)) as userRegime
       let form = this.$refs.form as Vue & { resetValidation: () => void }
       form.resetValidation()
     }
