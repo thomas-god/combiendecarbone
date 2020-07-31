@@ -1,16 +1,5 @@
 <template>
   <div class="d-flex flex-row nowrap align-center">
-    <v-btn
-      :color="btnColor"
-      @click.native.capture="e => updateValue(-step)"
-      class="pa-0"
-      outlined
-      fab
-      x-small
-      ref="minus"
-    >
-      <v-icon dark>mdi-minus</v-icon>
-    </v-btn>
     <v-text-field
       ref="input"
       :label="label"
@@ -20,10 +9,22 @@
       :rules="rules"
       @input.native.stop="checkInput"
     ></v-text-field>
+
+    <v-btn
+      :color="btnColor"
+      @click.native.capture="e => updateValue(-step)"
+      class="pa-0 mx-1"
+      outlined
+      fab
+      x-small
+      ref="minus"
+    >
+      <v-icon dark>mdi-minus</v-icon>
+    </v-btn>
     <v-btn
       :color="btnColor"
       @click.native.stop="e => updateValue(step)"
-      class="pa-0"
+      class="pa-0 mx-1"
       outlined
       fab
       x-small
