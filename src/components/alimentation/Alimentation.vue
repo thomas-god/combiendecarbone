@@ -1,5 +1,5 @@
 <template>
-  <category :btnName="btnName">
+  <category :btnName="btnName" @opening="resetForm">
     <template v-slot:title>
       Votre alimentation
     </template>
@@ -12,22 +12,23 @@
     </template>
 
     <template v-slot:form="{ close }">
-      <alimentation-form @close="close" />
+      <alimentation-form @close="close" ref="form_alim" />
     </template>
 
     <template v-slot:card>
-      <alimentation-card v-show="isRegime" />
+      <alimentation-card />
     </template>
   </category>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import Category from '../base/Category.vue'
 import AlimentationForm from './AlimentationForm.vue'
 import AlimentationCard from './AlimentationCard.vue'
 import { mapGetters } from 'vuex'
 
-export default {
+export default Vue.extend({
   components: {
     Category,
     AlimentationForm,
@@ -38,13 +39,20 @@ export default {
       regime: 'alimentation/getRegime'
     }),
     isRegime() {
-      return !(Object.keys(this.regime).length === 0)
+      return !Object.values(this.regime).some(item => item === '')
     },
     btnName() {
       return this.isRegime ? 'Modifier' : 'Répondre'
     }
+  },
+  methods: {
+    async resetForm() {
+      await this.$nextTick()
+      let form = this.$refs.form_alim as Vue & { resetRegime: () => void }
+      form.resetRegime()
+    }
   }
-}
+})
 </script>
 
 <style></style>

@@ -1,10 +1,10 @@
 <template>
-  <v-content class="mx-auto">
+  <v-main class="mx-auto">
     <navbar-cat :categories="categories" :width_switch="width_small" />
     <v-card max-width="700px" class="mx-auto pa-7 pt-3">
       <router-view class="methodologie"> </router-view>
     </v-card>
-  </v-content>
+  </v-main>
 </template>
 
 <script>

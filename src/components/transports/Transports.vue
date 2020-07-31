@@ -1,5 +1,9 @@
 <template>
-  <category btn-name="Ajouter un trajet" @closing="updateCurrentId(-2)">
+  <category
+    btn-name="Ajouter un trajet"
+    @closing="updateCurrentId(-2)"
+    @opening="resetForm"
+  >
     <template v-slot:title>
       Vos déplacements
     </template>
@@ -14,7 +18,7 @@
     </template>
 
     <template v-slot:form="{ close }">
-      <transports-form @close="close"></transports-form>
+      <transports-form @close="close" ref="form" />
     </template>
 
     <template v-slot:card="{ touched, open }">
@@ -38,13 +42,15 @@
   </category>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
+
 import Category from '../base/Category.vue'
 import TransportsForm from './TransportsForm.vue'
 import TransportsCard from './TransportsCard.vue'
 import { mapGetters, mapActions } from 'vuex'
 
-export default {
+export default Vue.extend({
   components: {
     TransportsForm,
     TransportsCard,
@@ -60,7 +66,7 @@ export default {
       travelsReguliers: 'transports/getTravelsReguliers',
       travelsOccasionnels: 'transports/getTravelsOccasionnels'
     }),
-    nbTrajets() {
+    nbTrajets(): number {
       return this.travelsReguliers.length + this.travelsOccasionnels.length
     }
   },
@@ -68,12 +74,17 @@ export default {
     ...mapActions({
       updateCurrentId: 'transports/updateCurrentId'
     }),
-    updateTravel(open, travel_id) {
+    updateTravel(open: () => void, travel_id: number): void {
       this.updateCurrentId(travel_id)
       open()
+    },
+    async resetForm(): Promise<void> {
+      await this.$nextTick()
+      let form = this.$refs.form as Vue & { resetForm: () => void }
+      form.resetForm()
     }
   }
-}
+})
 </script>
 
 <style scoped></style>

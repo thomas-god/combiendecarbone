@@ -41,7 +41,7 @@
         ></v-text-field>
 
         <v-text-field
-          label="Fréquence du trajet"
+          :label="frequenceTxt"
           v-model="travel.freq"
           type="number"
           min="1"
@@ -67,10 +67,13 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
-export default {
+import { Travel } from '@/plugins/transports_ges'
+
+export default Vue.extend({
   props: {
     update_travel: {
       type: Boolean,
@@ -81,6 +84,7 @@ export default {
     return {
       travel: {
         id: -1,
+        name: '',
         type: '',
         mode: '',
         freq: 1,
@@ -90,56 +94,112 @@ export default {
           name: '',
           placeholder: '',
           lat: 0,
-          long: 0
+          lng: 0
         },
         arrival: {
           name: '',
           placeholder: '',
           lat: 0,
-          long: 0
+          lng: 0
         }
-      },
-      rulesMode: [value => !!value || 'Champs requis.'],
-      rulesPlace: [value => !!value || 'Champs requis.'],
-      rulesNum: [value => (value - 0 > 0 ? true : 'Doit être > 0.')]
+      } as Travel,
+      rulesMode: [(value: any) => !!value || 'Champs requis.'],
+      rulesPlace: [(value: any) => !!value || 'Champs requis.'],
+      rulesNum: [(value: any) => (value - 0 > 0 ? true : 'Doit être > 0.')]
     }
   },
   mounted() {
-    const input_dep = document.getElementById('departure')
+    const input_dep = document.getElementById('departure') as HTMLInputElement
     // eslint-disable-next-line no-undef
     var departure = new google.maps.places.Autocomplete(input_dep)
     departure.setFields(['formatted_address', 'name', 'geometry'])
     // eslint-disable-next-line no-undef
     departure.addListener('place_changed', () => {
       const place = departure.getPlace()
-      this.travel.departure = {
-        name: place.name,
-        placeholder: input_dep.value + '',
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng()
+      if (place && place.geometry) {
+        this.travel.departure = {
+          name: place.name,
+          placeholder: input_dep.value + '',
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng()
+        }
       }
     })
 
-    const input_arr = document.getElementById('arrival')
+    const input_arr = document.getElementById('arrival') as HTMLInputElement
     // eslint-disable-next-line no-undef
     var arrival = new google.maps.places.Autocomplete(input_arr)
     arrival.setFields(['formatted_address', 'name', 'geometry'])
     // eslint-disable-next-line no-undef
     google.maps.event.addListener(arrival, 'place_changed', () => {
       const place = arrival.getPlace()
-      this.travel.arrival = {
-        name: place.name,
-        placeholder: input_arr.value,
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng()
+      if (place && place.geometry) {
+        this.travel.arrival = {
+          name: place.name,
+          placeholder: input_arr.value,
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng()
+        }
       }
     })
   },
   watch: {
     travel_id: function() {
+      this.resetForm()
+    }
+  },
+  computed: {
+    ...mapState({
+      travels: (state: any) => state.transports.travels,
+      travel_id: (state: any) => state.transports.current_id
+    }),
+    ...mapGetters({
+      modes: 'transports/getModesNames',
+      getTravelCopy: 'transports/getTravelCopy'
+    }),
+    title() {
+      let title = 'Ajouter un nouveau trajet'
+      if (this.travel_id > -1) {
+        title = `Modifier le trajet #${this.travel_id}`
+      }
+      return title
+    },
+    frequenceTxt() {
+      if (this.travel.type === 'Régulier') {
+        return 'Fréquence du trajet hebdomadaire'
+      } else if (this.travel.type === 'Occasionnel') {
+        return 'Fréquence du trajet annuelle'
+      } else {
+        return 'Fréquence du trajet'
+      }
+    }
+  },
+  methods: {
+    ...mapActions('transports', [
+      'insertTravel',
+      'updateTravel',
+      'deleteTravel',
+      'updateCurrentId'
+    ]),
+    validate() {
+      if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
+        let pr
+        if (this.travel_id > -1) {
+          pr = this.updateTravel(this.travel)
+        } else {
+          pr = this.insertTravel(this.travel)
+        }
+        pr.then(() => {
+          this.updateCurrentId(-2)
+          this.$emit('close')
+        })
+      }
+    },
+    resetForm() {
       // Reset form validation
       if (this.travel_id === -2) {
-        this.$refs.form.resetValidation()
+        let form = this.$refs.form as Vue & { resetValidation: () => void }
+        form.resetValidation()
       }
 
       // Initialisation of travel object
@@ -171,47 +231,8 @@ export default {
       // Avoid breaking Vue reactivity
       this.travel = Object.assign({}, this.travel, travel)
     }
-  },
-  computed: {
-    ...mapState({
-      travels: state => state.transports.travels,
-      travel_id: state => state.transports.current_id
-    }),
-    ...mapGetters({
-      modes: 'transports/getModesNames',
-      getTravelCopy: 'transports/getTravelCopy'
-    }),
-    title() {
-      let title = 'Ajouter un nouveau trajet'
-      if (this.travel_id > -1) {
-        title = `Modifier le trajet #${this.travel_id}`
-      }
-      return title
-    }
-  },
-  methods: {
-    ...mapActions('transports', [
-      'insertTravel',
-      'updateTravel',
-      'deleteTravel',
-      'updateCurrentId'
-    ]),
-    validate() {
-      if (this.$refs.form.validate()) {
-        let pr
-        if (this.travel_id > -1) {
-          pr = this.updateTravel(this.travel)
-        } else {
-          pr = this.insertTravel(this.travel)
-        }
-        pr.then(() => {
-          this.updateCurrentId(-2)
-          this.$emit('close')
-        })
-      }
-    }
   }
-}
+})
 </script>
 
 <style scoped></style>

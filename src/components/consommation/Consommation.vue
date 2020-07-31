@@ -1,5 +1,5 @@
 <template>
-  <category>
+  <category @opening="resetForm">
     <template v-slot:title>
       Vos achats
     </template>
@@ -30,7 +30,7 @@
     </template>
 
     <template v-slot:form="{ close }">
-      <consommation-form @close="close" :category="current_cat" />
+      <consommation-form @close="close" :category="current_cat" ref="form" />
     </template>
 
     <template v-slot:card>
@@ -44,12 +44,13 @@
   </category>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import Category from '../base/Category.vue'
 import ConsommationForm from './ConsommationForm.vue'
 import ConsommationCard from './ConsommationCard.vue'
 
-export default {
+export default Vue.extend({
   components: {
     Category,
     ConsommationForm,
@@ -62,12 +63,17 @@ export default {
     }
   },
   methods: {
-    openForm(cat, open) {
+    openForm(cat: string, open: () => void) {
       this.current_cat = cat
       open()
+    },
+    async resetForm() {
+      await this.$nextTick()
+      let form = this.$refs.form as Vue & { resetForm: () => void }
+      form.resetForm()
     }
   }
-}
+})
 </script>
 
 <style></style>

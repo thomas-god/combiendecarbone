@@ -1,11 +1,21 @@
+import * as Transports from '@/plugins/transports_ges'
+
 /**
  * Compute the distance in km between departure and arrival places
  * when transportation mode is plane.
  * @returns {Object} {Distance in km, mode}
  */
-function distancePlane(travel) {
-  const dep = { lat: travel.departure.lat, lng: travel.departure.lng }
-  const arr = { lat: travel.arrival.lat, lng: travel.arrival.lng }
+function distancePlane(
+  travel: Transports.Travel
+): Promise<Transports.Distance> {
+  const dep: Transports.Place = {
+    lat: travel.departure.lat,
+    lng: travel.departure.lng
+  }
+  const arr: Transports.Place = {
+    lat: travel.arrival.lat,
+    lng: travel.arrival.lng
+  }
   let distance = gcd(dep, arr)
   if (distance > 5500) {
     distance += 125
@@ -23,7 +33,7 @@ function distancePlane(travel) {
  * @param {Object} arr - Arrival place {lat: latitude in degree, lng: longitude in degree}
  * @returns {Object} {Distance in km, mode}
  */
-function gcd(dep, arr) {
+function gcd(dep: Transports.Place, arr: Transports.Place): number {
   const R = 6371 // Earth radius, in km
 
   const lat1 = (dep.lat * Math.PI) / 180
@@ -49,7 +59,7 @@ function gcd(dep, arr) {
  * Returns a correctly formatted string for GMaps of latitude and longitude
  * @returns {String} latLng
  */
-function getLatLng(place) {
+function getLatLng(place: Transports.Place): string {
   // No spaces for GMaps API
   return `${place.lat},${place.lng}`
 }
@@ -57,17 +67,18 @@ function getLatLng(place) {
 /**
  * Compute the distance in km between departure and arrival places
  * when transportation mode is road (car, bus, coach, etc).
- * @returns {Object} {Distance in km, mode}
+ * @retlets {Object} {Distance in km, mode}
  */
-function distanceDrive(travel) {
-  // eslint-disable-next-line no-undef
-  var direction_service = new google.maps.DirectionsService()
+function distanceDrive(
+  travel: Transports.Travel
+): Promise<Transports.Distance> {
+  const direction_service = new google.maps.DirectionsService()
   return new Promise((resolve, reject) => {
     direction_service.route(
       {
         origin: getLatLng(travel.departure),
         destination: getLatLng(travel.arrival),
-        travelMode: 'DRIVING'
+        travelMode: 'DRIVING' as google.maps.TravelMode
       },
       (res, status) => {
         if (status !== 'OK') {
@@ -81,15 +92,18 @@ function distanceDrive(travel) {
     )
   })
 }
+
 /**
  * Compute the distance in km between departure and arrival places
  * when transportation mode is transit.
  * @returns {Array} Array of {distance, mode} for each step of the transit
  */
-function distanceTransit(modes, travel) {
-  // eslint-disable-next-line no-undef
-  var direction_service = new google.maps.DirectionsService()
-  var depDate = new Date()
+function distanceTransit(
+  modes: google.maps.TransitMode[],
+  travel: Transports.Travel
+): Promise<Transports.Distance[]> {
+  const direction_service = new google.maps.DirectionsService()
+  const depDate = new Date()
   depDate.setHours(0)
   depDate.setMinutes(0)
   depDate.setSeconds(0)
@@ -98,11 +112,11 @@ function distanceTransit(modes, travel) {
       {
         origin: getLatLng(travel.departure),
         destination: getLatLng(travel.arrival),
-        travelMode: 'TRANSIT',
+        travelMode: 'TRANSIT' as google.maps.TravelMode,
         transitOptions: {
           departureTime: depDate,
           modes: modes,
-          routingPreference: 'FEWER_TRANSFERS'
+          routingPreference: 'FEWER_TRANSFERS' as google.maps.TransitRoutePreference
         }
       },
       (res, status) => {
@@ -110,7 +124,7 @@ function distanceTransit(modes, travel) {
           reject(status)
         }
         if (res.routes.length > 0) {
-          var distances = []
+          const distances: Transports.Distance[] = []
           res.routes[0].legs[0].steps.forEach(step => {
             if (step.travel_mode === 'TRANSIT') {
               distances.push({
@@ -125,30 +139,42 @@ function distanceTransit(modes, travel) {
     )
   })
 }
-
-async function computeDistance(travel) {
-  let steps = []
+async function computeDistance(
+  travel: Transports.Travel
+): Promise<Transports.Travel> {
+  let steps: Transports.Distance[] = []
   switch (travel.mode) {
-    case 'Avion':
+    case 'Avion' as google.maps.TravelMode:
       steps.push(await distancePlane(travel))
       break
-    case 'Voiture':
+    case 'Voiture' as google.maps.TravelMode:
       steps.push(await distanceDrive(travel))
       break
-    case 'TGV':
-      steps = await distanceTransit(['TRAIN'], travel)
+    case 'TGV' as google.maps.TravelMode:
+      steps = await distanceTransit(
+        ['TRAIN'] as google.maps.TransitMode[],
+        travel
+      )
       break
-    case 'Métro/Bus':
-      steps = await distanceTransit(['BUS', 'RAIL'], travel)
+    case 'Métro/Bus' as google.maps.TravelMode:
+      steps = await distanceTransit(
+        ['BUS', 'RAIL'] as google.maps.TransitMode[],
+        travel
+      )
       break
     default:
       throw `Cannot find function to compute ges for mode ${travel.mode}`
   }
 
-  travel.distances = steps
-  travel.distance = steps.reduce((sum, step) => sum + step.distance, 0)
+  const travel_distance: Transports.Travel = {
+    ...travel,
+    distance: 0,
+    distances: []
+  }
+  travel_distance.distances = steps
+  travel_distance.distance = steps.reduce((sum, step) => sum + step.distance, 0)
 
-  return travel
+  return travel_distance
 }
 
 export { computeDistance }

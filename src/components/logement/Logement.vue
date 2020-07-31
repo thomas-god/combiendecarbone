@@ -1,5 +1,5 @@
 <template>
-  <category :btnName="btnName">
+  <category :btnName="btnName" @opening="resetForm">
     <template v-slot:title>
       Votre consommation d'énergie
     </template>
@@ -16,7 +16,7 @@
     </template>
 
     <template v-slot:form="{ close }">
-      <logement-form @close="close"></logement-form>
+      <logement-form @close="close" ref="form" />
     </template>
 
     <template v-slot:card>
@@ -25,13 +25,14 @@
   </category>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import Category from '../base/Category.vue'
 import LogementForm from './LogementForm.vue'
 import logementCard from './LogementCard.vue'
 import { mapGetters } from 'vuex'
 
-export default {
+export default Vue.extend({
   components: {
     LogementForm,
     logementCard,
@@ -45,8 +46,15 @@ export default {
     btnName() {
       return this.isLogementFilled ? 'Modifier' : 'Répondre'
     }
+  },
+  methods: {
+    async resetForm() {
+      await this.$nextTick()
+      let form = this.$refs.form as Vue & { resetForm: () => void }
+      form.resetForm()
+    }
   }
-}
+})
 </script>
 
 <style></style>

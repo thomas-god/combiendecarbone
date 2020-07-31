@@ -93,9 +93,9 @@ export default {
     top_ges() {
       let ges = []
       Object.keys(this.gesByCat).forEach(cat => {
-        Object.keys(this.gesByCat[cat].items).forEach(item => {
-          if (this.gesByCat[cat].items[item] > 0) {
-            ges.push({ name: item, ges: this.gesByCat[cat].items[item] })
+        Object.keys(this.gesByCat[cat]).forEach(item => {
+          if (this.gesByCat[cat][item] > 0) {
+            ges.push({ name: item, ges: this.gesByCat[cat][item] })
           }
         })
       })
@@ -117,7 +117,7 @@ export default {
   },
   methods: {
     subplotCallback(cat) {
-      this.subplot.data = this.gesByCat[cat].items
+      this.subplot.data = this.gesByCat[cat]
       this.subplot.display = true
       this.subplot.category = cat
     }
