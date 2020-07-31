@@ -41,7 +41,7 @@
         ></v-text-field>
 
         <v-text-field
-          label="Fréquence du trajet"
+          :label="frequenceTxt"
           v-model="travel.freq"
           type="number"
           min="1"
@@ -163,6 +163,15 @@ export default Vue.extend({
         title = `Modifier le trajet #${this.travel_id}`
       }
       return title
+    },
+    frequenceTxt() {
+      if (this.travel.type === 'Régulier') {
+        return 'Fréquence du trajet hebdomadaire'
+      } else if (this.travel.type === 'Occasionnel') {
+        return 'Fréquence du trajet annuelle'
+      } else {
+        return 'Fréquence du trajet'
+      }
     }
   },
   methods: {
