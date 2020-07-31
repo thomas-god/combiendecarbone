@@ -16,8 +16,7 @@ export interface GesValues {
 }
 
 export interface store {
-  items: Record<string, ConsommationItem[]>
-  consommation: any
+  consommation: Record<string, ConsommationItem[]>
   ges: GesValues
 }
 
@@ -45,7 +44,7 @@ const electromenager_ges: ConsommationItem[] = [
   { name: 'frigo', full_name: 'Réfrigérateur', value: 257 }
 ]
 
-function getItem(arr: ConsommationItem[], item_name: string): number {
+function getItemGesValue(arr: ConsommationItem[], item_name: string): number {
   const res = arr.find(item => item.name === item_name)
   return res ? res.value : 0
 }
@@ -58,14 +57,14 @@ function div(a: number, b: number): number {
 
 function computeGesByCategory(
   category: keyof typeof Categories,
-  consommation: Record<string, ConsommationItem[]>,
+  consommation: ConsommationItem[],
   ges_values: ConsommationItem[]
 ): number {
   let ges = 0
   const op = category === 'Vêtements' ? mul : div
-  for (const item in consommation[category]) {
-    ges += op(getItem(ges_values, item), consommation[category][item].value)
-  }
+  consommation.forEach(item => {
+    ges += op(getItemGesValue(ges_values, item.name), item.value)
+  })
   return ges
 }
 
@@ -74,11 +73,19 @@ function computeGes(
 ): GesValues {
   const ges: GesValues = { total: 0, items: {} }
   ges.items = {
-    Vêtements: computeGesByCategory('Vêtements', consommation, vetements_ges),
-    'High-tech': computeGesByCategory('High-tech', consommation, high_tech_ges),
+    Vêtements: computeGesByCategory(
+      'Vêtements',
+      consommation['Vêtements'],
+      vetements_ges
+    ),
+    'High-tech': computeGesByCategory(
+      'High-tech',
+      consommation['High-tech'],
+      high_tech_ges
+    ),
     Électroménager: computeGesByCategory(
       'Électroménager',
-      consommation,
+      consommation['Électroménager'],
       electromenager_ges
     )
   }

@@ -16,35 +16,34 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import { ConsommationItem } from '@/plugins/consommation_ges'
 
-export default {
-  props: ['category'],
+export default Vue.extend({
+  props: {
+    category: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     ...mapGetters({
-      getItems: 'consommation/getItemsByCategory',
       getConso: 'consommation/getConsoByCategory'
     }),
-    items() {
-      return this.getItems(this.category)
-    },
-    conso() {
-      let conso = this.getConso(this.category)
-      let conso_filter = {}
-      for (let item in conso) {
-        if (conso[item] > 0) {
-          conso_filter[item] = {
-            name: item,
-            full_name: this.items.find(i => i.name === item).full_name,
-            value: conso[item]
-          }
+    conso(): ConsommationItem[] {
+      let conso: ConsommationItem[] = this.getConso(this.category)
+      let conso_filter: ConsommationItem[] = []
+      conso.forEach(item => {
+        if (item.value > 0) {
+          conso_filter.push(item)
         }
-      }
+      })
       return conso_filter
     },
-    conso_length() {
-      return Object.keys(this.conso).length
+    conso_length(): number {
+      return this.conso.length
     },
     subtitle() {
       if (this.category === 'Vêtements') {
@@ -54,7 +53,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style></style>

@@ -3,12 +3,11 @@ import { consommation, computeGes } from '../../plugins/consommation_ges'
 import * as Consommation from '@/plugins/consommation_ges'
 
 const state: Consommation.store = {
-  items: {
+  consommation: {
     Vêtements: consommation.vetements,
     'High-tech': consommation.high_tech,
     Électroménager: consommation.electromenager
   },
-  consommation: {},
   ges: {
     total: 0,
     items: {}
@@ -19,23 +18,9 @@ export default {
   namespaced: true,
   state: state,
   getters: {
-    getItems(
-      state: Consommation.store
-    ): Record<string, Consommation.ConsommationItem[]> {
-      return state.items
-    },
-    getItemsByCategory(state: Consommation.store) {
-      return (cat: string): Consommation.ConsommationItem[] => {
-        return state.items[cat]
-      }
-    },
     getConsoByCategory(state: Consommation.store) {
       return (cat: string): Consommation.ConsommationItem[] => {
-        if (cat in state.consommation) {
-          return state.consommation[cat]
-        } else {
-          return []
-        }
+        return state.consommation[cat]
       }
     }
   },
