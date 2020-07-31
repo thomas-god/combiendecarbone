@@ -13,11 +13,16 @@ export interface Travel {
   name: string
   departure: PlaceForm
   arrival: PlaceForm
-  mode: google.maps.TravelMode | google.maps.VehicleType | 'Voiture' | 'Avion'
+  mode:
+    | google.maps.TravelMode
+    | google.maps.VehicleType
+    | 'Voiture'
+    | 'Avion'
+    | ''
   ar: boolean
   freq: number
   passengers: number
-  type: 'Régulier' | 'Occasionnel'
+  type: 'Régulier' | 'Occasionnel' | ''
   distance?: number
   distances?: Distance[]
   ges?: number
@@ -25,7 +30,12 @@ export interface Travel {
 
 export interface Distance {
   distance: number
-  mode: google.maps.TravelMode | google.maps.VehicleType | 'Voiture' | 'Avion'
+  mode:
+    | google.maps.TravelMode
+    | google.maps.VehicleType
+    | 'Voiture'
+    | 'Avion'
+    | ''
 }
 
 export interface GesValues {
