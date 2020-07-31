@@ -28,7 +28,7 @@ import { userRegime } from '../../plugins/alimentation_ges'
 export default Vue.extend({
   data() {
     return {
-      rulesMode: [value => !!value || 'Champs requis.'],
+      rulesMode: [(value: any) => !!value || 'Champs requis.'],
       user_regime: {
         bio: '',
         local: '',
@@ -60,7 +60,7 @@ export default Vue.extend({
       items: 'alimentation/getItems'
     }),
     freqFiltered(): string[] {
-      return this.freq.filter(item => item !== '')
+      return this.freq.filter((item: string) => item !== '')
     }
   }
 })

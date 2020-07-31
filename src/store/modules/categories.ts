@@ -45,7 +45,7 @@ export default {
       return mode ? mode.icon : ''
     },
     getCategoriesColors(state: store): Record<string, string> {
-      const colors = {}
+      const colors: Record<string, string> = {}
       state.categories.forEach(cat => {
         colors[cat.name] = cat.color
       })

@@ -72,12 +72,12 @@ export default Vue.extend({
   data() {
     return {
       rules: [
-        value => (value === '' ? 'Valeur requise' : true),
-        value =>
+        (value: any) => (value === '' ? 'Valeur requise' : true),
+        (value: any) =>
           isNaN(Number(value)) ? 'La valeur doit être un nombre' : true,
-        value =>
+        (value: any) =>
           Number(value) > this.max ? `La valeur doit être ≤ ${this.max}` : true,
-        value =>
+        (value: any) =>
           Number(value) < this.min ? `La valeur doit être ≥ ${this.min}` : true
       ]
     }

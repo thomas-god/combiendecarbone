@@ -63,7 +63,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    openForm(cat, open) {
+    openForm(cat: string, open: () => void) {
       this.current_cat = cat
       open()
     },

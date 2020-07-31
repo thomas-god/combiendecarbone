@@ -76,10 +76,10 @@ import { UserForm } from '../../plugins/logement_ges'
 export default Vue.extend({
   data() {
     return {
-      rulesReq: [value => !!value || 'Champs requis.'],
+      rulesReq: [(value: any) => !!value || 'Champs requis.'],
       rulesNum: [
-        value => (value !== '' ? true : 'Doit être un nombre.'),
-        value => (value >= 0 ? true : 'Doit être positif.')
+        (value: any) => (value !== '' ? true : 'Doit être un nombre.'),
+        (value: any) => (value >= 0 ? true : 'Doit être positif.')
       ],
       user_consommation: {
         type: '',
@@ -96,13 +96,13 @@ export default Vue.extend({
       consommation: 'logement/getConsommation'
     }),
     equipementsFiltered(): string[] {
-      return this.equipements.filter(item => item !== '')
+      return this.equipements.filter((item: string) => item !== '')
     },
     chauffageFiltered(): string[] {
-      return this.chauffage.filter(item => item !== '')
+      return this.chauffage.filter((item: string) => item !== '')
     },
     isolationFiltered(): string[] {
-      return this.isolation.filter(item => item !== '')
+      return this.isolation.filter((item: string) => item !== '')
     }
   },
   methods: {

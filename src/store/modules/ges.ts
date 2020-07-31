@@ -18,7 +18,11 @@ export default {
   namespaced: true,
   state: {},
   getters: {
-    getTotalGesByCat(state, getters, rootState: RootState): GesTotalByCat {
+    getTotalGesByCat(
+      state: any,
+      getters: any,
+      rootState: RootState
+    ): GesTotalByCat {
       const ges: GesTotalByCat = {
         Transports: 0,
         Logement: 0,
@@ -40,7 +44,12 @@ export default {
       ges.Consommation = rootState.consommation.ges.total
       return ges
     },
-    getGesByCat(state, getters, rootState: RootState, rootGetters): GesByCat {
+    getGesByCat(
+      state: any,
+      getters: any,
+      rootState: RootState,
+      rootGetters: any
+    ): GesByCat {
       const ges_transports: Record<string, number> = {}
       if (rootState.transports.travels.length > 0) {
         rootState.transports.travels.forEach(
