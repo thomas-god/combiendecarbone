@@ -4,15 +4,19 @@
     <v-container fluid :class="padding">
       <router-view id="content" />
     </v-container>
+    <footer-app v-if="true" />
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import Navbar from './components/NavbarApp.vue'
+import FooterApp from '@/components/FooterApp.vue'
 
-export default {
+export default Vue.extend({
   components: {
-    Navbar
+    Navbar,
+    FooterApp
   },
   data() {
     return {
@@ -33,7 +37,7 @@ export default {
       return `pa-${this.$vuetify.breakpoint.width > 600 ? 4 : 0}`
     }
   }
-}
+})
 </script>
 
 <style>
