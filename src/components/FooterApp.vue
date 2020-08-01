@@ -34,7 +34,7 @@ export default Vue.extend({
         {
           name: 'Github',
           mdiName: 'mdi-github',
-          link: 'https://github.com/thomas-god/'
+          link: 'https://github.com/thomas-god/ges'
         },
         { name: 'Twitter', mdiName: 'mdi-twitter', link: '' },
         {
