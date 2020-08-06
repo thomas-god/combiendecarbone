@@ -42,26 +42,34 @@
   </v-app-bar>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+interface Route {
+  name: string
+  path?: string
+  basePath?: string
+}
+
+export default Vue.extend({
   data() {
     return {
-      width_small: 620,
+      width_small: 620 as number,
       base_navigation: [
         { name: 'Accueil', path: '/' },
         { name: 'Calculateur', basePath: '/forms/' },
         { name: 'Méthodologie', basePath: '/methodologie/' }
-      ]
+      ] as Route[]
     }
   },
   computed: {
-    current_route_name() {
+    current_route_name(): string {
       return this.$route.meta.name
     },
-    current_route_cat() {
+    current_route_cat(): string {
       return this.$route.meta.cat ? delAccentLower(this.$route.meta.cat) : ''
     },
-    navigation() {
+    navigation(): Route[] {
       return this.base_navigation.map(s => {
         if (s.basePath) {
           s.path = s.basePath + this.current_route_cat
@@ -69,14 +77,14 @@ export default {
         return s
       })
     },
-    class_btn_cat_current() {
+    class_btn_cat_current(): string {
       let base = 'white--text'
       if (this.$vuetify.breakpoint.smAndUp) {
         base += ' px-2'
       }
       return base
     },
-    class_btn_cat() {
+    class_btn_cat(): string {
       let base = this.class_btn_cat_current
       if (this.$vuetify.breakpoint.width < this.width_small) {
         base += ' d-none'
@@ -84,9 +92,9 @@ export default {
       return base
     }
   }
-}
+})
 
-function delAccentLower(str) {
+function delAccentLower(str: string): string {
   return str
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')

@@ -43,11 +43,13 @@
   </v-app-bar>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   props: ['categories', 'width_switch'],
   computed: {
-    current_cat() {
+    current_cat(): string {
       if (this.$route.meta.cat) {
         return this.$route.meta.cat
       } else {
@@ -56,11 +58,11 @@ export default {
     }
   },
   methods: {
-    updateCat(cat) {
+    updateCat(new_cat: string): void {
       let old_path = this.$route.path.split('/')
       let old_cat = old_path[old_path.length - 1]
-      if (cat !== old_cat) {
-        old_path[old_path.length - 1] = delAccentLower(cat)
+      if (new_cat !== old_cat) {
+        old_path[old_path.length - 1] = delAccentLower(new_cat)
         let new_path = old_path.join('/')
         if (this.getScrollOffset() > 0) {
           window.scroll(0, this.getScrollOffset())
@@ -68,14 +70,16 @@ export default {
         this.$router.push(new_path)
       }
     },
-    updateCatBtn(val) {
-      let cur_id = this.categories.findIndex(cat => cat === this.current_cat)
-      let new_id = cur_id + val
+    updateCatBtn(step: number): void {
+      let cur_id = this.categories.findIndex(
+        (cat: string) => cat === this.current_cat
+      )
+      let new_id = cur_id + step
       if (new_id >= 0 && new_id < this.categories.length) {
         this.updateCat(this.categories[new_id])
       }
     },
-    class_btn(cat) {
+    class_btn(cat: string): string {
       let base = 'white--text font-weight-medium'
       if (cat !== this.current_cat) {
         if (this.$vuetify.breakpoint.width < this.width_switch) {
@@ -87,7 +91,7 @@ export default {
       }
       return base
     },
-    getScrollOffset() {
+    getScrollOffset(): number {
       let offset = -1
       if (window.scrollY > 64) {
         offset = this.$vuetify.breakpoint.width < this.width_switch ? 48 : 64
@@ -95,9 +99,9 @@ export default {
       return offset
     }
   }
-}
+})
 
-function delAccentLower(str) {
+function delAccentLower(str: string): string {
   return str
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')

@@ -33,25 +33,27 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import { LogementFactures, LogementForm } from '@/plugins/logement_ges'
 
-export default {
+export default Vue.extend({
   computed: {
     ...mapGetters({
       consommation: 'logement/getConsommation'
     }),
-    type() {
+    type(): string {
       return this.consommation.type
     },
-    factures() {
+    factures(): LogementFactures {
       return this.consommation.factures
     },
-    form() {
+    form(): LogementForm {
       return this.consommation.form
     }
   }
-}
+})
 </script>
 
 <style></style>

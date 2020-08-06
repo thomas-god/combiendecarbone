@@ -34,8 +34,10 @@
   </v-card>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   props: {
     btnName: {
       type: String,
@@ -49,16 +51,16 @@ export default {
     }
   },
   methods: {
-    openForm() {
+    openForm(): void {
       this.form = true
       this.$emit('opening')
     },
-    closeForm() {
+    closeForm(): void {
       this.form = false
       this.$emit('closing')
     }
   }
-}
+})
 </script>
 
 <style></style>

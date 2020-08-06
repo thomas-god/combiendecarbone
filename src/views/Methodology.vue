@@ -7,10 +7,11 @@
   </v-main>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import NavbarCat from '../components/NavbarCat.vue'
 
-export default {
+export default Vue.extend({
   components: {
     NavbarCat
   },
@@ -27,7 +28,7 @@ export default {
       ]
     }
   }
-}
+})
 </script>
 
 <style>
