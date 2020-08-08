@@ -1,7 +1,14 @@
-<script>
+<script lang="ts">
+/* Using Class based component since we have trouble working with
+vue-chartjs and TS (complaining about renderChart not being
+declared). */
+import Vue, { PropType } from 'vue'
 import { Bar } from 'vue-chartjs'
+import { ChartData, ChartOptions, ChartTooltipItem } from 'chart.js'
+import Component from 'vue-class-component'
+import { Watch } from 'vue-property-decorator'
 
-const options = {
+const options: ChartOptions = {
   maintainAspectRatio: false,
   title: {
     text: "Principaux postes d'émissions",
@@ -47,56 +54,68 @@ const options = {
   }
 }
 
-/* const data_template = {
-  datasets: [
-    {
-      data: [10, 20, 30],
-      backgroundColor: []
+const chartProps = Vue.extend({
+  props: {
+    input_data: {
+      type: Object as PropType<ChartData>
     }
-  ],
-  labels: ['Red', 'Yellow', 'Blue']
-} */
+  }
+})
 
-export default {
-  extends: Bar,
-  props: ['input_data'],
-  data() {
-    return {
-      options: options,
-      data_chart: {}
-    }
-  },
-  mounted() {
+@Component({
+  extends: Bar
+})
+export default class MyComponent extends chartProps {
+  options: ChartOptions = options
+  data_chart: ChartData = {}
+
+  @Watch('input_data')
+  onInputDataChange(): void {
     this.updateChart()
-  },
-  watch: {
-    input_data() {
-      this.updateChart()
-    }
-  },
-  methods: {
-    updateChart() {
-      this.data_chart = this.input_data
+  }
+
+  mounted(): void {
+    this.updateChart()
+  }
+
+  public renderChart!: (chartData: ChartData, options: ChartOptions) => void
+  updateChart(): void {
+    this.data_chart = this.input_data
+    if (this.data_chart.labels) {
       this.data_chart.labels = this.data_chart.labels.map(label =>
-        wordWrap(label, 20)
+        wordWrap(label as string, 20)
       )
-      this.renderChart(this.input_data, this.options)
     }
+    this.renderChart(this.input_data, this.options)
   }
 }
-function drawLabel(tooltipItem, data) {
-  var label = data.labels[tooltipItem.index] || ''
 
-  if (label) {
-    label += ': '
+function drawLabel(tooltipItem: ChartTooltipItem, data: ChartData): string {
+  let label = ''
+  if (
+    data.labels &&
+    tooltipItem.index &&
+    tooltipItem.index < data.labels.length
+  ) {
+    label = data.labels[tooltipItem.index] + ': '
+    if (
+      data.datasets &&
+      tooltipItem.datasetIndex &&
+      data.datasets[tooltipItem.datasetIndex] &&
+      data.datasets[tooltipItem.datasetIndex].data &&
+      tooltipItem.index
+    ) {
+      label += (data.datasets[tooltipItem.datasetIndex].data as number[])[
+        tooltipItem.index
+      ]
+      label += ' kg eq.CO2'
+    }
   }
-  let val = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
-  label += val
-  label += ' kg eq.CO2'
+
   return label
 }
 
-function wordWrap(str, maxWidth) {
+function wordWrap(str: string, maxWidth: number) {
   let res = []
   while (str.length > maxWidth) {
     // Inserts new line at first whitespace of the line
@@ -111,7 +130,8 @@ function wordWrap(str, maxWidth) {
   res.push(str)
   return res
 }
-function testWhite(x) {
+
+function testWhite(x: string) {
   var white = new RegExp(/^\s$/)
   return white.test(x.charAt(0))
 }

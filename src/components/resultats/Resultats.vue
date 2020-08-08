@@ -57,13 +57,20 @@
   </v-container>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import ChartDoughnut from './ResultatsChartDoughnut.vue'
 import ChartSubDoughnut from './ResultatsChartSubDoughnut.vue'
 import ChartBar from './ResultatsChartBar.vue'
 import { mapGetters } from 'vuex'
+import { ChartData } from 'chart.js'
 
-export default {
+interface GesItem {
+  name: string
+  ges: number
+}
+
+export default Vue.extend({
   components: {
     ChartDoughnut,
     ChartSubDoughnut,
@@ -83,15 +90,15 @@ export default {
       gesTotalByCat: 'ges/getTotalGesByCat',
       gesByCat: 'ges/getGesByCat'
     }),
-    ges_total() {
+    ges_total(): number {
       let ges = 0
       for (let cat in this.gesTotalByCat) {
         ges += this.gesTotalByCat[cat]
       }
       return ges
     },
-    top_ges() {
-      let ges = []
+    top_ges(): ChartData {
+      let ges: GesItem[] = []
       Object.keys(this.gesByCat).forEach(cat => {
         Object.keys(this.gesByCat[cat]).forEach(item => {
           if (this.gesByCat[cat][item] > 0) {
@@ -111,19 +118,24 @@ export default {
         labels: ges.map(e => e.name)
       }
     },
-    chart_scroll() {
-      return `${110 * this.top_ges.labels.length}px`
+    chart_scroll(): string {
+      let res = ''
+      if (this.top_ges.labels) {
+        res = `${110 * this.top_ges.labels.length}px`
+      }
+      return res
     }
   },
   methods: {
-    subplotCallback(cat) {
+    subplotCallback(cat: string) {
       this.subplot.data = this.gesByCat[cat]
       this.subplot.display = true
       this.subplot.category = cat
     }
   }
-}
-function round(num, n) {
+})
+
+function round(num: number, n: number): number {
   return Math.round((num + Number.EPSILON) * 10 ** n) / 10 ** n
 }
 </script>
