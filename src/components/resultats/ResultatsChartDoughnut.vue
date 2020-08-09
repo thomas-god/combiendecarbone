@@ -121,33 +121,30 @@ function round(num: number, n: number): number {
 function drawLabel(tooltipItem: ChartTooltipItem, data: ChartData): string {
   let label = ''
   if (
-    data.labels &&
-    tooltipItem.index &&
+    data.labels != null &&
+    tooltipItem.index != null &&
     tooltipItem.index < data.labels.length
   ) {
     label = data.labels[tooltipItem.index] + ': '
+
     if (
-      data.datasets &&
-      tooltipItem.datasetIndex &&
-      data.datasets[tooltipItem.datasetIndex] &&
-      data.datasets[tooltipItem.datasetIndex].data &&
-      tooltipItem.index
+      data.datasets != null &&
+      tooltipItem.datasetIndex != null &&
+      data.datasets[tooltipItem.datasetIndex] != null &&
+      data.datasets[tooltipItem.datasetIndex].data != null &&
+      tooltipItem.index != null
     ) {
       let val = (data.datasets[tooltipItem.datasetIndex].data as number[])[
         tooltipItem.index
       ]
       let tot = (data.datasets[tooltipItem.datasetIndex]
         .data as number[]).reduce((a, b) => a + b)
-      label += (data.datasets[tooltipItem.datasetIndex].data as number[])[
-        tooltipItem.index
-      ]
-      label += val
+      label += val.toFixed(2)
       label += ' kg eq.CO2 ('
       label += ((val / tot) * 100).toFixed(2)
       label += ' %)'
     }
   }
-
   return label
 }
 </script>

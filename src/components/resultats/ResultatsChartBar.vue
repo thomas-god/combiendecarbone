@@ -93,17 +93,17 @@ export default class MyComponent extends chartProps {
 function drawLabel(tooltipItem: ChartTooltipItem, data: ChartData): string {
   let label = ''
   if (
-    data.labels &&
-    tooltipItem.index &&
+    data.labels != null &&
+    tooltipItem.index != null &&
     tooltipItem.index < data.labels.length
   ) {
     label = data.labels[tooltipItem.index] + ': '
     if (
-      data.datasets &&
-      tooltipItem.datasetIndex &&
-      data.datasets[tooltipItem.datasetIndex] &&
-      data.datasets[tooltipItem.datasetIndex].data &&
-      tooltipItem.index
+      data.datasets != null &&
+      tooltipItem.datasetIndex != null &&
+      data.datasets[tooltipItem.datasetIndex] != null &&
+      data.datasets[tooltipItem.datasetIndex].data != null &&
+      tooltipItem.index != null
     ) {
       label += (data.datasets[tooltipItem.datasetIndex].data as number[])[
         tooltipItem.index
