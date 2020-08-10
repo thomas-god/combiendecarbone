@@ -19,6 +19,12 @@ Vous pouvez [rapporter un bug](https://github.com/thomas-god/combiendecarbone/is
 ```shell
 $ npm install # Installer les dépendances
 $ npm run serve # Lancer le serveur de développement sur le port 8000
-$ npm run test:unit # Lance la suite de tests
-$ npm run build # Compile le projet
+$ npm run test:unit # Lancer la suite de tests
+$ npm run build # Compiler le projet
 ```
+
+### API Google Maps
+
+Pour pouvoir utiliser l'[API Google Maps](https://developers.google.com/maps/documentation) pour les transports (autocomplétion des lieux et calculs des distances), il faut disposer d'une clé API autorisant les API suivantes : Directions API, Maps JavaScript API, Places API, et Geocoding API.
+
+La clé API doit ensuite être renseignée comme variable d'environnement dans un fichier `.env` placé à la racine du projet (voir le fichier d'example `.env.example`).
