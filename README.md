@@ -1,26 +1,24 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/5b6c70cb-dbbb-4a9f-b537-d2eb16a7a7ea/deploy-status)](https://app.netlify.com/sites/jovial-allen-d47faf/deploys)
 
-# front
+# combiendecarbone.fr
 
-## Project setup
-```
-npm install
-```
+<!--
+1 - Présenter succinctement le projet (raison d'être, philosophie)
+2 - Présenter comment le lancer en local (besoin d'une clé API GMaps)
+3 - Présenter comment contribuer via les issues
+ -->
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+combiendecarbone.fr est un calculateur d'impact carbone pour les particuliers désirant réduire leurs émissions de gaz à effet de serre mais ne sachant pas par où commencer.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Rapporter un bug ou faire une demande de nouvelle fonctionnalité
 
-### Lints and fixes files
-```
-npm run lint
-```
+Vous pouvez [rapporter une bug](https://github.com/thomas-god/combiendecarbone/issues/new?assignees=&labels=bug&template=rapport-de-bug.md&title=) ou [demander une nouvelle fonctionnalité](https://github.com/thomas-god/combiendecarbone/issues/new?assignees=&labels=&template=demande-de-nouvelle-fonctionnalit-.md&title=) directement via les _issues_ GitHub.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Contribuer au projet
+
+```shell
+$ npm install # Installer les dépendances
+$ npm run serve # Lancer le serveur de développement sur le port 8000
+$ npm run test:unit # Lance la suite de tests
+$ npm run build # Build
+```
