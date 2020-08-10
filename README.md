@@ -12,7 +12,7 @@ combiendecarbone.fr est un calculateur d'impact carbone pour les particuliers d�
 
 ## Rapporter un bug ou faire une demande de nouvelle fonctionnalité
 
-Vous pouvez [rapporter une bug](https://github.com/thomas-god/combiendecarbone/issues/new?assignees=&labels=bug&template=rapport-de-bug.md&title=) ou [demander une nouvelle fonctionnalité](https://github.com/thomas-god/combiendecarbone/issues/new?assignees=&labels=&template=demande-de-nouvelle-fonctionnalit-.md&title=) directement via les _issues_ GitHub.
+Vous pouvez [rapporter un bug](https://github.com/thomas-god/combiendecarbone/issues/new?assignees=&labels=bug&template=rapport-de-bug.md&title=) ou [demander une nouvelle fonctionnalité](https://github.com/thomas-god/combiendecarbone/issues/new?assignees=&labels=&template=demande-de-nouvelle-fonctionnalit-.md&title=) directement via les _issues_ GitHub.
 
 ## Contribuer au projet
 
@@ -20,5 +20,5 @@ Vous pouvez [rapporter une bug](https://github.com/thomas-god/combiendecarbone/i
 $ npm install # Installer les dépendances
 $ npm run serve # Lancer le serveur de développement sur le port 8000
 $ npm run test:unit # Lance la suite de tests
-$ npm run build # Build
+$ npm run build # Compile le projet
 ```
