@@ -80,6 +80,7 @@ export default class MyComponent extends chartProps {
 
   categories_colors!: Record<string, string>
   mounted(): void {
+    this.options.onClick = this.clickCallback
     this.updateChart()
   }
   @Watch('input_data')
@@ -111,6 +112,15 @@ export default class MyComponent extends chartProps {
       }
 
       this.renderChart(this.data_chart, this.options)
+    }
+  }
+
+  clickCallback(evt: any): void {
+    if (this.$data._chart.getElementsAtEvent(evt)[0]) {
+      this.$emit(
+        'ecogeste-selected',
+        this.$data._chart.getElementsAtEvent(evt)[0]._model.label
+      )
     }
   }
 }

@@ -75,6 +75,7 @@ export default class MyComponent extends chartProps {
   }
 
   mounted(): void {
+    this.options.onClick = this.clickCallback
     this.updateChart()
   }
 
@@ -87,6 +88,15 @@ export default class MyComponent extends chartProps {
       )
     }
     this.renderChart(this.input_data, this.options)
+  }
+
+  clickCallback(evt: any): void {
+    if (this.$data._chart.getElementsAtEvent(evt)[0]) {
+      this.$emit(
+        'ecogeste-selected',
+        this.$data._chart.getElementsAtEvent(evt)[0]._model.label[0]
+      )
+    }
   }
 }
 

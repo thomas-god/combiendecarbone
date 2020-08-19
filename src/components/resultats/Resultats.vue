@@ -20,24 +20,15 @@
 
     <v-card max-width="700" class="mx-auto my-3 pa-3" v-show="ges_total > 0">
       <v-card-title>Vos émissions par catégories</v-card-title>
+      <v-card-subtitle class="text-left">
+        Cliquez sur une catégorie pour obtenir plus de détails !
+      </v-card-subtitle>
       <chart-doughnut
         class="ma-2 mx-auto chart"
         :input_data="gesByCatTotal"
         v-show="ges_total > 0"
         @category-selected="subplotCallback"
       ></chart-doughnut>
-    </v-card>
-
-    <v-card max-width="700" class="mx-auto my-3 pa-3" v-show="ges_total > 0">
-      <v-card-title>Vos principaux postes d'émissions</v-card-title>
-      <div class="chartAreaWrapper">
-        <chart-bar
-          :style="{ width: chart_scroll }"
-          :input_data="top_ges"
-          v-show="ges_total > 0"
-          @ecogeste-selected="ecogesteCallback"
-        ></chart-bar>
-      </div>
     </v-card>
 
     <v-card
@@ -49,11 +40,30 @@
         Vos émissions pour la catégorie
         <em>{{ ': ' + subplot.category }}</em>
       </v-card-title>
+      <v-card-subtitle class="text-left">
+        Cliquez sur un élément pour obtenir une liste d'écogestes
+      </v-card-subtitle>
       <chart-sub-doughnut
         class="ma-2 mx-auto me-10 chart"
         :input_data="subplot.data"
         :category="subplot.category"
+        @ecogeste-selected="ecogesteCallback"
       ></chart-sub-doughnut>
+    </v-card>
+
+    <v-card max-width="700" class="mx-auto my-3 pa-3" v-show="ges_total > 0">
+      <v-card-title>Vos principaux postes d'émissions</v-card-title>
+      <v-card-subtitle class="text-left">
+        Cliquez sur un élément pour obtenir une liste d'écogestes
+      </v-card-subtitle>
+      <div class="chartAreaWrapper">
+        <chart-bar
+          :style="{ width: chart_scroll }"
+          :input_data="top_ges"
+          v-show="ges_total > 0"
+          @ecogeste-selected="ecogesteCallback"
+        ></chart-bar>
+      </div>
     </v-card>
 
     <ecogeste :name="ecogeste" />
@@ -67,7 +77,6 @@ import ChartSubDoughnut from './ResultatsChartSubDoughnut.vue'
 import ChartBar from './ResultatsChartBar.vue'
 import Ecogeste from '@/components/ecogestes/Ecogeste.vue'
 import { mapGetters } from 'vuex'
-import { ChartData } from 'chart.js'
 
 interface GesItem {
   name: string
@@ -113,14 +122,10 @@ export default Vue.extend({
       this.subplot.category = cat
     },
     ecogesteCallback(cat: string) {
-      this.ecogeste = cat[0]
+      this.ecogeste = cat
     }
   }
 })
-
-function round(num: number, n: number): number {
-  return Math.round((num + Number.EPSILON) * 10 ** n) / 10 ** n
-}
 </script>
 
 <style>
