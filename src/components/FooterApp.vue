@@ -39,7 +39,7 @@ export default Vue.extend({
         {
           name: 'Twitter',
           mdiName: 'mdi-twitter',
-          link: 'https://twitter.com/Combiendecarbo1'
+          link: 'https://twitter.com/combiendeco2'
         },
         {
           name: 'Mail',
