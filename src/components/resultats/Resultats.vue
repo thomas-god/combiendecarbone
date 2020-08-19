@@ -22,7 +22,7 @@
       <v-card-title>Vos émissions par catégories</v-card-title>
       <chart-doughnut
         class="ma-2 mx-auto chart"
-        :input_data="gesTotalByCat"
+        :input_data="gesByCatTotal"
         v-show="ges_total > 0"
         @category-selected="subplotCallback"
       ></chart-doughnut>
@@ -35,6 +35,7 @@
           :style="{ width: chart_scroll }"
           :input_data="top_ges"
           v-show="ges_total > 0"
+          @ecogeste-selected="ecogesteCallback"
         ></chart-bar>
       </div>
     </v-card>
@@ -54,6 +55,8 @@
         :category="subplot.category"
       ></chart-sub-doughnut>
     </v-card>
+
+    <ecogeste :name="ecogeste" />
   </v-container>
 </template>
 
@@ -62,6 +65,7 @@ import Vue from 'vue'
 import ChartDoughnut from './ResultatsChartDoughnut.vue'
 import ChartSubDoughnut from './ResultatsChartSubDoughnut.vue'
 import ChartBar from './ResultatsChartBar.vue'
+import Ecogeste from '@/components/ecogestes/Ecogeste.vue'
 import { mapGetters } from 'vuex'
 import { ChartData } from 'chart.js'
 
@@ -74,7 +78,8 @@ export default Vue.extend({
   components: {
     ChartDoughnut,
     ChartSubDoughnut,
-    ChartBar
+    ChartBar,
+    Ecogeste
   },
   data() {
     return {
@@ -82,42 +87,17 @@ export default Vue.extend({
         data: {},
         display: false,
         category: ''
-      }
+      },
+      ecogeste: ''
     }
   },
   computed: {
     ...mapGetters({
-      gesTotalByCat: 'ges/getTotalGesByCat',
-      gesByCat: 'ges/getGesByCat'
+      gesByCatTotal: 'ges/gesByCatTotal',
+      gesByCat: 'ges/gesByCat',
+      ges_total: 'ges/gesTotal',
+      top_ges: 'ges/topGesAsChartData'
     }),
-    ges_total(): number {
-      let ges = 0
-      for (let cat in this.gesTotalByCat) {
-        ges += this.gesTotalByCat[cat]
-      }
-      return ges
-    },
-    top_ges(): ChartData {
-      let ges: GesItem[] = []
-      Object.keys(this.gesByCat).forEach(cat => {
-        Object.keys(this.gesByCat[cat]).forEach(item => {
-          if (this.gesByCat[cat][item] > 0) {
-            ges.push({ name: item, ges: this.gesByCat[cat][item] })
-          }
-        })
-      })
-      ges.sort((a, b) => b.ges - a.ges)
-      return {
-        datasets: [
-          {
-            barThickness: 30,
-            data: ges.map(e => round(e.ges, 2)),
-            backgroundColor: ges.map(() => '#607D8B')
-          }
-        ],
-        labels: ges.map(e => e.name)
-      }
-    },
     chart_scroll(): string {
       let res = ''
       if (this.top_ges.labels) {
@@ -131,6 +111,9 @@ export default Vue.extend({
       this.subplot.data = this.gesByCat[cat]
       this.subplot.display = true
       this.subplot.category = cat
+    },
+    ecogesteCallback(cat: string) {
+      this.ecogeste = cat[0]
     }
   }
 })

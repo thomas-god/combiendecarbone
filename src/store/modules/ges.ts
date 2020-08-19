@@ -1,4 +1,5 @@
 import { RootState } from '@/store/index'
+import { ChartData } from 'chart.js'
 
 interface GesTotalByCat {
   Transports: number
@@ -14,11 +15,28 @@ interface GesByCat {
   Consommation: Record<string, number>
 }
 
+interface GesItem {
+  name: string
+  ges: number
+}
+
 export default {
   namespaced: true,
   state: {},
   getters: {
-    getTotalGesByCat(
+    gesTotal(
+      state: any,
+      getters: any,
+      rootState: RootState,
+      rootGetters: any
+    ): number {
+      let ges = 0
+      for (const cat in getters.gesByCatTotal) {
+        ges += getters.gesByCatTotal[cat]
+      }
+      return ges
+    },
+    gesByCatTotal(
       state: any,
       getters: any,
       rootState: RootState
@@ -44,7 +62,7 @@ export default {
       ges.Consommation = rootState.consommation.ges.total
       return ges
     },
-    getGesByCat(
+    gesByCat(
       state: any,
       getters: any,
       rootState: RootState,
@@ -64,6 +82,46 @@ export default {
         Consommation: rootState.consommation.ges.items
       }
       return ges
+    },
+
+    topGes(
+      state: any,
+      getters: any,
+      rootState: RootState,
+      rootGetters: any
+    ): GesItem[] {
+      const ges: GesItem[] = []
+      Object.keys(getters.gesByCat).forEach(cat => {
+        Object.keys(getters.gesByCat[cat]).forEach(item => {
+          if (getters.gesByCat[cat][item] > 0) {
+            ges.push({ name: item, ges: getters.gesByCat[cat][item] })
+          }
+        })
+      })
+      ges.sort((a, b) => b.ges - a.ges)
+      return ges
+    },
+    topGesAsChartData(
+      state: any,
+      getters: any,
+      rootState: RootState,
+      rootGetters: any
+    ): ChartData {
+      const ges = getters.topGes
+      return {
+        datasets: [
+          {
+            barThickness: 30,
+            data: ges.map((e: GesItem) => round(e.ges, 2)),
+            backgroundColor: ges.map(() => '#607D8B')
+          }
+        ],
+        labels: ges.map((e: GesItem) => e.name)
+      }
     }
   }
+}
+
+function round(num: number, n: number): number {
+  return Math.round((num + Number.EPSILON) * 10 ** n) / 10 ** n
 }
