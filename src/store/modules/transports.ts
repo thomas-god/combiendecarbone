@@ -20,7 +20,7 @@ const store: Transports.store = {
   current_id: -1,
   ges: {
     total: 0,
-    items: {}
+    items: []
   }
 }
 
@@ -46,12 +46,12 @@ export default {
     getTravelsOccasionnels: (state: Transports.store) => {
       return state.travels.filter(travel => travel.type === 'Occasionnel')
     },
-    getGes(state: Transports.store): Transports.GesValues {
-      const ges: Transports.GesValues = { total: 0, items: {} }
-      state.travels.forEach(travel => {
-        ges.items[travel.name] = travel.ges as number
-        ges.total += travel.ges as number
+    getGes(state: Transports.store): Transports.GesCategory {
+      const ges: Transports.GesCategory = { total: 0, items: [] }
+      ges.items = state.travels.map(travel => {
+        return { name: travel.name, ges: travel.ges ? travel.ges : 0 }
       })
+      ges.total = ges.items.reduce((s, c) => s + c.ges, 0)
       return ges
     }
   },

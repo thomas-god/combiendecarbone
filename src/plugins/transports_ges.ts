@@ -1,3 +1,5 @@
+import { GesCategory } from '@/store/modules/ges'
+
 export interface Place {
   lat: number
   lng: number
@@ -7,6 +9,8 @@ export interface PlaceForm extends Place {
   name: string
   placeholder: string
 }
+
+export { GesCategory }
 
 export interface Travel {
   id: number
@@ -38,11 +42,6 @@ export interface Distance {
     | ''
 }
 
-export interface GesValues {
-  total: number
-  items: Record<string, number>
-}
-
 export interface Mode {
   name: string
   icon: string
@@ -50,7 +49,7 @@ export interface Mode {
 
 export interface store {
   current_id: number
-  ges: GesValues
+  ges: GesCategory
   travels: Travel[]
   modes: Mode[]
 }

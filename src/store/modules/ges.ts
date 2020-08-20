@@ -1,5 +1,14 @@
 import { RootState } from '@/store/index'
-import { ChartData } from 'chart.js'
+
+export interface GesItem {
+  name: string
+  ges: number
+}
+
+export interface GesCategory {
+  total: number
+  items: GesItem[]
+}
 
 interface GesTotalByCat {
   Transports: number
@@ -9,15 +18,10 @@ interface GesTotalByCat {
 }
 
 interface GesByCat {
-  Transports: Record<string, number>
-  Logement: Record<string, number>
-  Alimentation: Record<string, number>
-  Consommation: Record<string, number>
-}
-
-interface GesItem {
-  name: string
-  ges: number
+  Transports: GesItem[]
+  Logement: GesItem[]
+  Alimentation: GesItem[]
+  Consommation: GesItem[]
 }
 
 export default {
@@ -68,15 +72,8 @@ export default {
       rootState: RootState,
       rootGetters: any
     ): GesByCat {
-      const ges_transports: Record<string, number> = {}
-      if (rootState.transports.travels.length > 0) {
-        rootState.transports.travels.forEach(
-          travel => (ges_transports[travel.name] = travel.ges as number)
-        )
-      }
-
       const ges: GesByCat = {
-        Transports: ges_transports,
+        Transports: rootGetters.Transports.getGes,
         Logement: rootState.logement.ges.items,
         Alimentation: rootState.alimentation.ges.items,
         Consommation: rootState.consommation.ges.items

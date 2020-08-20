@@ -13,7 +13,7 @@ const store: Alimentation.store = {
   },
   ges: {
     total: 0,
-    items: {}
+    items: []
   }
 }
 

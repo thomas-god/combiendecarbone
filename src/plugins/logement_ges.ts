@@ -1,7 +1,4 @@
-export interface GesValues {
-  total: number
-  items: Record<string, number>
-}
+import { GesCategory } from '@/store/modules/ges'
 
 export interface LogementFactures {
   gaz: number
@@ -65,7 +62,7 @@ export const IsolationKeys: Array<keyof typeof Isolation> = [
 
 export interface store {
   consommation: UserForm
-  ges: GesValues
+  ges: GesCategory
 }
 
 const ges_values: LogementFactures = {
@@ -78,40 +75,46 @@ function num(value: number): number {
   return isNaN(Number(value)) ? 0 : Number(value)
 }
 
-function computeGesFactures(factures: LogementFactures): GesValues {
-  const ges: GesValues = {
-    items: { Électricité: 0, Gaz: 0 },
-    total: 0
-  }
-  ges.items['Électricité'] = num(factures.elec) * ges_values.elec
-  ges.total += ges.items['Électricité']
-  ges.items['Gaz'] = num(factures.gaz) * ges_values.gaz
-  ges.total += ges.items['Gaz']
+function computeGesFactures(factures: LogementFactures): GesCategory {
+  const ges: GesCategory = { items: [], total: 0 }
+  ges.items.push({
+    name: 'Électricité',
+    ges: num(factures.elec) * ges_values.elec
+  })
+  ges.items.push({
+    name: 'Gaz',
+    ges: num(factures.gaz) * ges_values.gaz
+  })
+  ges.total = ges.items.reduce((s, c) => s + c.ges, 0)
   return ges
 }
 
-function computeGesForm(form: LogementForm): GesValues {
-  const ges = { items: { Électricité: 0, Gaz: 0 }, total: 0 }
+function computeGesForm(form: LogementForm): GesCategory {
+  const ges: GesCategory = { items: [], total: 0 }
+  let elec = 0
+  let gaz = 0
 
   // Équipements
-  ges.items['Électricité'] = Equipements[form.equipements] * ges_values.elec
+  elec += Equipements[form.equipements] * ges_values.elec
 
   // Chauffage
   if (form.chauffage === 'Au gaz') {
-    ges.items['Gaz'] =
+    gaz +=
       Chauffage[form.chauffage] * Isolation[form.isolation] * ges_values.gaz
   } else {
-    ges.items['Électricité'] +=
+    elec +=
       Chauffage[form.chauffage] * Isolation[form.isolation] * ges_values.elec
   }
 
   // Total
-  ges.total = ges.items['Électricité'] + ges.items['Gaz']
+  ges.items.push({ name: 'Électricité', ges: elec })
+  ges.items.push({ name: 'Gaz', ges: gaz })
+  ges.total = ges.items.reduce((s, c) => s + c.ges, 0)
   return ges
 }
 
-function computeGes(consommation: UserForm): GesValues {
-  let ges: GesValues = { items: {}, total: 0 }
+function computeGes(consommation: UserForm): GesCategory {
+  let ges: GesCategory = { items: [], total: 0 }
   if (consommation.type === 'factures' && consommation.factures) {
     ges = computeGesFactures(consommation.factures)
   } else if (consommation.type === 'form' && consommation.form) {

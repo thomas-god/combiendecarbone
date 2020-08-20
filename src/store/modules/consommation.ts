@@ -10,7 +10,7 @@ const state: Consommation.store = {
   },
   ges: {
     total: 0,
-    items: {}
+    items: []
   }
 }
 
