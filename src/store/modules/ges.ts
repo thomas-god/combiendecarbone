@@ -43,27 +43,15 @@ export default {
     gesByCatTotal(
       state: any,
       getters: any,
-      rootState: RootState
+      rootState: RootState,
+      rootGetters: any
     ): GesTotalByCat {
       const ges: GesTotalByCat = {
-        Transports: 0,
-        Logement: 0,
-        Alimentation: 0,
-        Consommation: 0
+        Transports: rootGetters['transports/getGes'].total,
+        Logement: rootState.logement.ges.total,
+        Alimentation: rootState.alimentation.ges.total,
+        Consommation: rootState.consommation.ges.total
       }
-      if (rootState.transports.travels.length > 0) {
-        ges.Transports = rootState.transports.travels
-          .map(travel => travel.ges)
-          .reduce((sum, i) => (sum as number) + (i as number)) as number
-      } else {
-        ges.Transports = 0
-      }
-
-      ges.Logement = rootState.logement.ges.total
-
-      ges.Alimentation = rootState.alimentation.ges.total
-
-      ges.Consommation = rootState.consommation.ges.total
       return ges
     },
     gesByCat(
@@ -73,7 +61,7 @@ export default {
       rootGetters: any
     ): GesByCat {
       const ges: GesByCat = {
-        Transports: rootGetters['transports/getGes'],
+        Transports: rootGetters['transports/getGes'].items,
         Logement: rootState.logement.ges.items,
         Alimentation: rootState.alimentation.ges.items,
         Consommation: rootState.consommation.ges.items
@@ -89,36 +77,14 @@ export default {
     ): GesItem[] {
       const ges: GesItem[] = []
       Object.keys(getters.gesByCat).forEach(cat => {
-        Object.keys(getters.gesByCat[cat]).forEach(item => {
-          if (getters.gesByCat[cat][item] > 0) {
-            ges.push({ name: item, ges: getters.gesByCat[cat][item] })
+        getters.gesByCat[cat].forEach((item: GesItem) => {
+          if (item.ges > 0) {
+            ges.push(item)
           }
         })
       })
       ges.sort((a, b) => b.ges - a.ges)
       return ges
-    },
-    topGesAsChartData(
-      state: any,
-      getters: any,
-      rootState: RootState,
-      rootGetters: any
-    ): ChartData {
-      const ges = getters.topGes
-      return {
-        datasets: [
-          {
-            barThickness: 30,
-            data: ges.map((e: GesItem) => round(e.ges, 2)),
-            backgroundColor: ges.map(() => '#607D8B')
-          }
-        ],
-        labels: ges.map((e: GesItem) => e.name)
-      }
     }
   }
-}
-
-function round(num: number, n: number): number {
-  return Math.round((num + Number.EPSILON) * 10 ** n) / 10 ** n
 }
