@@ -91,11 +91,11 @@ export default class MyComponent extends chartProps {
 
   updateChart(): void {
     if (this.category) {
-      let cat_colors = shuffle(
-        Object.values(
-          colors[this.categories_colors[this.category] as keyof Colors]
-        ) as string[]
+      let cat_colors = getOrderedColors(
+        colors[this.categories_colors[this.category] as keyof Colors] as Color,
+        Object.keys(this.input_data).length
       )
+
       let data_fmt = { ...data_template }
       data_fmt.labels = Object.keys(this.input_data)
       data_fmt.datasets[0].data = []
@@ -159,23 +159,27 @@ function drawLabel(tooltipItem: ChartTooltipItem, data: ChartData): string {
   return label
 }
 
-function shuffle<T>(array: T[]): T[] {
-  let m = array.length,
-    t,
-    i
+/**
+ *
+ */
+function getOrderedColors(color: Color, n: number): string[] {
+  const base = [
+    color.lighten1,
+    color.darken1,
+    color.lighten2,
+    color.darken2,
+    color.lighten3,
+    color.darken3,
+    color.lighten4,
+    color.darken4,
+    color.lighten5
+  ]
+  let colors = []
 
-  // While there remain elements to shuffle…
-  while (m) {
-    // Pick a remaining element…
-    i = Math.floor(Math.random() * m--)
-
-    // And swap it with the current element.
-    t = array[m]
-    array[m] = array[i]
-    array[i] = t
+  for (let i = 0; i < n; i++) {
+    colors.push(base[i % base.length])
   }
-
-  return array
+  return colors
 }
 </script>
 
