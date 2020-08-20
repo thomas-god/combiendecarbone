@@ -66,7 +66,7 @@
       </div>
     </v-card>
 
-    <ecogeste :name="ecogeste" />
+    <ecogeste-popup :name="ecogeste" />
   </v-container>
 </template>
 
@@ -75,7 +75,7 @@ import Vue from 'vue'
 import ChartDoughnut from './ResultatsChartDoughnut.vue'
 import ChartSubDoughnut from './ResultatsChartSubDoughnut.vue'
 import ChartBar from './ResultatsChartBar.vue'
-import Ecogeste from '@/components/ecogestes/Ecogeste.vue'
+import EcogestePopup from '@/components/ecogestes/EcogestePopup.vue'
 import { mapGetters } from 'vuex'
 
 interface GesItem {
@@ -88,7 +88,7 @@ export default Vue.extend({
     ChartDoughnut,
     ChartSubDoughnut,
     ChartBar,
-    Ecogeste
+    EcogestePopup
   },
   data() {
     return {
@@ -121,8 +121,8 @@ export default Vue.extend({
       this.subplot.display = true
       this.subplot.category = cat
     },
-    ecogesteCallback(cat: string) {
-      this.ecogeste = cat
+    ecogesteCallback(item: string) {
+      this.ecogeste = item
     }
   }
 })
