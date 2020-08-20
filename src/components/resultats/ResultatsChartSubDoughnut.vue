@@ -13,7 +13,7 @@ const options: ChartOptions = {
     display: false
   },
   legend: {
-    position: 'bottom'
+    position: 'top'
   },
   tooltips: {
     callbacks: {
