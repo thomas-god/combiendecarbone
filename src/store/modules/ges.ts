@@ -73,7 +73,7 @@ export default {
       rootGetters: any
     ): GesByCat {
       const ges: GesByCat = {
-        Transports: rootGetters.Transports.getGes,
+        Transports: rootGetters['transports/getGes'],
         Logement: rootState.logement.ges.items,
         Alimentation: rootState.alimentation.ges.items,
         Consommation: rootState.consommation.ges.items
