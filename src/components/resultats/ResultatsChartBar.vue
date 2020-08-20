@@ -94,7 +94,7 @@ export default class MyComponent extends chartProps {
     if (this.$data._chart.getElementsAtEvent(evt)[0]) {
       this.$emit(
         'ecogeste-selected',
-        this.$data._chart.getElementsAtEvent(evt)[0]._model.label[0]
+        this.$data._chart.getElementsAtEvent(evt)[0]._model.label[0].join(' ')
       )
     }
   }
