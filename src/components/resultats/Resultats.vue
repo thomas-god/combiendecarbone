@@ -17,53 +17,55 @@
         </h3>
       </v-card-text>
     </v-card>
-
-    <v-card
-      max-width="700"
-      class="mx-auto my-3 pa-3"
-      v-show="ges_total > 0 && show_main_chart"
-    >
-      <v-card-title>Vos émissions par catégories</v-card-title>
-      <v-card-subtitle class="text-left">
-        Cliquez sur une catégorie pour obtenir plus de détails !
-      </v-card-subtitle>
-      <chart-doughnut
-        class="ma-2 mx-auto chart"
-        :input_data="gesByCatTotal"
-        v-show="ges_total > 0"
-        @category-selected="subplotCallback"
-      ></chart-doughnut>
-    </v-card>
-
-    <v-card
-      max-width="700"
-      class="mx-auto my-3 pa-3"
-      v-show="ges_total > 0 && subplot.display"
-    >
-      <v-btn
-        fab
-        icon
-        left
-        bottom
-        absolute
-        class="mb-10"
-        @click="closeSubplotCallback"
-        ><v-icon>mdi-arrow-left</v-icon></v-btn
+    <v-slide-x-transition hide-on-leave="true">
+      <v-card
+        max-width="700"
+        class="mx-auto my-3 pa-3"
+        v-show="ges_total > 0 && show_main_chart"
       >
-      <v-card-title
-        v-html="'Vos émissions pour la catégorie: ' + subplot.category"
+        <v-card-title>Vos émissions par catégories</v-card-title>
+        <v-card-subtitle class="text-left">
+          Cliquez sur une catégorie pour obtenir plus de détails !
+        </v-card-subtitle>
+        <chart-doughnut
+          class="ma-2 mx-auto chart"
+          :input_data="gesByCatTotal"
+          v-show="ges_total > 0"
+          @category-selected="subplotCallback"
+        ></chart-doughnut>
+      </v-card>
+    </v-slide-x-transition>
+    <v-slide-x-transition hide-on-leave="true">
+      <v-card
+        max-width="700"
+        class="mx-auto my-3 pa-3"
+        v-show="ges_total > 0 && subplot.display"
       >
-      </v-card-title>
-      <v-card-subtitle class="text-left">
-        Cliquez sur un élément pour obtenir une liste d'écogestes
-      </v-card-subtitle>
-      <chart-sub-doughnut
-        class="ma-2 mx-auto me-10 chart"
-        :input_data="subplot.data"
-        :category="subplot.category"
-        @ecogeste-selected="ecogesteCallback"
-      />
-    </v-card>
+        <v-btn
+          fab
+          icon
+          left
+          bottom
+          absolute
+          class="mb-10"
+          @click="closeSubplotCallback"
+          ><v-icon>mdi-arrow-left</v-icon></v-btn
+        >
+        <v-card-title
+          v-html="'Vos émissions pour la catégorie: ' + subplot.category"
+        >
+        </v-card-title>
+        <v-card-subtitle class="text-left">
+          Cliquez sur un élément pour obtenir une liste d'écogestes
+        </v-card-subtitle>
+        <chart-sub-doughnut
+          class="ma-2 mx-auto me-10 chart"
+          :input_data="subplot.data"
+          :category="subplot.category"
+          @ecogeste-selected="ecogesteCallback"
+        />
+      </v-card>
+    </v-slide-x-transition>
 
     <v-card max-width="700" class="mx-auto my-3 pa-3" v-show="ges_total > 0">
       <v-card-title>Vos principaux postes d'émissions</v-card-title>
