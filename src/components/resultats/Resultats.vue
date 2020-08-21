@@ -17,7 +17,9 @@
         </h3>
       </v-card-text>
     </v-card>
-    <v-slide-x-transition hide-on-leave="true">
+
+    <!-- Main doughnut chart -->
+    <v-slide-x-transition :hide-on-leave="true">
       <v-card
         max-width="700"
         class="mx-auto my-3 pa-3"
@@ -35,7 +37,9 @@
         ></chart-doughnut>
       </v-card>
     </v-slide-x-transition>
-    <v-slide-x-transition hide-on-leave="true">
+
+    <!-- Subplot doughnut chart (per category) -->
+    <v-slide-x-transition :hide-on-leave="true">
       <v-card
         max-width="700"
         class="mx-auto my-3 pa-3"
@@ -67,6 +71,7 @@
       </v-card>
     </v-slide-x-transition>
 
+    <!-- Top GES item bar chart -->
     <v-card max-width="700" class="mx-auto my-3 pa-3" v-show="ges_total > 0">
       <v-card-title>Vos principaux postes d'émissions</v-card-title>
       <v-card-subtitle class="text-left">
@@ -82,7 +87,8 @@
       </div>
     </v-card>
 
-    <ecogeste-popup :name="ecogeste" />
+    <!-- Écogeste placeholder -->
+    <ecogeste ref="écogeste" />
   </v-container>
 </template>
 
@@ -91,29 +97,23 @@ import Vue from 'vue'
 import ChartDoughnut from './ResultatsChartDoughnut.vue'
 import ChartSubDoughnut from './ResultatsChartSubDoughnut.vue'
 import ChartBar from './ResultatsChartBar.vue'
-import EcogestePopup from '@/components/ecogestes/EcogestePopup.vue'
+import Ecogeste from '@/components/ecogestes/Ecogeste.vue'
 import { mapGetters } from 'vuex'
-
-interface GesItem {
-  name: string
-  ges: number
-}
 
 export default Vue.extend({
   components: {
     ChartDoughnut,
     ChartSubDoughnut,
     ChartBar,
-    EcogestePopup
+    Ecogeste
   },
   data() {
     return {
       subplot: {
-        data: {},
+        data: [],
         display: false,
         category: ''
       },
-      ecogeste: '',
       show_main_chart: true
     }
   },
@@ -122,7 +122,7 @@ export default Vue.extend({
       gesByCatTotal: 'ges/gesByCatTotal',
       gesByCat: 'ges/gesByCat',
       ges_total: 'ges/gesTotal',
-      top_ges: 'ges/topGesAsChartData'
+      top_ges: 'ges/topGes'
     }),
     chart_scroll(): string {
       let res = ''
@@ -144,7 +144,12 @@ export default Vue.extend({
       this.show_main_chart = true
     },
     ecogesteCallback(item: string) {
-      this.ecogeste = item
+      // TODO: Specify the ges item clicked by the user
+      // TODO: either by passing it to the Ecogeste component or via the store
+      let ecogeste = this.$refs.écogeste as Vue & {
+        openEcogeste: (ges_item_name: string) => void
+      }
+      ecogeste.openEcogeste(item)
     }
   }
 })

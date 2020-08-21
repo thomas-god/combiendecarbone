@@ -5,6 +5,7 @@ import { mapGetters } from 'vuex'
 import { Doughnut } from 'vue-chartjs'
 import { ChartData, ChartOptions, ChartTooltipItem } from 'chart.js'
 import colors, { Colors, Color } from 'vuetify/lib/util/colors'
+import { GesItem } from '@/store/modules/ges'
 
 const options: ChartOptions = {
   maintainAspectRatio: false,
@@ -57,7 +58,7 @@ const data_template = {
 const chartProps = Vue.extend({
   props: {
     input_data: {
-      type: Object as PropType<Record<string, number>>
+      type: Array as PropType<GesItem[]>
     },
     category: {
       type: String,
@@ -77,18 +78,20 @@ const chartProps = Vue.extend({
 export default class MyComponent extends chartProps {
   options: ChartOptions = options
   data_chart: ChartData = {}
-
+  labels_ges_correspondance: Record<string, GesItem> = {}
   categories_colors!: Record<string, string>
+
   mounted(): void {
     this.options.onClick = this.clickCallback
     this.updateChart()
   }
+
   @Watch('input_data')
   onInputDataChange(): void {
     this.updateChart()
   }
-  renderChart!: (chartData: ChartData, options: ChartOptions) => void
 
+  renderChart!: (chartData: ChartData, options: ChartOptions) => void
   updateChart(): void {
     if (this.category) {
       let cat_colors = getOrderedColors(
@@ -97,13 +100,14 @@ export default class MyComponent extends chartProps {
       )
 
       let data_fmt = { ...data_template }
-      data_fmt.labels = Object.keys(this.input_data)
+      data_fmt.labels = this.input_data.map(item => item.name)
       data_fmt.datasets[0].data = []
       data_fmt.datasets[0].backgroundColor = []
 
       data_fmt.labels.forEach((cat, id) => {
-        data_fmt.datasets[0].data.push(round(this.input_data[cat], 2))
+        data_fmt.datasets[0].data.push(round(this.input_data[id].ges, 2))
         data_fmt.datasets[0].backgroundColor.push(cat_colors[id])
+        this.labels_ges_correspondance[cat] = this.input_data[id]
       })
       this.data_chart = data_fmt
 
