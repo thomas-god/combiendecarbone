@@ -9,7 +9,7 @@ import { GesItem } from '@/store/modules/ges'
 export default Vue.extend({
   data() {
     return {
-      ecogeste_component: () => import('./EcogesteBase.vue') as any,
+      ecogeste_component: () => import('./EcogesteSuggestion.vue') as any,
       display: false
     }
   },
@@ -19,10 +19,10 @@ export default Vue.extend({
       this.display = true
     },
     loadEcogesteComponent(ges_item: GesItem) {
-      if (ges_item.name === 'Électroménager') {
-        return () => import('./EcogesteCovoiturage.vue')
+      if (ges_item.ecogeste) {
+        return () => import(`./${ges_item.ecogeste}.vue`)
       } else {
-        return () => import('./EcogesteVelo.vue')
+        return () => import('./EcogesteSuggestion.vue')
       }
     }
   }

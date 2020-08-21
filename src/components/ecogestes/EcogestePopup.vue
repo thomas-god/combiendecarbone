@@ -1,16 +1,14 @@
 <template>
-  <v-dialog v-model="popup" max-width="550px" class="ma-0">
+  <v-dialog v-model="popup" max-width="600px" class="ma-0">
     <v-card>
       <v-card-title class="justify-center"><slot name="title"/></v-card-title>
+
       <slot name="text" />
 
-      <v-card-title>Pour aller plus loin</v-card-title>
-      <v-card-text>
-        <slot name="links" />
-      </v-card-text>
-
       <v-card-actions class="justify-center">
-        <v-btn @click="closePopup" class="mx-auto">Fermer</v-btn>
+        <v-btn @click="closePopup" color="success" class="mx-auto mb-4"
+          >Fermer</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
