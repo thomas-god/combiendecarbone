@@ -9,7 +9,7 @@ import { GesItem } from '@/store/modules/ges'
 export default Vue.extend({
   data() {
     return {
-      ecogeste_component: () => import('./EcogesteVelo.vue'),
+      ecogeste_component: () => import('./EcogesteBase.vue') as any,
       display: false
     }
   },

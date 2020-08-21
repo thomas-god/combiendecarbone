@@ -1,3 +1,7 @@
+<template>
+  <ecogeste-popup v-model="popup" />
+</template>
+
 <script lang="ts">
 import Vue from 'vue'
 import EcogestePopup from './EcogestePopup.vue'
