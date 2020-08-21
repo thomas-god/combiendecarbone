@@ -88,7 +88,7 @@
     </v-card>
 
     <!-- Écogeste placeholder -->
-    <ecogeste ref="écogeste" />
+    <ecogestes ref="écogeste" />
   </v-container>
 </template>
 
@@ -97,7 +97,7 @@ import Vue from 'vue'
 import ChartDoughnut from './ResultatsChartDoughnut.vue'
 import ChartSubDoughnut from './ResultatsChartSubDoughnut.vue'
 import ChartBar from './ResultatsChartBar.vue'
-import Ecogeste from '@/components/ecogestes/Ecogeste.vue'
+import Ecogestes from '@/components/ecogestes/Ecogestes.vue'
 import { mapGetters } from 'vuex'
 
 export default Vue.extend({
@@ -105,7 +105,7 @@ export default Vue.extend({
     ChartDoughnut,
     ChartSubDoughnut,
     ChartBar,
-    Ecogeste
+    Ecogestes
   },
   data() {
     return {
