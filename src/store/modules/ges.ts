@@ -3,6 +3,7 @@ import { RootState } from '@/store/index'
 export interface GesItem {
   name: string
   ges: number
+  ecogeste?: string
 }
 
 export interface GesCategory {
