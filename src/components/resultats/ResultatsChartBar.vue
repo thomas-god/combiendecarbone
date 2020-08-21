@@ -7,6 +7,7 @@ import { Bar } from 'vue-chartjs'
 import { ChartData, ChartOptions, ChartTooltipItem } from 'chart.js'
 import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
+import { GesItem } from '@/store/modules/ges'
 
 const options: ChartOptions = {
   maintainAspectRatio: false,
@@ -57,7 +58,7 @@ const options: ChartOptions = {
 const chartProps = Vue.extend({
   props: {
     input_data: {
-      type: Object as PropType<ChartData>
+      type: Array as PropType<GesItem[]>
     }
   }
 })
@@ -68,6 +69,7 @@ const chartProps = Vue.extend({
 export default class MyComponent extends chartProps {
   options: ChartOptions = options
   data_chart: ChartData = {}
+  labels_ges_correspondance: Record<string, GesItem> = {}
 
   @Watch('input_data')
   onInputDataChange(): void {
@@ -75,19 +77,45 @@ export default class MyComponent extends chartProps {
   }
 
   mounted(): void {
+    this.options.onClick = this.clickCallback
     this.updateChart()
   }
 
   public renderChart!: (chartData: ChartData, options: ChartOptions) => void
   updateChart(): void {
-    this.data_chart = this.input_data
-    if (this.data_chart.labels) {
-      this.data_chart.labels = this.data_chart.labels.map(label =>
-        wordWrap(label as string, 20)
-      )
+    this.data_chart = {
+      datasets: [
+        {
+          barThickness: 30,
+          data: this.input_data.map((e: GesItem) => round(e.ges, 2)),
+          backgroundColor: this.input_data.map(() => '#607D8B')
+        }
+      ],
+      labels: this.input_data.map((e: GesItem) => e.name)
     }
-    this.renderChart(this.input_data, this.options)
+    if (this.data_chart.labels) {
+      this.data_chart.labels = this.data_chart.labels.map((label, idx) => {
+        let new_label = wordWrap(label as string, 20)
+        this.labels_ges_correspondance[new_label.join(' ')] = this.input_data[
+          idx
+        ]
+        return new_label
+      })
+    }
+    this.renderChart(this.data_chart, this.options)
   }
+
+  clickCallback(evt: any): void {
+    if (this.$data._chart.getElementsAtEvent(evt)[0]) {
+      let label = this.$data._chart.getElementsAtEvent(evt)[0]._model.label
+      let ges_item = this.labels_ges_correspondance[label.join(' ')]
+      this.$emit('ecogeste-selected', ges_item)
+    }
+  }
+}
+
+function round(num: number, n: number): number {
+  return Math.round((num + Number.EPSILON) * 10 ** n) / 10 ** n
 }
 
 function drawLabel(tooltipItem: ChartTooltipItem, data: ChartData): string {

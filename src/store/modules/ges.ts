@@ -1,5 +1,16 @@
 import { RootState } from '@/store/index'
 
+export interface GesItem {
+  name: string
+  ges: number
+  ecogeste?: string
+}
+
+export interface GesCategory {
+  total: number
+  items: GesItem[]
+}
+
 interface GesTotalByCat {
   Transports: number
   Logement: number
@@ -8,61 +19,72 @@ interface GesTotalByCat {
 }
 
 interface GesByCat {
-  Transports: Record<string, number>
-  Logement: Record<string, number>
-  Alimentation: Record<string, number>
-  Consommation: Record<string, number>
+  Transports: GesItem[]
+  Logement: GesItem[]
+  Alimentation: GesItem[]
+  Consommation: GesItem[]
 }
 
 export default {
   namespaced: true,
   state: {},
   getters: {
-    getTotalGesByCat(
+    gesTotal(
       state: any,
       getters: any,
-      rootState: RootState
-    ): GesTotalByCat {
-      const ges: GesTotalByCat = {
-        Transports: 0,
-        Logement: 0,
-        Alimentation: 0,
-        Consommation: 0
+      rootState: RootState,
+      rootGetters: any
+    ): number {
+      let ges = 0
+      for (const cat in getters.gesByCatTotal) {
+        ges += getters.gesByCatTotal[cat]
       }
-      if (rootState.transports.travels.length > 0) {
-        ges.Transports = rootState.transports.travels
-          .map(travel => travel.ges)
-          .reduce((sum, i) => (sum as number) + (i as number)) as number
-      } else {
-        ges.Transports = 0
-      }
-
-      ges.Logement = rootState.logement.ges.total
-
-      ges.Alimentation = rootState.alimentation.ges.total
-
-      ges.Consommation = rootState.consommation.ges.total
       return ges
     },
-    getGesByCat(
+    gesByCatTotal(
+      state: any,
+      getters: any,
+      rootState: RootState,
+      rootGetters: any
+    ): GesTotalByCat {
+      const ges: GesTotalByCat = {
+        Transports: rootGetters['transports/getGes'].total,
+        Logement: rootState.logement.ges.total,
+        Alimentation: rootState.alimentation.ges.total,
+        Consommation: rootState.consommation.ges.total
+      }
+      return ges
+    },
+    gesByCat(
       state: any,
       getters: any,
       rootState: RootState,
       rootGetters: any
     ): GesByCat {
-      const ges_transports: Record<string, number> = {}
-      if (rootState.transports.travels.length > 0) {
-        rootState.transports.travels.forEach(
-          travel => (ges_transports[travel.name] = travel.ges as number)
-        )
-      }
-
       const ges: GesByCat = {
-        Transports: ges_transports,
+        Transports: rootGetters['transports/getGes'].items,
         Logement: rootState.logement.ges.items,
         Alimentation: rootState.alimentation.ges.items,
         Consommation: rootState.consommation.ges.items
       }
+      return ges
+    },
+
+    topGes(
+      state: any,
+      getters: any,
+      rootState: RootState,
+      rootGetters: any
+    ): GesItem[] {
+      const ges: GesItem[] = []
+      Object.keys(getters.gesByCat).forEach(cat => {
+        getters.gesByCat[cat].forEach((item: GesItem) => {
+          if (item.ges > 0) {
+            ges.push(item)
+          }
+        })
+      })
+      ges.sort((a, b) => b.ges - a.ges)
       return ges
     }
   }

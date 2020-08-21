@@ -17,7 +17,7 @@ const store: Logement.store = {
   },
   ges: {
     total: 0,
-    items: {}
+    items: []
   }
 }
 

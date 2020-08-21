@@ -1,0 +1,32 @@
+<template>
+  <component :is="ecogeste_component" v-model="display" />
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+import { GesItem } from '@/store/modules/ges'
+
+export default Vue.extend({
+  data() {
+    return {
+      ecogeste_component: () => import('./EcogesteSuggestion.vue') as any,
+      display: false
+    }
+  },
+  methods: {
+    openEcogeste(ges_item: GesItem): void {
+      this.ecogeste_component = this.loadEcogesteComponent(ges_item)
+      this.display = true
+    },
+    loadEcogesteComponent(ges_item: GesItem) {
+      if (ges_item.ecogeste) {
+        return () => import(`./${ges_item.ecogeste}.vue`)
+      } else {
+        return () => import('./EcogesteSuggestion.vue')
+      }
+    }
+  }
+})
+</script>
+
+<style></style>

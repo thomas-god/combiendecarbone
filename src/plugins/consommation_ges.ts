@@ -1,3 +1,5 @@
+import { GesCategory } from '@/store/modules/ges'
+
 export interface ConsommationItem {
   name: string
   full_name: string
@@ -10,14 +12,9 @@ export enum Categories {
   'Électroménager'
 }
 
-export interface GesValues {
-  total: number
-  items: Record<string, number>
-}
-
 export interface store {
   consommation: Record<string, ConsommationItem[]>
-  ges: GesValues
+  ges: GesCategory
 }
 
 const vetements_ges: ConsommationItem[] = [
@@ -70,29 +67,36 @@ function computeGesByCategory(
 
 function computeGes(
   consommation: Record<string, ConsommationItem[]>
-): GesValues {
-  const ges: GesValues = { total: 0, items: {} }
-  ges.items = {
-    Vêtements: computeGesByCategory(
-      'Vêtements',
-      consommation['Vêtements'],
-      vetements_ges
-    ),
-    'High-tech': computeGesByCategory(
-      'High-tech',
-      consommation['High-tech'],
-      high_tech_ges
-    ),
-    Électroménager: computeGesByCategory(
-      'Électroménager',
-      consommation['Électroménager'],
-      electromenager_ges
-    )
-  }
-  ges.total =
-    ges.items['Vêtements'] +
-    ges.items['High-tech'] +
-    ges.items['Électroménager']
+): GesCategory {
+  const ges: GesCategory = { total: 0, items: [] }
+  ges.items = [
+    {
+      name: 'Vêtements',
+      ges: computeGesByCategory(
+        'Vêtements',
+        consommation['Vêtements'],
+        vetements_ges
+      )
+    },
+    {
+      name: 'High-tech',
+      ges: computeGesByCategory(
+        'High-tech',
+        consommation['High-tech'],
+        high_tech_ges
+      )
+    },
+    {
+      name: 'Électroménager',
+      ges: computeGesByCategory(
+        'Électroménager',
+        consommation['Électroménager'],
+        electromenager_ges
+      )
+    }
+  ]
+
+  ges.total = ges.items.reduce((s, c) => s + c.ges, 0)
 
   return ges
 }
