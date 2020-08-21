@@ -25,6 +25,7 @@
       max-width="550px"
       @click:outside="closeForm"
       class="ma-0"
+      :scrollable="scrollable"
     >
       <slot name="form" :close="closeForm">
         <v-form></v-form>
@@ -42,6 +43,10 @@ export default Vue.extend({
     btnName: {
       type: String,
       default: 'Répondre'
+    },
+    scrollable: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

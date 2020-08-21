@@ -3,24 +3,25 @@
     <v-card-title class="align-self-start">
       {{ titles[category] }}
     </v-card-title>
-    <v-card-actions>
-      <v-form ref="form" class="d-flex flex-column mx-auto">
-        <div class="d-flex flex-column align-stretch justify-center mx-auto">
-          <num-btn
-            v-for="item in consommation"
-            :key="item.name"
-            v-model="item.value"
-            :label="$vuetify.breakpoint.xsOnly ? item.full_name : ''"
-            :prefix="!$vuetify.breakpoint.xsOnly ? item.full_name + ': ' : ''"
-            :min="0"
-            class="my-4"
-            max-width="280px"
-          />
-        </div>
-
-        <v-btn @click="validate" color="success" class="ma-3">Ok</v-btn>
+    <v-card-text style="height: 400px;">
+      <v-form
+        ref="form"
+        class="d-flex flex-column mx-auto"
+        style="height: 400px"
+      >
+        <num-btn
+          v-for="item in consommation"
+          :key="item.name"
+          v-model="item.value"
+          :label="$vuetify.breakpoint.xsOnly ? item.full_name : ''"
+          :prefix="!$vuetify.breakpoint.xsOnly ? item.full_name + ': ' : ''"
+          :min="0"
+          class="my-1"
+          max-width="280px"
+        />
       </v-form>
-    </v-card-actions>
+    </v-card-text>
+    <v-btn @click="validate" color="success" class="ma-3">Ok</v-btn>
   </v-card>
 </template>
 

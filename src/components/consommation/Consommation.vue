@@ -1,5 +1,5 @@
 <template>
-  <category @opening="resetForm">
+  <category @opening="resetForm" :scrollable="true">
     <template v-slot:title>
       Vos achats
     </template>
