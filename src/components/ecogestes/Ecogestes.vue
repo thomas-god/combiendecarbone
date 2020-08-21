@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { GesItem } from '@/store/modules/ges'
 
 export default Vue.extend({
   data() {
@@ -13,12 +14,12 @@ export default Vue.extend({
     }
   },
   methods: {
-    openEcogeste(ges_item_name: string): void {
-      this.ecogeste_component = this.loadEcogesteComponent(ges_item_name)
+    openEcogeste(ges_item: GesItem): void {
+      this.ecogeste_component = this.loadEcogesteComponent(ges_item)
       this.display = true
     },
-    loadEcogesteComponent(ges_item_name: string) {
-      if (ges_item_name === 'Électroménager') {
+    loadEcogesteComponent(ges_item: GesItem) {
+      if (ges_item.name === 'Électroménager') {
         return () => import('./EcogesteCovoiturage.vue')
       } else {
         return () => import('./EcogesteVelo.vue')

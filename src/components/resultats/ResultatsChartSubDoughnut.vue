@@ -121,10 +121,10 @@ export default class MyComponent extends chartProps {
 
   clickCallback(evt: any): void {
     if (this.$data._chart.getElementsAtEvent(evt)[0]) {
-      this.$emit(
-        'ecogeste-selected',
+      let ges_item = this.labels_ges_correspondance[
         this.$data._chart.getElementsAtEvent(evt)[0]._model.label
-      )
+      ]
+      this.$emit('ecogeste-selected', ges_item)
     }
   }
 }

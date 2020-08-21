@@ -99,6 +99,7 @@ import ChartSubDoughnut from './ResultatsChartSubDoughnut.vue'
 import ChartBar from './ResultatsChartBar.vue'
 import Ecogestes from '@/components/ecogestes/Ecogestes.vue'
 import { mapGetters } from 'vuex'
+import { GesItem } from '@/store/modules/ges'
 
 export default Vue.extend({
   components: {
@@ -143,11 +144,11 @@ export default Vue.extend({
       this.subplot.display = false
       this.show_main_chart = true
     },
-    ecogesteCallback(item: string) {
+    ecogesteCallback(item: GesItem) {
       // TODO: Specify the ges item clicked by the user
       // TODO: either by passing it to the Ecogeste component or via the store
       let ecogeste = this.$refs.écogeste as Vue & {
-        openEcogeste: (ges_item_name: string) => void
+        openEcogeste: (ges_item_name: GesItem) => void
       }
       ecogeste.openEcogeste(item)
     }
