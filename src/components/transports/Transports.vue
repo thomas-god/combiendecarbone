@@ -80,7 +80,7 @@ export default Vue.extend({
     },
     async resetForm(): Promise<void> {
       await this.$nextTick()
-      let form = this.$refs.form as Vue & { resetForm: () => void }
+      const form = this.$refs.form as Vue & { resetForm: () => void }
       form.resetForm()
     }
   }

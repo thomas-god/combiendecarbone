@@ -33,8 +33,8 @@ export default Vue.extend({
       getConso: 'consommation/getConsoByCategory'
     }),
     conso(): ConsommationItem[] {
-      let conso: ConsommationItem[] = this.getConso(this.category)
-      let conso_filter: ConsommationItem[] = []
+      const conso: ConsommationItem[] = this.getConso(this.category)
+      const conso_filter: ConsommationItem[] = []
       conso.forEach(item => {
         if (item.value > 0) {
           conso_filter.push(item)

@@ -23,7 +23,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
-import { userRegime } from '../../plugins/alimentation_ges'
+import { UserRegime } from '../../plugins/alimentation_ges'
 
 export default Vue.extend({
   data() {
@@ -34,7 +34,7 @@ export default Vue.extend({
         local: '',
         viande_rouge: '',
         viande_blanche: ''
-      } as userRegime
+      } as UserRegime
     }
   },
   methods: {
@@ -48,8 +48,8 @@ export default Vue.extend({
       }
     },
     resetRegime(): void {
-      this.user_regime = JSON.parse(JSON.stringify(this.regime)) as userRegime
-      let form = this.$refs.form as Vue & { resetValidation: () => void }
+      this.user_regime = JSON.parse(JSON.stringify(this.regime)) as UserRegime
+      const form = this.$refs.form as Vue & { resetValidation: () => void }
       form.resetValidation()
     }
   },

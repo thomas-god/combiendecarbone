@@ -59,11 +59,11 @@ export default Vue.extend({
   },
   methods: {
     updateCat(new_cat: string): void {
-      let old_path = this.$route.path.split('/')
-      let old_cat = old_path[old_path.length - 1]
+      const old_path = this.$route.path.split('/')
+      const old_cat = old_path[old_path.length - 1]
       if (new_cat !== old_cat) {
         old_path[old_path.length - 1] = delAccentLower(new_cat)
-        let new_path = old_path.join('/')
+        const new_path = old_path.join('/')
         if (this.getScrollOffset() > 0) {
           window.scroll(0, this.getScrollOffset())
         }
@@ -71,10 +71,10 @@ export default Vue.extend({
       }
     },
     updateCatBtn(step: number): void {
-      let cur_id = this.categories.findIndex(
+      const cur_id = this.categories.findIndex(
         (cat: string) => cat === this.current_cat
       )
-      let new_id = cur_id + step
+      const new_id = cur_id + step
       if (new_id >= 0 && new_id < this.categories.length) {
         this.updateCat(this.categories[new_id])
       }

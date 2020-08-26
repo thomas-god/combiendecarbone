@@ -10,22 +10,22 @@ export enum WeeklyFrequency {
 
 export type weekFreq = keyof typeof WeeklyFrequency
 
-export interface regimeItem {
+export interface RegimeItem {
   name: string
   text: string
 }
 
-export interface userRegime {
+export interface UserRegime {
   bio: weekFreq
   local: weekFreq
   viande_rouge: weekFreq
   viande_blanche: weekFreq
 }
 
-export interface store {
+export interface Store {
   freq: weekFreq[]
-  regimes: regimeItem[]
-  regime: userRegime
+  regimes: RegimeItem[]
+  regime: UserRegime
   ges: GesCategory
 }
 
@@ -37,14 +37,14 @@ const freq: Record<weekFreq, number> = {
   '': 0
 }
 
-const regimes: regimeItem[] = [
+const regimes: RegimeItem[] = [
   { name: 'viande_rouge', text: 'Viande rouge' },
   { name: 'viande_blanche', text: 'Viande blanche' },
   { name: 'bio', text: 'Produits bios' },
   { name: 'local', text: 'Produits locaux' }
 ]
 
-function computeGes(regime: userRegime): GesCategory {
+function computeGes(regime: UserRegime): GesCategory {
   // TODO: utiliser des valeurs cohérentes des ges
   const ges: GesCategory = { items: [], total: 0 }
   // Discount bio/local

@@ -119,7 +119,7 @@ export default Vue.extend({
       this.user_consommation = JSON.parse(
         JSON.stringify(this.consommation as UserForm)
       ) as UserForm
-      let form = this.$refs.form as Vue & { resetValidation: () => void }
+      const form = this.$refs.form as Vue & { resetValidation: () => void }
       form.resetValidation()
     }
   }

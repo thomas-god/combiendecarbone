@@ -94,12 +94,12 @@ export default class MyComponent extends chartProps {
   renderChart!: (chartData: ChartData, options: ChartOptions) => void
   updateChart(): void {
     if (this.category) {
-      let cat_colors = getOrderedColors(
+      const cat_colors = getOrderedColors(
         colors[this.categories_colors[this.category] as keyof Colors] as Color,
         Object.keys(this.input_data).length
       )
 
-      let data_fmt = { ...data_template }
+      const data_fmt = { ...data_template }
       data_fmt.labels = this.input_data.map(item => item.name)
       data_fmt.datasets[0].data = []
       data_fmt.datasets[0].backgroundColor = []
@@ -121,7 +121,7 @@ export default class MyComponent extends chartProps {
 
   clickCallback(evt: any): void {
     if (this.$data._chart.getElementsAtEvent(evt)[0]) {
-      let ges_item = this.labels_ges_correspondance[
+      const ges_item = this.labels_ges_correspondance[
         this.$data._chart.getElementsAtEvent(evt)[0]._model.label
       ]
       this.$emit('ecogeste-selected', ges_item)
@@ -148,10 +148,10 @@ function drawLabel(tooltipItem: ChartTooltipItem, data: ChartData): string {
       data.datasets[tooltipItem.datasetIndex].data != null &&
       tooltipItem.index != null
     ) {
-      let val = (data.datasets[tooltipItem.datasetIndex].data as number[])[
+      const val = (data.datasets[tooltipItem.datasetIndex].data as number[])[
         tooltipItem.index
       ]
-      let tot = (data.datasets[tooltipItem.datasetIndex]
+      const tot = (data.datasets[tooltipItem.datasetIndex]
         .data as number[]).reduce((a, b) => a + b)
       label += val.toFixed(2)
       label += ' kg eq.CO2 ('
@@ -178,7 +178,7 @@ function getOrderedColors(color: Color, n: number): string[] {
     color.darken4,
     color.lighten5
   ]
-  let colors = []
+  const colors = []
 
   for (let i = 0; i < n; i++) {
     colors.push(base[i % base.length])

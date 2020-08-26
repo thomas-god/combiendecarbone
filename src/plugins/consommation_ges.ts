@@ -12,7 +12,7 @@ export enum Categories {
   'Électroménager'
 }
 
-export interface store {
+export interface Store {
   consommation: Record<string, ConsommationItem[]>
   ges: GesCategory
 }

@@ -48,7 +48,7 @@ export default Vue.extend({
   methods: {
     async resetForm() {
       await this.$nextTick()
-      let form = this.$refs.form_alim as Vue & { resetRegime: () => void }
+      const form = this.$refs.form_alim as Vue & { resetRegime: () => void }
       form.resetRegime()
     }
   }

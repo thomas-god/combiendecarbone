@@ -95,7 +95,7 @@ export default class MyComponent extends chartProps {
     }
     if (this.data_chart.labels) {
       this.data_chart.labels = this.data_chart.labels.map((label, idx) => {
-        let new_label = wordWrap(label as string, 20)
+        const new_label = wordWrap(label as string, 20)
         this.labels_ges_correspondance[new_label.join(' ')] = this.input_data[
           idx
         ]
@@ -107,8 +107,8 @@ export default class MyComponent extends chartProps {
 
   clickCallback(evt: any): void {
     if (this.$data._chart.getElementsAtEvent(evt)[0]) {
-      let label = this.$data._chart.getElementsAtEvent(evt)[0]._model.label
-      let ges_item = this.labels_ges_correspondance[label.join(' ')]
+      const label = this.$data._chart.getElementsAtEvent(evt)[0]._model.label
+      const ges_item = this.labels_ges_correspondance[label.join(' ')]
       this.$emit('ecogeste-selected', ges_item)
     }
   }
@@ -144,7 +144,7 @@ function drawLabel(tooltipItem: ChartTooltipItem, data: ChartData): string {
 }
 
 function wordWrap(str: string, maxWidth: number) {
-  let res = []
+  const res = []
   while (str.length > maxWidth) {
     // Inserts new line at first whitespace of the line
     for (let i = maxWidth - 1; i >= 0; i--) {
@@ -160,7 +160,7 @@ function wordWrap(str: string, maxWidth: number) {
 }
 
 function testWhite(x: string) {
-  var white = new RegExp(/^\s$/)
+  const white = new RegExp(/^\s$/)
   return white.test(x.charAt(0))
 }
 </script>
