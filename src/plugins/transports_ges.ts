@@ -30,6 +30,7 @@ export interface Travel {
   distance?: number
   distances?: Distance[]
   ges?: number
+  ecogeste?: string
 }
 
 export interface Distance {
@@ -99,7 +100,13 @@ function computeGes(travel: Travel): Travel {
   ges *= travel.mode === 'Voiture' ? travel.passengers : 1
   ges *= travel.type === 'Régulier' ? 44 : 1
   travel.ges = ges
+  travel.ecogeste = chooseEcogeste(travel)
   return travel
+}
+
+function chooseEcogeste(travel: Travel): string {
+  let ecogeste = ''
+  return ecogeste
 }
 
 export { computeGes }

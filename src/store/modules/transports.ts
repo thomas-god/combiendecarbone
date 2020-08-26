@@ -49,7 +49,11 @@ export default {
     getGes(state: Transports.store): Transports.GesCategory {
       const ges: Transports.GesCategory = { total: 0, items: [] }
       ges.items = state.travels.map(travel => {
-        return { name: travel.name, ges: travel.ges ? travel.ges : 0 }
+        return {
+          name: travel.name,
+          ges: travel.ges ? travel.ges : 0,
+          ecogeste: travel.ecogeste
+        }
       })
       ges.total = ges.items.reduce((s, c) => s + c.ges, 0)
       return ges
