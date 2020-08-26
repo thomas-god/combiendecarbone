@@ -79,7 +79,7 @@
       </v-card-subtitle>
       <div class="chartAreaWrapper">
         <chart-bar
-          :style="{ width: chart_scroll }"
+          :style="{ width: bar_chart_scroll }"
           :input_data="top_ges"
           v-show="ges_total > 0"
           @ecogeste-selected="ecogesteCallback"
@@ -125,10 +125,10 @@ export default Vue.extend({
       ges_total: 'ges/gesTotal',
       top_ges: 'ges/topGes'
     }),
-    chart_scroll(): string {
+    bar_chart_scroll(): string {
       let res = ''
-      if (this.top_ges.labels) {
-        res = `${110 * this.top_ges.labels.length}px`
+      if (this.top_ges) {
+        res = `${110 * this.top_ges.length}px`
       }
       return res
     }
