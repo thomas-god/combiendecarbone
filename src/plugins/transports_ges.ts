@@ -106,6 +106,9 @@ function computeGes(travel: Travel): Travel {
 
 function chooseEcogeste(travel: Travel): string {
   let ecogeste = ''
+  if (travel.mode === 'Voiture' && travel.type === 'Régulier') {
+    ecogeste = 'EcogesteVoitureTravail'
+  }
   return ecogeste
 }
 
