@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { alimentation } from '@/plugins/alimentation_ges'
 import * as Alimentation from '@/plugins/alimentation_ges'
 
-const store: Alimentation.store = {
+const store: Alimentation.Store = {
   freq: alimentation.freq,
   regimes: alimentation.regimes,
   regime: {
@@ -21,29 +21,29 @@ export default {
   namespaced: true,
   state: store,
   getters: {
-    getFreq(state: Alimentation.store): Alimentation.weekFreq[] {
+    getFreq(state: Alimentation.Store): Alimentation.weekFreq[] {
       return state.freq
     },
-    getItems(state: Alimentation.store): Alimentation.regimeItem[] {
+    getItems(state: Alimentation.Store): Alimentation.RegimeItem[] {
       return state.regimes
     },
-    getRegime(state: Alimentation.store): Alimentation.userRegime {
+    getRegime(state: Alimentation.Store): Alimentation.UserRegime {
       return state.regime
     }
   },
   mutations: {
     setRegime(
-      state: Alimentation.store,
-      new_regime: Alimentation.userRegime
+      state: Alimentation.Store,
+      new_regime: Alimentation.UserRegime
     ): void {
       Vue.set(state, 'regime', new_regime)
     },
-    updateGes(state: Alimentation.store): void {
+    updateGes(state: Alimentation.Store): void {
       Vue.set(state, 'ges', alimentation.computeGes(state.regime))
     }
   },
   actions: {
-    setRegime(context: any, new_regime: Alimentation.userRegime): void {
+    setRegime(context: any, new_regime: Alimentation.UserRegime): void {
       context.commit('setRegime', new_regime)
       context.commit('updateGes')
     }

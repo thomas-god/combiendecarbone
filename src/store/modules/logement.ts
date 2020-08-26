@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { computeGes } from '../../plugins/logement_ges'
 import * as Logement from '@/plugins/logement_ges'
 
-const store: Logement.store = {
+const store: Logement.Store = {
   consommation: {
     type: '',
     form: {
@@ -25,7 +25,7 @@ export default {
   namespaced: true,
   state: store,
   getters: {
-    getConsommation(state: Logement.store): Logement.UserForm {
+    getConsommation(state: Logement.Store): Logement.UserForm {
       return state.consommation
     },
     getEquipements(): string[] {
@@ -40,15 +40,15 @@ export default {
   },
   mutations: {
     updateConsommation(
-      state: Logement.store,
+      state: Logement.Store,
       new_conso: Logement.UserForm
     ): void {
       Vue.set(state, 'consommation', new_conso)
     },
-    resetConsommation(state: Logement.store): void {
+    resetConsommation(state: Logement.Store): void {
       Vue.set(state, 'consommation', {})
     },
-    updateGes(state: Logement.store): void {
+    updateGes(state: Logement.Store): void {
       const ges = computeGes(state.consommation)
       Vue.set(state, 'ges', ges)
     }

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { consommation, computeGes } from '../../plugins/consommation_ges'
 import * as Consommation from '@/plugins/consommation_ges'
 
-const state: Consommation.store = {
+const state: Consommation.Store = {
   consommation: {
     Vêtements: consommation.vetements,
     'High-tech': consommation.high_tech,
@@ -18,7 +18,7 @@ export default {
   namespaced: true,
   state: state,
   getters: {
-    getConsoByCategory(state: Consommation.store) {
+    getConsoByCategory(state: Consommation.Store) {
       return (cat: string): Consommation.ConsommationItem[] => {
         return state.consommation[cat]
       }
@@ -26,7 +26,7 @@ export default {
   },
   mutations: {
     updateConso(
-      state: Consommation.store,
+      state: Consommation.Store,
       {
         category,
         update
@@ -34,7 +34,7 @@ export default {
     ): void {
       Vue.set(state.consommation, category, update)
     },
-    updateGes(state: Consommation.store): void {
+    updateGes(state: Consommation.Store): void {
       Vue.set(state, 'ges', computeGes(state.consommation))
     }
   },

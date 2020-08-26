@@ -60,7 +60,7 @@ export const IsolationKeys: Array<keyof typeof Isolation> = [
   ''
 ]
 
-export interface store {
+export interface Store {
   consommation: UserForm
   ges: GesCategory
 }

@@ -94,7 +94,7 @@ export default Vue.extend({
   },
   methods: {
     checkInput(event: { target: { value: number } }): void {
-      let new_value = event.target.value
+      const new_value = event.target.value
       this.$nextTick().then(() => {
         if (
           (this.$refs.input as Vue & { errorBucket: [] }).errorBucket.length ===
@@ -105,7 +105,7 @@ export default Vue.extend({
       })
     },
     updateValue(n: number): void {
-      let new_value = (this.value as number) + n
+      const new_value = (this.value as number) + n
       if (new_value >= this.min && new_value <= this.max) {
         this.localValue = new_value
       }

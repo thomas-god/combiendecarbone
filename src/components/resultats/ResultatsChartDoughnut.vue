@@ -89,7 +89,7 @@ export default class MyComponent extends chartProps {
   renderChart!: (chartData: ChartData, options: ChartOptions) => void
 
   updateChart(): void {
-    let data_fmt = { ...data_template }
+    const data_fmt = { ...data_template }
     data_fmt.labels = Object.keys(this.input_data)
     data_fmt.datasets[0].data = []
 
@@ -134,10 +134,10 @@ function drawLabel(tooltipItem: ChartTooltipItem, data: ChartData): string {
       data.datasets[tooltipItem.datasetIndex].data != null &&
       tooltipItem.index != null
     ) {
-      let val = (data.datasets[tooltipItem.datasetIndex].data as number[])[
+      const val = (data.datasets[tooltipItem.datasetIndex].data as number[])[
         tooltipItem.index
       ]
-      let tot = (data.datasets[tooltipItem.datasetIndex]
+      const tot = (data.datasets[tooltipItem.datasetIndex]
         .data as number[]).reduce((a, b) => a + b)
       label += val.toFixed(2)
       label += ' kg eq.CO2 ('

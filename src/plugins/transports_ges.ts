@@ -52,7 +52,7 @@ export interface Mode {
   icon: string
 }
 
-export interface store {
+export interface Store {
   current_id: number
   ges: GesCategory
   travels: Travel[]

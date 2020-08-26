@@ -147,7 +147,7 @@ export default Vue.extend({
     ecogesteCallback(item: GesItem) {
       // TODO: Specify the ges item clicked by the user
       // TODO: either by passing it to the Ecogeste component or via the store
-      let ecogeste = this.$refs.écogeste as Vue & {
+      const ecogeste = this.$refs.écogeste as Vue & {
         openEcogeste: (ges_item_name: GesItem) => void
       }
       ecogeste.openEcogeste(item)

@@ -6,18 +6,18 @@ import {
   mdiCart
 } from '@mdi/js'
 
-export interface category {
+export interface Category {
   id: number
   name: string
   icon: string
   color: string
 }
 
-export interface store {
-  categories: category[]
+export interface Store {
+  categories: Category[]
 }
 
-const store: store = {
+const store: Store = {
   categories: [
     { id: 1, name: 'Transports', icon: mdiAirplane, color: 'red' },
     { id: 2, name: 'Logement', icon: mdiHomeCity, color: 'blue' },
@@ -31,20 +31,20 @@ export default {
   namespaced: true,
   state: store,
   getters: {
-    getCategories(state: store): category[] {
+    getCategories(state: Store): Category[] {
       return state.categories
     },
-    getCategoriesNames(state: store): string[] {
+    getCategoriesNames(state: Store): string[] {
       return state.categories.map(mode => mode.name)
     },
-    getCategoriesIcons(state: store): string[] {
+    getCategoriesIcons(state: Store): string[] {
       return state.categories.map(mode => mode.icon)
     },
-    getIconByMode: (state: store) => (modeName: string) => {
+    getIconByMode: (state: Store) => (modeName: string) => {
       const mode = state.categories.find(mode => mode.name === modeName)
       return mode ? mode.icon : ''
     },
-    getCategoriesColors(state: store): Record<string, string> {
+    getCategoriesColors(state: Store): Record<string, string> {
       const colors: Record<string, string> = {}
       state.categories.forEach(cat => {
         colors[cat.name] = cat.color

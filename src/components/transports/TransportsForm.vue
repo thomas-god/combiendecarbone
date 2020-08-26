@@ -111,7 +111,7 @@ export default Vue.extend({
   mounted() {
     const input_dep = document.getElementById('departure') as HTMLInputElement
     // eslint-disable-next-line no-undef
-    var departure = new google.maps.places.Autocomplete(input_dep)
+    const departure = new google.maps.places.Autocomplete(input_dep)
     departure.setFields(['formatted_address', 'name', 'geometry'])
     // eslint-disable-next-line no-undef
     departure.addListener('place_changed', () => {
@@ -128,7 +128,7 @@ export default Vue.extend({
 
     const input_arr = document.getElementById('arrival') as HTMLInputElement
     // eslint-disable-next-line no-undef
-    var arrival = new google.maps.places.Autocomplete(input_arr)
+    const arrival = new google.maps.places.Autocomplete(input_arr)
     arrival.setFields(['formatted_address', 'name', 'geometry'])
     // eslint-disable-next-line no-undef
     google.maps.event.addListener(arrival, 'place_changed', () => {
@@ -198,7 +198,7 @@ export default Vue.extend({
     resetForm() {
       // Reset form validation
       if (this.travel_id === -2) {
-        let form = this.$refs.form as Vue & { resetValidation: () => void }
+        const form = this.$refs.form as Vue & { resetValidation: () => void }
         form.resetValidation()
       }
 
