@@ -22,6 +22,8 @@ export interface Travel {
     | google.maps.VehicleType
     | 'Voiture'
     | 'Avion'
+    | 'Métro/Bus'
+    | 'TGV'
     | ''
   ar: boolean
   freq: number
@@ -40,6 +42,8 @@ export interface Distance {
     | google.maps.VehicleType
     | 'Voiture'
     | 'Avion'
+    | 'Métro/Bus'
+    | 'TGV'
     | ''
 }
 
@@ -108,6 +112,9 @@ function chooseEcogeste(travel: Travel): string {
   let ecogeste = ''
   if (travel.mode === 'Voiture' && travel.type === 'Régulier') {
     ecogeste = 'EcogesteVoitureTravail'
+  }
+  if (travel.mode === 'Métro/Bus' && travel.type === 'Régulier') {
+    ecogeste = 'EcogesteTCTravail'
   }
   return ecogeste
 }
