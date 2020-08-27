@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/5b6c70cb-dbbb-4a9f-b537-d2eb16a7a7ea/deploy-status)](https://app.netlify.com/sites/jovial-allen-d47faf/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5b6c70cb-dbbb-4a9f-b537-d2eb16a7a7ea/deploy-status)](https://app.netlify.com/sites/jovial-allen-d47faf/deploys) ![combiendecarbone.fr CI](https://github.com/thomas-god/combiendecarbone/workflows/combiendecarbone.fr%20CI/badge.svg)
 
 # combiendecarbone.fr
 
