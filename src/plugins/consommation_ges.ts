@@ -1,4 +1,4 @@
-import { GesCategory } from '@/store/modules/ges'
+import { GesCategory, Ecogeste } from '@/store/modules/ges'
 
 export interface ConsommationItem {
   name: string
@@ -76,7 +76,8 @@ function computeGes(
         'Vêtements',
         consommation['Vêtements'],
         vetements_ges
-      )
+      ),
+      ecogeste: chooseEcogeste()
     },
     {
       name: 'High-tech',
@@ -84,7 +85,8 @@ function computeGes(
         'High-tech',
         consommation['High-tech'],
         high_tech_ges
-      )
+      ),
+      ecogeste: chooseEcogeste()
     },
     {
       name: 'Électroménager',
@@ -92,13 +94,18 @@ function computeGes(
         'Électroménager',
         consommation['Électroménager'],
         electromenager_ges
-      )
+      ),
+      ecogeste: chooseEcogeste()
     }
   ]
 
   ges.total = ges.items.reduce((s, c) => s + c.ges, 0)
 
   return ges
+}
+
+function chooseEcogeste(): Ecogeste {
+  return { name: 'EcogesteConsommation' }
 }
 
 const consommation: Record<string, ConsommationItem[]> = {
