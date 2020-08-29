@@ -1,4 +1,4 @@
-import { GesCategory } from '@/store/modules/ges'
+import { GesCategory, Ecogeste } from '@/store/modules/ges'
 
 export interface LogementFactures {
   gaz: number
@@ -63,6 +63,7 @@ export const IsolationKeys: Array<keyof typeof Isolation> = [
 export interface Store {
   consommation: UserForm
   ges: GesCategory
+  ecogeste?: Ecogeste
 }
 
 const ges_values: LogementFactures = {
@@ -79,11 +80,13 @@ function computeGesFactures(factures: LogementFactures): GesCategory {
   const ges: GesCategory = { items: [], total: 0 }
   ges.items.push({
     name: 'Électricité',
-    ges: num(factures.elec) * ges_values.elec
+    ges: num(factures.elec) * ges_values.elec,
+    ecogeste: chooseEcogeste()
   })
   ges.items.push({
     name: 'Gaz',
-    ges: num(factures.gaz) * ges_values.gaz
+    ges: num(factures.gaz) * ges_values.gaz,
+    ecogeste: chooseEcogeste()
   })
   ges.total = ges.items.reduce((s, c) => s + c.ges, 0)
   return ges
@@ -107,8 +110,8 @@ function computeGesForm(form: LogementForm): GesCategory {
   }
 
   // Total
-  ges.items.push({ name: 'Électricité', ges: elec })
-  ges.items.push({ name: 'Gaz', ges: gaz })
+  ges.items.push({ name: 'Électricité', ges: elec, ecogeste: chooseEcogeste() })
+  ges.items.push({ name: 'Gaz', ges: gaz, ecogeste: chooseEcogeste() })
   ges.total = ges.items.reduce((s, c) => s + c.ges, 0)
   return ges
 }
@@ -121,6 +124,10 @@ function computeGes(consommation: UserForm): GesCategory {
     ges = computeGesForm(consommation.form)
   }
   return ges
+}
+
+function chooseEcogeste(): Ecogeste {
+  return { name: 'EcogesteLogement' }
 }
 
 export { computeGes }
