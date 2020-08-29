@@ -1,5 +1,9 @@
 <template>
-  <component :is="ecogeste_component" v-model="display" />
+  <component
+    :is="ecogeste_component"
+    v-model="display"
+    :props="ecogeste_component_props"
+  />
 </template>
 
 <script lang="ts">
@@ -10,6 +14,7 @@ export default Vue.extend({
   data() {
     return {
       ecogeste_component: () => import('./EcogesteSuggestion.vue') as any,
+      ecogeste_component_props: {} as any,
       display: false
     }
   },
@@ -19,9 +24,13 @@ export default Vue.extend({
       this.display = true
     },
     loadEcogesteComponent(ges_item: GesItem) {
-      if (ges_item.ecogeste) {
-        return () => import(`./${ges_item.ecogeste}.vue`)
+      if (ges_item.ecogeste?.name) {
+        this.ecogeste_component_props = ges_item.ecogeste?.props
+          ? ges_item.ecogeste.props
+          : {}
+        return () => import(`./${ges_item.ecogeste?.name}.vue`)
       } else {
+        this.ecogeste_component_props = {}
         return () => import('./EcogesteSuggestion.vue')
       }
     }

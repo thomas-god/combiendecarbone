@@ -1,4 +1,4 @@
-import { GesCategory } from '@/store/modules/ges'
+import { GesCategory, Ecogeste } from '@/store/modules/ges'
 
 export interface Place {
   lat: number
@@ -32,7 +32,7 @@ export interface Travel {
   distance?: number
   distances?: Distance[]
   ges?: number
-  ecogeste?: string
+  ecogeste?: Ecogeste
 }
 
 export interface Distance {
@@ -108,13 +108,13 @@ function computeGes(travel: Travel): Travel {
   return travel
 }
 
-function chooseEcogeste(travel: Travel): string {
-  let ecogeste = ''
+function chooseEcogeste(travel: Travel): Ecogeste {
+  const ecogeste: Ecogeste = { name: '' }
   if (travel.mode === 'Voiture' && travel.type === 'Régulier') {
-    ecogeste = 'EcogesteVoitureTravail'
+    ecogeste.name = 'EcogesteVoitureTravail'
   }
   if (travel.mode === 'Métro/Bus' && travel.type === 'Régulier') {
-    ecogeste = 'EcogesteTCTravail'
+    ecogeste.name = 'EcogesteTCTravail'
   }
   return ecogeste
 }
