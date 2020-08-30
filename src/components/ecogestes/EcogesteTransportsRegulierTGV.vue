@@ -19,7 +19,7 @@
         >. Et peut-être que certains de vos rendez-vous ne nécessitent pas
         toujours un déplacement et peuvent se faire en téléconférence !
       </v-card-text>
-      `
+
       <v-card-text class="text-body-1 text-left">
         🍃 Enfin n'oubliez pas
         <span class="font-weight-bold"
