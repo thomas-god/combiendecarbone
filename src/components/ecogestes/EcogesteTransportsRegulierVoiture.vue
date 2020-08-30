@@ -13,7 +13,13 @@
 
       <v-card-text class="text-body-1 text-left">
         🍃 Adopter les gestes
-        <span class="font-weight-bold">d'écoconduite</span>
+        <span class="font-weight-bold"
+          >d'<a
+            target="_blank"
+            href="https://particuliers.ademe.fr/au-bureau/deplacements/les-bons-plans-pour-moins-consommer-de-carburant"
+            >écoconduite</a
+          ></span
+        >
         : vitesse modérée, conduite souple, et anticipation du freinage vous
         permettent de consommer moins de carburant et donc d'émettre moins de
         polluants.

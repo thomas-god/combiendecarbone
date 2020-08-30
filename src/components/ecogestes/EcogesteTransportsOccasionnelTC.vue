@@ -13,7 +13,15 @@
       <v-card-text class="text-body-1 text-left">
         🍃 Et si jamais vous deviez prendre votre voiture à la place, ayez les
         réflexes
-        <span class="font-weight-bold">covoiturage et écoconduite</span> !
+        <span class="font-weight-bold"
+          >covoiturage et
+          <a
+            target="_blank"
+            href="https://particuliers.ademe.fr/au-bureau/deplacements/les-bons-plans-pour-moins-consommer-de-carburant"
+            >écoconduite</a
+          ></span
+        >
+        !
       </v-card-text>
     </template>
   </ecogeste-popup>
