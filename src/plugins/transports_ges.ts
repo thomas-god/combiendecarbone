@@ -110,12 +110,23 @@ function computeGes(travel: Travel): Travel {
 
 function chooseEcogeste(travel: Travel): Ecogeste {
   const ecogeste: Ecogeste = { name: '' }
-  if (travel.mode === 'Voiture' && travel.type === 'Régulier') {
-    ecogeste.name = 'EcogesteVoitureTravail'
+
+  if (travel.type === 'Régulier') {
+    if (travel.mode === 'Voiture') {
+      ecogeste.name = 'EcogesteTransportsRegulierVoiture'
+    }
+    if (travel.mode === 'Métro/Bus') {
+      ecogeste.name = 'EcogesteTransportsRegulierTC'
+    }
+    if (travel.mode === 'Avion') {
+      ecogeste.name = 'EcogesteTransportsRegulierAvion'
+    }
+    if (travel.mode === 'TGV') {
+      ecogeste.name = 'EcogesteTransportsRegulierTGV'
+    }
+  } else if (travel.type === 'Occasionnel') {
   }
-  if (travel.mode === 'Métro/Bus' && travel.type === 'Régulier') {
-    ecogeste.name = 'EcogesteTCTravail'
-  }
+
   return ecogeste
 }
 
