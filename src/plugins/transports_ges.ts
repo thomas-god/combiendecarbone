@@ -125,6 +125,18 @@ function chooseEcogeste(travel: Travel): Ecogeste {
       ecogeste.name = 'EcogesteTransportsRegulierTGV'
     }
   } else if (travel.type === 'Occasionnel') {
+    if (travel.mode === 'Voiture') {
+      ecogeste.name = 'EcogesteTransportsOccasionnelVoiture'
+    }
+    if (travel.mode === 'Métro/Bus') {
+      ecogeste.name = 'EcogesteTransportsOccasionnelTC'
+    }
+    if (travel.mode === 'Avion') {
+      ecogeste.name = 'EcogesteTransportsOccasionnelAvion'
+    }
+    if (travel.mode === 'TGV') {
+      ecogeste.name = 'EcogesteTransportsOccasionnelTGV'
+    }
   }
 
   return ecogeste
