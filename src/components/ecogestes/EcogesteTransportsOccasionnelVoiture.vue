@@ -1,14 +1,14 @@
 <template>
   <ecogeste-popup v-model="popup">
     <template v-slot:title>
-      Vos trajets réguliers en voiture 🚘
+      Vos trajets occasionnels en voiture 🚘
     </template>
 
     <template v-slot:text>
       <v-card-text class="text-body-1 text-left">
         Comme de nombre d'autres Français·es vous utilisez votre voiture pour
-        vos trajets quotidiens. Plusieurs options s'offrent à vous pour réduire
-        ces émissions:
+        vos trajets occasionnels (week-ends, vacances). Plusieurs options
+        s'offrent à vous pour réduire ces émissions:
       </v-card-text>
 
       <v-card-text class="text-body-1 text-left">
@@ -21,18 +21,13 @@
 
       <v-card-text class="text-body-1 text-left">
         🍃 Privilégier si possible
-        <span class="font-weight-bold"
-          >le covoiturage et/ou le télétravail</span
-        >
+        <span class="font-weight-bold">le covoiturage</span>
         pour éviter d'être seul·e dans votre voiture.
       </v-card-text>
 
       <v-card-text class="text-body-1 text-left">
-        🍃 Adopter
-        <span class="font-weight-bold"
-          >les transports en commun ou le vélo</span
-        >
-        si votre ville propose des infrastructures adaptées.
+        🍃 Essayer de voir si vous pouvez utiliser
+        <span class="font-weight-bold">le train ou le bus</span>.
       </v-card-text>
 
       <v-card-text class="text-body-1 text-left">
