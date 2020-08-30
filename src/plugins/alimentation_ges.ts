@@ -84,7 +84,6 @@ function chooseEcogeste(regime: UserRegime): Ecogeste {
     bio: freq[regime.bio],
     local: freq[regime.local]
   }
-  console.log(freqs)
   let palier = -1
   if (freqs.rouge >= 2) {
     // Palier de base (défaut)
