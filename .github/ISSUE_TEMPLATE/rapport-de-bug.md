@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Description du ug**
+**Description du bug**
 Une description claire et concise du bug rencontré.
 
 **Étapes pour reproduire le bug**
