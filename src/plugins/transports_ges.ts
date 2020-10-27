@@ -101,7 +101,7 @@ function computeGes(travel: Travel): Travel {
   }
   ges *= travel.ar ? 2 : 1
   ges *= travel.freq
-  ges /= travel.mode === 'Voiture' ? travel.passengers : 1
+  ges *= travel.mode === 'Voiture' ? 1 / travel.passengers : 1
   ges *= travel.type === 'Régulier' ? 44 : 1
   travel.ges = ges
   travel.ecogeste = chooseEcogeste(travel)
