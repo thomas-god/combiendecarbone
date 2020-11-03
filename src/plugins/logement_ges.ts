@@ -18,11 +18,11 @@ export interface UserForm {
 }
 // Part des items électroménagers d'un foyer certifiés basse consommation
 export enum Equipements {
-  // Source: Bilan RTE 2016, en MWh
-  Aucun = 3.4,
-  'Quelques-uns' = 1.3 + (3.4 - 1.3) * 0.75,
-  'La plupart' = 1.3 + (3.4 - 1.3) * 0.25,
-  Tous = 1.3,
+  // Source: Bilan RTE 2016, en kWh
+  Aucun = 3400,
+  'Quelques-uns' = 1300 + (3400 - 1300) * 0.75,
+  'La plupart' = 1300 + (3400 - 1300) * 0.25,
+  Tous = 1300,
   '' = 0
 }
 
@@ -35,9 +35,9 @@ export const EquipementsKeys: Array<keyof typeof Equipements> = [
 ]
 
 export enum Chauffage {
-  // Source: Bilan RTE 2016
-  Électrique = 0.052 * 30, // kWhe/m^2 * m^2
-  'Au gaz' = 4.3, // https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
+  // Consommations annuelles du chauffage en kWh pour un logement type (env. 30m2)
+  Électrique = 52 * 30, // kWhe/m^2 * m^2 (Bilan RTE 2016)
+  'Au gaz' = 4300, // https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
   '' = 0
 }
 
@@ -67,9 +67,9 @@ export interface Store {
 }
 
 const ges_values: LogementFactures = {
-  // kg CO2 eq./MWh
-  gaz: 234,
-  elec: 49.02
+  // kg CO2 eq./kWh
+  gaz: 0.234,
+  elec: 0.049
 }
 
 function num(value: number): number {

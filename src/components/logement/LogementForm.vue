@@ -19,7 +19,7 @@
         <!-- Factures connues -->
         <div v-if="user_consommation.type === 'factures'">
           <v-text-field
-            label="Facture d'éléctricité (MWh)"
+            label="Facture d'éléctricité (kWh)"
             v-model="user_consommation.factures.elec"
             type="number"
             min="0"
@@ -27,7 +27,7 @@
             :rules="rulesNum"
           ></v-text-field>
           <v-text-field
-            label="Facture de gaz (MWh)"
+            label="Facture de gaz (kWh)"
             v-model="user_consommation.factures.gaz"
             type="number"
             min="0"

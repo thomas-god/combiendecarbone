@@ -9,12 +9,12 @@
         <p>
           Électricité:
           {{ factures.elec === '' ? 0 : factures.elec }}
-          MWh
+          kWh
         </p>
         <p>
           Gaz:
           {{ factures.gaz === '' ? 0 : factures.gaz }}
-          MWh
+          kWh
         </p>
       </v-card-text>
     </div>
