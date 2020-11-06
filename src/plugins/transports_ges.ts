@@ -1,4 +1,4 @@
-import { GesCategory, Ecogeste } from '@/store/modules/ges'
+import { GESCategory, Ecogeste } from '@/store/modules/ges'
 
 export interface Place {
   lat: number
@@ -10,7 +10,7 @@ export interface PlaceForm extends Place {
   placeholder: string
 }
 
-export { GesCategory }
+export { GESCategory }
 
 export interface Travel {
   id: number
@@ -54,7 +54,7 @@ export interface Mode {
 
 export interface Store {
   current_id: number
-  ges: GesCategory
+  ges: GESCategory
   travels: Travel[]
   modes: Mode[]
 }

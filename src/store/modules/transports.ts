@@ -8,7 +8,6 @@ import Vue from 'vue'
 const modes = [
   { name: 'Voiture', icon: mdiCar },
   { name: 'Métro/Bus', icon: mdiBusMultiple },
-  //{ name: 'Vélo', icon: mdiBike },
   { name: 'TGV', icon: mdiTrain },
   { name: 'Avion', icon: mdiAirplane }
 ]
@@ -46,16 +45,17 @@ export default {
     getTravelsOccasionnels: (state: Transports.Store) => {
       return state.travels.filter(travel => travel.type === 'Occasionnel')
     },
-    getGes(state: Transports.Store): Transports.GesCategory {
-      const ges: Transports.GesCategory = { total: 0, items: [] }
+    getGes(state: Transports.Store): Transports.GESCategory {
+      const ges: Transports.GESCategory = { total: 0, items: [] }
       ges.items = state.travels.map(travel => {
         return {
-          name: travel.name,
-          ges: travel.ges ? travel.ges : 0,
+          category: 'Transports',
+          label: travel.name,
+          value: travel.ges ? travel.ges : 0,
           ecogeste: travel.ecogeste
         }
       })
-      ges.total = ges.items.reduce((s, c) => s + c.ges, 0)
+      ges.total = ges.items.reduce((s, c) => s + c.value, 0)
       return ges
     }
   },
