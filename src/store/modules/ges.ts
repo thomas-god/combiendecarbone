@@ -1,8 +1,9 @@
 import { RootState } from '@/store/index'
 
-export interface GesItem {
-  name: string
-  ges: number
+export interface GESItem {
+  label: string
+  value: number
+  category: string
   ecogeste?: Ecogeste
 }
 
@@ -11,9 +12,9 @@ export interface Ecogeste {
   props?: any
 }
 
-export interface GesCategory {
+export interface GESCategory {
+  items: GESItem[]
   total: number
-  items: GesItem[]
 }
 
 interface GesTotalByCat {
