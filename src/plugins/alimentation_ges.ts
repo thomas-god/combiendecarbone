@@ -1,4 +1,4 @@
-import { GesCategory, Ecogeste } from '@/store/modules/ges'
+import { GESCategory, Ecogeste } from '@/store/modules/ges'
 
 export enum WeeklyFrequency {
   Jamais,
@@ -26,7 +26,7 @@ export interface Store {
   freq: weekFreq[]
   regimes: RegimeItem[]
   regime: UserRegime
-  ges: GesCategory
+  ges: GESCategory
 }
 
 const freq: Record<weekFreq, number> = {
@@ -44,10 +44,10 @@ const regimes: RegimeItem[] = [
   { name: 'local', text: 'Produits locaux' }
 ]
 
-function computeGes(regime: UserRegime): GesCategory {
+function computeGes(regime: UserRegime): GESCategory {
   // TODO: utiliser des valeurs cohérentes des ges
   const ecogeste = chooseEcogeste(regime)
-  const ges: GesCategory = { items: [], total: 0 }
+  const ges: GESCategory = { items: [], total: 0 }
   // Discount bio/local
   const discount: number =
     (1 - (0.0 * freq[regime['bio']]) / 14) *
@@ -55,25 +55,28 @@ function computeGes(regime: UserRegime): GesCategory {
 
   // Regime de base sur une semaine (14 repas) * 52 semaines
   ges.items.push({
-    name: 'Alimentaire hors viande',
-    ges: 0.9 * 14 * 52 * discount,
+    category: 'Alimentation',
+    label: 'Alimentaire hors viande',
+    value: 0.9 * 14 * 52 * discount,
     ecogeste: ecogeste
   })
 
   // Contributions viande
   ges.items.push({
-    name: 'Viande rouge',
-    ges: (6 - 0.9) * freq[regime['viande_rouge']] * 52 * discount,
+    category: 'Alimentation',
+    label: 'Viande rouge',
+    value: (6 - 0.9) * freq[regime['viande_rouge']] * 52 * discount,
     ecogeste: ecogeste
   })
   ges.items.push({
-    name: 'Viande blanche',
-    ges: (1.9 - 0.9) * freq[regime['viande_blanche']] * 52 * discount,
+    category: 'Alimentation',
+    label: 'Viande blanche',
+    value: (1.9 - 0.9) * freq[regime['viande_blanche']] * 52 * discount,
     ecogeste: ecogeste
   })
 
   // Émissions annuelles en kg
-  ges.total = ges.items.reduce((s, c) => s + c.ges, 0)
+  ges.total = ges.items.reduce((s, c) => s + c.value, 0)
   return ges
 }
 
