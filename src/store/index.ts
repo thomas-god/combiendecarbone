@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex, { StoreOptions } from 'vuex'
 import transports from '@/store/modules/transports'
-import categories from '@/store/modules/categories'
+import { categories, CategoryState } from '@/store/modules/categories'
 import { logement, LogementState } from '@/store/modules/logement'
 import { alimentation, AlimentationState } from '@/store/modules/alimentation'
 import consommation from '@/store/modules/consommation'
@@ -9,7 +9,6 @@ import { ges, GESState } from '@/store/modules/ges'
 
 import { Store as storeTransports } from '@/plugins/transports_ges'
 import { Store as storeConsommation } from '@/plugins/consommation_ges'
-import { Store as storeCategories } from '@/store/modules/categories'
 
 Vue.use(Vuex)
 
@@ -18,7 +17,7 @@ export interface RootState {
   transports: storeTransports
   logement: LogementState
   consommation: storeConsommation
-  categories: storeCategories
+  categories: CategoryState
   ges: GESState
 }
 
