@@ -6,6 +6,7 @@ import { logement, LogementState } from '@/store/modules/logement'
 import { alimentation, AlimentationState } from '@/store/modules/alimentation'
 import { consommation, ConsommationState } from '@/store/modules/consommation'
 import { ges, GESState } from '@/store/modules/ges'
+import { services, ServicesState } from '@/store/modules/services_publics'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,7 @@ export interface RootState {
   logement: LogementState
   consommation: ConsommationState
   categories: CategoryState
+  services: ServicesState
   ges: GESState
 }
 
@@ -25,6 +27,7 @@ const store: StoreOptions<RootState> = {
     logement,
     alimentation,
     consommation,
+    services,
     ges
   }
 }
