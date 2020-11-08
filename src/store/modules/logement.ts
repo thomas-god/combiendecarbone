@@ -1,11 +1,5 @@
 import Vue from 'vue'
-import Vuex, {
-  Module,
-  GetterTree,
-  MutationTree,
-  ActionTree,
-  Commit
-} from 'vuex'
+import { Module, GetterTree, MutationTree, ActionTree } from 'vuex'
 import { RootState } from '@/store/index'
 import * as Logement from '@/plugins/ges_logement'
 export { Store as LogementState } from '@/plugins/ges_logement'

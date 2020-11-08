@@ -1,4 +1,4 @@
-import { GetterTree, MutationTree, ActionTree, Module } from 'vuex'
+import { GetterTree, Module } from 'vuex'
 import { RootState } from '@/store/index'
 
 export interface GESItem {
@@ -10,6 +10,7 @@ export interface GESItem {
 
 export interface Ecogeste {
   name: string
+  /* eslint-disable @typescript-eslint/no-explicit-any*/
   props?: any
 }
 
