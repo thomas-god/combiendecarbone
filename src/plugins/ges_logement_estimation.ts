@@ -48,8 +48,6 @@ const appliances: { label: string; value: number; source: string }[] = [
 ]
 export const appliances_options: string[] = appliances.map(r => r.label)
 
-console.log(appliances)
-
 /**
  * Consommations annuelles du chauffage en kWh pour un logement type (env. 30m2)
  */
