@@ -21,7 +21,7 @@
         <div v-if="current_form.type === 'factures'">
           <v-text-field
             label="Facture d'éléctricité (kWh)"
-            v-model="current_form.inputs.elec_conso_kwh"
+            v-model.number="current_form.inputs.elec_conso_kwh"
             type="number"
             min="0"
             step="0.05"
@@ -29,7 +29,7 @@
           ></v-text-field>
           <v-text-field
             label="Facture de gaz (kWh)"
-            v-model="current_form.inputs.gaz_conso_kwh"
+            v-model.number="current_form.inputs.gaz_conso_kwh"
             type="number"
             min="0"
             step="0.05"
@@ -79,8 +79,15 @@ const logement_module = namespace('logement')
 @Component
 export default class LogementForm extends Vue {
   @Prop({ default: -1 }) form_id!: number
-
+  @logement_module.Getter default_forms!: UserForm[]
   @logement_module.Getter forms!: UserForm[]
+  @logement_module.Getter appliances_options!: string[]
+  @logement_module.Getter heating_options!: string[]
+  @logement_module.Getter isolation_options!: string[]
+
+  /**
+   * Current form.
+   */
   current_form: UserForm = {
     id: -1,
     type: 'factures',
@@ -91,7 +98,6 @@ export default class LogementForm extends Vue {
       gaz_offre_verte: false
     }
   }
-
   @Watch('form_id')
   selectForm(): void {
     const id = this.forms.findIndex(f => f.id === this.form_id)
@@ -119,18 +125,6 @@ export default class LogementForm extends Vue {
   ]
 
   /**
-   * Options for the estimation type form.
-   */
-  @logement_module.Getter appliances_options!: string[]
-  @logement_module.Getter heating_options!: string[]
-  @logement_module.Getter isolation_options!: string[]
-
-  /**
-   * Default forms inputs.
-   */
-  @logement_module.Getter default_forms!: UserForm[]
-
-  /**
    * Form related methods.
    */
   @logement_module.Action updateForm!: (form: UserForm) => void
@@ -140,15 +134,11 @@ export default class LogementForm extends Vue {
       this.$emit('close')
     }
   }
-  /*
   resetForm(): void {
-    this.user_consommation = JSON.parse(
-      JSON.stringify(this.consommation as UserForm)
-    ) as UserForm
+    this.selectForm()
     const form = this.$refs.form as Vue & { resetValidation: () => void }
     form.resetValidation()
   }
-  */
 }
 
 function deepCopy(obj: any): any {
