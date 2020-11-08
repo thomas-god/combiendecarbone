@@ -27,22 +27,22 @@ export const default_form: LogementFormEstimation = {
 const appliances: { label: string; value: number; source: string }[] = [
   {
     label: 'Aucun',
-    value: 1300 + (3400 - 1300) * 1 * ges_values().elec,
+    value: (1300 + (3400 - 1300) * 1) * ges_values().elec,
     source: 'elec'
   },
   {
     label: 'Quelques-uns',
-    value: 1300 + (3400 - 1300) * 0.75 * ges_values().elec,
+    value: (1300 + (3400 - 1300) * 0.75) * ges_values().elec,
     source: 'elec'
   },
   {
     label: 'La plupart',
-    value: 1300 + (3400 - 1300) * 0.25 * ges_values().elec,
+    value: (1300 + (3400 - 1300) * 0.25) * ges_values().elec,
     source: 'elec'
   },
   {
     label: 'Tous',
-    value: 1300 + (3400 - 1300) * 0 * ges_values().elec,
+    value: (1300 + (3400 - 1300) * 0) * ges_values().elec,
     source: 'elec'
   }
 ]
@@ -54,12 +54,12 @@ export const appliances_options: string[] = appliances.map(r => r.label)
 const heating = [
   {
     label: 'Électrique',
-    value: 52 * 30, //* ges_values.elec, // Bilan RTE 2016
+    value: 52 * 30 * ges_values().elec, // Bilan RTE 2016
     source: 'elec'
   },
   {
     label: 'Au gaz',
-    value: 4300, //* ges_values.gaz, //https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
+    value: 4300 * ges_values().gaz, //https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
     source: 'gaz'
   }
 ] as const
@@ -99,7 +99,7 @@ export function computeGes(form: LogementFormEstimation): GESCategoryLogement {
   if (item_appliances)
     ges.items.push({
       category: 'Logement',
-      label: `Équipements`,
+      label: `Équipements (électricité)`,
       value: item_appliances.value,
       metadata: { source: item_appliances.source, usage: 'appliances' },
       ecogeste: default_ecogeste
@@ -108,9 +108,7 @@ export function computeGes(form: LogementFormEstimation): GESCategoryLogement {
   /**
    * Chauffage.
    */
-  const item_heating = heating.find(
-    item => item.label === form.efficient_appliances_ratio
-  )
+  const item_heating = heating.find(item => item.label === form.heating_source)
   const item_isolation = isolation.find(item => item.label === form.isolation)
   if (item_heating)
     ges.items.push({
