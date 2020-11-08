@@ -1,66 +1,85 @@
 import Vue from 'vue'
-import { computeGes } from '../../plugins/logement_ges'
-import * as Logement from '@/plugins/logement_ges'
+import Vuex, {
+  Module,
+  GetterTree,
+  MutationTree,
+  ActionTree,
+  Commit
+} from 'vuex'
+import { RootState } from '../index'
+import { computeGes } from '../../plugins/ges_logement'
+import * as Logement from '@/plugins/ges_logement'
+export { Store as LogementState } from '@/plugins/ges_logement'
 
-const store: Logement.Store = {
-  consommation: {
-    type: '',
-    form: {
-      isolation: '',
-      equipements: '',
-      chauffage: ''
-    },
-    factures: {
-      elec: 0,
-      gaz: 0
-    }
-  },
+/**
+ * State
+ */
+export const state: Logement.Store = {
+  forms: [],
+  current_form_id: -1,
   ges: {
-    total: 0,
-    items: []
+    items: [],
+    total: 0
   }
 }
 
-export default {
-  namespaced: true,
-  state: store,
-  getters: {
-    getConsommation(state: Logement.Store): Logement.UserForm {
-      return state.consommation
-    },
-    getEquipements(): string[] {
-      return Logement.EquipementsKeys
-    },
-    getChauffage(): string[] {
-      return Logement.ChauffageKeys
-    },
-    getIsolation(): string[] {
-      return Logement.IsolationKeys
-    }
+/**
+ * Actions
+ */
+export const actions: ActionTree<Logement.Store, RootState> = {
+  updateConsommation(context, new_conso: Logement.UserForm): void {
+    context.commit('updateConsommation', new_conso)
+    context.commit('updateGes')
   },
-  mutations: {
-    updateConsommation(
-      state: Logement.Store,
-      new_conso: Logement.UserForm
-    ): void {
-      Vue.set(state, 'consommation', new_conso)
-    },
-    resetConsommation(state: Logement.Store): void {
-      Vue.set(state, 'consommation', {})
-    },
-    updateGes(state: Logement.Store): void {
-      const ges = computeGes(state.consommation)
-      Vue.set(state, 'ges', ges)
-    }
-  },
-  actions: {
-    updateConsommation(context: any, new_conso: Logement.UserForm): void {
-      context.commit('updateConsommation', new_conso)
-      context.commit('updateGes')
-    },
-    resetConsommation(context: any): void {
-      context.commit('resetConsommation')
-      context.commit('updateGes')
-    }
+  resetConsommation(context): void {
+    context.commit('resetConsommation')
+    context.commit('updateGes')
   }
+}
+
+/**
+ * Mutations.
+ */
+export const mutations: MutationTree<Logement.Store> = {
+  updateConsommation(state, new_conso: Logement.UserForm): void {
+    Vue.set(state, 'consommation', new_conso)
+  },
+  resetConsommation(state): void {
+    Vue.set(state, 'consommation', {})
+  }
+}
+
+/**
+ * Getters.
+ */
+export const getters: GetterTree<Logement.Store, RootState> = {
+  default_forms(): Omit<Logement.UserForm, 'id'>[] {
+    return [
+      { type: 'factures', inputs: Logement.default_form_factures },
+      { type: 'estimation', inputs: Logement.default_form_estimation }
+    ]
+  },
+  appliances_options(): string[] {
+    return Logement.appliances_options
+  },
+  heating_options(): string[] {
+    return Logement.heating_options
+  },
+  isolation_options(): string[] {
+    return Logement.isolation_options
+  },
+  forms(state) {
+    return state.forms
+  }
+}
+
+/**
+ * Module.
+ */
+export const logement: Module<Logement.Store, RootState> = {
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations
 }
