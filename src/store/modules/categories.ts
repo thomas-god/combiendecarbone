@@ -5,7 +5,8 @@ import {
   mdiHomeCity,
   mdiChartPie,
   mdiFoodForkDrink,
-  mdiCart
+  mdiCart,
+  mdiBank
 } from '@mdi/js'
 
 export interface Category {
@@ -27,7 +28,8 @@ export const state: CategoryState = {
     { id: 2, name: 'Logement', icon: mdiHomeCity, color: 'blue' },
     { id: 3, name: 'Alimentation', icon: mdiFoodForkDrink, color: 'green' },
     { id: 4, name: 'Consommation', icon: mdiCart, color: 'orange' },
-    { id: 5, name: 'Résultats', icon: mdiChartPie, color: '' }
+    { id: 5, name: 'Services', icon: mdiBank, color: 'deepPurple' },
+    { id: 6, name: 'Résultats', icon: mdiChartPie, color: '' }
   ]
 }
 
