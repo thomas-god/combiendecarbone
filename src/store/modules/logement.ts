@@ -32,7 +32,7 @@ export const actions: ActionTree<Logement.Store, RootState> = {
     } else {
       context.commit('ADD_FORM', form)
     }
-    //context.commit('updateGes')
+    context.commit('COMPUTE_GES')
   }
 }
 
@@ -55,6 +55,12 @@ export const mutations: MutationTree<Logement.Store> = {
     if (id > -1) {
       state.forms.splice(id, 1)
     }
+  },
+  COMPUTE_GES(state): void {
+    const ges = Logement.computeGes(state.forms)
+    console.log(ges)
+    Vue.set(state.ges, 'items', ges.items)
+    Vue.set(state.ges, 'total', ges.total)
   }
 }
 
