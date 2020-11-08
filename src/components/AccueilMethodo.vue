@@ -83,7 +83,11 @@
         transport).
       </li>
     </ul>
-    <p></p>
+    <p>
+      A ces 4 categories s'ajoutent les émissions incompressibles des services
+      publics que nous utilisons (santé, éducation, police, etc.). Ces émissions
+      sont de l'ordre de 1 200 kg eq.CO2 par an et par habitant.
+    </p>
 
     <h3>Base Carbone de l'ADEME</h3>
     <p>
