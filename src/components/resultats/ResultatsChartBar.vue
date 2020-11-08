@@ -7,7 +7,7 @@ import { Bar } from 'vue-chartjs'
 import { ChartData, ChartOptions, ChartTooltipItem } from 'chart.js'
 import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
-import { GesItem } from '@/store/modules/ges'
+import { GESItem } from '@/store/modules/ges'
 
 const options: ChartOptions = {
   maintainAspectRatio: false,
@@ -58,7 +58,7 @@ const options: ChartOptions = {
 const chartProps = Vue.extend({
   props: {
     input_data: {
-      type: Array as PropType<GesItem[]>
+      type: Array as PropType<GESItem[]>
     }
   }
 })
@@ -69,7 +69,7 @@ const chartProps = Vue.extend({
 export default class MyComponent extends chartProps {
   options: ChartOptions = options
   data_chart: ChartData = {}
-  labels_ges_correspondance: Record<string, GesItem> = {}
+  labels_ges_correspondance: Record<string, GESItem> = {}
 
   @Watch('input_data')
   onInputDataChange(): void {
@@ -87,11 +87,11 @@ export default class MyComponent extends chartProps {
       datasets: [
         {
           barThickness: 30,
-          data: this.input_data.map((e: GesItem) => round(e.ges, 2)),
+          data: this.input_data.map((e: GESItem) => round(e.value, 2)),
           backgroundColor: this.input_data.map(() => '#607D8B')
         }
       ],
-      labels: this.input_data.map((e: GesItem) => e.name)
+      labels: this.input_data.map((e: GESItem) => e.label)
     }
     if (this.data_chart.labels) {
       this.data_chart.labels = this.data_chart.labels.map((label, idx) => {
