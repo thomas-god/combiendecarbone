@@ -28,18 +28,29 @@ const vetements_ges: ConsommationItem[] = [
   { name: 'manteau', full_name: 'Manteau', value: 89 },
   { name: 'chaussure', full_name: 'Chaussures', value: 19 }
 ]
+export const vetements_options = vetements_ges.map(
+  (item: ConsommationItem): ConsommationItem => {
+    return { name: item.name, full_name: item.full_name, value: 0 }
+  }
+)
 const high_tech_ges: ConsommationItem[] = [
   { name: 'smartphone', full_name: 'Smartphone', value: 30 },
   { name: 'portable', full_name: 'Ordinateur portable', value: 156 },
   { name: 'fixe', full_name: 'Ordinateur fixe', value: 200 },
   { name: 'tele', full_name: 'Télévision', value: 350 }
 ]
+export const high_tech_options = high_tech_ges.map(item => {
+  return { name: item.name, full_name: item.full_name, value: 0 }
+})
 const electromenager_ges: ConsommationItem[] = [
   { name: 'four', full_name: 'Four', value: 217 },
   { name: 'lave-vaisselle', full_name: 'Lave-vaisselle', value: 253 },
   { name: 'lave-linge', full_name: 'Lave-linge', value: 320 },
   { name: 'frigo', full_name: 'Réfrigérateur', value: 257 }
 ]
+export const electromenager_options = electromenager_ges.map(item => {
+  return { name: item.name, full_name: item.full_name, value: 0 }
+})
 
 function getItemGesValue(arr: ConsommationItem[], item_name: string): number {
   const res = arr.find(item => item.name === item_name)
