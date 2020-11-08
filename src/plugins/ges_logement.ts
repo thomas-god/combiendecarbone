@@ -1,10 +1,10 @@
 import { GESCategory, GESItem, Ecogeste } from '@/store/modules/ges'
-import * as factures from '@/plugins/logement_factures'
-import * as estimation from '@/plugins/logement_estimation'
+import * as factures from '@/plugins/ges_logement_factures'
+import * as estimation from '@/plugins/ges_logement_estimation'
 
 export interface GESItemLogement extends GESItem {
   metadata: {
-    source: 'elec' | 'gaz'
+    source: string
     usage: 'appliances' | 'heating' | 'all'
   }
 }
@@ -13,17 +13,19 @@ export interface GESCategoryLogement extends GESCategory {
   items: GESItemLogement[]
 }
 
-export const ges_values = {
+export function ges_values() {
   // kg CO2 eq./kWh
-  gaz: 0.234,
-  elec: 0.049
+  return {
+    gaz: 0.234,
+    elec: 0.049
+  }
 }
-
 export const default_ecogeste: Ecogeste = {
   name: 'EcogesteLogement'
 }
 
 export interface UserForm {
+  id: number
   type: 'factures' | 'estimation' | ''
   inputs: estimation.LogementFormEstimation | factures.LogementFormFactures
 }
@@ -31,14 +33,20 @@ export interface UserForm {
 export interface Store {
   forms: UserForm[]
   ges: GESCategoryLogement
-  ecogeste?: Ecogeste
+  next_form_id: number
 }
 
 function num(value: number): number {
   return isNaN(Number(value)) ? 0 : Number(value)
 }
 
-function computeGes(forms: UserForm[]): GESCategoryLogement {
+export const heating_options = estimation.heating_options
+export const appliances_options = estimation.appliances_options
+export const isolation_options = estimation.isolation_options
+export const default_form_estimation = estimation.default_form
+export const default_form_factures = factures.default_form
+
+export function computeGes(forms: UserForm[]): GESCategoryLogement {
   const ges: GESCategoryLogement = {
     items: [],
     total: 0
@@ -65,5 +73,3 @@ function computeGes(forms: UserForm[]): GESCategoryLogement {
 
   return ges
 }
-
-export { computeGes }

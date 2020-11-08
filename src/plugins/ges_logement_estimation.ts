@@ -1,8 +1,9 @@
+import ges from '@/store/modules/ges'
 import {
   GESCategoryLogement,
   ges_values,
   default_ecogeste
-} from './logement_ges'
+} from '@/plugins/ges_logement'
 
 export interface LogementFormEstimation {
   efficient_appliances_ratio: string
@@ -12,7 +13,7 @@ export interface LogementFormEstimation {
   gaz_offre_verte: boolean
 }
 
-export const state: LogementFormEstimation = {
+export const default_form: LogementFormEstimation = {
   efficient_appliances_ratio: '',
   heating_source: '',
   isolation: '',
@@ -24,29 +25,31 @@ export const state: LogementFormEstimation = {
  * Part des équipements électroménagers basse consommation d'un foyer.
  * Valeur annuelle en kWh, d'après Bilan RTE 2016.
  */
-const appliances = [
+const appliances: { label: string; value: number; source: string }[] = [
   {
     label: 'Aucun',
-    value: 1300 + (3400 - 1300) * 1 * ges_values.elec,
+    value: 1300 + (3400 - 1300) * 1 * ges_values().elec,
     source: 'elec'
   },
   {
     label: 'Quelques-uns',
-    value: 1300 + (3400 - 1300) * 0.75 * ges_values.elec,
+    value: 1300 + (3400 - 1300) * 0.75 * ges_values().elec,
     source: 'elec'
   },
   {
     label: 'La plupart',
-    value: 1300 + (3400 - 1300) * 0.25 * ges_values.elec,
+    value: 1300 + (3400 - 1300) * 0.25 * ges_values().elec,
     source: 'elec'
   },
   {
     label: 'Tous',
-    value: 1300 + (3400 - 1300) * 0 * ges_values.elec,
+    value: 1300 + (3400 - 1300) * 0 * ges_values().elec,
     source: 'elec'
   }
-] as const
+]
 export const appliances_options: string[] = appliances.map(r => r.label)
+
+console.log(appliances)
 
 /**
  * Consommations annuelles du chauffage en kWh pour un logement type (env. 30m2)
@@ -54,12 +57,12 @@ export const appliances_options: string[] = appliances.map(r => r.label)
 const heating = [
   {
     label: 'Électrique',
-    value: 52 * 30 * ges_values.elec, // Bilan RTE 2016
+    value: 52 * 30, //* ges_values.elec, // Bilan RTE 2016
     source: 'elec'
   },
   {
     label: 'Au gaz',
-    value: 4300 * ges_values.gaz, //https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
+    value: 4300, //* ges_values.gaz, //https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
     source: 'gaz'
   }
 ] as const
