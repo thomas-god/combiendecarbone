@@ -16,11 +16,11 @@
     </template>
 
     <template v-slot:form="{ close }">
-      <logement-form @close="close" ref="form" />
+      <logement-form @close="close" ref="form" :form_id="form_id"/>
     </template>
 
     <template v-slot:card>
-      <logement-card />
+      <logement-card :form_id="form_id" />
     </template>
   </category>
 </template>
@@ -54,7 +54,10 @@ export default class Logement extends Vue {
   async resetForm() {
     await this.$nextTick()
     const form = this.$refs.form as Vue & { resetForm: () => void }
-    form.resetForm()
+    //form.resetForm()
+  }
+  get form_id(): number {
+    return this.forms.length > 0 ? this.forms[0].id : -1
   }
 }
 </script>
