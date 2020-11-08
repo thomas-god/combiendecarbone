@@ -8,11 +8,11 @@
       <div>
         <v-card-text class="text-body-1 text-left pt-0">
           Si nous ne pouvons pas directement réduire les émissions liées aux
-          services publics que nous utilisons (santé, éducation, police,
-          justice, etc.), nous pouvons quand même avoir un impact, avec notre
-          bulletin de vote, mais aussi en s'impliquant et en participant dès que
-          possible (concertations publiques, appels à projets, budgets
-          participatifs, etc.).
+          services publics dont nous bénéficions (santé, éducation, police,
+          justice, etc.), nous pouvons quand même essayer de les diminuer à
+          moyen terme. Avec notre bulletin de vote bien sûr, mais aussi en
+          s'impliquant et en participant dès que possible : concertations
+          publiques, appels à projets, budgets participatifs, etc.
         </v-card-text>
       </div>
     </template>
