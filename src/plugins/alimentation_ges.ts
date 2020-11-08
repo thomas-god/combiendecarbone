@@ -37,14 +37,14 @@ const freq: Record<weekFreq, number> = {
   '': 0
 }
 
-const regimes: RegimeItem[] = [
+export const regimes: RegimeItem[] = [
   { name: 'viande_rouge', text: 'Viande rouge' },
   { name: 'viande_blanche', text: 'Viande blanche' },
   { name: 'bio', text: 'Produits bios' },
   { name: 'local', text: 'Produits locaux' }
 ]
 
-function computeGes(regime: UserRegime): GESCategory {
+export function computeGes(regime: UserRegime): GESCategory {
   // TODO: utiliser des valeurs cohérentes des ges
   const ecogeste = chooseEcogeste(regime)
   const ges: GESCategory = { items: [], total: 0 }
@@ -128,5 +128,7 @@ const alimentation = {
   regimes,
   computeGes
 }
+
+export const item_freq = Object.keys(freq) as weekFreq[]
 
 export { alimentation }
