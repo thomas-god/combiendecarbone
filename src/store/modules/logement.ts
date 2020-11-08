@@ -6,17 +6,16 @@ import Vuex, {
   ActionTree,
   Commit
 } from 'vuex'
-import { RootState } from '../index'
-import { computeGes } from '../../plugins/ges_logement'
+import { RootState } from '@/store/index'
 import * as Logement from '@/plugins/ges_logement'
 export { Store as LogementState } from '@/plugins/ges_logement'
 
 /**
- * State
+ * State.
  */
 export const state: Logement.Store = {
   forms: [],
-  current_form_id: -1,
+  next_form_id: 0,
   ges: {
     items: [],
     total: 0
@@ -24,16 +23,16 @@ export const state: Logement.Store = {
 }
 
 /**
- * Actions
+ * Actions.
  */
 export const actions: ActionTree<Logement.Store, RootState> = {
-  updateConsommation(context, new_conso: Logement.UserForm): void {
-    context.commit('updateConsommation', new_conso)
-    context.commit('updateGes')
-  },
-  resetConsommation(context): void {
-    context.commit('resetConsommation')
-    context.commit('updateGes')
+  updateForm(context, form: Logement.UserForm): void {
+    if (form.id > -1) {
+      context.commit('UPDATE_FORM', form)
+    } else {
+      context.commit('ADD_FORM', form)
+    }
+    //context.commit('updateGes')
   }
 }
 
@@ -41,11 +40,21 @@ export const actions: ActionTree<Logement.Store, RootState> = {
  * Mutations.
  */
 export const mutations: MutationTree<Logement.Store> = {
-  updateConsommation(state, new_conso: Logement.UserForm): void {
-    Vue.set(state, 'consommation', new_conso)
+  ADD_FORM(state, form: Logement.UserForm): void {
+    state.forms.push({ ...form, id: state.next_form_id })
+    state.next_form_id++
   },
-  resetConsommation(state): void {
-    Vue.set(state, 'consommation', {})
+  UPDATE_FORM(state, form: Logement.UserForm): void {
+    const id = state.forms.findIndex(f => f.id === form.id)
+    if (id > -1) {
+      Vue.set(state.forms, id, form)
+    }
+  },
+  DELETE_FORM(state, form: Logement.UserForm): void {
+    const id = state.forms.findIndex(f => f.id === form.id)
+    if (id > -1) {
+      state.forms.splice(id, 1)
+    }
   }
 }
 
@@ -53,10 +62,18 @@ export const mutations: MutationTree<Logement.Store> = {
  * Getters.
  */
 export const getters: GetterTree<Logement.Store, RootState> = {
-  default_forms(): Omit<Logement.UserForm, 'id'>[] {
+  default_forms(): Logement.UserForm[] {
     return [
-      { type: 'factures', inputs: Logement.default_form_factures },
-      { type: 'estimation', inputs: Logement.default_form_estimation }
+      {
+        type: 'factures',
+        inputs: JSON.parse(JSON.stringify(Logement.default_form_factures)),
+        id: -1
+      },
+      {
+        type: 'estimation',
+        inputs: JSON.parse(JSON.stringify(Logement.default_form_estimation)),
+        id: -1
+      }
     ]
   },
   appliances_options(): string[] {
@@ -69,7 +86,7 @@ export const getters: GetterTree<Logement.Store, RootState> = {
     return Logement.isolation_options
   },
   forms(state) {
-    return state.forms
+    return JSON.parse(JSON.stringify(state.forms))
   }
 }
 
