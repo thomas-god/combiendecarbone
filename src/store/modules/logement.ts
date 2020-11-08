@@ -41,13 +41,15 @@ export const actions: ActionTree<Logement.Store, RootState> = {
  */
 export const mutations: MutationTree<Logement.Store> = {
   ADD_FORM(state, form: Logement.UserForm): void {
-    state.forms.push({ ...form, id: state.next_form_id })
+    state.forms.push(
+      JSON.parse(JSON.stringify({ ...form, id: state.next_form_id }))
+    )
     state.next_form_id++
   },
   UPDATE_FORM(state, form: Logement.UserForm): void {
     const id = state.forms.findIndex(f => f.id === form.id)
     if (id > -1) {
-      Vue.set(state.forms, id, form)
+      Vue.set(state.forms, id, JSON.parse(JSON.stringify(form)))
     }
   },
   DELETE_FORM(state, form: Logement.UserForm): void {
@@ -58,7 +60,6 @@ export const mutations: MutationTree<Logement.Store> = {
   },
   COMPUTE_GES(state): void {
     const ges = Logement.computeGes(state.forms)
-    console.log(ges)
     Vue.set(state.ges, 'items', ges.items)
     Vue.set(state.ges, 'total', ges.total)
   }
