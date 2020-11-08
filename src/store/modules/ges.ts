@@ -1,3 +1,4 @@
+import { GetterTree, MutationTree, ActionTree, Module } from 'vuex'
 import { RootState } from '@/store/index'
 
 export interface GESItem {
@@ -25,73 +26,64 @@ interface GesTotalByCat {
 }
 
 interface GesByCat {
-  Transports: GesItem[]
-  Logement: GesItem[]
-  Alimentation: GesItem[]
-  Consommation: GesItem[]
+  Transports: GESItem[]
+  Logement: GESItem[]
+  Alimentation: GESItem[]
+  Consommation: GESItem[]
 }
 
-export default {
-  namespaced: true,
-  state: {},
-  getters: {
-    gesTotal(
-      state: any,
-      getters: any,
-      rootState: RootState,
-      rootGetters: any
-    ): number {
-      let ges = 0
-      for (const cat in getters.gesByCatTotal) {
-        ges += getters.gesByCatTotal[cat]
-      }
-      return ges
-    },
-    gesByCatTotal(
-      state: any,
-      getters: any,
-      rootState: RootState,
-      rootGetters: any
-    ): GesTotalByCat {
-      const ges: GesTotalByCat = {
-        Transports: rootGetters['transports/getGes'].total,
-        Logement: rootState.logement.ges.total,
-        Alimentation: rootState.alimentation.ges.total,
-        Consommation: rootState.consommation.ges.total
-      }
-      return ges
-    },
-    gesByCat(
-      state: any,
-      getters: any,
-      rootState: RootState,
-      rootGetters: any
-    ): GesByCat {
-      const ges: GesByCat = {
-        Transports: rootGetters['transports/getGes'].items,
-        Logement: rootState.logement.ges.items,
-        Alimentation: rootState.alimentation.ges.items,
-        Consommation: rootState.consommation.ges.items
-      }
-      return ges
-    },
+/**
+ * State.
+ */
+/* eslint-disable @typescript-eslint/no-empty-interface*/
+export interface GESState {}
+const state: GESState = {}
 
-    topGes(
-      state: any,
-      getters: any,
-      rootState: RootState,
-      rootGetters: any
-    ): GesItem[] {
-      const ges: GesItem[] = []
-      Object.keys(getters.gesByCat).forEach(cat => {
-        getters.gesByCat[cat].forEach((item: GesItem) => {
-          if (item.ges > 0) {
-            ges.push(item)
-          }
-        })
-      })
-      ges.sort((a, b) => b.ges - a.ges)
-      return ges
+/**
+ * Getters.
+ */
+export const getters: GetterTree<GESState, RootState> = {
+  gesByCat(state, getters, rootState, rootGetters): GesByCat {
+    const ges: GesByCat = {
+      Transports: rootGetters['transports/getGes'].items,
+      Logement: rootState.logement.ges.items,
+      Alimentation: rootState.alimentation.ges.items,
+      Consommation: rootState.consommation.ges.items
     }
+    return ges
+  },
+  gesTotal(state, getters): number {
+    let ges = 0
+    for (const cat in getters.gesByCatTotal) {
+      ges += getters.gesByCatTotal[cat]
+    }
+    return ges
+  },
+  gesByCatTotal(state, getters, rootState, rootGetters): GesTotalByCat {
+    const ges: GesTotalByCat = {
+      Transports: rootGetters['transports/getGes'].total,
+      Logement: rootState.logement.ges.total,
+      Alimentation: rootState.alimentation.ges.total,
+      Consommation: rootState.consommation.ges.total
+    }
+    return ges
+  },
+  topGes(state, getters): GESItem[] {
+    const ges: GESItem[] = []
+    Object.keys(getters.gesByCat).forEach(cat => {
+      getters.gesByCat[cat].forEach((item: GESItem) => {
+        if (item.value > 0) {
+          ges.push(item)
+        }
+      })
+    })
+    ges.sort((a, b) => b.value - a.value)
+    return ges
   }
+}
+
+export const ges: Module<GESState, RootState> = {
+  namespaced: true,
+  state,
+  getters
 }

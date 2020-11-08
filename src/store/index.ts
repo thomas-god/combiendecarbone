@@ -5,7 +5,7 @@ import categories from '@/store/modules/categories'
 import { logement, LogementState } from '@/store/modules/logement'
 import alimentation from '@/store/modules/alimentation'
 import consommation from '@/store/modules/consommation'
-import ges from '@/store/modules/ges'
+import { ges, GESState } from '@/store/modules/ges'
 
 import { Store as storeAlimentation } from '@/plugins/alimentation_ges'
 import { Store as storeTransports } from '@/plugins/transports_ges'
@@ -20,6 +20,7 @@ export interface RootState {
   logement: LogementState
   consommation: storeConsommation
   categories: storeCategories
+  ges: GESState
 }
 
 const store: StoreOptions<RootState> = {
