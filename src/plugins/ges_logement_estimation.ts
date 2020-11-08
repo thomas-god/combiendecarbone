@@ -1,4 +1,3 @@
-import ges from '@/store/modules/ges'
 import {
   GESCategoryLogement,
   ges_values,
