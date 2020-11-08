@@ -88,23 +88,20 @@ export default class LogementForm extends Vue {
   /**
    * Current form.
    */
-  current_form: UserForm = {
+  base_form = {
     id: -1,
-    type: 'factures',
-    inputs: {
-      elec_conso_kwh: 0,
-      elec_offre_verte: false,
-      gaz_conso_kwh: 0,
-      gaz_offre_verte: false
-    }
+    type: '',
+    inputs: {}
   }
+  current_form: UserForm = this.base_form as UserForm
+
   @Watch('form_id')
   selectForm(): void {
     const id = this.forms.findIndex(f => f.id === this.form_id)
     if (id > -1) {
       this.current_form = deepCopy(this.forms[id])
     } else {
-      this.current_form = deepCopy(this.default_forms[0])
+      this.current_form = deepCopy(this.base_form)
     }
   }
   toggleFormType(new_type: string): void {
@@ -118,9 +115,12 @@ export default class LogementForm extends Vue {
   /**
    * Validation rules.
    */
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
   rulesReq = [(value: any) => !!value || 'Champs requis.']
   rulesNum = [
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
     (value: any) => (value !== '' ? true : 'Doit être un nombre.'),
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
     (value: any) => (value >= 0 ? true : 'Doit être positif.')
   ]
 
@@ -141,6 +141,7 @@ export default class LogementForm extends Vue {
   }
 }
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
 function deepCopy(obj: any): any {
   return JSON.parse(JSON.stringify(obj))
 }
