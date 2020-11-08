@@ -1,3 +1,5 @@
+import { GetterTree, Module } from 'vuex'
+import { RootState } from '@/store/index'
 import {
   mdiAirplane,
   mdiHomeCity,
@@ -13,11 +15,13 @@ export interface Category {
   color: string
 }
 
-export interface Store {
+/**
+ * State.
+ */
+export interface CategoryState {
   categories: Category[]
 }
-
-const store: Store = {
+export const state: CategoryState = {
   categories: [
     { id: 1, name: 'Transports', icon: mdiAirplane, color: 'red' },
     { id: 2, name: 'Logement', icon: mdiHomeCity, color: 'blue' },
@@ -27,29 +31,37 @@ const store: Store = {
   ]
 }
 
-export default {
-  namespaced: true,
-  state: store,
-  getters: {
-    getCategories(state: Store): Category[] {
-      return state.categories
-    },
-    getCategoriesNames(state: Store): string[] {
-      return state.categories.map(mode => mode.name)
-    },
-    getCategoriesIcons(state: Store): string[] {
-      return state.categories.map(mode => mode.icon)
-    },
-    getIconByMode: (state: Store) => (modeName: string) => {
-      const mode = state.categories.find(mode => mode.name === modeName)
-      return mode ? mode.icon : ''
-    },
-    getCategoriesColors(state: Store): Record<string, string> {
-      const colors: Record<string, string> = {}
-      state.categories.forEach(cat => {
-        colors[cat.name] = cat.color
-      })
-      return colors
-    }
+/**
+ * Getters.
+ */
+export const getters: GetterTree<CategoryState, RootState> = {
+  getCategories(state): Category[] {
+    return state.categories
+  },
+  getCategoriesNames(state): string[] {
+    return state.categories.map(mode => mode.name)
+  },
+  getCategoriesIcons(state): string[] {
+    return state.categories.map(mode => mode.icon)
+  },
+  getIconByMode: state => (modeName: string) => {
+    const mode = state.categories.find(mode => mode.name === modeName)
+    return mode ? mode.icon : ''
+  },
+  getCategoriesColors(state): Record<string, string> {
+    const colors: Record<string, string> = {}
+    state.categories.forEach(cat => {
+      colors[cat.name] = cat.color
+    })
+    return colors
   }
+}
+
+/**
+ * Module.
+ */
+export const categories: Module<CategoryState, RootState> = {
+  namespaced: true,
+  state,
+  getters
 }

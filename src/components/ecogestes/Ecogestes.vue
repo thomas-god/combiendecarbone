@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { GesItem } from '@/store/modules/ges'
+import { GESItem } from '@/store/modules/ges'
 
 export default Vue.extend({
   data() {
@@ -19,11 +19,11 @@ export default Vue.extend({
     }
   },
   methods: {
-    openEcogeste(ges_item: GesItem): void {
+    openEcogeste(ges_item: GESItem): void {
       this.ecogeste_component = this.loadEcogesteComponent(ges_item)
       this.display = true
     },
-    loadEcogesteComponent(ges_item: GesItem) {
+    loadEcogesteComponent(ges_item: GESItem) {
       if (ges_item.ecogeste?.name) {
         this.ecogeste_component_props = ges_item.ecogeste?.props
           ? ges_item.ecogeste.props

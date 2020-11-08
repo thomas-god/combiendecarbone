@@ -16,45 +16,50 @@
     </template>
 
     <template v-slot:form="{ close }">
-      <logement-form @close="close" ref="form" />
+      <logement-form @close="close" ref="form" :form_id="form_id" />
     </template>
 
     <template v-slot:card>
-      <logement-card />
+      <logement-card :form_id="form_id" />
     </template>
   </category>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'vue-property-decorator'
+import { namespace } from 'vuex-class'
 import Category from '../base/Category.vue'
 import LogementForm from './LogementForm.vue'
 import logementCard from './LogementCard.vue'
-import { mapGetters } from 'vuex'
+import { UserForm } from '@/plugins/ges_logement'
 
-export default Vue.extend({
+const logement_module = namespace('logement')
+
+@Component({
   components: {
     LogementForm,
     logementCard,
     Category
-  },
-  computed: {
-    ...mapGetters({ logement: 'logement/getConsommation' }),
-    isLogementFilled() {
-      return this.logement.type !== ''
-    },
-    btnName() {
-      return this.isLogementFilled ? 'Modifier' : 'Répondre'
-    }
-  },
-  methods: {
-    async resetForm() {
-      await this.$nextTick()
-      const form = this.$refs.form as Vue & { resetForm: () => void }
-      form.resetForm()
-    }
   }
 })
+export default class Logement extends Vue {
+  @logement_module.Getter forms!: UserForm[]
+
+  get isLogementFilled() {
+    return this.forms.length > 0
+  }
+  get btnName() {
+    return this.isLogementFilled ? 'Modifier' : 'Répondre'
+  }
+  async resetForm() {
+    await this.$nextTick()
+    const form = this.$refs.form as Vue & { resetForm: () => void }
+    form.resetForm()
+  }
+  get form_id(): number {
+    return this.forms.length > 0 ? this.forms[0].id : -1
+  }
+}
 </script>
 
 <style></style>
