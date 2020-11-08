@@ -24,6 +24,7 @@ interface GesTotalByCat {
   Logement: number
   Alimentation: number
   Consommation: number
+  Services: number
 }
 
 interface GesByCat {
@@ -31,6 +32,7 @@ interface GesByCat {
   Logement: GESItem[]
   Alimentation: GESItem[]
   Consommation: GESItem[]
+  Services: GESItem[]
 }
 
 /**
@@ -49,7 +51,8 @@ export const getters: GetterTree<GESState, RootState> = {
       Transports: rootGetters['transports/getGes'].items,
       Logement: rootState.logement.ges.items,
       Alimentation: rootState.alimentation.ges.items,
-      Consommation: rootState.consommation.ges.items
+      Consommation: rootState.consommation.ges.items,
+      Services: rootState.services.items
     }
     return ges
   },
@@ -65,7 +68,8 @@ export const getters: GetterTree<GESState, RootState> = {
       Transports: rootGetters['transports/getGes'].total,
       Logement: rootState.logement.ges.total,
       Alimentation: rootState.alimentation.ges.total,
-      Consommation: rootState.consommation.ges.total
+      Consommation: rootState.consommation.ges.total,
+      Services: rootState.services.total
     }
     return ges
   },
