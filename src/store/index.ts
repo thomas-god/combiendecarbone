@@ -1,19 +1,17 @@
 import Vue from 'vue'
 import Vuex, { StoreOptions } from 'vuex'
-import transports from '@/store/modules/transports'
+import { transports, TransportsState } from '@/store/modules/transports'
 import { categories, CategoryState } from '@/store/modules/categories'
 import { logement, LogementState } from '@/store/modules/logement'
 import { alimentation, AlimentationState } from '@/store/modules/alimentation'
 import { consommation, ConsommationState } from '@/store/modules/consommation'
 import { ges, GESState } from '@/store/modules/ges'
 
-import { Store as storeTransports } from '@/plugins/transports_ges'
-
 Vue.use(Vuex)
 
 export interface RootState {
   alimentation: AlimentationState
-  transports: storeTransports
+  transports: TransportsState
   logement: LogementState
   consommation: ConsommationState
   categories: CategoryState
