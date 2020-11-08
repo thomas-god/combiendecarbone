@@ -1,12 +1,17 @@
 import Vue from 'vue'
-import { consommation, computeGes } from '../../plugins/consommation_ges'
+import { GetterTree, MutationTree, ActionTree, Module } from 'vuex'
+import { RootState } from '@/store/index'
 import * as Consommation from '@/plugins/consommation_ges'
 
-const state: Consommation.Store = {
+/**
+ * State.
+ */
+export { Store as ConsommationState } from '@/plugins/consommation_ges'
+export const state: Consommation.Store = {
   consommation: {
-    Vêtements: consommation.vetements,
-    'High-tech': consommation.high_tech,
-    Électroménager: consommation.electromenager
+    Vêtements: Consommation.vetements_options,
+    'High-tech': Consommation.high_tech_options,
+    Électroménager: Consommation.electromenager_options
   },
   ges: {
     total: 0,
@@ -14,37 +19,58 @@ const state: Consommation.Store = {
   }
 }
 
-export default {
-  namespaced: true,
-  state: state,
-  getters: {
-    getConsoByCategory(state: Consommation.Store) {
-      return (cat: string): Consommation.ConsommationItem[] => {
-        return state.consommation[cat]
-      }
-    }
-  },
-  mutations: {
-    updateConso(
-      state: Consommation.Store,
-      {
-        category,
-        update
-      }: { category: string; update: Consommation.ConsommationItem[] }
-    ): void {
-      Vue.set(state.consommation, category, update)
-    },
-    updateGes(state: Consommation.Store): void {
-      Vue.set(state, 'ges', computeGes(state.consommation))
-    }
-  },
-  actions: {
-    updateConso(
-      context: any,
-      payload: { category: string; update: Consommation.ConsommationItem[] }
-    ): void {
-      context.commit('updateConso', payload)
-      context.commit('updateGes')
+/**
+ * Getters.
+ */
+export const getters: GetterTree<Consommation.Store, RootState> = {
+  getConsoByCategory(state) {
+    return (cat: string): Consommation.ConsommationItem[] => {
+      return state.consommation[cat]
     }
   }
+}
+
+/**
+ * Mutations.
+ */
+export const mutations: MutationTree<Consommation.Store> = {
+  updateConso(
+    state,
+    {
+      category,
+      update
+    }: { category: string; update: Consommation.ConsommationItem[] }
+  ): void {
+    Vue.set(state.consommation, category, update)
+  },
+  updateGes(state): void {
+    Vue.set(state, 'ges', Consommation.computeGes(state.consommation))
+  }
+}
+
+/**
+ * Actions.
+ */
+export const actions: ActionTree<Consommation.Store, RootState> = {
+  updateConso(
+    context,
+    payload: {
+      category: string
+      update: Consommation.ConsommationItem[]
+    }
+  ): void {
+    context.commit('updateConso', payload)
+    context.commit('updateGes')
+  }
+}
+
+/**
+ * Module.
+ */
+export const consommation: Module<Consommation.Store, RootState> = {
+  namespaced: true,
+  state: state,
+  getters,
+  mutations,
+  actions
 }
