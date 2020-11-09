@@ -33,7 +33,7 @@ const state: Transports.Store = {
  * Getters.
  */
 export const getters: GetterTree<Transports.Store, RootState> = {
-  getModesNames(state): string[] {
+  modes(state): string[] {
     return state.modes.map(mode => mode.name)
   },
   getIconByMode: state => (modeName: string) => {
