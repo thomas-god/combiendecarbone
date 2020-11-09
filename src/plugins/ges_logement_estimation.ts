@@ -113,7 +113,7 @@ export function computeGes(form: LogementFormEstimation): GESCategoryLogement {
    * Chauffage.
    */
   const nb_habitants = form.nb_habitants > 0 ? form.nb_habitants : 1
-  const surface_m2 = form.surface_m2 > 1 ? form.surface_m2 : 30
+  const surface_m2 = form.surface_m2 >= 1 ? form.surface_m2 : 30
   const item_heating = heating.find(item => item.label === form.heating_source)
   const item_isolation = isolation.find(item => item.label === form.isolation)
   if (item_heating)
