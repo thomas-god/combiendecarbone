@@ -10,6 +10,8 @@ export interface LogementFormEstimation {
   isolation: string
   elec_offre_verte: boolean
   gaz_offre_verte: boolean
+  nb_habitants: number
+  surface_m2: number
 }
 
 export const default_form: LogementFormEstimation = {
@@ -17,7 +19,9 @@ export const default_form: LogementFormEstimation = {
   heating_source: '',
   isolation: '',
   elec_offre_verte: false,
-  gaz_offre_verte: false
+  gaz_offre_verte: false,
+  nb_habitants: 1,
+  surface_m2: 30
 }
 
 /**
@@ -49,17 +53,17 @@ const appliances: { label: string; value: number; source: string }[] = [
 export const appliances_options: string[] = appliances.map(r => r.label)
 
 /**
- * Consommations annuelles du chauffage en kWh pour un logement type (env. 30m2)
+ * Consommations annuelles du chauffage en kWh/m2, adapté d'un logement type (env. 30m2)
  */
 const heating = [
   {
     label: 'Électrique',
-    value: 52 * 30 * ges_values().elec, // Bilan RTE 2016
+    value: 52 * ges_values().elec, // Bilan RTE 2016
     source: 'elec'
   },
   {
     label: 'Au gaz',
-    value: 4300 * ges_values().gaz, //https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
+    value: (4300 / 30) * ges_values().gaz, //https://gaz-tarif-reglemente.fr/gaz/comprendre-gaz-naturel/consommation-gaz.html
     source: 'gaz'
   }
 ] as const
@@ -108,6 +112,8 @@ export function computeGes(form: LogementFormEstimation): GESCategoryLogement {
   /**
    * Chauffage.
    */
+  const nb_habitants = form.nb_habitants > 0 ? form.nb_habitants : 1
+  const surface_m2 = form.surface_m2 > 1 ? form.surface_m2 : 30
   const item_heating = heating.find(item => item.label === form.heating_source)
   const item_isolation = isolation.find(item => item.label === form.isolation)
   if (item_heating)
@@ -115,8 +121,10 @@ export function computeGes(form: LogementFormEstimation): GESCategoryLogement {
       category: 'Logement',
       label: `Chauffage - (${item_heating.label})`,
       value:
-        item_heating.value *
-        (item_isolation === undefined ? 1 : item_isolation.value),
+        (surface_m2 *
+          item_heating.value *
+          (item_isolation === undefined ? 1 : item_isolation.value)) /
+        nb_habitants,
       metadata: { source: item_heating.source, usage: 'heating' },
       ecogeste: default_ecogeste
     })

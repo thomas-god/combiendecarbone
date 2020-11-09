@@ -47,6 +47,22 @@
 
         <!-- Factures non connues -->
         <div v-if="current_form.type === 'estimation'">
+          <v-text-field
+            label="Surface de votre logement (m²)"
+            v-model.number="current_form.inputs.surface_m2"
+            type="number"
+            min="0"
+            step="1"
+            :rules="rulesNum"
+          ></v-text-field>
+          <v-text-field
+            label="Nombre de personnes dans votre foyer (vous inclus·e)"
+            v-model.number="current_form.inputs.nb_habitants"
+            type="number"
+            min="0"
+            step="1"
+            :rules="rulesNum"
+          ></v-text-field>
           <v-select
             label="Vos appareils basse consommation (classe A ou supérieure)"
             :items="appliances_options"
