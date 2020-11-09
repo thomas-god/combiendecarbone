@@ -35,6 +35,14 @@
             step="0.05"
             :rules="rulesNum"
           ></v-text-field>
+          <v-text-field
+            label="Nombre de personnes dans votre foyer (vous inclus·e)"
+            v-model.number="current_form.inputs.nb_habitants"
+            type="number"
+            min="0"
+            step="1"
+            :rules="rulesNum"
+          ></v-text-field>
         </div>
 
         <!-- Factures non connues -->

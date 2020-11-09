@@ -28,6 +28,14 @@
           }}
           kWh
         </p>
+        <p>
+          Personnes dans votre foyer :
+          {{
+            current_form.inputs.nb_habitants === ''
+              ? 1
+              : current_form.inputs.nb_habitants
+          }}
+        </p>
       </v-card-text>
     </div>
 
