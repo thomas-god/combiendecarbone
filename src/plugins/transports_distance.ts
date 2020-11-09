@@ -120,26 +120,55 @@ function distanceTransit(
         }
       },
       (res, status) => {
-        if (status !== 'OK') {
-          reject(status)
-        }
-        if (res.routes.length > 0) {
+        if (status === 'ZERO_RESULTS') {
+          /**
+           * If no results with transit, compute distance using driving mode.
+           */
+          direction_service.route(
+            {
+              origin: getLatLng(travel.departure),
+              destination: getLatLng(travel.arrival),
+              travelMode: 'DRIVING' as google.maps.TravelMode
+            },
+            (res, status) => {
+              if (status !== 'OK') {
+                reject(status)
+              }
+              if (res.routes.length > 0) {
+                const distance = res.routes[0].legs[0].distance.value / 1000 // distance in km
+                resolve([
+                  {
+                    mode: 'INTERCITY_BUS',
+                    distance: distance
+                  }
+                ])
+              }
+            }
+          )
+        } else if (status === 'OK' && res.routes.length > 0) {
           const distances: Transports.Distance[] = []
           res.routes[0].legs[0].steps.forEach(step => {
             if (step.travel_mode === 'TRANSIT') {
               distances.push({
                 distance: step.distance.value / 1000,
-                mode: step.transit.line.vehicle.type
+                mode: String(step.transit.line.vehicle.type)
               })
             }
           })
           resolve(distances)
+        } else {
+          reject(status)
         }
       }
     )
   })
 }
-async function computeDistance(
+
+/**
+ * Compute the distance of a given travel.
+ * @param travel Travel object
+ */
+export async function computeDistance(
   travel: Transports.Travel
 ): Promise<Transports.Travel> {
   let steps: Transports.Distance[] = []
@@ -176,5 +205,3 @@ async function computeDistance(
 
   return travel_distance
 }
-
-export { computeDistance }

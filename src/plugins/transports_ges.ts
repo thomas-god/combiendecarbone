@@ -17,14 +17,7 @@ export interface Travel {
   name: string
   departure: PlaceForm
   arrival: PlaceForm
-  mode:
-    | google.maps.TravelMode
-    | google.maps.VehicleType
-    | 'Voiture'
-    | 'Avion'
-    | 'Métro/Bus'
-    | 'TGV'
-    | ''
+  mode: string
   ar: boolean
   freq: number
   passengers: number
@@ -37,14 +30,7 @@ export interface Travel {
 
 export interface Distance {
   distance: number
-  mode:
-    | google.maps.TravelMode
-    | google.maps.VehicleType
-    | 'Voiture'
-    | 'Avion'
-    | 'Métro/Bus'
-    | 'TGV'
-    | ''
+  mode: string
 }
 
 export interface Mode {
