@@ -9,13 +9,15 @@ export interface LogementFormFactures {
   elec_offre_verte: boolean
   gaz_conso_kwh: number
   gaz_offre_verte: boolean
+  nb_habitants: number
 }
 
 export const default_form: LogementFormFactures = {
   elec_conso_kwh: 0,
   elec_offre_verte: false,
   gaz_conso_kwh: 0,
-  gaz_offre_verte: false
+  gaz_offre_verte: false,
+  nb_habitants: 1
 }
 
 export function computeGes(
@@ -26,6 +28,8 @@ export function computeGes(
     total: 0
   }
 
+  const nb_habitants = factures.nb_habitants > 0 ? factures.nb_habitants : 1
+
   /**
    * Facture d'électricité.
    */
@@ -33,7 +37,7 @@ export function computeGes(
     ges.items.push({
       category: 'Logement',
       label: 'Electricité',
-      value: factures.elec_conso_kwh * ges_values().elec,
+      value: (factures.elec_conso_kwh * ges_values().elec) / nb_habitants,
       metadata: { source: 'elec', usage: 'all' },
       ecogeste: default_ecogeste
     })
@@ -45,7 +49,7 @@ export function computeGes(
     ges.items.push({
       category: 'Logement',
       label: 'Gaz',
-      value: factures.gaz_conso_kwh * ges_values().gaz,
+      value: (factures.gaz_conso_kwh * ges_values().gaz) / nb_habitants,
       metadata: { source: 'gaz', usage: 'all' },
       ecogeste: default_ecogeste
     })

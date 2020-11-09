@@ -28,6 +28,14 @@
           }}
           kWh
         </p>
+        <p>
+          Personnes dans votre foyer :
+          {{
+            current_form.inputs.nb_habitants === ''
+              ? 1
+              : current_form.inputs.nb_habitants
+          }}
+        </p>
       </v-card-text>
     </div>
 
@@ -37,6 +45,23 @@
         Votre consommation
       </v-card-title>
       <v-card-text class="text-left">
+        <p>
+          Surface de votre logement :
+          {{
+            current_form.inputs.surface_m2 === ''
+              ? 1
+              : current_form.inputs.surface_m2
+          }}
+          m²
+        </p>
+        <p>
+          Personnes dans votre foyer :
+          {{
+            current_form.inputs.nb_habitants === ''
+              ? 1
+              : current_form.inputs.nb_habitants
+          }}
+        </p>
         <p>
           Équipements basse consommation :
           {{ current_form.inputs.efficient_appliances_ratio }}

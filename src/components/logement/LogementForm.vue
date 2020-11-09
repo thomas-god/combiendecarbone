@@ -35,10 +35,34 @@
             step="0.05"
             :rules="rulesNum"
           ></v-text-field>
+          <v-text-field
+            label="Nombre de personnes dans votre foyer (vous inclus·e)"
+            v-model.number="current_form.inputs.nb_habitants"
+            type="number"
+            min="1"
+            step="1"
+            :rules="rulesNumSup1"
+          ></v-text-field>
         </div>
 
         <!-- Factures non connues -->
         <div v-if="current_form.type === 'estimation'">
+          <v-text-field
+            label="Surface de votre logement (m²)"
+            v-model.number="current_form.inputs.surface_m2"
+            type="number"
+            min="1"
+            step="1"
+            :rules="rulesNumSup1"
+          ></v-text-field>
+          <v-text-field
+            label="Nombre de personnes dans votre foyer (vous inclus·e)"
+            v-model.number="current_form.inputs.nb_habitants"
+            type="number"
+            min="1"
+            step="1"
+            :rules="rulesNumSup1"
+          ></v-text-field>
           <v-select
             label="Vos appareils basse consommation (classe A ou supérieure)"
             :items="appliances_options"
@@ -122,6 +146,12 @@ export default class LogementForm extends Vue {
     (value: any) => (value !== '' ? true : 'Doit être un nombre.'),
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
     (value: any) => (value >= 0 ? true : 'Doit être positif.')
+  ]
+  rulesNumSup1 = [
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
+    (value: any) => (value !== '' ? true : 'Doit être un nombre.'),
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
+    (value: any) => (value >= 1 ? true : 'Doit être plus grand que 1.')
   ]
 
   /**
