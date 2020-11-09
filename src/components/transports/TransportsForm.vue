@@ -182,14 +182,14 @@ export default class TransportsForm extends Vue {
         pr = this.insertTravel(this.travel)
       }
       pr.then(() => {
-        this.updateCurrentId(-2)
+        this.updateCurrentId(-1)
         this.$emit('close')
       })
     }
   }
   resetForm() {
     // Reset form validation
-    if (this.current_id === -2) {
+    if (this.current_id === -1) {
       const form = this.$refs.form as Vue & { resetValidation: () => void }
       form.resetValidation()
     }

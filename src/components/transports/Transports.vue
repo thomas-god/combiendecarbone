@@ -1,7 +1,7 @@
 <template>
   <category
     btn-name="Ajouter un trajet"
-    @closing="updateCurrentId(-2)"
+    @closing="updateCurrentId(-1)"
     @opening="resetForm"
   >
     <template v-slot:title>
