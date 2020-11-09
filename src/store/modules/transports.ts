@@ -83,8 +83,12 @@ export const mutations: MutationTree<Transports.Store> = {
     const travel_id = state.travels.findIndex(
       travel => travel.id === new_travel.id
     )
+    const updated_travel = {
+      ...new_travel,
+      name: `${new_travel.departure.name} - ${new_travel.arrival.name} (${new_travel.mode})`
+    }
     if (travel_id > -1) {
-      Vue.set(state.travels, travel_id, new_travel)
+      Vue.set(state.travels, travel_id, updated_travel)
     }
   },
   deleteTravel(state, id: number): void {
