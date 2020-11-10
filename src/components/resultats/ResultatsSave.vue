@@ -1,15 +1,62 @@
 <template>
-  <v-btn @click="saveBlob({ toto: 'tutu' })">Sauvegarder</v-btn>
+  <v-btn @click="saveGes">Sauvegarder</v-btn>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
+import { TransportsState } from '@/store/modules/transports'
+import { AlimentationState } from '@/store/modules/alimentation'
+import { LogementState } from '@/store/modules/logement'
+import { ConsommationState } from '@/store/modules/consommation'
+import { ServicesState } from '@/store/modules/services_publics'
 
+const transports_module = namespace('transports')
 const logement_module = namespace('logement')
+const alimentation_module = namespace('alimentation')
+const consommation_module = namespace('consommation')
+const services_module = namespace('services')
+
+export interface GESFile {
+  ges_version: string
+  date: Date
+  transports: TransportsState['travels']
+  logement: LogementState['forms']
+  alimentation: AlimentationState['regime']
+  consommation: ConsommationState['consommation']
+  services: ServicesState['items']
+}
 
 @Component
 export default class ResultatsSave extends Vue {
+  readonly version = '0.1.0'
+
+  /**
+   * Store items.
+   */
+  @transports_module.State travels!: TransportsState['travels']
+  @logement_module.State forms!: LogementState['forms']
+  @alimentation_module.State regime!: AlimentationState['regime']
+  @consommation_module.State consommation!: ConsommationState['consommation']
+  @services_module.State items!: ServicesState['items']
+
+  /**
+   * Format and save methods.
+   */
+  saveGes(): void {
+    this.saveBlob(this.formatGesObject())
+  }
+  formatGesObject(): GESFile {
+    return {
+      ges_version: this.version,
+      date: new Date(),
+      transports: this.travels,
+      logement: this.forms,
+      alimentation: this.regime,
+      consommation: this.consommation,
+      services: this.items
+    }
+  }
   saveBlob(blob: any): void {
     const file = new Blob([JSON.stringify(blob)], { type: 'application/json' })
     const a = document.createElement('a')
