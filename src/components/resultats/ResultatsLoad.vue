@@ -22,6 +22,7 @@ import { ServicesState } from '@/store/modules/services_publics'
 import { GESFile } from './ResultatsSave.vue'
 import { Travel } from '@/plugins/transports_ges'
 import { UserForm } from '@/plugins/ges_logement'
+import { UserRegime } from '@/plugins/alimentation_ges'
 
 const transports_module = namespace('transports')
 const logement_module = namespace('logement')
@@ -44,7 +45,7 @@ export default class ResultatsLoad extends Vue {
     form: UserForm
   ) => void
   @logement_module.Mutation('COMPUTE_GES') computeLogementGes!: () => void
-  @alimentation_module.State regime!: AlimentationState['regime']
+  @alimentation_module.Action setRegime!: (regime: UserRegime) => void
   @consommation_module.State consommation!: ConsommationState['consommation']
   @services_module.State items!: ServicesState['items']
 
@@ -77,6 +78,11 @@ export default class ResultatsLoad extends Vue {
         this.addLogementForm(form)
       })
       this.computeLogementGes()
+
+      /**
+       * Load alimentation.
+       */
+      this.setRegime(ges.alimentation)
     }
   }
 }
