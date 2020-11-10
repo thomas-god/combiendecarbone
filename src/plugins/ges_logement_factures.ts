@@ -5,20 +5,32 @@ import {
 } from './ges_logement'
 
 export interface LogementFormFactures {
+  bois_conso_stere: number
+  bois_offre_verte: boolean
   elec_conso_kwh: number
   elec_offre_verte: boolean
   gaz_conso_kwh: number
   gaz_offre_verte: boolean
+  fioul_conso_l: number
   nb_habitants: number
 }
 
 export const default_form: LogementFormFactures = {
+  bois_conso_stere: 0,
+  bois_offre_verte: false,
   elec_conso_kwh: 0,
   elec_offre_verte: false,
   gaz_conso_kwh: 0,
   gaz_offre_verte: false,
+  fioul_conso_l: 0,
   nb_habitants: 1
 }
+
+/**
+ * Conversion factors.
+ */
+export const fioul_l_to_kwh = 1
+export const bois_stere_to_kwh = 1
 
 export function computeGes(
   factures: LogementFormFactures
@@ -50,7 +62,35 @@ export function computeGes(
       category: 'Logement',
       label: 'Gaz',
       value: (factures.gaz_conso_kwh * ges_values().gaz) / nb_habitants,
-      metadata: { source: 'gaz', usage: 'all' },
+      metadata: { source: 'gaz', usage: 'heating' },
+      ecogeste: default_ecogeste
+    })
+
+  /**
+   * Facture de bois.
+   */
+  if (factures.bois_conso_stere > 0)
+    ges.items.push({
+      category: 'Logement',
+      label: 'Bois',
+      value:
+        (factures.bois_conso_stere * bois_stere_to_kwh * ges_values().bois) /
+        nb_habitants,
+      metadata: { source: 'bois', usage: 'heating' },
+      ecogeste: default_ecogeste
+    })
+
+  /**
+   * Facture de fioul.
+   */
+  if (factures.fioul_conso_l > 0)
+    ges.items.push({
+      category: 'Logement',
+      label: 'Fioul',
+      value:
+        (factures.fioul_conso_l * fioul_l_to_kwh * ges_values().fioul) /
+        nb_habitants,
+      metadata: { source: 'fioul', usage: 'heating' },
       ecogeste: default_ecogeste
     })
 
