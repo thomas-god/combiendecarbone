@@ -21,6 +21,7 @@ import { ConsommationState } from '@/store/modules/consommation'
 import { ServicesState } from '@/store/modules/services_publics'
 import { GESFile } from './ResultatsSave.vue'
 import { Travel } from '@/plugins/transports_ges'
+import { UserForm } from '@/plugins/ges_logement'
 
 const transports_module = namespace('transports')
 const logement_module = namespace('logement')
@@ -37,7 +38,12 @@ export default class ResultatsLoad extends Vue {
    */
   @transports_module.Mutation clearTravels!: () => Promise<void>
   @transports_module.Action insertTravel!: (travel: Travel) => Promise<void>
-  @logement_module.State forms!: LogementState['forms']
+  @logement_module.Mutation('CLEAR_ALL_FORMS')
+  clearLogementState!: () => Promise<void>
+  @logement_module.Mutation('ADD_FORM') addLogementForm!: (
+    form: UserForm
+  ) => void
+  @logement_module.Mutation('COMPUTE_GES') computeLogementGes!: () => void
   @alimentation_module.State regime!: AlimentationState['regime']
   @consommation_module.State consommation!: ConsommationState['consommation']
   @services_module.State items!: ServicesState['items']
@@ -62,6 +68,15 @@ export default class ResultatsLoad extends Vue {
       ges.transports.forEach(async travel => {
         await this.insertTravel(travel)
       })
+
+      /**
+       * Load logement.
+       */
+      this.clearLogementState()
+      ges.logement.forEach(form => {
+        this.addLogementForm(form)
+      })
+      this.computeLogementGes()
     }
   }
 }
