@@ -94,7 +94,6 @@ export default class TransportsForm extends Vue {
    * Travel object and validation rules.
    */
   travel = {
-    id: -1,
     type: '',
     mode: '',
     freq: 1,
@@ -197,7 +196,6 @@ export default class TransportsForm extends Vue {
     let travel = {}
     if (this.current_id < 0) {
       travel = {
-        id: -1,
         type: '',
         mode: '',
         freq: 1,
