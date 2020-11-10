@@ -16,7 +16,8 @@
           <strong>{{ ges_total.toFixed(2) }}</strong> kg eq. CO2
         </h3>
       </v-card-text>
-      <resultats-save/>
+      <resultats-save />
+      <resultats-load />
     </v-card>
 
     <!-- Main doughnut chart -->
@@ -99,6 +100,7 @@ import ChartDoughnut from './ResultatsChartDoughnut.vue'
 import ChartSubDoughnut from './ResultatsChartSubDoughnut.vue'
 import ChartBar from './ResultatsChartBar.vue'
 import ResultatsSave from './ResultatsSave.vue'
+import ResultatsLoad from './ResultatsLoad.vue'
 import Ecogestes from '@/components/ecogestes/Ecogestes.vue'
 import { mapGetters } from 'vuex'
 import { GESItem } from '@/store/modules/ges'
@@ -109,6 +111,7 @@ export default Vue.extend({
     ChartSubDoughnut,
     ChartBar,
     ResultatsSave,
+    ResultatsLoad,
     Ecogestes
   },
   data() {
