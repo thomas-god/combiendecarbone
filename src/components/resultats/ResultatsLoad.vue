@@ -35,6 +35,7 @@ export default class ResultatsLoad extends Vue {
   /**
    * Store items.
    */
+  @transports_module.Mutation clearTravels!: () => Promise<void>
   @transports_module.Action insertTravel!: (travel: Travel) => Promise<void>
   @logement_module.State forms!: LogementState['forms']
   @alimentation_module.State regime!: AlimentationState['regime']
@@ -57,6 +58,7 @@ export default class ResultatsLoad extends Vue {
       /**
        * Load travels.
        */
+      this.clearTravels()
       ges.transports.forEach(async travel => {
         await this.insertTravel(travel)
       })

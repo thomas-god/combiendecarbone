@@ -98,6 +98,10 @@ export const mutations: MutationTree<Transports.Store> = {
       Vue.delete(state.travels, travel_id)
     }
   },
+  clearTravels(state): void {
+    Vue.set(state, 'travels', [])
+    state.current_id = -1
+  },
   updateCurrentId(state, new_id: number): void {
     state.current_id = new_id
   }
@@ -130,12 +134,6 @@ export const actions: ActionTree<Transports.Store, RootState> = {
   },
   updateCurrentId(context, new_id: number): void {
     context.commit('updateCurrentId', new_id)
-  },
-  clearTravels(context): void {
-    context.state.travels.forEach(travel => {
-      context.dispatch('deleteTravel', travel.id)
-    })
-    context.state.current_id = -1
   }
 }
 
