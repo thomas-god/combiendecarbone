@@ -23,6 +23,7 @@ import { GESFile } from './ResultatsSave.vue'
 import { Travel } from '@/plugins/transports_ges'
 import { UserForm } from '@/plugins/ges_logement'
 import { UserRegime } from '@/plugins/alimentation_ges'
+import { ConsommationItem } from '@/plugins/consommation_ges'
 
 const transports_module = namespace('transports')
 const logement_module = namespace('logement')
@@ -46,7 +47,10 @@ export default class ResultatsLoad extends Vue {
   ) => void
   @logement_module.Mutation('COMPUTE_GES') computeLogementGes!: () => void
   @alimentation_module.Action setRegime!: (regime: UserRegime) => void
-  @consommation_module.State consommation!: ConsommationState['consommation']
+  @consommation_module.Action updateConso!: (payload: {
+    category: string
+    update: ConsommationItem[]
+  }) => void
   @services_module.State items!: ServicesState['items']
 
   /**
@@ -83,6 +87,13 @@ export default class ResultatsLoad extends Vue {
        * Load alimentation.
        */
       this.setRegime(ges.alimentation)
+
+      /**
+       * Load consommation.
+       */
+      Object.keys(ges.consommation).forEach(cat => {
+        this.updateConso({ category: cat, update: ges.consommation[cat] })
+      })
     }
   }
 }
