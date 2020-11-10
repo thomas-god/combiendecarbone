@@ -20,6 +20,7 @@ import { LogementState } from '@/store/modules/logement'
 import { ConsommationState } from '@/store/modules/consommation'
 import { ServicesState } from '@/store/modules/services_publics'
 import { GESFile } from './ResultatsSave.vue'
+import { Travel } from '@/plugins/transports_ges'
 
 const transports_module = namespace('transports')
 const logement_module = namespace('logement')
@@ -34,7 +35,7 @@ export default class ResultatsLoad extends Vue {
   /**
    * Store items.
    */
-  @transports_module.State travels!: TransportsState['travels']
+  @transports_module.Action insertTravel!: (travel: Travel) => Promise<void>
   @logement_module.State forms!: LogementState['forms']
   @alimentation_module.State regime!: AlimentationState['regime']
   @consommation_module.State consommation!: ConsommationState['consommation']
@@ -43,17 +44,21 @@ export default class ResultatsLoad extends Vue {
   /**
    * Load methods.
    */
-  ges = {}
   openSelectFile(): void {
     const input = this.$refs['load_ges_file'] as HTMLInputElement
     input.click()
   }
-  loadGes() {
+  async loadGes() {
     const files = (this.$refs['load_ges_file'] as HTMLInputElement).files
     if (files === null) return
     if (files.length > 0) {
-      files[0].text().then(val => {
-        this.ges = JSON.parse(val) as GESFile
+      const ges = JSON.parse(await files[0].text()) as GESFile
+
+      /**
+       * Load travels.
+       */
+      ges.transports.forEach(async travel => {
+        await this.insertTravel(travel)
       })
     }
   }
