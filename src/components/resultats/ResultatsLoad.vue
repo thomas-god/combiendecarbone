@@ -95,6 +95,8 @@ export default class ResultatsLoad extends Vue {
         Object.keys(ges.consommation).forEach(cat => {
           this.updateConso({ category: cat, update: ges.consommation[cat] })
         })
+      } else {
+        alert('Impossible de charger le fichier.')
       }
     }
   }
