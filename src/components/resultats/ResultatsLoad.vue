@@ -1,10 +1,10 @@
 <template>
-  <v-btn @click="openSelectFile">
+  <v-btn @click="openSelectFile" color="primary">
     Charger
     <input
       type="file"
       ref="load_ges_file"
-      accept="*"
+      accept=".json"
       style="display:none"
       @change="loadGes"
     />
@@ -20,7 +20,7 @@ import { LogementState } from '@/store/modules/logement'
 import { ConsommationState } from '@/store/modules/consommation'
 import { ServicesState } from '@/store/modules/services_publics'
 import { GESFile } from './ResultatsSave.vue'
-import { Travel } from '@/plugins/transports_ges'
+import { Travel, checkTravel } from '@/plugins/transports_ges'
 import { UserForm } from '@/plugins/ges_logement'
 import { UserRegime } from '@/plugins/alimentation_ges'
 import { ConsommationItem } from '@/plugins/consommation_ges'
@@ -66,35 +66,59 @@ export default class ResultatsLoad extends Vue {
     if (files.length > 0) {
       const ges = JSON.parse(await files[0].text()) as GESFile
 
-      /**
-       * Load travels.
-       */
-      this.clearTravels()
-      ges.transports.forEach(async travel => {
-        await this.insertTravel(travel)
-      })
+      if (this.checkFormat(ges)) {
+        /**
+         * Load travels.
+         */
+        this.clearTravels()
+        ges.transports.forEach(async travel => {
+          await this.insertTravel(travel)
+        })
 
-      /**
-       * Load logement.
-       */
-      this.clearLogementState()
-      ges.logement.forEach(form => {
-        this.addLogementForm(form)
-      })
-      this.computeLogementGes()
+        /**
+         * Load logement.
+         */
+        this.clearLogementState()
+        ges.logement.forEach(form => {
+          this.addLogementForm(form)
+        })
+        this.computeLogementGes()
 
-      /**
-       * Load alimentation.
-       */
-      this.setRegime(ges.alimentation)
+        /**
+         * Load alimentation.
+         */
+        this.setRegime(ges.alimentation)
 
-      /**
-       * Load consommation.
-       */
-      Object.keys(ges.consommation).forEach(cat => {
-        this.updateConso({ category: cat, update: ges.consommation[cat] })
-      })
+        /**
+         * Load consommation.
+         */
+        Object.keys(ges.consommation).forEach(cat => {
+          this.updateConso({ category: cat, update: ges.consommation[cat] })
+        })
+      }
     }
+  }
+  /**
+   * Check file format.
+   */
+  checkFormat(file: GESFile): boolean {
+    if (file.ges_version !== '0.1.0') return false
+
+    /**
+     * Check transports.
+     */
+    if (file.transports === undefined) return false
+    if (!Array.isArray(file.transports)) return false
+    if (
+      !file.transports
+        .map(travel => {
+          return checkTravel(travel)
+        })
+        .every(b => b)
+    )
+      return false
+
+    return true
   }
 }
 </script>
