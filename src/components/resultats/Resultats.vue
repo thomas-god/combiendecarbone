@@ -19,8 +19,10 @@
           kg eq. CO2
         </h3>
       </v-card-text>
-      <resultats-save />
-      <resultats-load />
+      <v-card-text>
+        <resultats-save v-if="ges_total > 0" class="mx-2" />
+        <resultats-load class="mx-2" />
+      </v-card-text>
     </v-card>
 
     <!-- Main doughnut chart -->

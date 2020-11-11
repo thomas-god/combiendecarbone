@@ -1,5 +1,5 @@
 <template>
-  <v-btn @click="saveGes">Sauvegarder</v-btn>
+  <v-btn @click="saveGes" color="primary">Sauvegarder</v-btn>
 </template>
 
 <script lang="ts">
