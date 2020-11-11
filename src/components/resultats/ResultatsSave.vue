@@ -10,16 +10,20 @@ import { AlimentationState } from '@/store/modules/alimentation'
 import { LogementState } from '@/store/modules/logement'
 import { ConsommationState } from '@/store/modules/consommation'
 import { ServicesState } from '@/store/modules/services_publics'
+import { GesTotalByCat } from '@/store/modules/ges'
 
 const transports_module = namespace('transports')
 const logement_module = namespace('logement')
 const alimentation_module = namespace('alimentation')
 const consommation_module = namespace('consommation')
 const services_module = namespace('services')
+const ges_module = namespace('ges')
 
 export interface GESFile {
   ges_version: string
   date: Date
+  ges_total: number
+  ges_total_by_cat: GesTotalByCat
   transports: TransportsState['travels']
   logement: LogementState['forms']
   alimentation: AlimentationState['regime']
@@ -39,6 +43,8 @@ export default class ResultatsSave extends Vue {
   @alimentation_module.State regime!: AlimentationState['regime']
   @consommation_module.State consommation!: ConsommationState['consommation']
   @services_module.State items!: ServicesState['items']
+  @ges_module.Getter('gesTotal') ges_total!: number
+  @ges_module.Getter('gesByCatTotal') ges_total_by_cat!: GesTotalByCat
 
   /**
    * Format and save methods.
@@ -50,6 +56,8 @@ export default class ResultatsSave extends Vue {
     return {
       ges_version: this.version,
       date: new Date(),
+      ges_total: this.ges_total,
+      ges_total_by_cat: this.ges_total_by_cat,
       transports: this.travels,
       logement: this.forms,
       alimentation: this.regime,
