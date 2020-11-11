@@ -14,16 +14,15 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
-import { TransportsState } from '@/store/modules/transports'
-import { AlimentationState } from '@/store/modules/alimentation'
-import { LogementState } from '@/store/modules/logement'
-import { ConsommationState } from '@/store/modules/consommation'
 import { ServicesState } from '@/store/modules/services_publics'
 import { GESFile } from './ResultatsSave.vue'
 import { Travel, checkTravel } from '@/plugins/transports_ges'
 import { UserForm, checkLogementForm } from '@/plugins/ges_logement'
 import { UserRegime, checkRegime } from '@/plugins/alimentation_ges'
-import { ConsommationItem } from '@/plugins/consommation_ges'
+import {
+  ConsommationItem,
+  checkConsommationForm
+} from '@/plugins/consommation_ges'
 
 const transports_module = namespace('transports')
 const logement_module = namespace('logement')
@@ -139,6 +138,12 @@ export default class ResultatsLoad extends Vue {
      */
     if (file.alimentation === undefined) return false
     if (!checkRegime(file.alimentation)) return false
+
+    /**
+     * Check Consommation.
+     */
+    if (file.consommation === undefined) return false
+    if (!checkConsommationForm(file.consommation)) return false
 
     return true
   }
