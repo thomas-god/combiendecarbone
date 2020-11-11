@@ -22,6 +22,19 @@ export interface UserRegime {
   viande_blanche: weekFreq
 }
 
+/**
+ * Check if an object is compatible to the UserRegime
+ * interface.
+ * @param regime Regime object to check.
+ */
+export function checkRegime(regime: UserRegime): boolean {
+  if (regime.bio === undefined) return false
+  if (regime.local === undefined) return false
+  if (regime.viande_rouge === undefined) return false
+  if (regime.viande_blanche === undefined) return false
+  return true
+}
+
 export interface Store {
   freq: weekFreq[]
   regimes: RegimeItem[]

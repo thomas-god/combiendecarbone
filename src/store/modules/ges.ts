@@ -19,7 +19,7 @@ export interface GESCategory {
   total: number
 }
 
-interface GesTotalByCat {
+export interface GesTotalByCat {
   Transports: number
   Logement: number
   Alimentation: number
@@ -27,7 +27,7 @@ interface GesTotalByCat {
   Services: number
 }
 
-interface GesByCat {
+export interface GesByCat {
   Transports: GESItem[]
   Logement: GESItem[]
   Alimentation: GESItem[]
