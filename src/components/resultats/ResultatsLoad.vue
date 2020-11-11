@@ -22,7 +22,7 @@ import { ServicesState } from '@/store/modules/services_publics'
 import { GESFile } from './ResultatsSave.vue'
 import { Travel, checkTravel } from '@/plugins/transports_ges'
 import { UserForm, checkLogementForm } from '@/plugins/ges_logement'
-import { UserRegime } from '@/plugins/alimentation_ges'
+import { UserRegime, checkRegime } from '@/plugins/alimentation_ges'
 import { ConsommationItem } from '@/plugins/consommation_ges'
 
 const transports_module = namespace('transports')
@@ -131,6 +131,13 @@ export default class ResultatsLoad extends Vue {
         .every(b => b)
     )
       return false
+
+    /**
+     * Check Alimenation.
+     */
+    if (file.alimentation === undefined) return false
+    if (!checkRegime(file.alimentation)) return false
+
     return true
   }
 }
