@@ -13,7 +13,10 @@
       <v-card-text max-width="700" v-show="ges_total > 0">
         <h3>
           Vos émissions annuelles sont de
-          <strong>{{ ges_total.toFixed(2) }}</strong> kg eq. CO2
+          <strong>{{
+            ges_total.toLocaleString('fr-FR', { maximumFractionDigits: 0 })
+          }}</strong>
+          kg eq. CO2
         </h3>
       </v-card-text>
       <resultats-save />
