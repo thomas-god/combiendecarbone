@@ -25,6 +25,35 @@ export const default_form: LogementFormEstimation = {
 }
 
 /**
+ * Check if an object is compatible with the LogementFormEstimation
+ * interface.
+ * @param form Form object to check.
+ */
+export function checkForm(form: LogementFormEstimation): boolean {
+  if (form.efficient_appliances_ratio === undefined) return false
+  if (typeof form.efficient_appliances_ratio !== 'string') return false
+
+  if (form.heating_source === undefined) return false
+  if (typeof form.heating_source !== 'string') return false
+
+  if (form.isolation === undefined) return false
+  if (typeof form.isolation !== 'string') return false
+
+  if (form.elec_offre_verte === undefined) return false
+  if (typeof form.elec_offre_verte !== 'boolean') return false
+
+  if (form.gaz_offre_verte === undefined) return false
+  if (typeof form.gaz_offre_verte !== 'boolean') return false
+
+  if (form.nb_habitants === undefined) return false
+  if (typeof form.nb_habitants !== 'number') return false
+
+  if (form.surface_m2 === undefined) return false
+  if (typeof form.surface_m2 !== 'number') return false
+  return true
+}
+
+/**
  * Part des équipements électroménagers basse consommation d'un foyer.
  * Valeur annuelle en kWh, d'après Bilan RTE 2016.
  */

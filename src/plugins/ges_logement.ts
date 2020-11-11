@@ -27,7 +27,33 @@ export const default_ecogeste: Ecogeste = {
 export interface UserForm {
   id: number
   type: 'factures' | 'estimation' | ''
-  inputs: estimation.LogementFormEstimation | factures.LogementFormFactures
+  inputs: estimation.LogementFormEstimation | factures.LogementFormFactures | {}
+}
+
+/**
+ * Check if an object is compatible with the UserForm interface.
+ * @param form Form object to check.
+ */
+export function checkLogementForm(form: UserForm): boolean {
+  if (form.type === undefined) return false
+  if (!['factures', 'estimation', ''].includes(form.type)) return false
+
+  /**
+   * Inputs field.
+   */
+  if (form.inputs === undefined) return false
+  if (form.type === '' && form.inputs !== {}) return false
+  if (
+    form.type === 'factures' &&
+    !factures.checkForm(form.inputs as factures.LogementFormFactures)
+  )
+    return false
+  if (
+    form.type === 'estimation' &&
+    !estimation.checkForm(form.inputs as estimation.LogementFormEstimation)
+  )
+    return false
+  return true
 }
 
 export interface Store {
