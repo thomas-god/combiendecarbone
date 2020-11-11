@@ -21,7 +21,7 @@ import { ConsommationState } from '@/store/modules/consommation'
 import { ServicesState } from '@/store/modules/services_publics'
 import { GESFile } from './ResultatsSave.vue'
 import { Travel, checkTravel } from '@/plugins/transports_ges'
-import { UserForm } from '@/plugins/ges_logement'
+import { UserForm, checkLogementForm } from '@/plugins/ges_logement'
 import { UserRegime } from '@/plugins/alimentation_ges'
 import { ConsommationItem } from '@/plugins/consommation_ges'
 
@@ -118,6 +118,19 @@ export default class ResultatsLoad extends Vue {
     )
       return false
 
+    /**
+     * Check logement.
+     */
+    if (file.logement === undefined) return false
+    if (!Array.isArray(file.logement)) return false
+    if (
+      !file.logement
+        .map(form => {
+          return checkLogementForm(form)
+        })
+        .every(b => b)
+    )
+      return false
     return true
   }
 }
