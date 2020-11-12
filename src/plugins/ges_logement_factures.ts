@@ -84,7 +84,7 @@ export function computeGes(
   /**
    * Facture de gaz.
    */
-  if (factures.elec_conso_kwh > 0)
+  if (factures.gaz_conso_kwh > 0)
     ges.items.push({
       category: 'Logement',
       label: 'Gaz',
