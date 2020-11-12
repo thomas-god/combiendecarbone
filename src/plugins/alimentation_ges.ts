@@ -61,36 +61,47 @@ export function computeGes(regime: UserRegime): GESCategory {
   // TODO: utiliser des valeurs cohérentes des ges
   const ecogeste = chooseEcogeste(regime)
   const ges: GESCategory = { items: [], total: 0 }
-  // Discount bio/local
-  const discount: number =
-    (1 - (0.0 * freq[regime['bio']]) / 14) *
-    (1 - (0.0 * freq[regime['local']]) / 14)
+  if (!checkRegimeHasEmptyField(regime)) {
+    // Discount bio/local
+    const discount: number =
+      (1 - (0.0 * freq[regime['bio']]) / 14) *
+      (1 - (0.0 * freq[regime['local']]) / 14)
 
-  // Regime de base sur une semaine (14 repas) * 52 semaines
-  ges.items.push({
-    category: 'Alimentation',
-    label: 'Alimentaire hors viande',
-    value: 0.9 * 14 * 52 * discount,
-    ecogeste: ecogeste
-  })
+    // Regime de base sur une semaine (14 repas) * 52 semaines
+    ges.items.push({
+      category: 'Alimentation',
+      label: 'Alimentaire hors viande',
+      value: 0.9 * 14 * 52 * discount,
+      ecogeste: ecogeste
+    })
 
-  // Contributions viande
-  ges.items.push({
-    category: 'Alimentation',
-    label: 'Viande rouge',
-    value: (6 - 0.9) * freq[regime['viande_rouge']] * 52 * discount,
-    ecogeste: ecogeste
-  })
-  ges.items.push({
-    category: 'Alimentation',
-    label: 'Viande blanche',
-    value: (1.9 - 0.9) * freq[regime['viande_blanche']] * 52 * discount,
-    ecogeste: ecogeste
-  })
+    // Contributions viande
+    ges.items.push({
+      category: 'Alimentation',
+      label: 'Viande rouge',
+      value: (6 - 0.9) * freq[regime['viande_rouge']] * 52 * discount,
+      ecogeste: ecogeste
+    })
+    ges.items.push({
+      category: 'Alimentation',
+      label: 'Viande blanche',
+      value: (1.9 - 0.9) * freq[regime['viande_blanche']] * 52 * discount,
+      ecogeste: ecogeste
+    })
 
-  // Émissions annuelles en kg
-  ges.total = ges.items.reduce((s, c) => s + c.value, 0)
+    // Émissions annuelles en kg
+    ges.total = ges.items.reduce((s, c) => s + c.value, 0)
+  }
   return ges
+}
+
+function checkRegimeHasEmptyField(regime: UserRegime): boolean {
+  return (
+    regime.bio === '' ||
+    regime.local === '' ||
+    regime.viande_blanche === '' ||
+    regime.viande_rouge === ''
+  )
 }
 
 function chooseEcogeste(regime: UserRegime): Ecogeste {
