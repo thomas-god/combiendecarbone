@@ -11,6 +11,14 @@
       </v-card-title>
       <v-card-text class="text-left">
         <p>
+          Personnes dans votre foyer :
+          {{
+            current_form.inputs.nb_habitants === ''
+              ? 1
+              : current_form.inputs.nb_habitants
+          }}
+        </p>
+        <p v-if="current_form.inputs.elec_conso_kwh > 0">
           Électricité:
           {{
             current_form.inputs.elec_conso_kwh === ''
@@ -19,7 +27,7 @@
           }}
           kWh
         </p>
-        <p>
+        <p v-if="current_form.inputs.gaz_conso_kwh > 0">
           Gaz:
           {{
             current_form.inputs.gaz_conso_kwh === ''
@@ -28,13 +36,23 @@
           }}
           kWh
         </p>
-        <p>
-          Personnes dans votre foyer :
+        <p v-if="current_form.inputs.fioul_conso_l > 0">
+          Fioul:
           {{
-            current_form.inputs.nb_habitants === ''
-              ? 1
-              : current_form.inputs.nb_habitants
+            current_form.inputs.fioul_conso_l === ''
+              ? 0
+              : current_form.inputs.fioul_conso_l
           }}
+          litres
+        </p>
+        <p v-if="current_form.inputs.bois_conso_stere > 0">
+          Bois de chauffage:
+          {{
+            current_form.inputs.bois_conso_stere === ''
+              ? 0
+              : current_form.inputs.bois_conso_stere
+          }}
+          stères
         </p>
       </v-card-text>
     </div>
