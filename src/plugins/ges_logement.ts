@@ -14,8 +14,10 @@ export interface GESCategoryLogement extends GESCategory {
 }
 
 export function ges_values() {
-  // kg CO2 eq./kWh
+  // kg CO2 eq./kWh (PCI le cas échéant)
   return {
+    fioul: 0.324,
+    bois: 0.03,
     gaz: 0.234,
     elec: 0.049
   }

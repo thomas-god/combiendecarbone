@@ -20,6 +20,14 @@
         <!-- Factures connues -->
         <div v-if="current_form.type === 'factures'">
           <v-text-field
+            label="Nombre de personnes dans votre foyer (vous inclus·e)"
+            v-model.number="current_form.inputs.nb_habitants"
+            type="number"
+            min="1"
+            step="1"
+            :rules="rulesNumSup1"
+          ></v-text-field>
+          <v-text-field
             label="Facture d'éléctricité (kWh)"
             v-model.number="current_form.inputs.elec_conso_kwh"
             type="number"
@@ -36,12 +44,20 @@
             :rules="rulesNum"
           ></v-text-field>
           <v-text-field
-            label="Nombre de personnes dans votre foyer (vous inclus·e)"
-            v-model.number="current_form.inputs.nb_habitants"
+            label="Facture de bois (stère)"
+            v-model.number="current_form.inputs.bois_conso_stere"
             type="number"
-            min="1"
-            step="1"
-            :rules="rulesNumSup1"
+            min="0"
+            step="0.05"
+            :rules="rulesNum"
+          ></v-text-field>
+          <v-text-field
+            label="Facture de fioul (l)"
+            v-model.number="current_form.inputs.fioul_conso_l"
+            type="number"
+            min="0"
+            step="0.05"
+            :rules="rulesNum"
           ></v-text-field>
         </div>
 

@@ -2,7 +2,7 @@
   <div>
     <h3>Contexte</h3>
     <p>
-      La consommation énergétique d'un logement regroupe une vaste gamme
+      La consommation énergétique d'un logement regroupe une large gamme
       d'usages : chauffage, cuisson, eau chaude sanitaire, consommations
       électriques, etc. Pour chaque usage la consommation dépend de l'intensité
       de l'usage (influence du climat sur le chauffage, mais aussi des
@@ -13,12 +13,12 @@
 
     <p>
       Une méthode simple et fiable consiste à se baser sur les factures des
-      fournisseurs de gaz et d'éléctricité qui donnent les consommations éxactes
-      du logement en gaz et électricité en kWh. Une fois les consommations
-      connues il suffit de les multiplier par les facteur d'émissions du système
-      électrique français et du gaz pour obtenir les émissions de CO2
-      correspondantes. Si vous ne connaissez pas vos factures ou n'en avez pas,
-      un formulaire simple est proposé pour estimer votre consommation.
+      fournisseurs d'énergie (gaz, éléctricité, fioul, bois) qui donnent les
+      consommations éxactes du logement. Une fois les consommations connues il
+      suffit d'utiliser les facteur d'émissions (détaillés plus bas) de chaque
+      source pour obtenir les émissions de CO2 correspondantes. Si vous ne
+      connaissez pas vos factures ou n'en avez pas, un formulaire simple est
+      proposé pour estimer votre consommation.
     </p>
     <h3>Facteur d'émission de l'électricité</h3>
     <p>
@@ -50,6 +50,30 @@
       >
       donne pour du gaz naturel un facteur d'émissions de
       <strong>227 kg eq.CO2/MWh</strong>.
+    </p>
+    <h3>Facteur d'émission du fioul domestique</h3>
+    <p>
+      <a
+        href="https://www.bilans-ges.ademe.fr/fr/basecarbone/donnees-consulter/liste-element/categorie/20"
+        target="_blank"
+        >L'ADEME</a
+      >
+      donne au fioul à usage domestique, en France métropolitaine, un facteur
+      d'émissions de
+      <strong>3,19 kg eq.CO2/litre</strong>.
+    </p>
+    <h3>Facteur d'émission du bois de chauffage</h3>
+    <p>
+      Le bois du chauffage couvre une large gamme de produits (buches, palettes,
+      granulés) aux propriétés différentes (densité, taux d'humidité). On
+      retiendra qu'un stère de bois (1m3) a une masse d'environ 500 kg et que
+      l'<a
+        href="https://www.bilans-ges.ademe.fr/fr/basecarbone/donnees-consulter/liste-element/categorie/36"
+        target="_blank"
+        >ADEME</a
+      >
+      donne un facteur d'émissions de 0,114 kg eq.CO2/kg, soit
+      <strong>57 kg eq.CO2/stère</strong>.
     </p>
 
     <h3>Estimation en cas des factures manquantes</h3>
@@ -93,8 +117,7 @@
         target="_blank"
       >
         Gaz Tarif Réglementé</a
-      >). On considère ensuite une surface moyenne de 30m<sup>2</sup> par
-      personne. Que ce soit pour un chauffage gaz ou électrique, des travaux
+      >). Que ce soit pour un chauffage gaz ou électrique, des travaux
       d'isolation peuvent diminuer la consommation énergétique jusqu'à -75%
       (mêmes sources).
     </p>
