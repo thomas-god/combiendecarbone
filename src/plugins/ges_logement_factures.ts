@@ -27,10 +27,10 @@ export const default_form: LogementFormFactures = {
 }
 
 /**
- * Conversion factors.
+ * Specific conversion factors for fioul and bois.
  */
-export const fioul_l_to_kwh = 1
-export const bois_stere_to_kwh = 1
+export const fioul_kgCO2_per_l = 3.19
+export const bois_kgC02_per_stere = 57
 
 /**
  * Check if an object is compatible with the LogementFormFactures
@@ -100,9 +100,7 @@ export function computeGes(
     ges.items.push({
       category: 'Logement',
       label: 'Bois',
-      value:
-        (factures.bois_conso_stere * bois_stere_to_kwh * ges_values().bois) /
-        nb_habitants,
+      value: (factures.bois_conso_stere * bois_kgC02_per_stere) / nb_habitants,
       metadata: { source: 'bois', usage: 'heating' },
       ecogeste: default_ecogeste
     })
@@ -114,9 +112,7 @@ export function computeGes(
     ges.items.push({
       category: 'Logement',
       label: 'Fioul',
-      value:
-        (factures.fioul_conso_l * fioul_l_to_kwh * ges_values().fioul) /
-        nb_habitants,
+      value: (factures.fioul_conso_l * fioul_kgCO2_per_l) / nb_habitants,
       metadata: { source: 'fioul', usage: 'heating' },
       ecogeste: default_ecogeste
     })
