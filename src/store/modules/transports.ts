@@ -71,13 +71,14 @@ export const getters: GetterTree<Transports.Store, RootState> = {
  */
 export const mutations: MutationTree<Transports.Store> = {
   insertTravel(state, travel: Transports.Travel): void {
-    id++
-    const newTravel = {
-      ...travel,
-      name: `${travel.departure.name} - ${travel.arrival.name} (${travel.mode})`,
-      id
+    if (travel.id === undefined) {
+      id++
+      travel.id = id
     }
-    state.travels.push(JSON.parse(JSON.stringify(newTravel)))
+    if (travel.name === undefined)
+      travel.name = `${travel.departure.name} - ${travel.arrival.name} (${travel.mode})`
+    id++
+    state.travels.push(JSON.parse(JSON.stringify(travel)))
   },
   updateTravel(state, new_travel: Transports.Travel): void {
     const travel_id = state.travels.findIndex(
@@ -97,6 +98,10 @@ export const mutations: MutationTree<Transports.Store> = {
       Vue.delete(state.travels, travel_id)
     }
   },
+  clearTravels(state): void {
+    Vue.set(state, 'travels', [])
+    state.current_id = -1
+  },
   updateCurrentId(state, new_id: number): void {
     state.current_id = new_id
   }
@@ -106,19 +111,23 @@ export const mutations: MutationTree<Transports.Store> = {
  * Actions.
  */
 export const actions: ActionTree<Transports.Store, RootState> = {
-  async insertTravel(context, travel: Transports.Travel): Promise<number> {
-    travel = await computeDistance(travel)
-    travel = await computeGes(travel)
-    context.commit('insertTravel', travel)
-    // ? Qu'est ce que je dois retourner ?
-    return 1
+  async insertTravel(context, travel: Transports.Travel): Promise<void> {
+    if (travel.distance === undefined) {
+      const travel_distance = await computeDistance(travel)
+      const travel_ges = await computeGes(travel_distance)
+      context.commit('insertTravel', travel_ges)
+    } else {
+      context.commit('insertTravel', travel)
+    }
   },
-  async updateTravel(context, new_travel: Transports.Travel): Promise<number> {
+  async updateTravel(
+    context,
+
+    new_travel: Transports.Travel
+  ): Promise<void> {
     new_travel = await computeDistance(new_travel)
     new_travel = await computeGes(new_travel)
     context.commit('updateTravel', new_travel)
-    // ? Qu'est ce que je dois retourner ?
-    return 1
   },
   deleteTravel(context, travelId: number): void {
     context.commit('deleteTravel', travelId)

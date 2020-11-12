@@ -129,7 +129,6 @@ export default class LogementForm extends Vue {
    * Current form.
    */
   base_form = {
-    id: -1,
     type: '',
     inputs: {}
   }

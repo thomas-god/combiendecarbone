@@ -1,9 +1,27 @@
+import { ConsommationState } from '@/store/modules/consommation'
 import { GESCategory, Ecogeste } from '@/store/modules/ges'
 
 export interface ConsommationItem {
   name: string
   full_name: string
   value: number
+}
+
+/**
+ * Check if an object is compatible with the ConsommationItem
+ * interface.
+ * @param item Item to check.
+ */
+export function checkConsoItem(item: ConsommationItem): boolean {
+  if (item.name === undefined) return false
+  if (typeof item.name !== 'string') return false
+
+  if (item.full_name === undefined) return false
+  if (typeof item.full_name !== 'string') return false
+
+  if (item.value === undefined) return false
+  if (typeof item.value !== 'number') return false
+  return true
 }
 
 export enum Categories {
@@ -15,6 +33,23 @@ export enum Categories {
 export interface Store {
   consommation: Record<string, ConsommationItem[]>
   ges: GESCategory
+}
+
+/**
+ * Check if an object is compatible with the Consommation
+ * store object.
+ * @param form Form object to check.
+ */
+export function checkConsommationForm(form: Store['consommation']): boolean {
+  return Object.keys(form)
+    .map(cat => {
+      return form[cat]
+        .map(item => {
+          return checkConsoItem(item)
+        })
+        .every(b => b)
+    })
+    .every(b => b)
 }
 
 const vetements_ges: ConsommationItem[] = [

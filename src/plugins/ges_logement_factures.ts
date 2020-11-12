@@ -32,6 +32,33 @@ export const default_form: LogementFormFactures = {
 export const fioul_l_to_kwh = 1
 export const bois_stere_to_kwh = 1
 
+/**
+ * Check if an object is compatible with the LogementFormFactures
+ * interface.
+ * @param form Form object to check.
+ */
+export function checkForm(form: LogementFormFactures): boolean {
+  if (form.elec_conso_kwh === undefined) return false
+  if (typeof form.elec_conso_kwh !== 'number') return false
+
+  if (form.elec_offre_verte === undefined) return false
+  if (typeof form.elec_offre_verte !== 'boolean') return false
+
+  if (form.gaz_conso_kwh === undefined) return false
+  if (typeof form.gaz_conso_kwh !== 'number') return false
+
+  if (form.gaz_offre_verte === undefined) return false
+  if (typeof form.gaz_offre_verte !== 'boolean') return false
+
+  if (form.nb_habitants === undefined) return false
+  if (typeof form.nb_habitants !== 'number') return false
+  return true
+}
+
+/**
+ * Compute GES for a LogementFormFactures form.
+ * @param factures Form object.
+ */
 export function computeGes(
   factures: LogementFormFactures
 ): GESCategoryLogement {

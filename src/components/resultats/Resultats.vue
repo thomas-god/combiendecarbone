@@ -13,8 +13,15 @@
       <v-card-text max-width="700" v-show="ges_total > 0">
         <h3>
           Vos émissions annuelles sont de
-          <strong>{{ ges_total.toFixed(2) }}</strong> kg eq. CO2
+          <strong>{{
+            ges_total.toLocaleString('fr-FR', { maximumFractionDigits: 0 })
+          }}</strong>
+          kg eq. CO2
         </h3>
+      </v-card-text>
+      <v-card-text>
+        <resultats-save v-if="ges_total > 0" class="mx-2" />
+        <resultats-load class="mx-2" />
       </v-card-text>
     </v-card>
 
@@ -97,6 +104,8 @@ import Vue from 'vue'
 import ChartDoughnut from './ResultatsChartDoughnut.vue'
 import ChartSubDoughnut from './ResultatsChartSubDoughnut.vue'
 import ChartBar from './ResultatsChartBar.vue'
+import ResultatsSave from './ResultatsSave.vue'
+import ResultatsLoad from './ResultatsLoad.vue'
 import Ecogestes from '@/components/ecogestes/Ecogestes.vue'
 import { mapGetters } from 'vuex'
 import { GESItem } from '@/store/modules/ges'
@@ -106,6 +115,8 @@ export default Vue.extend({
     ChartDoughnut,
     ChartSubDoughnut,
     ChartBar,
+    ResultatsSave,
+    ResultatsLoad,
     Ecogestes
   },
   data() {
