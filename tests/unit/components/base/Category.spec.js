@@ -1,6 +1,6 @@
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
-import Component from '@/components/base/Category.vue'
+import Component from '@/ui/components/base/Category.vue'
 
 const localVue = createLocalVue()
 

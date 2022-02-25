@@ -1,6 +1,6 @@
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
-import Component from '@/components/base/BaseNumPM.vue'
+import Component from '@/ui/components/base/BaseNumPM.vue'
 
 const localVue = createLocalVue()
 
