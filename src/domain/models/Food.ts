@@ -19,6 +19,8 @@ const RegimeFrequencyMap: Record<RegimeFrequency, number> = {
   "A tous les repas": 14,
 };
 
+export const RegimeFrequencies = Object.keys(RegimeFrequencyMap);
+
 export interface FoodRegimeProps {
   bio: RegimeFrequency;
   local: RegimeFrequency;
