@@ -1,4 +1,4 @@
-import { GESCategory, Ecogeste } from '@/ui/store/modules/ges'
+import { GESCategory, Ecogeste } from '@/ui/store/modules/ges';
 
 export interface ConsommationItem {
   name: string
@@ -12,15 +12,15 @@ export interface ConsommationItem {
  * @param item Item to check.
  */
 export function checkConsoItem(item: ConsommationItem): boolean {
-  if (item.name === undefined) return false
-  if (typeof item.name !== 'string') return false
+  if (item.name === undefined) return false;
+  if (typeof item.name !== 'string') return false;
 
-  if (item.full_name === undefined) return false
-  if (typeof item.full_name !== 'string') return false
+  if (item.full_name === undefined) return false;
+  if (typeof item.full_name !== 'string') return false;
 
-  if (item.value === undefined) return false
-  if (typeof item.value !== 'number') return false
-  return true
+  if (item.value === undefined) return false;
+  if (typeof item.value !== 'number') return false;
+  return true;
 }
 
 export enum Categories {
@@ -41,14 +41,10 @@ export interface Store {
  */
 export function checkConsommationForm(form: Store['consommation']): boolean {
   return Object.keys(form)
-    .map(cat => {
-      return form[cat]
-        .map(item => {
-          return checkConsoItem(item)
-        })
-        .every(b => b)
-    })
-    .every(b => b)
+    .map((cat) => form[cat]
+      .map((item) => checkConsoItem(item))
+      .every((b) => b))
+    .every((b) => b);
 }
 
 const vetements_ges: ConsommationItem[] = [
@@ -60,60 +56,54 @@ const vetements_ges: ConsommationItem[] = [
   { name: 'sweat-coton', full_name: 'Sweat coton', value: 31 },
   { name: 'robe', full_name: 'Robe', value: 56 },
   { name: 'manteau', full_name: 'Manteau', value: 89 },
-  { name: 'chaussure', full_name: 'Chaussures', value: 19 }
-]
+  { name: 'chaussure', full_name: 'Chaussures', value: 19 },
+];
 export const vetements_options = vetements_ges.map(
-  (item: ConsommationItem): ConsommationItem => {
-    return { name: item.name, full_name: item.full_name, value: 0 }
-  }
-)
+  (item: ConsommationItem): ConsommationItem => ({ name: item.name, full_name: item.full_name, value: 0 }),
+);
 const high_tech_ges: ConsommationItem[] = [
   { name: 'smartphone', full_name: 'Smartphone', value: 30 },
   { name: 'portable', full_name: 'Ordinateur portable', value: 156 },
   { name: 'fixe', full_name: 'Ordinateur fixe', value: 200 },
-  { name: 'tele', full_name: 'Télévision', value: 350 }
-]
-export const high_tech_options = high_tech_ges.map(item => {
-  return { name: item.name, full_name: item.full_name, value: 0 }
-})
+  { name: 'tele', full_name: 'Télévision', value: 350 },
+];
+export const high_tech_options = high_tech_ges.map((item) => ({ name: item.name, full_name: item.full_name, value: 0 }));
 const electromenager_ges: ConsommationItem[] = [
   { name: 'four', full_name: 'Four', value: 217 },
   { name: 'lave-vaisselle', full_name: 'Lave-vaisselle', value: 253 },
   { name: 'lave-linge', full_name: 'Lave-linge', value: 320 },
-  { name: 'frigo', full_name: 'Réfrigérateur', value: 257 }
-]
-export const electromenager_options = electromenager_ges.map(item => {
-  return { name: item.name, full_name: item.full_name, value: 0 }
-})
+  { name: 'frigo', full_name: 'Réfrigérateur', value: 257 },
+];
+export const electromenager_options = electromenager_ges.map((item) => ({ name: item.name, full_name: item.full_name, value: 0 }));
 
 function getItemGesValue(arr: ConsommationItem[], item_name: string): number {
-  const res = arr.find(item => item.name === item_name)
-  return res ? res.value : 0
+  const res = arr.find((item) => item.name === item_name);
+  return res ? res.value : 0;
 }
 function mul(a: number, b: number): number {
-  return a * b
+  return a * b;
 }
 function div(a: number, b: number): number {
-  return b === 0 ? 0 : a / b
+  return b === 0 ? 0 : a / b;
 }
 
 function computeGesByCategory(
   category: keyof typeof Categories,
   consommation: ConsommationItem[],
-  ges_values: ConsommationItem[]
+  ges_values: ConsommationItem[],
 ): number {
-  let ges = 0
-  const op = category === 'Vêtements' ? mul : div
-  consommation.forEach(item => {
-    ges += op(getItemGesValue(ges_values, item.name), item.value)
-  })
-  return ges
+  let ges = 0;
+  const op = category === 'Vêtements' ? mul : div;
+  consommation.forEach((item) => {
+    ges += op(getItemGesValue(ges_values, item.name), item.value);
+  });
+  return ges;
 }
 
 function computeGes(
-  consommation: Record<string, ConsommationItem[]>
+  consommation: Record<string, ConsommationItem[]>,
 ): GESCategory {
-  const ges: GESCategory = { total: 0, items: [] }
+  const ges: GESCategory = { total: 0, items: [] };
   ges.items = [
     {
       category: 'Consommation',
@@ -121,9 +111,9 @@ function computeGes(
       value: computeGesByCategory(
         'Vêtements',
         consommation['Vêtements'],
-        vetements_ges
+        vetements_ges,
       ),
-      ecogeste: chooseEcogeste()
+      ecogeste: chooseEcogeste(),
     },
     {
       category: 'Consommation',
@@ -131,9 +121,9 @@ function computeGes(
       value: computeGesByCategory(
         'High-tech',
         consommation['High-tech'],
-        high_tech_ges
+        high_tech_ges,
       ),
-      ecogeste: chooseEcogeste()
+      ecogeste: chooseEcogeste(),
     },
     {
       category: 'Consommation',
@@ -141,33 +131,27 @@ function computeGes(
       value: computeGesByCategory(
         'Électroménager',
         consommation['Électroménager'],
-        electromenager_ges
+        electromenager_ges,
       ),
-      ecogeste: chooseEcogeste()
-    }
-  ]
+      ecogeste: chooseEcogeste(),
+    },
+  ];
 
-  ges.total = ges.items.reduce((s, c) => s + c.value, 0)
+  ges.total = ges.items.reduce((s, c) => s + c.value, 0);
 
-  return ges
+  return ges;
 }
 
 function chooseEcogeste(): Ecogeste {
-  return { name: 'EcogesteConsommation' }
+  return { name: 'EcogesteConsommation' };
 }
 
 const consommation: Record<string, ConsommationItem[]> = {
   vetements: vetements_ges.map(
-    (item: ConsommationItem): ConsommationItem => {
-      return { name: item.name, full_name: item.full_name, value: 0 }
-    }
+    (item: ConsommationItem): ConsommationItem => ({ name: item.name, full_name: item.full_name, value: 0 }),
   ),
-  high_tech: high_tech_ges.map(item => {
-    return { name: item.name, full_name: item.full_name, value: 0 }
-  }),
-  electromenager: electromenager_ges.map(item => {
-    return { name: item.name, full_name: item.full_name, value: 0 }
-  })
-}
+  high_tech: high_tech_ges.map((item) => ({ name: item.name, full_name: item.full_name, value: 0 })),
+  electromenager: electromenager_ges.map((item) => ({ name: item.name, full_name: item.full_name, value: 0 })),
+};
 
-export { consommation, computeGes }
+export { consommation, computeGes };

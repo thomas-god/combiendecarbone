@@ -22,37 +22,37 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Category from '../base/Category.vue'
-import AlimentationForm from './AlimentationForm.vue'
-import AlimentationCard from './AlimentationCard.vue'
-import { mapGetters } from 'vuex'
+import Vue from 'vue';
+import { mapGetters } from 'vuex';
+import Category from '@/ui/components/base/CategoryInput.vue';
+import AlimentationForm from './AlimentationForm.vue';
+import AlimentationCard from './AlimentationCard.vue';
 
 export default Vue.extend({
   components: {
     Category,
     AlimentationForm,
-    AlimentationCard
+    AlimentationCard,
   },
   computed: {
     ...mapGetters({
-      regime: 'alimentation/getRegime'
+      regime: 'alimentation/getRegime',
     }),
     isRegime() {
-      return !Object.values(this.regime).some(item => item === '')
+      return !Object.values(this.regime).some((item) => item === '');
     },
     btnName() {
-      return this.isRegime ? 'Modifier' : 'Répondre'
-    }
+      return this.isRegime ? 'Modifier' : 'Répondre';
+    },
   },
   methods: {
     async resetForm() {
-      await this.$nextTick()
-      const form = this.$refs.form_alim as Vue & { resetRegime: () => void }
-      form.resetRegime()
-    }
-  }
-})
+      await this.$nextTick();
+      const form = this.$refs.form_alim as Vue & { resetRegime: () => void };
+      form.resetRegime();
+    },
+  },
+});
 </script>
 
 <style></style>

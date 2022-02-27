@@ -6,12 +6,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import NavbarCat from '../components/NavbarCat.vue'
+import Vue from 'vue';
+import NavbarCat from '../components/NavbarCat.vue';
 
 export default Vue.extend({
   components: {
-    NavbarCat
+    NavbarCat,
   },
   data() {
     return {
@@ -21,9 +21,9 @@ export default Vue.extend({
         'Logement',
         'Alimentation',
         'Consommation',
-        'Résultats'
-      ]
-    }
-  }
-})
+        'Résultats',
+      ],
+    };
+  },
+});
 </script>

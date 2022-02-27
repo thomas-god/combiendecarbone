@@ -21,9 +21,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { mapGetters, mapActions } from 'vuex'
-import { UserRegime } from '../../plugins/alimentation_ges'
+import Vue from 'vue';
+import { mapGetters, mapActions } from 'vuex';
+import { UserRegime } from '../../plugins/alimentation_ges';
 
 export default Vue.extend({
   data() {
@@ -33,37 +33,37 @@ export default Vue.extend({
         bio: '',
         local: '',
         viande_rouge: '',
-        viande_blanche: ''
-      } as UserRegime
-    }
+        viande_blanche: '',
+      } as UserRegime,
+    };
   },
   methods: {
     ...mapActions({
-      setRegime: 'alimentation/setRegime'
+      setRegime: 'alimentation/setRegime',
     }),
     validate(): void {
       if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
-        this.setRegime(this.user_regime)
-        this.$emit('close')
+        this.setRegime(this.user_regime);
+        this.$emit('close');
       }
     },
     resetRegime(): void {
-      this.user_regime = JSON.parse(JSON.stringify(this.regime)) as UserRegime
-      const form = this.$refs.form as Vue & { resetValidation: () => void }
-      form.resetValidation()
-    }
+      this.user_regime = JSON.parse(JSON.stringify(this.regime)) as UserRegime;
+      const form = this.$refs.form as Vue & { resetValidation: () => void };
+      form.resetValidation();
+    },
   },
   computed: {
     ...mapGetters({
       regime: 'alimentation/getRegime',
       freq: 'alimentation/getFreq',
-      items: 'alimentation/getItems'
+      items: 'alimentation/getItems',
     }),
     freqFiltered(): string[] {
-      return this.freq.filter((item: string) => item !== '')
-    }
-  }
-})
+      return this.freq.filter((item: string) => item !== '');
+    },
+  },
+});
 </script>
 
 <style></style>

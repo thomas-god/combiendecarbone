@@ -33,12 +33,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EcogesteBase from './EcogesteBase.vue'
+import Vue from 'vue';
+import EcogesteBase from './EcogesteBase.vue';
 
 export default Vue.extend({
-  extends: EcogesteBase
-})
+  extends: EcogesteBase,
+});
 </script>
 
 <style scoped>

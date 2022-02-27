@@ -120,8 +120,8 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
-import EcogesteBase from './EcogesteBase.vue'
+import Vue, { PropType } from 'vue';
+import EcogesteBase from './EcogesteBase.vue';
 
 interface EcogesteProps {
   palier: number
@@ -131,26 +131,26 @@ export default Vue.extend({
   extends: EcogesteBase,
   props: {
     props: {
-      type: Object as PropType<EcogesteProps>
-    }
+      type: Object as PropType<EcogesteProps>,
+    },
   },
   data() {
     return {
       viande_rouge_def: '(bœuf, mouton, cheval)',
       viande_blanche_def: '(porc, veau, lapin, volailles)',
       txt_local_bio:
-        "vous pouvez également essayer de consommer local (moins d'émissions de gaz à effet de serre liées au transport de vos aliments), et/ou bio (moins d'intrants artificiels utilisés)."
-    }
+        "vous pouvez également essayer de consommer local (moins d'émissions de gaz à effet de serre liées au transport de vos aliments), et/ou bio (moins d'intrants artificiels utilisés).",
+    };
   },
   computed: {
     emoji_title() {
-      if (this.props.palier === 1) return '🥩'
-      else if ([2, 3].includes(this.props.palier)) return '🍗'
-      else if ([4, 5, 6].includes(this.props.palier)) return '🥦'
-      else return '🍽'
-    }
-  }
-})
+      if (this.props.palier === 1) return '🥩';
+      if ([2, 3].includes(this.props.palier)) return '🍗';
+      if ([4, 5, 6].includes(this.props.palier)) return '🥦';
+      return '🍽';
+    },
+  },
+});
 </script>
 
 <style scoped>

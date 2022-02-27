@@ -100,15 +100,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ChartDoughnut from './ResultatsChartDoughnut.vue'
-import ChartSubDoughnut from './ResultatsChartSubDoughnut.vue'
-import ChartBar from './ResultatsChartBar.vue'
-import ResultatsSave from './ResultatsSave.vue'
-import ResultatsLoad from './ResultatsLoad.vue'
-import Ecogestes from '@/ui/components/ecogestes/Ecogestes.vue'
-import { mapGetters } from 'vuex'
-import { GESItem } from '@/ui/store/modules/ges'
+import Vue from 'vue';
+import Ecogestes from '@/ui/components/ecogestes/EcogestesMain.vue';
+import { mapGetters } from 'vuex';
+import { GESItem } from '@/ui/store/modules/ges';
+import ChartDoughnut from './ResultatsChartDoughnut.vue';
+import ChartSubDoughnut from './ResultatsChartSubDoughnut.vue';
+import ChartBar from './ResultatsChartBar.vue';
+import ResultatsSave from './ResultatsSave.vue';
+import ResultatsLoad from './ResultatsLoad.vue';
 
 export default Vue.extend({
   components: {
@@ -117,54 +117,54 @@ export default Vue.extend({
     ChartBar,
     ResultatsSave,
     ResultatsLoad,
-    Ecogestes
+    Ecogestes,
   },
   data() {
     return {
       subplot: {
         data: [],
         display: false,
-        category: ''
+        category: '',
       },
-      show_main_chart: true
-    }
+      show_main_chart: true,
+    };
   },
   computed: {
     ...mapGetters({
       gesByCatTotal: 'ges/gesByCatTotal',
       gesByCat: 'ges/gesByCat',
       ges_total: 'ges/gesTotal',
-      top_ges: 'ges/topGes'
+      top_ges: 'ges/topGes',
     }),
     bar_chart_scroll(): string {
-      let res = ''
+      let res = '';
       if (this.top_ges) {
-        res = `${110 * this.top_ges.length}px`
+        res = `${110 * this.top_ges.length}px`;
       }
-      return res
-    }
+      return res;
+    },
   },
   methods: {
     subplotCallback(cat: string) {
-      this.subplot.data = this.gesByCat[cat]
-      this.subplot.display = true
-      this.subplot.category = cat
-      this.show_main_chart = false
+      this.subplot.data = this.gesByCat[cat];
+      this.subplot.display = true;
+      this.subplot.category = cat;
+      this.show_main_chart = false;
     },
     closeSubplotCallback() {
-      this.subplot.display = false
-      this.show_main_chart = true
+      this.subplot.display = false;
+      this.show_main_chart = true;
     },
     ecogesteCallback(item: GESItem) {
       // TODO: Specify the ges item clicked by the user
       // TODO: either by passing it to the Ecogeste component or via the store
       const ecogeste = this.$refs.écogeste as Vue & {
         openEcogeste: (ges_item_name: GESItem) => void
-      }
-      ecogeste.openEcogeste(item)
-    }
-  }
-})
+      };
+      ecogeste.openEcogeste(item);
+    },
+  },
+});
 </script>
 
 <style>

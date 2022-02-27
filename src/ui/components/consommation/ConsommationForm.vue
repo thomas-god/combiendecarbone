@@ -26,14 +26,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import BaseNumPM from '../base/BaseNumPM.vue'
-import { mapGetters, mapActions } from 'vuex'
-import { ConsommationItem } from '@/ui/plugins/consommation_ges'
+import Vue from 'vue';
+import { mapGetters, mapActions } from 'vuex';
+import { ConsommationItem } from '@/ui/plugins/consommation_ges';
+import BaseNumPM from '../base/BaseNumPM.vue';
 
 export default Vue.extend({
   components: {
-    numBtn: BaseNumPM
+    numBtn: BaseNumPM,
   },
   props: ['category'],
   data() {
@@ -45,51 +45,49 @@ export default Vue.extend({
       titles: {
         Vêtements: 'Combien de vêtements achetez-vous tous les ans ?',
         Électroménager: "Combien d'années gardez-vous votre électroménager ?",
-        'High-tech': "Combien d'années gardez-vous votre high-tech ?"
-      } as Record<string, string>
-    }
+        'High-tech': "Combien d'années gardez-vous votre high-tech ?",
+      } as Record<string, string>,
+    };
   },
   computed: {
     ...mapGetters({
-      getConso: 'consommation/getConsoByCategory'
+      getConso: 'consommation/getConsoByCategory',
     }),
     remaining_items_sorted(): ConsommationItem[] {
       return this.remaining_items
         .concat()
-        .sort((a: ConsommationItem, b: ConsommationItem) =>
-          a.name > b.name ? 1 : -1
-        )
-    }
+        .sort((a: ConsommationItem, b: ConsommationItem) => (a.name > b.name ? 1 : -1));
+    },
   },
   mounted() {
-    this.resetForm()
+    this.resetForm();
   },
   watch: {
     category() {
-      this.resetForm()
-    }
+      this.resetForm();
+    },
   },
   methods: {
     ...mapActions({
-      updateConso: 'consommation/updateConso'
+      updateConso: 'consommation/updateConso',
     }),
     resetForm() {
       // Get list of items for current category
       this.consommation = JSON.parse(
-        JSON.stringify(this.getConso(this.category))
-      )
+        JSON.stringify(this.getConso(this.category)),
+      );
 
       /* let form = this.$refs.form as Vue & { resetValidation: () => void }
       form.resetValidation() */
     },
     validate() {
       if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
-        this.updateConso({ category: this.category, update: this.consommation })
-        this.$emit('close')
+        this.updateConso({ category: this.category, update: this.consommation });
+        this.$emit('close');
       }
-    }
-  }
-})
+    },
+  },
+});
 </script>
 
 <style>

@@ -1,4 +1,4 @@
-import * as Transports from '@/ui/plugins/transports_ges'
+import * as Transports from '@/ui/plugins/transports_ges';
 
 /**
  * Compute the distance in km between departure and arrival places
@@ -6,25 +6,25 @@ import * as Transports from '@/ui/plugins/transports_ges'
  * @returns {Object} {Distance in km, mode}
  */
 function distancePlane(
-  travel: Transports.Travel
+  travel: Transports.Travel,
 ): Promise<Transports.Distance> {
   const dep: Transports.Place = {
     lat: travel.departure.lat,
-    lng: travel.departure.lng
-  }
+    lng: travel.departure.lng,
+  };
   const arr: Transports.Place = {
     lat: travel.arrival.lat,
-    lng: travel.arrival.lng
-  }
-  let distance = gcd(dep, arr)
+    lng: travel.arrival.lng,
+  };
+  let distance = gcd(dep, arr);
   if (distance > 5500) {
-    distance += 125
+    distance += 125;
   } else if (distance > 550) {
-    distance += 100
+    distance += 100;
   } else {
-    distance += 50
+    distance += 50;
   }
-  return Promise.resolve({ mode: travel.mode, distance: distance })
+  return Promise.resolve({ mode: travel.mode, distance });
 }
 
 /**
@@ -34,25 +34,24 @@ function distancePlane(
  * @returns {Object} {Distance in km, mode}
  */
 function gcd(dep: Transports.Place, arr: Transports.Place): number {
-  const R = 6371 // Earth radius, in km
+  const R = 6371; // Earth radius, in km
 
-  const lat1 = (dep.lat * Math.PI) / 180
-  const lng1 = (dep.lng * Math.PI) / 180
-  const lat2 = (arr.lat * Math.PI) / 180
-  const lng2 = (arr.lng * Math.PI) / 180
+  const lat1 = (dep.lat * Math.PI) / 180;
+  const lng1 = (dep.lng * Math.PI) / 180;
+  const lat2 = (arr.lat * Math.PI) / 180;
+  const lng2 = (arr.lng * Math.PI) / 180;
 
-  const dlat = Math.abs(lat1 - lat2)
-  const dlng = Math.abs(lng1 - lng2)
+  const dlat = Math.abs(lat1 - lat2);
+  const dlng = Math.abs(lng1 - lng2);
 
-  const dsigma =
-    2 *
-    Math.asin(
+  const dsigma = 2
+    * Math.asin(
       Math.sqrt(
-        Math.pow(Math.sin(dlat / 2), 2) +
-          Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlng / 2), 2)
-      )
-    )
-  return Math.round(dsigma * R)
+        Math.sin(dlat / 2) ** 2
+          + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlng / 2) ** 2,
+      ),
+    );
+  return Math.round(dsigma * R);
 }
 
 /**
@@ -61,7 +60,7 @@ function gcd(dep: Transports.Place, arr: Transports.Place): number {
  */
 function getLatLng(place: Transports.Place): string {
   // No spaces for GMaps API
-  return `${place.lat},${place.lng}`
+  return `${place.lat},${place.lng}`;
 }
 
 /**
@@ -70,27 +69,27 @@ function getLatLng(place: Transports.Place): string {
  * @retlets {Object} {Distance in km, mode}
  */
 function distanceDrive(
-  travel: Transports.Travel
+  travel: Transports.Travel,
 ): Promise<Transports.Distance> {
-  const direction_service = new google.maps.DirectionsService()
+  const direction_service = new google.maps.DirectionsService();
   return new Promise((resolve, reject) => {
     direction_service.route(
       {
         origin: getLatLng(travel.departure),
         destination: getLatLng(travel.arrival),
-        travelMode: 'DRIVING' as google.maps.TravelMode
+        travelMode: 'DRIVING' as google.maps.TravelMode,
       },
       (res, status) => {
         if (status !== 'OK') {
-          reject(status)
+          reject(status);
         }
         if (res.routes.length > 0) {
-          const distance = res.routes[0].legs[0].distance.value / 1000 // distance in km
-          resolve({ mode: travel.mode, distance: distance })
+          const distance = res.routes[0].legs[0].distance.value / 1000; // distance in km
+          resolve({ mode: travel.mode, distance });
         }
-      }
-    )
-  })
+      },
+    );
+  });
 }
 
 /**
@@ -100,13 +99,13 @@ function distanceDrive(
  */
 function distanceTransit(
   modes: google.maps.TransitMode[],
-  travel: Transports.Travel
+  travel: Transports.Travel,
 ): Promise<Transports.Distance[]> {
-  const direction_service = new google.maps.DirectionsService()
-  const depDate = new Date()
-  depDate.setHours(0)
-  depDate.setMinutes(0)
-  depDate.setSeconds(0)
+  const direction_service = new google.maps.DirectionsService();
+  const depDate = new Date();
+  depDate.setHours(0);
+  depDate.setMinutes(0);
+  depDate.setSeconds(0);
   return new Promise((resolve, reject) => {
     direction_service.route(
       {
@@ -115,9 +114,9 @@ function distanceTransit(
         travelMode: 'TRANSIT' as google.maps.TravelMode,
         transitOptions: {
           departureTime: depDate,
-          modes: modes,
-          routingPreference: 'FEWER_TRANSFERS' as google.maps.TransitRoutePreference
-        }
+          modes,
+          routingPreference: 'FEWER_TRANSFERS' as google.maps.TransitRoutePreference,
+        },
       },
       (res, status) => {
         if (status === 'ZERO_RESULTS') {
@@ -128,40 +127,40 @@ function distanceTransit(
             {
               origin: getLatLng(travel.departure),
               destination: getLatLng(travel.arrival),
-              travelMode: 'DRIVING' as google.maps.TravelMode
+              travelMode: 'DRIVING' as google.maps.TravelMode,
             },
             (res, status) => {
               if (status !== 'OK') {
-                reject(status)
+                reject(status);
               }
               if (res.routes.length > 0) {
-                const distance = res.routes[0].legs[0].distance.value / 1000 // distance in km
+                const distance = res.routes[0].legs[0].distance.value / 1000; // distance in km
                 resolve([
                   {
                     mode: 'INTERCITY_BUS',
-                    distance: distance
-                  }
-                ])
+                    distance,
+                  },
+                ]);
               }
-            }
-          )
+            },
+          );
         } else if (status === 'OK' && res.routes.length > 0) {
-          const distances: Transports.Distance[] = []
-          res.routes[0].legs[0].steps.forEach(step => {
+          const distances: Transports.Distance[] = [];
+          res.routes[0].legs[0].steps.forEach((step) => {
             if (step.travel_mode === 'TRANSIT') {
               distances.push({
                 distance: step.distance.value / 1000,
-                mode: String(step.transit.line.vehicle.type)
-              })
+                mode: String(step.transit.line.vehicle.type),
+              });
             }
-          })
-          resolve(distances)
+          });
+          resolve(distances);
         } else {
-          reject(status)
+          reject(status);
         }
-      }
-    )
-  })
+      },
+    );
+  });
 }
 
 /**
@@ -169,39 +168,39 @@ function distanceTransit(
  * @param travel Travel object
  */
 export async function computeDistance(
-  travel: Transports.Travel
+  travel: Transports.Travel,
 ): Promise<Transports.Travel> {
-  let steps: Transports.Distance[] = []
+  let steps: Transports.Distance[] = [];
   switch (travel.mode) {
     case 'Avion' as google.maps.TravelMode:
-      steps.push(await distancePlane(travel))
-      break
+      steps.push(await distancePlane(travel));
+      break;
     case 'Voiture' as google.maps.TravelMode:
-      steps.push(await distanceDrive(travel))
-      break
+      steps.push(await distanceDrive(travel));
+      break;
     case 'TGV' as google.maps.TravelMode:
       steps = await distanceTransit(
         ['TRAIN'] as google.maps.TransitMode[],
-        travel
-      )
-      break
+        travel,
+      );
+      break;
     case 'Métro/Bus' as google.maps.TravelMode:
       steps = await distanceTransit(
         ['BUS', 'RAIL'] as google.maps.TransitMode[],
-        travel
-      )
-      break
+        travel,
+      );
+      break;
     default:
-      throw `Cannot find function to compute ges for mode ${travel.mode}`
+      throw `Cannot find function to compute ges for mode ${travel.mode}`;
   }
 
   const travel_distance: Transports.Travel = {
     ...travel,
     distance: 0,
-    distances: []
-  }
-  travel_distance.distances = steps
-  travel_distance.distance = steps.reduce((sum, step) => sum + step.distance, 0)
+    distances: [],
+  };
+  travel_distance.distances = steps;
+  travel_distance.distance = steps.reduce((sum, step) => sum + step.distance, 0);
 
-  return travel_distance
+  return travel_distance;
 }

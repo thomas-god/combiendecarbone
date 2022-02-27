@@ -92,19 +92,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
-import { namespace } from 'vuex-class'
-import { UserForm } from '@/ui/plugins/ges_logement'
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { UserForm } from '@/ui/plugins/ges_logement';
 
-const logement_module = namespace('logement')
+const logement_module = namespace('logement');
 
 @Component
 export default class LogementCard extends Vue {
   @Prop() form_id!: number
+
   @logement_module.Getter forms!: UserForm[]
 
   get current_form(): UserForm | undefined {
-    return this.forms.find(f => f.id === this.form_id)
+    return this.forms.find((f) => f.id === this.form_id);
   }
 }
 </script>

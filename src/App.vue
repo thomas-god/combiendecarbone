@@ -9,35 +9,35 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Navbar from './ui/components/NavbarApp.vue'
-import FooterApp from '@/ui/components/FooterApp.vue'
+import Vue from 'vue';
+import FooterApp from '@/ui/components/FooterApp.vue';
+import Navbar from './ui/components/NavbarApp.vue';
 
 export default Vue.extend({
   components: {
     Navbar,
-    FooterApp
+    FooterApp,
   },
   data() {
     return {
       links: [
         {
           name: 'Home',
-          url: 'Home'
+          url: 'Home',
         },
         {
           name: 'Calculateur',
-          url: 'forms'
-        }
-      ]
-    }
+          url: 'forms',
+        },
+      ],
+    };
   },
   computed: {
     padding() {
-      return `pa-${this.$vuetify.breakpoint.width > 600 ? 4 : 0}`
-    }
-  }
-})
+      return `pa-${this.$vuetify.breakpoint.width > 600 ? 4 : 0}`;
+    },
+  },
+});
 </script>
 
 <style>

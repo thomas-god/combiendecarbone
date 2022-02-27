@@ -44,68 +44,67 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
 export default Vue.extend({
   props: ['categories', 'width_switch'],
   computed: {
     current_cat(): string {
-      if (this.$route.meta.cat) {
-        return this.$route.meta.cat
-      } else {
-        return ''
+      if (this.$route.meta?.cat) {
+        return this.$route.meta.cat;
       }
-    }
+      return '';
+    },
   },
   methods: {
     updateCat(new_cat: string): void {
-      const old_path = this.$route.path.split('/')
-      const old_cat = old_path[old_path.length - 1]
+      const old_path = this.$route.path.split('/');
+      const old_cat = old_path[old_path.length - 1];
       if (new_cat !== old_cat) {
-        old_path[old_path.length - 1] = delAccentLower(new_cat)
-        const new_path = old_path.join('/')
+        old_path[old_path.length - 1] = delAccentLower(new_cat);
+        const new_path = old_path.join('/');
         if (this.getScrollOffset() > 0) {
-          window.scroll(0, this.getScrollOffset())
+          window.scroll(0, this.getScrollOffset());
         }
-        this.$router.push(new_path)
+        this.$router.push(new_path);
       }
     },
     updateCatBtn(step: number): void {
       const cur_id = this.categories.findIndex(
-        (cat: string) => cat === this.current_cat
-      )
-      const new_id = cur_id + step
+        (cat: string) => cat === this.current_cat,
+      );
+      const new_id = cur_id + step;
       if (new_id >= 0 && new_id < this.categories.length) {
-        this.updateCat(this.categories[new_id])
+        this.updateCat(this.categories[new_id]);
       }
     },
     class_btn(cat: string): string {
-      let base = 'white--text font-weight-medium'
+      let base = 'white--text font-weight-medium';
       if (cat !== this.current_cat) {
         if (this.$vuetify.breakpoint.width < this.width_switch) {
-          base += ' d-none'
+          base += ' d-none';
         }
-        base += ' btn_padding'
+        base += ' btn_padding';
       } else {
-        base += ' btn_selected_padding'
+        base += ' btn_selected_padding';
       }
-      return base
+      return base;
     },
     getScrollOffset(): number {
-      let offset = -1
+      let offset = -1;
       if (window.scrollY > 64) {
-        offset = this.$vuetify.breakpoint.width < this.width_switch ? 48 : 64
+        offset = this.$vuetify.breakpoint.width < this.width_switch ? 48 : 64;
       }
-      return offset
-    }
-  }
-})
+      return offset;
+    },
+  },
+});
 
 function delAccentLower(str: string): string {
   return str
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
+    .toLowerCase();
 }
 </script>
 

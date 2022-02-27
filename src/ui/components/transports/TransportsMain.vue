@@ -21,6 +21,7 @@
       <transports-form @close="close" ref="form" />
     </template>
 
+    <!-- eslint-disable-next-line vue/no-unused-vars -->
     <template v-slot:card="{ touched, open }">
       <v-card-title v-show="nbTrajets > 0">Vos trajets</v-card-title>
       <transports-card
@@ -43,48 +44,48 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
-import Category from '../base/Category.vue'
-import TransportsForm from './TransportsForm.vue'
-import TransportsCard from './TransportsCard.vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
+import Category from '@/ui/components/base/CategoryInput.vue';
+import TransportsForm from './TransportsForm.vue';
+import TransportsCard from './TransportsCard.vue';
 
 export default Vue.extend({
   components: {
     TransportsForm,
     TransportsCard,
-    Category
+    Category,
   },
   data() {
     return {
-      travel_id: -1
-    }
+      travel_id: -1,
+    };
   },
   computed: {
     ...mapGetters({
       travelsReguliers: 'transports/getTravelsReguliers',
-      travelsOccasionnels: 'transports/getTravelsOccasionnels'
+      travelsOccasionnels: 'transports/getTravelsOccasionnels',
     }),
     nbTrajets(): number {
-      return this.travelsReguliers.length + this.travelsOccasionnels.length
-    }
+      return this.travelsReguliers.length + this.travelsOccasionnels.length;
+    },
   },
   methods: {
     ...mapActions({
-      updateCurrentId: 'transports/updateCurrentId'
+      updateCurrentId: 'transports/updateCurrentId',
     }),
     updateTravel(open: () => void, travel_id: number): void {
-      this.updateCurrentId(travel_id)
-      open()
+      this.updateCurrentId(travel_id);
+      open();
     },
     async resetForm(): Promise<void> {
-      await this.$nextTick()
-      const form = this.$refs.form as Vue & { resetForm: () => void }
-      form.resetForm()
-    }
-  }
-})
+      await this.$nextTick();
+      const form = this.$refs.form as Vue & { resetForm: () => void };
+      form.resetForm();
+    },
+  },
+});
 </script>
 
 <style scoped></style>

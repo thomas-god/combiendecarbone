@@ -26,38 +26,41 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { namespace } from 'vuex-class'
-import Category from '../base/Category.vue'
-import LogementForm from './LogementForm.vue'
-import logementCard from './LogementCard.vue'
-import { UserForm } from '@/ui/plugins/ges_logement'
+import { Component, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { UserForm } from '@/ui/plugins/ges_logement';
+import Category from '@/ui/components/base/CategoryInput.vue';
+import LogementForm from './LogementForm.vue';
+import logementCard from './LogementCard.vue';
 
-const logement_module = namespace('logement')
+const logement_module = namespace('logement');
 
 @Component({
   components: {
     LogementForm,
     logementCard,
-    Category
-  }
+    Category,
+  },
 })
-export default class Logement extends Vue {
+export default class LogementMain extends Vue {
   @logement_module.Getter forms!: UserForm[]
 
   get isLogementFilled() {
-    return this.forms.length > 0
+    return this.forms.length > 0;
   }
+
   get btnName() {
-    return this.isLogementFilled ? 'Modifier' : 'Répondre'
+    return this.isLogementFilled ? 'Modifier' : 'Répondre';
   }
+
   async resetForm() {
-    await this.$nextTick()
-    const form = this.$refs.form as Vue & { resetForm: () => void }
-    form.resetForm()
+    await this.$nextTick();
+    const form = this.$refs.form as Vue & { resetForm: () => void };
+    form.resetForm();
   }
+
   get form_id(): number {
-    return this.forms.length > 0 ? this.forms[0].id : -1
+    return this.forms.length > 0 ? this.forms[0].id : -1;
   }
 }
 </script>

@@ -5,7 +5,7 @@ import Component from '@/ui/components/base/BaseNumPM.vue'
 const localVue = createLocalVue()
 
 describe('Plus and minus button', () => {
-  let vuetify
+  let vuetify: Vuetify
   beforeEach(() => {
     vuetify = new Vuetify()
   })
@@ -31,7 +31,8 @@ describe('Plus and minus button', () => {
 
   it('should display the initial value', () => {
     const wrapper = factoryWithParent(5)
-    expect(wrapper.find('input').element.value).toBe('5')
+    const input = wrapper.find('input').element as HTMLInputElement
+    expect(input.value).toBe('5')
   })
 
   it('should increment by step when clicking on the plus btn', async () => {
@@ -40,7 +41,8 @@ describe('Plus and minus button', () => {
       .findComponent({ ref: 'component' })
       .findComponent({ ref: 'plus' })
       .trigger('click')
-    expect(wrapper.find('input').element.value).toBe('6')
+    const input = wrapper.find('input').element as HTMLInputElement
+    expect(input.value).toBe('6')
     expect(wrapper.vm.$data.myValue).toBe(6)
   })
 
@@ -50,7 +52,8 @@ describe('Plus and minus button', () => {
       .findComponent({ ref: 'component' })
       .findComponent({ ref: 'minus' })
       .trigger('click')
-    expect(wrapper.find('input').element.value).toBe('4')
+    const input = wrapper.find('input').element as HTMLInputElement
+    expect(input.value).toBe('4')
     expect(wrapper.vm.$data.myValue).toBe(4)
   })
 
@@ -60,7 +63,8 @@ describe('Plus and minus button', () => {
       .findComponent({ ref: 'component' })
       .findComponent({ ref: 'plus' })
       .trigger('click')
-    expect(wrapper.find('input').element.value).toBe('10')
+    const input = wrapper.find('input').element as HTMLInputElement
+    expect(input.value).toBe('10')
     expect(wrapper.vm.$data.myValue).toBe(10)
   })
 
@@ -70,7 +74,8 @@ describe('Plus and minus button', () => {
       .findComponent({ ref: 'component' })
       .findComponent({ ref: 'minus' })
       .trigger('click')
-    expect(wrapper.find('input').element.value).toBe('0')
+    const input = wrapper.find('input').element as HTMLInputElement
+    expect(input.value).toBe('0')
     expect(wrapper.vm.$data.myValue).toBe(0)
   })
 
@@ -79,7 +84,8 @@ describe('Plus and minus button', () => {
     await wrapper.find('input').setValue('12')
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.find('input').element.value).toBe('12')
+    const input = wrapper.find('input').element as HTMLInputElement
+    expect(input.value).toBe('12')
     expect(wrapper.vm.$data.myValue).toBe(5)
     expect(wrapper.find('.v-messages__wrapper').element.textContent).toBe(
       'La valeur doit être ≤ 10'
@@ -91,7 +97,8 @@ describe('Plus and minus button', () => {
     await wrapper.find('input').setValue('-1')
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.find('input').element.value).toBe('-1')
+    const input = wrapper.find('input').element as HTMLInputElement
+    expect(input.value).toBe('-1')
     expect(wrapper.vm.$data.myValue).toBe(5)
     expect(wrapper.find('.v-messages__wrapper').element.textContent).toBe(
       'La valeur doit être ≥ 0'
@@ -103,7 +110,8 @@ describe('Plus and minus button', () => {
     await wrapper.find('input').setValue('toto')
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.find('input').element.value).toBe('toto')
+    const input = wrapper.find('input').element as HTMLInputElement
+    expect(input.value).toBe('toto')
     expect(wrapper.vm.$data.myValue).toBe(5)
     expect(wrapper.find('.v-messages__wrapper').element.textContent).toBe(
       'La valeur doit être un nombre'
@@ -115,7 +123,8 @@ describe('Plus and minus button', () => {
     await wrapper.find('input').setValue('')
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.find('input').element.value).toBe('')
+    const input = wrapper.find('input').element as HTMLInputElement
+    expect(input.value).toBe('')
     expect(wrapper.vm.$data.myValue).toBe(5)
     expect(wrapper.find('.v-messages__wrapper').element.textContent).toBe(
       'Valeur requise'

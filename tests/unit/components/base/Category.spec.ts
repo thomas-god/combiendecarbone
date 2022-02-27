@@ -1,11 +1,12 @@
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
-import Component from '@/ui/components/base/Category.vue'
+import Component from '@/ui/components/base/CategoryInput.vue'
+import Vue from 'vue'
 
 const localVue = createLocalVue()
 
 describe('Category component', () => {
-  let vuetify
+  let vuetify: Vuetify
   beforeEach(() => {
     vuetify = new Vuetify()
   })
@@ -52,7 +53,7 @@ describe('Category component', () => {
 
     await wrapper.findComponent({ name: 'v-btn' }).trigger('click')
     expect(
-      wrapper.findComponent({ ref: 'component' }).emitted('opening').length
+      wrapper.findComponent({ ref: 'component' }).emitted('opening')?.length
     ).toEqual(1)
     expect(wrapper.findComponent({ ref: 'form-close' }).exists()).toBe(true)
   })
@@ -68,7 +69,7 @@ describe('Category component', () => {
     await wrapper.findComponent({ ref: 'form-close' }).trigger('click')
     expect(wrapper.findComponent({ ref: 'form-close' }).isVisible()).toBe(false)
     expect(
-      wrapper.findComponent({ ref: 'component' }).emitted('closing').length
+      wrapper.findComponent({ ref: 'component' }).emitted('closing')?.length
     ).toEqual(1)
   })
 
@@ -77,7 +78,7 @@ describe('Category component', () => {
 
     await wrapper.findComponent({ ref: 'form-open' }).trigger('click')
     expect(
-      wrapper.findComponent({ ref: 'component' }).emitted('opening').length
+      wrapper.findComponent({ ref: 'component' }).emitted('opening')?.length
     ).toEqual(1)
     expect(wrapper.findComponent({ ref: 'form-close' }).exists()).toBe(true)
   })

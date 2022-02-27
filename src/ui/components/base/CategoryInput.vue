@@ -36,36 +36,36 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
 export default Vue.extend({
   props: {
     btnName: {
       type: String,
-      default: 'Répondre'
+      default: 'Répondre',
     },
     scrollable: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       form: false,
-      form_touched: false
-    }
+      form_touched: false,
+    };
   },
   methods: {
     openForm(): void {
-      this.form = true
-      this.$emit('opening')
+      this.form = true;
+      this.$emit('opening');
     },
     closeForm(): void {
-      this.form = false
-      this.$emit('closing')
-    }
-  }
-})
+      this.form = false;
+      this.$emit('closing');
+    },
+  },
+});
 </script>
 
 <style></style>

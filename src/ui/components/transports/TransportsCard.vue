@@ -24,29 +24,29 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { mapActions, mapGetters } from 'vuex'
-import { mdiSwapHorizontalBold, mdiArrowRightBold } from '@mdi/js'
+import Vue from 'vue';
+import { mapActions, mapGetters } from 'vuex';
+import { mdiSwapHorizontalBold, mdiArrowRightBold } from '@mdi/js';
 
 export default Vue.extend({
   props: ['travel'],
   methods: {
     ...mapActions('transports', ['deleteTravel', 'updateCurrentId']),
     update(id: number): void {
-      this.updateCurrentId(id)
-      this.$emit('update-travel', id)
-    }
+      this.updateCurrentId(id);
+      this.$emit('update-travel', id);
+    },
   },
   computed: {
     ...mapGetters({ getIconByMode: 'transports/getIconByMode' }),
     icon_mode(): string {
-      return this.getIconByMode(this.travel.mode)
+      return this.getIconByMode(this.travel.mode);
     },
     icon_ar(): string {
-      return this.travel.ar ? mdiSwapHorizontalBold : mdiArrowRightBold
-    }
-  }
-})
+      return this.travel.ar ? mdiSwapHorizontalBold : mdiArrowRightBold;
+    },
+  },
+});
 </script>
 
 <style>

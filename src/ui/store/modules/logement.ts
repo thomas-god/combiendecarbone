@@ -1,8 +1,11 @@
-import Vue from 'vue'
-import { Module, GetterTree, MutationTree, ActionTree } from 'vuex'
-import { RootState } from '@/ui/store/index'
-import * as Logement from '@/ui/plugins/ges_logement'
-export { Store as LogementState } from '@/ui/plugins/ges_logement'
+import Vue from 'vue';
+import {
+  Module, GetterTree, MutationTree, ActionTree,
+} from 'vuex';
+import { RootState } from '@/ui/store/index';
+import * as Logement from '@/ui/plugins/ges_logement';
+
+export { Store as LogementState } from '@/ui/plugins/ges_logement';
 
 /**
  * State.
@@ -12,9 +15,9 @@ export const state: Logement.Store = {
   next_form_id: 0,
   ges: {
     items: [],
-    total: 0
-  }
-}
+    total: 0,
+  },
+};
 
 /**
  * Actions.
@@ -22,13 +25,13 @@ export const state: Logement.Store = {
 export const actions: ActionTree<Logement.Store, RootState> = {
   updateForm(context, form: Logement.UserForm): void {
     if (form.id > -1) {
-      context.commit('UPDATE_FORM', form)
+      context.commit('UPDATE_FORM', form);
     } else {
-      context.commit('ADD_FORM', form)
+      context.commit('ADD_FORM', form);
     }
-    context.commit('COMPUTE_GES')
-  }
-}
+    context.commit('COMPUTE_GES');
+  },
+};
 
 /**
  * Mutations.
@@ -37,34 +40,34 @@ export const mutations: MutationTree<Logement.Store> = {
   ADD_FORM(state, form: Logement.UserForm): void {
     if (form.id === undefined) {
       state.forms.push(
-        JSON.parse(JSON.stringify({ ...form, id: state.next_form_id }))
-      )
-      state.next_form_id++
+        JSON.parse(JSON.stringify({ ...form, id: state.next_form_id })),
+      );
+      state.next_form_id++;
     } else {
-      state.forms.push(JSON.parse(JSON.stringify(form)))
+      state.forms.push(JSON.parse(JSON.stringify(form)));
     }
   },
   UPDATE_FORM(state, form: Logement.UserForm): void {
-    const id = state.forms.findIndex(f => f.id === form.id)
+    const id = state.forms.findIndex((f) => f.id === form.id);
     if (id > -1) {
-      Vue.set(state.forms, id, JSON.parse(JSON.stringify(form)))
+      Vue.set(state.forms, id, JSON.parse(JSON.stringify(form)));
     }
   },
   DELETE_FORM(state, form: Logement.UserForm): void {
-    const id = state.forms.findIndex(f => f.id === form.id)
+    const id = state.forms.findIndex((f) => f.id === form.id);
     if (id > -1) {
-      state.forms.splice(id, 1)
+      state.forms.splice(id, 1);
     }
   },
   CLEAR_ALL_FORMS(state): void {
-    Vue.set(state, 'forms', [])
+    Vue.set(state, 'forms', []);
   },
   COMPUTE_GES(state): void {
-    const ges = Logement.computeGes(state.forms)
-    Vue.set(state.ges, 'items', ges.items)
-    Vue.set(state.ges, 'total', ges.total)
-  }
-}
+    const ges = Logement.computeGes(state.forms);
+    Vue.set(state.ges, 'items', ges.items);
+    Vue.set(state.ges, 'total', ges.total);
+  },
+};
 
 /**
  * Getters.
@@ -75,28 +78,28 @@ export const getters: GetterTree<Logement.Store, RootState> = {
       {
         type: 'factures',
         inputs: JSON.parse(JSON.stringify(Logement.default_form_factures)),
-        id: -1
+        id: -1,
       },
       {
         type: 'estimation',
         inputs: JSON.parse(JSON.stringify(Logement.default_form_estimation)),
-        id: -1
-      }
-    ]
+        id: -1,
+      },
+    ];
   },
   appliances_options(): string[] {
-    return Logement.appliances_options
+    return Logement.appliances_options;
   },
   heating_options(): string[] {
-    return Logement.heating_options
+    return Logement.heating_options;
   },
   isolation_options(): string[] {
-    return Logement.isolation_options
+    return Logement.isolation_options;
   },
   forms(state) {
-    return JSON.parse(JSON.stringify(state.forms))
-  }
-}
+    return JSON.parse(JSON.stringify(state.forms));
+  },
+};
 
 /**
  * Module.
@@ -106,5 +109,5 @@ export const logement: Module<Logement.Store, RootState> = {
   state,
   getters,
   actions,
-  mutations
-}
+  mutations,
+};

@@ -110,19 +110,26 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-import { namespace } from 'vuex-class'
-import { UserForm } from '../../plugins/ges_logement'
+import {
+  Component, Vue, Prop, Watch,
+} from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { UserForm } from '../../plugins/ges_logement';
 
-const logement_module = namespace('logement')
+const logement_module = namespace('logement');
 
 @Component
 export default class LogementForm extends Vue {
   @Prop({ default: -1 }) form_id!: number
+
   @logement_module.Getter default_forms!: UserForm[]
+
   @logement_module.Getter forms!: UserForm[]
+
   @logement_module.Getter appliances_options!: string[]
+
   @logement_module.Getter heating_options!: string[]
+
   @logement_module.Getter isolation_options!: string[]
 
   /**
@@ -130,65 +137,71 @@ export default class LogementForm extends Vue {
    */
   base_form = {
     type: '',
-    inputs: {}
+    inputs: {},
   }
+
   current_form: UserForm = this.base_form as UserForm
 
   @Watch('form_id')
   selectForm(): void {
-    const id = this.forms.findIndex(f => f.id === this.form_id)
+    const id = this.forms.findIndex((f) => f.id === this.form_id);
     if (id > -1) {
-      this.current_form = deepCopy(this.forms[id])
+      this.current_form = deepCopy(this.forms[id]);
     } else {
-      this.current_form = deepCopy(this.base_form)
+      this.current_form = deepCopy(this.base_form);
     }
   }
+
   toggleFormType(new_type: string): void {
-    const new_form = this.default_forms.find(f => f.type === new_type)
+    const new_form = this.default_forms.find((f) => f.type === new_type);
     if (new_form !== undefined) {
-      this.current_form.type = new_form.type
-      this.current_form.inputs = deepCopy(new_form.inputs)
+      this.current_form.type = new_form.type;
+      this.current_form.inputs = deepCopy(new_form.inputs);
     }
   }
 
   /**
    * Validation rules.
    */
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   rulesReq = [(value: any) => !!value || 'Champs requis.']
+
   rulesNum = [
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     (value: any) => (value !== '' ? true : 'Doit être un nombre.'),
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
-    (value: any) => (value >= 0 ? true : 'Doit être positif.')
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    (value: any) => (value >= 0 ? true : 'Doit être positif.'),
   ]
+
   rulesNumSup1 = [
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     (value: any) => (value !== '' ? true : 'Doit être un nombre.'),
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
-    (value: any) => (value >= 1 ? true : 'Doit être plus grand que 1.')
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    (value: any) => (value >= 1 ? true : 'Doit être plus grand que 1.'),
   ]
 
   /**
    * Form related methods.
    */
   @logement_module.Action updateForm!: (form: UserForm) => void
+
   validate(): void {
     if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
-      this.updateForm(this.current_form)
-      this.$emit('close')
+      this.updateForm(this.current_form);
+      this.$emit('close');
     }
   }
+
   resetForm(): void {
-    this.selectForm()
-    const form = this.$refs.form as Vue & { resetValidation: () => void }
-    form.resetValidation()
+    this.selectForm();
+    const form = this.$refs.form as Vue & { resetValidation: () => void };
+    form.resetValidation();
   }
 }
 
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 function deepCopy(obj: any): any {
-  return JSON.parse(JSON.stringify(obj))
+  return JSON.parse(JSON.stringify(obj));
 }
 </script>
 

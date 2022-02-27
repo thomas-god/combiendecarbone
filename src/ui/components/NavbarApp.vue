@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
 interface Route {
   name: string
@@ -58,47 +58,47 @@ export default Vue.extend({
       base_navigation: [
         { name: 'Accueil', path: '/' },
         { name: 'Calculateur', basePath: '/forms/' },
-        { name: 'Méthodologie', basePath: '/methodologie/' }
-      ] as Route[]
-    }
+        { name: 'Méthodologie', basePath: '/methodologie/' },
+      ] as Route[],
+    };
   },
   computed: {
     current_route_name(): string {
-      return this.$route.meta.name
+      return this.$route.meta?.name;
     },
     current_route_cat(): string {
-      return this.$route.meta.cat ? delAccentLower(this.$route.meta.cat) : ''
+      return this.$route.meta?.cat ? delAccentLower(this.$route.meta.cat) : '';
     },
     navigation(): Route[] {
-      return this.base_navigation.map(s => {
+      return this.base_navigation.map((s) => {
         if (s.basePath) {
-          s.path = s.basePath + this.current_route_cat
+          s.path = s.basePath + this.current_route_cat;
         }
-        return s
-      })
+        return s;
+      });
     },
     class_btn_cat_current(): string {
-      let base = 'white--text'
+      let base = 'white--text';
       if (this.$vuetify.breakpoint.smAndUp) {
-        base += ' px-2'
+        base += ' px-2';
       }
-      return base
+      return base;
     },
     class_btn_cat(): string {
-      let base = this.class_btn_cat_current
+      let base = this.class_btn_cat_current;
       if (this.$vuetify.breakpoint.width < this.width_small) {
-        base += ' d-none'
+        base += ' d-none';
       }
-      return base
-    }
-  }
-})
+      return base;
+    },
+  },
+});
 
 function delAccentLower(str: string): string {
   return str
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
+    .toLowerCase();
 }
 </script>
 

@@ -1,4 +1,4 @@
-import { GESCategory, Ecogeste } from '@/ui/store/modules/ges'
+import { GESCategory, Ecogeste } from '@/ui/store/modules/ges';
 
 export interface Place {
   lat: number
@@ -10,7 +10,7 @@ export interface PlaceForm extends Place {
   placeholder: string
 }
 
-export { GESCategory }
+export { GESCategory };
 
 export interface Travel {
   id: number
@@ -36,38 +36,38 @@ export function checkTravel(travel: Travel): boolean {
   /**
    * Name.
    */
-  if (travel.name === undefined) return false
-  if (typeof travel.name !== 'string') return false
+  if (travel.name === undefined) return false;
+  if (typeof travel.name !== 'string') return false;
 
   /**
    * Departure and arrival places.
    */
-  if (!checkPlace(travel.departure)) return false
-  if (!checkPlace(travel.arrival)) return false
+  if (!checkPlace(travel.departure)) return false;
+  if (!checkPlace(travel.arrival)) return false;
 
   /**
    * Travel mode and type.
    */
-  if (travel.mode === undefined) return false
-  if (typeof travel.mode !== 'string') return false
-  if (travel.type === undefined) return false
-  if (!['Régulier', 'Occasionnel'].includes(travel.type)) return false
+  if (travel.mode === undefined) return false;
+  if (typeof travel.mode !== 'string') return false;
+  if (travel.type === undefined) return false;
+  if (!['Régulier', 'Occasionnel'].includes(travel.type)) return false;
 
   /**
    * Roundabout trip.
    */
-  if (travel.ar === undefined) return false
-  if (typeof travel.ar !== 'boolean') return false
+  if (travel.ar === undefined) return false;
+  if (typeof travel.ar !== 'boolean') return false;
 
   /**
    * Passengers and frequency.
    */
-  if (travel.passengers === undefined) return false
-  if (typeof travel.passengers !== 'number') return false
-  if (travel.freq === undefined) return false
-  if (typeof travel.freq !== 'number') return false
+  if (travel.passengers === undefined) return false;
+  if (typeof travel.passengers !== 'number') return false;
+  if (travel.freq === undefined) return false;
+  if (typeof travel.freq !== 'number') return false;
 
-  return true
+  return true;
 }
 
 /**
@@ -78,20 +78,20 @@ export function checkPlace(place: PlaceForm): boolean {
   /**
    * Name and placeholder.
    */
-  if (place.name === undefined) return false
-  if (typeof place.name !== 'string') return false
-  if (place.placeholder === undefined) return false
-  if (typeof place.placeholder !== 'string') return false
+  if (place.name === undefined) return false;
+  if (typeof place.name !== 'string') return false;
+  if (place.placeholder === undefined) return false;
+  if (typeof place.placeholder !== 'string') return false;
 
   /**
    * Latitude and longitude.
    */
-  if (place.lat === undefined) return false
-  if (typeof place.lat !== 'number') return false
-  if (place.lng === undefined) return false
-  if (typeof place.lng !== 'number') return false
+  if (place.lat === undefined) return false;
+  if (typeof place.lat !== 'number') return false;
+  if (place.lng === undefined) return false;
+  if (typeof place.lng !== 'number') return false;
 
-  return true
+  return true;
 }
 
 export interface Distance {
@@ -105,7 +105,7 @@ export interface Mode {
 }
 
 export interface Store {
-  current_id: number
+  currentId: number
   ges: GESCategory
   travels: Travel[]
   modes: Mode[]
@@ -147,21 +147,21 @@ enum modes_ges {
  * @param travel Travel object.
  */
 export function computeGes(travel: Travel): Travel {
-  let ges = 0
+  let ges = 0;
   if (travel.distances && travel.distances.length > 0) {
     for (let i = 0; i < travel.distances.length; i++) {
-      const step = travel.distances[i]
-      ges +=
-        (step.distance * modes_ges[step.mode as keyof typeof modes_ges]) / 1000
+      const step = travel.distances[i];
+      ges
+        += (step.distance * modes_ges[step.mode as keyof typeof modes_ges]) / 1000;
     }
   }
-  ges *= travel.ar ? 2 : 1
-  ges *= travel.freq
-  ges *= travel.mode === 'Voiture' ? 1 / travel.passengers : 1
-  ges *= travel.type === 'Régulier' ? 44 : 1
-  travel.ges = ges
-  travel.ecogeste = chooseEcogeste(travel)
-  return travel
+  ges *= travel.ar ? 2 : 1;
+  ges *= travel.freq;
+  ges *= travel.mode === 'Voiture' ? 1 / travel.passengers : 1;
+  ges *= travel.type === 'Régulier' ? 44 : 1;
+  travel.ges = ges;
+  travel.ecogeste = chooseEcogeste(travel);
+  return travel;
 }
 
 /**
@@ -169,35 +169,35 @@ export function computeGes(travel: Travel): Travel {
  * @param travel Travel item
  */
 function chooseEcogeste(travel: Travel): Ecogeste {
-  const ecogeste: Ecogeste = { name: '' }
+  const ecogeste: Ecogeste = { name: '' };
 
   if (travel.type === 'Régulier') {
     if (travel.mode === 'Voiture') {
-      ecogeste.name = 'EcogesteTransportsRegulierVoiture'
+      ecogeste.name = 'EcogesteTransportsRegulierVoiture';
     }
     if (travel.mode === 'Métro/Bus') {
-      ecogeste.name = 'EcogesteTransportsRegulierTC'
+      ecogeste.name = 'EcogesteTransportsRegulierTC';
     }
     if (travel.mode === 'Avion') {
-      ecogeste.name = 'EcogesteTransportsRegulierAvion'
+      ecogeste.name = 'EcogesteTransportsRegulierAvion';
     }
     if (travel.mode === 'TGV') {
-      ecogeste.name = 'EcogesteTransportsRegulierTGV'
+      ecogeste.name = 'EcogesteTransportsRegulierTGV';
     }
   } else if (travel.type === 'Occasionnel') {
     if (travel.mode === 'Voiture') {
-      ecogeste.name = 'EcogesteTransportsOccasionnelVoiture'
+      ecogeste.name = 'EcogesteTransportsOccasionnelVoiture';
     }
     if (travel.mode === 'Métro/Bus') {
-      ecogeste.name = 'EcogesteTransportsOccasionnelTC'
+      ecogeste.name = 'EcogesteTransportsOccasionnelTC';
     }
     if (travel.mode === 'Avion') {
-      ecogeste.name = 'EcogesteTransportsOccasionnelAvion'
+      ecogeste.name = 'EcogesteTransportsOccasionnelAvion';
     }
     if (travel.mode === 'TGV') {
-      ecogeste.name = 'EcogesteTransportsOccasionnelTGV'
+      ecogeste.name = 'EcogesteTransportsOccasionnelTGV';
     }
   }
 
-  return ecogeste
+  return ecogeste;
 }

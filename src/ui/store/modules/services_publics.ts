@@ -1,6 +1,6 @@
-import { Module } from 'vuex'
-import { RootState } from '@/ui/store/index'
-import { GESItem } from '@/ui/store/modules/ges'
+import { Module } from 'vuex';
+import { RootState } from '@/ui/store/index';
+import { GESItem } from '@/ui/store/modules/ges';
 
 /**
  * State.
@@ -16,17 +16,17 @@ export const state: ServicesState = {
       value: 1200,
       category: 'Services',
       ecogeste: {
-        name: 'EcogesteServicesPublics'
-      }
-    }
+        name: 'EcogesteServicesPublics',
+      },
+    },
   ],
-  total: 1200
-}
+  total: 1200,
+};
 
 /**
  * Module.
  */
 export const services: Module<ServicesState, RootState> = {
   namespaced: true,
-  state
-}
+  state,
+};

@@ -17,43 +17,42 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { mapGetters } from 'vuex'
-import { ConsommationItem } from '@/ui/plugins/consommation_ges'
+import Vue from 'vue';
+import { mapGetters } from 'vuex';
+import { ConsommationItem } from '@/ui/plugins/consommation_ges';
 
 export default Vue.extend({
   props: {
     category: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     ...mapGetters({
-      getConso: 'consommation/getConsoByCategory'
+      getConso: 'consommation/getConsoByCategory',
     }),
     conso(): ConsommationItem[] {
-      const conso: ConsommationItem[] = this.getConso(this.category)
-      const conso_filter: ConsommationItem[] = []
-      conso.forEach(item => {
+      const conso: ConsommationItem[] = this.getConso(this.category);
+      const conso_filter: ConsommationItem[] = [];
+      conso.forEach((item) => {
         if (item.value > 0) {
-          conso_filter.push(item)
+          conso_filter.push(item);
         }
-      })
-      return conso_filter
+      });
+      return conso_filter;
     },
     conso_length(): number {
-      return this.conso.length
+      return this.conso.length;
     },
     subtitle() {
       if (this.category === 'Vêtements') {
-        return `Nombre achetés par an`
-      } else {
-        return `Durée de vie (en années)`
+        return 'Nombre achetés par an';
       }
-    }
-  }
-})
+      return 'Durée de vie (en années)';
+    },
+  },
+});
 </script>
 
 <style></style>

@@ -5,49 +5,87 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit --setupTestFrameworkScriptFile=./tests/setup.js",
-    "lint": "vue-cli-service lint",
-    "test:coverage": "vue-cli-service test:unit --coverage --setupTestFrameworkScriptFile=./tests/setup.js"
+    "test:unit": "vue-cli-service test:unit --watch --setupTestFrameworkScriptFile=./tests/setup.ts",
+    "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.11.5",
-    "chart.js": "^2.9.3",
-    "core-js": "^3.6.5",
-    "vue": "^2.6.12",
+    "@babel/polyfill": "^7.4.4",
+    "chart.js": "^2.9.4",
+    "core-js": "^3.8.3",
+    "lodash": "^4.17.21",
+    "neverthrow": "^4.3.1",
+    "vue": "^2.6.14",
     "vue-chartjs": "^3.5.1",
-    "vue-router": "^3.4.3",
-    "vuetify": "^2.3.10",
-    "vuex": "^3.5.1",
+    "vue-class-component": "^7.2.3",
+    "vue-property-decorator": "^9.1.2",
+    "vue-router": "^3.5.1",
+    "vuetify": "^2.6.0",
+    "vuex": "^3.6.2",
     "vuex-class": "^0.3.2"
   },
   "devDependencies": {
-    "@mdi/font": "^5.6.55",
-    "@mdi/js": "^5.6.55",
-    "@types/chart.js": "^2.9.24",
-    "@types/googlemaps": "^3.39.13",
-    "@types/jest": "^24.0.19",
-    "@typescript-eslint/eslint-plugin": "^2.34.0",
-    "@typescript-eslint/parser": "^3.10.1",
-    "@vue/cli-plugin-babel": "^4.5.6",
-    "@vue/cli-plugin-eslint": "^4.5.6",
-    "@vue/cli-plugin-router": "^4.5.6",
-    "@vue/cli-plugin-typescript": "^4.5.6",
-    "@vue/cli-plugin-unit-jest": "^4.5.6",
-    "@vue/cli-plugin-vuex": "^4.5.6",
-    "@vue/cli-service": "^4.5.6",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/eslint-config-typescript": "^5.1.0",
-    "@vue/test-utils": "^1.1.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.7.2",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-security": "^1.4.0",
-    "eslint-plugin-vue": "^6.1.2",
-    "prettier": "^1.19.1",
-    "typescript": "^3.9.7",
-    "vue-class-component": "^7.2.6",
-    "vue-cli-plugin-vuetify": "^2.0.7",
-    "vue-property-decorator": "^9.0.2",
-    "vue-template-compiler": "^2.6.12"
+    "@mdi/font": "^6.5.95",
+    "@mdi/js": "^6.5.95",
+    "@types/chart.js": "^2.9.35",
+    "@types/googlemaps": "^3.43.3",
+    "@types/jest": "^27.0.1",
+    "@types/lodash": "^4.14.179",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-typescript": "~5.0.0",
+    "@vue/cli-plugin-unit-jest": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/eslint-config-airbnb": "^6.0.0",
+    "@vue/eslint-config-typescript": "^9.1.0",
+    "@vue/test-utils": "^1.1.3",
+    "@vue/vue2-jest": "^27.0.0-alpha.2",
+    "babel-jest": "^27.0.6",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-vue": "^8.0.3",
+    "eslint-plugin-vuejs-accessibility": "^1.1.0",
+    "jest": "^27.0.5",
+    "ts-jest": "^27.0.4",
+    "typescript": "~4.5.5",
+    "vue-cli-plugin-vuetify": "~2.4.6",
+    "vue-template-compiler": "^2.6.14"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/typescript/recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2020
+    },
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie <= 10"
+  ],
+  "jest": {
+    "preset": "@vue/cli-plugin-unit-jest/presets/typescript-and-babel"
   }
 }

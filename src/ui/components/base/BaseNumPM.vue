@@ -36,82 +36,79 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
 export default Vue.extend({
   props: {
     btnColor: {
       type: String,
-      default: 'success'
+      default: 'success',
     },
     value: {
-      //type: Number,
-      required: true
+      // type: Number,
+      required: true,
     },
     min: {
       type: Number,
-      default: Number.NEGATIVE_INFINITY
+      default: Number.NEGATIVE_INFINITY,
     },
     max: {
       type: Number,
-      default: Number.POSITIVE_INFINITY
+      default: Number.POSITIVE_INFINITY,
     },
     step: {
       type: Number,
-      default: 1
+      default: 1,
     },
     label: {
       type: String,
-      required: false
+      required: false,
     },
     prefix: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
       rules: [
         (value: any) => (value === '' ? 'Valeur requise' : true),
-        (value: any) =>
-          isNaN(Number(value)) ? 'La valeur doit être un nombre' : true,
-        (value: any) =>
-          Number(value) > this.max ? `La valeur doit être ≤ ${this.max}` : true,
-        (value: any) =>
-          Number(value) < this.min ? `La valeur doit être ≥ ${this.min}` : true
-      ]
-    }
+        (value: any) => (isNaN(Number(value)) ? 'La valeur doit être un nombre' : true),
+        (value: any) => (Number(value) > this.max ? `La valeur doit être ≤ ${this.max}` : true),
+        (value: any) => (Number(value) < this.min ? `La valeur doit être ≥ ${this.min}` : true),
+      ],
+    };
   },
   computed: {
     localValue: {
       get(): number {
-        return this.value as number
+        return this.value as number;
       },
       set(new_value: number) {
-        this.$emit('input', new_value)
-      }
-    }
+        this.$emit('input', new_value);
+      },
+    },
   },
   methods: {
     checkInput(event: { target: { value: number } }): void {
-      const new_value = event.target.value
+      const new_value = event.target.value;
       this.$nextTick().then(() => {
         if (
-          (this.$refs.input as Vue & { errorBucket: [] }).errorBucket.length ===
-          0
+          (this.$refs.input as Vue & { errorBucket: [] }).errorBucket.length
+          === 0
         ) {
-          this.localValue = Number(new_value)
+          this.localValue = Number(new_value);
         }
-      })
+      });
     },
     updateValue(n: number): void {
-      const new_value = (this.value as number) + n
+      const new_value = (this.value as number) + n;
       if (new_value >= this.min && new_value <= this.max) {
-        this.localValue = new_value
+        this.localValue = new_value;
       }
-    }
-  }
-})
+    },
+  },
+});
 </script>
 
 <style></style>

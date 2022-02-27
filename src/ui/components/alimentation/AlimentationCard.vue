@@ -8,19 +8,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import Vue from 'vue';
+import { mapGetters } from 'vuex';
+
 export default Vue.extend({
   computed: {
     ...mapGetters({
       regime: 'alimentation/getRegime',
-      items: 'alimentation/getItems'
+      items: 'alimentation/getItems',
     }),
     isRegime() {
-      return !Object.values(this.regime).some(item => item === '')
-    }
-  }
-})
+      return !Object.values(this.regime).some((item) => item === '');
+    },
+  },
+});
 </script>
 
 <style></style>

@@ -15,28 +15,29 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
+
 export default Vue.extend({
   props: {
     value: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     closePopup(): void {
-      this.$emit('input', false)
-    }
+      this.$emit('input', false);
+    },
   },
   computed: {
     popup: {
-      get: function(): boolean {
-        return this.value
+      get(): boolean {
+        return this.value;
       },
-      set: function(new_value: boolean) {
-        this.$emit('input', new_value)
-      }
-    }
-  }
-})
+      set(new_value: boolean) {
+        this.$emit('input', new_value);
+      },
+    },
+  },
+});
 </script>

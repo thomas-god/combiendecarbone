@@ -45,35 +45,35 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Category from '../base/Category.vue'
-import ConsommationForm from './ConsommationForm.vue'
-import ConsommationCard from './ConsommationCard.vue'
+import Vue from 'vue';
+import Category from '@/ui/components/base/CategoryInput.vue';
+import ConsommationForm from './ConsommationForm.vue';
+import ConsommationCard from './ConsommationCard.vue';
 
 export default Vue.extend({
   components: {
     Category,
     ConsommationForm,
-    ConsommationCard
+    ConsommationCard,
   },
   data() {
     return {
       categories: ['Vêtements', 'High-tech', 'Électroménager'],
-      current_cat: 'Vêtements'
-    }
+      current_cat: 'Vêtements',
+    };
   },
   methods: {
     openForm(cat: string, open: () => void) {
-      this.current_cat = cat
-      open()
+      this.current_cat = cat;
+      open();
     },
     async resetForm() {
-      await this.$nextTick()
-      const form = this.$refs.form as Vue & { resetForm: () => void }
-      form.resetForm()
-    }
-  }
-})
+      await this.$nextTick();
+      const form = this.$refs.form as Vue & { resetForm: () => void };
+      form.resetForm();
+    },
+  },
+});
 </script>
 
 <style></style>
