@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit --watch --setupTestFrameworkScriptFile=./tests/setup.ts",
+    "test:unit": "vue-cli-service test:unit --setupTestFrameworkScriptFile=./tests/setup.ts",
     "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {
