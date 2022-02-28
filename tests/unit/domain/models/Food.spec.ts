@@ -84,6 +84,12 @@ describe("FoodGHGQuantity valueObject", () => {
       })
     );
   });
+
+  it("should create an empty ValueObject", () => {
+    const ghgQuantity = FoodGHGQuantity.createEmpty();
+    expect(ghgQuantity.props.foodItems).toStrictEqual([]);
+    expect(ghgQuantity.props.totalGHGQuantity).toBe(0);
+  });
 });
 
 describe("FoodAdvices valueObject", () => {
@@ -97,5 +103,10 @@ describe("FoodAdvices valueObject", () => {
         foodAdviceComponents: [{ name: "EcogesteAlimentation", props: { palier: 4 } }],
       })
     );
+  });
+
+  it("should create an empty ValueObject", () => {
+    const adivces = FoodAdvices.createEmpty();
+    expect(adivces.props.foodAdviceComponents).toStrictEqual([]);
   });
 });

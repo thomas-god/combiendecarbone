@@ -125,6 +125,13 @@ export class FoodGHGQuantity extends ValueObject<FoodGHGQuantityProps> {
     );
   }
 
+  public static createEmpty(): FoodGHGQuantity {
+    return new FoodGHGQuantity({
+      foodItems: [],
+      totalGHGQuantity: 0
+    })
+  }
+
   private static computeDiscount(regime: FoodRegime): number {
     const bioDiscount = BIO_DISCOUNT * RegimeFrequencyMap[regime.props.bio];
     const localDiscount = LOCAL_DISCOUNT * RegimeFrequencyMap[regime.props.local];
@@ -207,5 +214,11 @@ export class FoodAdvices extends ValueObject<FoodAdvicesProps> {
       );
 
     return err(FoodAdvicesError.COULD_NOT_COMPUTE_ADVICES);
+  }
+
+  public static createEmpty(): FoodAdvices {
+    return new FoodAdvices({
+      foodAdviceComponents: []
+    })
   }
 }

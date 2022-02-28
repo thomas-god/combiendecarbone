@@ -1,5 +1,5 @@
 import { FoodRegime } from "@/domain/models/Food"
-import { NewFoodRegime } from "@/domain/primaryPorts/NewFoodRegime"
+import { NewFoodRegime } from "@/domain/usecases/NewFoodRegime"
 
 describe("NewFoodRegime primary port", () => {
   it("should not accept invalid value for bio", () => {
