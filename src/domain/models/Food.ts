@@ -128,8 +128,8 @@ export class FoodGHGQuantity extends ValueObject<FoodGHGQuantityProps> {
   public static createEmpty(): FoodGHGQuantity {
     return new FoodGHGQuantity({
       foodItems: [],
-      totalGHGQuantity: 0
-    })
+      totalGHGQuantity: 0,
+    });
   }
 
   private static computeDiscount(regime: FoodRegime): number {
@@ -218,7 +218,7 @@ export class FoodAdvices extends ValueObject<FoodAdvicesProps> {
 
   public static createEmpty(): FoodAdvices {
     return new FoodAdvices({
-      foodAdviceComponents: []
-    })
+      foodAdviceComponents: [],
+    });
   }
 }

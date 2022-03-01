@@ -39,10 +39,4 @@ export class FoodModule {
     }
     return err(FoodModuleErrors.CANT_COMPUTE_VALUES);
   }
-
-  private reset() {
-    this._currentRegime = undefined;
-    this._ghg = FoodGHGQuantity.createEmpty();
-    this._advices = FoodAdvices.createEmpty();
-  }
 }
