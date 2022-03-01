@@ -1,11 +1,8 @@
 import { err, ok, Result } from "neverthrow";
 import { FoodRegime, RegimeFrequencies } from "../models/Food";
+import { NewFoodRegimeError, NewFoodRegimePort } from "../primaryPorts/NewFoodRegimePort";
 
-export enum NewFoodRegimeError {
-  INPUTS_NOT_VALID = "Inputs are not valid",
-}
-
-export class NewFoodRegime {
+export class NewFoodRegime implements NewFoodRegimePort {
   private _bio: string = "";
   private _local: string = "";
   private _redMeat: string = "";

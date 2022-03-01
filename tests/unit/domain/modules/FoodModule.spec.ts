@@ -1,5 +1,6 @@
 import { FoodAdvices, FoodGHGQuantity } from "@/domain/models/Food";
-import { FoodModule, FoodModuleErrors } from "@/domain/modules/FoodModule";
+import { FoodModule } from "@/domain/modules/FoodModule";
+import { FoodModuleErrors } from "@/domain/primaryPorts/FoodModulePort";
 import { NewFoodRegime } from "@/domain/usecases/NewFoodRegime";
 
 describe("FoodModule", () => {
@@ -46,6 +47,6 @@ describe("FoodModule", () => {
         value: 728,
       },
     ]);
-    expect(foodModule.regime.isOk()).toBeTruthy()
+    expect(foodModule.regime.isOk()).toBeTruthy();
   });
 });

@@ -1,13 +1,9 @@
 import { NewFoodRegime } from "../usecases/NewFoodRegime";
 import { FoodAdvices, FoodGHGQuantity, FoodRegime } from "../models/Food";
 import { err, ok, Result } from "neverthrow";
+import { FoodModuleErrors, FoodModulePort } from "../primaryPorts/FoodModulePort";
 
-export enum FoodModuleErrors {
-  NO_VALUES_COMPUTED = "No values computed yet",
-  CANT_COMPUTE_VALUES = "Can't compute values",
-}
-
-export class FoodModule {
+export class FoodModule implements FoodModulePort {
   private _currentRegime?: FoodRegime = undefined;
   private _ghg: FoodGHGQuantity = FoodGHGQuantity.createEmpty();
   private _advices: FoodAdvices = FoodAdvices.createEmpty();
