@@ -12,7 +12,7 @@
     </template>
 
     <template v-slot:form="{ close }">
-      <alimentation-form @close="close" ref="form_alim" />
+      <food-form @close="close" ref="form_alim" />
     </template>
 
     <template v-slot:card>
@@ -25,14 +25,16 @@
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
 import Category from '@/ui/components/base/CategoryInput.vue';
-import AlimentationForm from './AlimentationForm.vue';
+// import AlimentationForm from './AlimentationForm.vue';
 import AlimentationCard from './AlimentationCard.vue';
+import FoodForm from './FoodForm.vue'
 
 export default Vue.extend({
   components: {
     Category,
-    AlimentationForm,
+    // AlimentationForm,
     AlimentationCard,
+    FoodForm
   },
   computed: {
     ...mapGetters({

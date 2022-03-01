@@ -3,10 +3,10 @@ import { FoodRegime, RegimeFrequencies } from "../models/Food";
 import { NewFoodRegimeError, NewFoodRegimePort } from "../primaryPorts/NewFoodRegimePort";
 
 export class NewFoodRegime implements NewFoodRegimePort {
-  private _bio: string = "";
-  private _local: string = "";
-  private _redMeat: string = "";
-  private _whiteMeat: string = "";
+  private _bio = "";
+  private _local = "";
+  private _redMeat = "";
+  private _whiteMeat = "";
   private _errors = {
     bio: "",
     local: "",
@@ -17,19 +17,6 @@ export class NewFoodRegime implements NewFoodRegimePort {
   get bio(): string {
     return this._bio;
   }
-  get local(): string {
-    return this._local;
-  }
-  get redMeat(): string {
-    return this._redMeat;
-  }
-  get whiteMeat(): string {
-    return this._whiteMeat;
-  }
-  get errors() {
-    return this._errors;
-  }
-
   set bio(value: string) {
     if (!NewFoodRegime.frequencyIsValid(value)) {
       this._errors.bio = "Invalid value";
@@ -39,6 +26,9 @@ export class NewFoodRegime implements NewFoodRegimePort {
     this._errors.bio = "";
   }
 
+  get local(): string {
+    return this._local;
+  }
   set local(value: string) {
     if (!NewFoodRegime.frequencyIsValid(value)) {
       this._errors.local = "Invalid value";
@@ -48,6 +38,9 @@ export class NewFoodRegime implements NewFoodRegimePort {
     this._errors.local = "";
   }
 
+  get redMeat(): string {
+    return this._redMeat;
+  }
   set redMeat(value: string) {
     if (!NewFoodRegime.frequencyIsValid(value)) {
       this._errors.redMeat = "Invalid value";
@@ -57,6 +50,9 @@ export class NewFoodRegime implements NewFoodRegimePort {
     this._errors.redMeat = "";
   }
 
+  get whiteMeat(): string {
+    return this._whiteMeat;
+  }
   set whiteMeat(value: string) {
     if (!NewFoodRegime.frequencyIsValid(value)) {
       this._errors.whiteMeat = "Invalid value";
@@ -64,6 +60,10 @@ export class NewFoodRegime implements NewFoodRegimePort {
     }
     this._whiteMeat = value;
     this._errors.whiteMeat = "";
+  }
+
+  get errors() {
+    return this._errors;
   }
 
   validate(): boolean {
