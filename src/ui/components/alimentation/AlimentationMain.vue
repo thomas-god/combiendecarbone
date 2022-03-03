@@ -1,8 +1,6 @@
 <template>
-  <category :btnName="btnName" @opening="resetForm">
-    <template v-slot:title>
-      Votre alimentation
-    </template>
+  <category :btnName="btnName">
+    <template v-slot:title> Votre alimentation </template>
     <template v-slot:text>
       <p>
         Pour estimer l'impact de vos habitudes alimentaires, répondez à ces
@@ -12,7 +10,7 @@
     </template>
 
     <template v-slot:form="{ close }">
-      <food-form @close="close" ref="form_alim" />
+      <food-form @close="close" ref="form_alim" :food-module="foodModule"/>
     </template>
 
     <template v-slot:card>
@@ -22,29 +20,43 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { mapGetters } from 'vuex';
-import Category from '@/ui/components/base/CategoryInput.vue';
+import Vue from "vue";
+import { mapGetters } from "vuex";
+import Category from "@/ui/components/base/CategoryInput.vue";
 // import AlimentationForm from './AlimentationForm.vue';
-import AlimentationCard from './AlimentationCard.vue';
-import FoodForm from './FoodForm.vue'
+import AlimentationCard from "./AlimentationCard.vue";
+import FoodForm from "./FoodForm.vue";
+import { FoodModule } from "@/domain/modules/FoodModule";
+import { NewFoodRegime } from "@/domain/usecases/NewFoodRegime";
 
 export default Vue.extend({
   components: {
     Category,
     // AlimentationForm,
     AlimentationCard,
-    FoodForm
+    FoodForm,
+  },
+  data() {
+    return {
+      foodRegime: new NewFoodRegime(),
+      foodModule: new FoodModule(),
+      foodItems: [
+        { value: "redMeat", text: "Viande rouge" },
+        { value: "whiteMeat", text: "Viange blanche" },
+        { value: "bio", text: "Produits bios" },
+        { value: "local", text: "Produits locaux" },
+      ],
+    };
   },
   computed: {
-    ...mapGetters({
-      regime: 'alimentation/getRegime',
-    }),
-    isRegime() {
-      return !Object.values(this.regime).some((item) => item === '');
+  //   ...mapGetters({
+  //     regime: "alimentation/getRegime",
+  //   }),
+    isRegimeEmpty(): boolean {
+      return this.foodModule.regime.isErr();
     },
-    btnName() {
-      return this.isRegime ? 'Modifier' : 'Répondre';
+    btnName(): string {
+      return this.isRegimeEmpty ? "Répondre" : "Modifier";
     },
   },
   methods: {

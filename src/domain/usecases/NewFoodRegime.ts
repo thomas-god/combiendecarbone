@@ -18,11 +18,11 @@ export class NewFoodRegime implements NewFoodRegimePort {
     return this._bio;
   }
   set bio(value: string) {
+    this._bio = value;
     if (!NewFoodRegime.frequencyIsValid(value)) {
       this._errors.bio = "Invalid value";
       return;
     }
-    this._bio = value;
     this._errors.bio = "";
   }
 
@@ -30,11 +30,11 @@ export class NewFoodRegime implements NewFoodRegimePort {
     return this._local;
   }
   set local(value: string) {
+    this._local = value;
     if (!NewFoodRegime.frequencyIsValid(value)) {
       this._errors.local = "Invalid value";
       return;
     }
-    this._local = value;
     this._errors.local = "";
   }
 
@@ -42,11 +42,11 @@ export class NewFoodRegime implements NewFoodRegimePort {
     return this._redMeat;
   }
   set redMeat(value: string) {
+    this._redMeat = value;
     if (!NewFoodRegime.frequencyIsValid(value)) {
       this._errors.redMeat = "Invalid value";
       return;
     }
-    this._redMeat = value;
     this._errors.redMeat = "";
   }
 
@@ -54,11 +54,11 @@ export class NewFoodRegime implements NewFoodRegimePort {
     return this._whiteMeat;
   }
   set whiteMeat(value: string) {
+    this._whiteMeat = value;
     if (!NewFoodRegime.frequencyIsValid(value)) {
       this._errors.whiteMeat = "Invalid value";
       return;
     }
-    this._whiteMeat = value;
     this._errors.whiteMeat = "";
   }
 
@@ -90,5 +90,9 @@ export class NewFoodRegime implements NewFoodRegimePort {
 
   private static frequencyIsValid(freq: string): boolean {
     return RegimeFrequencies.includes(freq);
+  }
+
+  isEmpty(): boolean {
+    return ![this._bio, this.local, this._redMeat, this._whiteMeat].some((value) => value !== "");
   }
 }
