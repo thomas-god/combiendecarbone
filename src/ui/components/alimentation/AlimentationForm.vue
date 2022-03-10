@@ -6,13 +6,14 @@
     <v-card-actions class="d-flex flex-column align-stretch">
       <v-form ref="form">
         <v-select
-          v-for="item in items"
-          :items="freqFiltered"
-          :label="item.text"
+          v-for="foodItem in foodItems"
+          :items="foodFrequencies"
+          :label="foodItem.text"
           required
-          :rules="rulesMode"
-          :key="item.name"
-          v-model="user_regime[item.name]"
+          :error="!!foodRegime.errors[foodItem]"
+          :error-messages="foodRegime.errors[foodItem]"
+          :key="foodItem.value"
+          v-model="foodRegime[foodItem.value]"
         ></v-select>
         <v-btn @click="validate" color="success">Ok</v-btn>
       </v-form>
@@ -21,49 +22,41 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { mapGetters, mapActions } from 'vuex';
-import { UserRegime } from '../../plugins/alimentation_ges';
+import Vue from "vue";
+import { NewFoodRegime } from "@/domain/usecases/NewFoodRegime";
+import { FoodModulePort } from "@/domain/primaryPorts/FoodModulePort";
+import { RegimeFrequencies } from "@/domain/models/Food";
 
 export default Vue.extend({
+  name: "AlimentationForm",
   data() {
     return {
-      rulesMode: [(value: any) => !!value || 'Champs requis.'],
-      user_regime: {
-        bio: '',
-        local: '',
-        viande_rouge: '',
-        viande_blanche: '',
-      } as UserRegime,
+      foodRegime: new NewFoodRegime(),
+      foodFrequencies: RegimeFrequencies,
+      foodItems: [
+        { value: "redMeat", text: "Viande rouge" },
+        { value: "whiteMeat", text: "Viange blanche" },
+        { value: "bio", text: "Produits bios" },
+        { value: "local", text: "Produits locaux" },
+      ],
     };
   },
-  methods: {
-    ...mapActions({
-      setRegime: 'alimentation/setRegime',
-    }),
-    validate(): void {
-      if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
-        this.setRegime(this.user_regime);
-        this.$emit('close');
-      }
-    },
-    resetRegime(): void {
-      this.user_regime = JSON.parse(JSON.stringify(this.regime)) as UserRegime;
-      const form = this.$refs.form as Vue & { resetValidation: () => void };
-      form.resetValidation();
+  props: {
+    foodModule: {
+      type: Object as () => FoodModulePort,
+      required: true,
     },
   },
-  computed: {
-    ...mapGetters({
-      regime: 'alimentation/getRegime',
-      freq: 'alimentation/getFreq',
-      items: 'alimentation/getItems',
-    }),
-    freqFiltered(): string[] {
-      return this.freq.filter((item: string) => item !== '');
+  methods: {
+    validate(): void {
+      if (this.foodRegime.validate()) {
+        this.foodModule.updateRegime(this.foodRegime);
+        this.$emit("close");
+      }
     },
   },
 });
 </script>
 
-<style></style>
+<style>
+</style>

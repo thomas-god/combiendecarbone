@@ -10,31 +10,29 @@
     </template>
 
     <template v-slot:form="{ close }">
-      <food-form @close="close" ref="form_alim" :food-module="foodModule"/>
+      <alimentation-form @close="close" ref="form_alim" :food-module="foodModule" />
     </template>
 
     <template v-slot:card>
-      <alimentation-card />
+      <alimentation-card :foodItems="foodItems" :foodModule="foodModule"/>
     </template>
   </category>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { mapGetters } from "vuex";
 import Category from "@/ui/components/base/CategoryInput.vue";
-// import AlimentationForm from './AlimentationForm.vue';
 import AlimentationCard from "./AlimentationCard.vue";
-import FoodForm from "./FoodForm.vue";
+import AlimentationForm from "./AlimentationForm.vue";
 import { FoodModule } from "@/domain/modules/FoodModule";
 import { NewFoodRegime } from "@/domain/usecases/NewFoodRegime";
 
 export default Vue.extend({
+  name: 'AlimentationMain',
   components: {
     Category,
-    // AlimentationForm,
     AlimentationCard,
-    FoodForm,
+    AlimentationForm,
   },
   data() {
     return {
@@ -49,21 +47,11 @@ export default Vue.extend({
     };
   },
   computed: {
-  //   ...mapGetters({
-  //     regime: "alimentation/getRegime",
-  //   }),
     isRegimeEmpty(): boolean {
       return this.foodModule.regime.isErr();
     },
     btnName(): string {
       return this.isRegimeEmpty ? "Répondre" : "Modifier";
-    },
-  },
-  methods: {
-    async resetForm() {
-      await this.$nextTick();
-      const form = this.$refs.form_alim as Vue & { resetRegime: () => void };
-      form.resetRegime();
     },
   },
 });
