@@ -24,7 +24,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { NewFoodRegime } from "@/domain/usecases/NewFoodRegime";
-import { FoodModulePort } from "@/domain/primaryPorts/FoodModulePort";
+import { FoodModulePort, foodItems } from "@/domain/primaryPorts/FoodModulePort";
 import { RegimeFrequencies } from "@/domain/models/Food";
 
 export default Vue.extend({
@@ -33,12 +33,7 @@ export default Vue.extend({
     return {
       foodRegime: new NewFoodRegime(),
       foodFrequencies: RegimeFrequencies,
-      foodItems: [
-        { value: "redMeat", text: "Viande rouge" },
-        { value: "whiteMeat", text: "Viange blanche" },
-        { value: "bio", text: "Produits bios" },
-        { value: "local", text: "Produits locaux" },
-      ],
+      foodItems: foodItems,
     };
   },
   props: {

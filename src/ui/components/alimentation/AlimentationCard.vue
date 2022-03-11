@@ -19,6 +19,7 @@ import { Result } from "neverthrow";
 import Vue from "vue";
 
 export default Vue.extend({
+  name: "AlimentationCard",
   props: {
     foodModule: {
       type: Object as () => FoodModulePort,

@@ -26,6 +26,8 @@
   "devDependencies": {
     "@mdi/font": "^6.5.95",
     "@mdi/js": "^6.5.95",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/vue": "^5.8.2",
     "@types/chart.js": "^2.9.35",
     "@types/googlemaps": "^3.43.3",
     "@types/jest": "^27.0.1",
