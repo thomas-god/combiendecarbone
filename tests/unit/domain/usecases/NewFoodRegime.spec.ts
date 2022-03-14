@@ -1,54 +1,36 @@
 import { FoodRegime } from "@/domain/models/Food";
-import { NewFoodRegime } from "@/domain/usecases/NewFoodRegime";
+import { NewFoodRegime, NewFoodRegimeErrors } from "@/domain/usecases/NewFoodRegime";
+
+const regimeFields: any[] = ["bio", "local", "redMeat", "whiteMeat"];
 
 describe("NewFoodRegime primary port", () => {
-  it("should not accept invalid value for bio", () => {
-    const newRegime = new NewFoodRegime();
-    newRegime.bio = "toto";
-    expect(newRegime.bio).toBe("toto");
-    expect(newRegime.errors.bio).toBe("Invalid value");
-    expect(newRegime.validate()).toBeFalsy();
-    expect(newRegime.createRegime().isErr()).toBeTruthy();
+  regimeFields.forEach((field) => {
+    it(`should display ${field} error msg for invalid value`, () => {
+      const newRegime = new NewFoodRegime();
+      (newRegime[field as keyof NewFoodRegime] as string) = "toto";
+      expect(newRegime[field as keyof NewFoodRegime]).toBe("toto");
+      expect(newRegime.errors[field as keyof typeof newRegime.errors]).toBe(
+        NewFoodRegimeErrors.INVALID_VALUE
+      );
+      expect(newRegime.validate()).toBeFalsy();
+      expect(newRegime.createRegime().isErr()).toBeTruthy();
+    });
   });
 
-  it("should not accept invalid value for local", () => {
-    const newRegime = new NewFoodRegime();
-    newRegime.local = "toto";
-    expect(newRegime.local).toBe("toto");
-    expect(newRegime.errors.local).toBe("Invalid value");
-    expect(newRegime.validate()).toBeFalsy();
-    expect(newRegime.createRegime().isErr()).toBeTruthy();
-  });
+  regimeFields.forEach((field) => {
+    it(`should display ${field} error msg for empty value, but not a start`, () => {
+      const newRegime = new NewFoodRegime();
+      expect(newRegime[field as keyof NewFoodRegime]).toBe("");
+      expect(newRegime.errors.bio).toBe("");
 
-  it("should not accept invalid value for redMeat", () => {
-    const newRegime = new NewFoodRegime();
-    newRegime.redMeat = "toto";
-    expect(newRegime.redMeat).toBe("toto");
-    expect(newRegime.errors.redMeat).toBe("Invalid value");
-    expect(newRegime.validate()).toBeFalsy();
-    expect(newRegime.createRegime().isErr()).toBeTruthy();
-  });
-
-  it("should not accept invalid value for whiteMeat", () => {
-    const newRegime = new NewFoodRegime();
-    newRegime.whiteMeat = "toto";
-    expect(newRegime.whiteMeat).toBe("toto");
-    expect(newRegime.errors.whiteMeat).toBe("Invalid value");
-    expect(newRegime.validate()).toBeFalsy();
-    expect(newRegime.createRegime().isErr()).toBeTruthy();
-  });
-
-  it("should not reset error msg if value is corrected after initial error", () => {
-    const newRegime = new NewFoodRegime();
-    newRegime.whiteMeat = "toto";
-    expect(newRegime.whiteMeat).toBe("toto");
-    expect(newRegime.errors.whiteMeat).toBe("Invalid value");
-    expect(newRegime.validate()).toBeFalsy();
-    expect(newRegime.createRegime().isErr()).toBeTruthy();
-
-    newRegime.whiteMeat = "Jamais";
-    expect(newRegime.whiteMeat).toBe("Jamais");
-    expect(newRegime.errors.whiteMeat).toBe("");
+      (newRegime[field as keyof NewFoodRegime] as string) = "";
+      expect(newRegime[field as keyof NewFoodRegime]).toBe("");
+      expect(newRegime.errors[field as keyof typeof newRegime.errors]).toBe(
+        NewFoodRegimeErrors.MISSING_VALUE
+      );
+      expect(newRegime.validate()).toBeFalsy();
+      expect(newRegime.createRegime().isErr()).toBeTruthy();
+    });
   });
 
   it("should not validate with wrong/missing values", () => {
@@ -87,8 +69,8 @@ describe("NewFoodRegime primary port", () => {
 
   it("should have a isEmpty method", () => {
     const newRegime = new NewFoodRegime();
-    expect(newRegime.isEmpty()).toBeTruthy()
+    expect(newRegime.isEmpty()).toBeTruthy();
     newRegime.bio = "Jamais";
-    expect(newRegime.isEmpty()).toBeFalsy()
+    expect(newRegime.isEmpty()).toBeFalsy();
   });
 });
