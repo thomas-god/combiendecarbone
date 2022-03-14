@@ -10,8 +10,8 @@
           :items="foodFrequencies"
           :label="foodItem.text"
           required
-          :error="!!foodRegime.errors[foodItem]"
-          :error-messages="foodRegime.errors[foodItem]"
+          :error="!!foodRegime.errors[foodItem.value]"
+          :error-messages="foodRegime.errors[foodItem.value]"
           :key="foodItem.value"
           v-model="foodRegime[foodItem.value]"
         ></v-select>
@@ -24,7 +24,10 @@
 <script lang="ts">
 import Vue from "vue";
 import { NewFoodRegime } from "@/domain/usecases/NewFoodRegime";
-import { FoodModulePort, foodItems } from "@/domain/primaryPorts/FoodModulePort";
+import {
+  FoodModulePort,
+  foodItems,
+} from "@/domain/primaryPorts/FoodModulePort";
 import { RegimeFrequencies } from "@/domain/models/Food";
 
 export default Vue.extend({
@@ -44,10 +47,12 @@ export default Vue.extend({
   },
   methods: {
     validate(): void {
+      console.log("validating ...");
       if (this.foodRegime.validate()) {
         this.foodModule.updateRegime(this.foodRegime);
         this.$emit("close");
       }
+      console.log(this.foodRegime.errors.bio);
     },
   },
 });
