@@ -1,7 +1,7 @@
 import { FoodAdvices, FoodGHGQuantity } from "@/domain/models/Food";
 import { FoodModule } from "@/domain/modules/FoodModule";
 import { FoodModuleErrors } from "@/domain/primaryPorts/FoodModulePort";
-import { NewFoodRegime } from "@/domain/usecases/NewFoodRegime";
+import { FoodRegimeForm } from "@/domain/usecases/FoodRegimeForm";
 
 describe("FoodModule", () => {
   it("should initiate FoodModule", () => {
@@ -16,7 +16,7 @@ describe("FoodModule", () => {
 
   it("should update with a new regime", () => {
     const foodModule = new FoodModule();
-    const newRegime = new NewFoodRegime();
+    const newRegime = new FoodRegimeForm();
     newRegime.bio = "Jamais";
     newRegime.local = "1-2 fois par semaine";
     newRegime.redMeat = "1 fois par jour";

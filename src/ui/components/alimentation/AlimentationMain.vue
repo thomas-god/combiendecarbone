@@ -25,7 +25,7 @@ import Category from "@/ui/components/base/CategoryInput.vue";
 import AlimentationCard from "./AlimentationCard.vue";
 import AlimentationForm from "./AlimentationForm.vue";
 import { FoodModule } from "@/domain/modules/FoodModule";
-import { NewFoodRegime } from "@/domain/usecases/NewFoodRegime";
+import { FoodRegimeForm } from "@/domain/usecases/FoodRegimeForm";
 
 export default Vue.extend({
   name: 'AlimentationMain',
@@ -36,7 +36,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      foodRegime: new NewFoodRegime(),
       foodModule: new FoodModule(),
       foodItems: [
         { value: "redMeat", text: "Viande rouge" },

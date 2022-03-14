@@ -1,6 +1,6 @@
 import { Result } from "neverthrow";
 import { FoodAdvices, FoodGHGQuantity, FoodRegime } from "../models/Food";
-import { NewFoodRegimePort } from "./NewFoodRegimePort";
+import { UpdateFoodRegimePort } from "./UpdateFoodRegimePort";
 
 export const foodItems = [
   { value: "redMeat", text: "Viande rouge" },
@@ -19,5 +19,5 @@ export interface FoodModulePort {
   readonly ghgQuantity: FoodGHGQuantity;
   readonly advices: FoodAdvices;
 
-  updateRegime(newFoodRegime: NewFoodRegimePort): Result<null, FoodModuleErrors>;
+  updateRegime(newFoodRegime: UpdateFoodRegimePort): Result<null, FoodModuleErrors>;
 }

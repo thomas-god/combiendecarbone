@@ -5,7 +5,7 @@ export enum NewFoodRegimeError {
   INPUTS_NOT_VALID = "Inputs are not valid",
 }
 
-export interface NewFoodRegimePort {
+export interface UpdateFoodRegimePort {
   bio: string;
   local: string;
   redMeat: string;

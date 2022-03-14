@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { NewFoodRegime } from "@/domain/usecases/NewFoodRegime";
+import { FoodRegimeForm } from "@/domain/usecases/FoodRegimeForm";
 import {
   FoodModulePort,
   foodItems,
@@ -34,7 +34,7 @@ export default Vue.extend({
   name: "AlimentationForm",
   data() {
     return {
-      foodRegime: new NewFoodRegime(),
+      foodRegime: new FoodRegimeForm(),
       foodFrequencies: RegimeFrequencies,
       foodItems: foodItems,
     };
@@ -47,12 +47,10 @@ export default Vue.extend({
   },
   methods: {
     validate(): void {
-      console.log("validating ...");
       if (this.foodRegime.validate()) {
         this.foodModule.updateRegime(this.foodRegime);
         this.$emit("close");
       }
-      console.log(this.foodRegime.errors.bio);
     },
   },
 });

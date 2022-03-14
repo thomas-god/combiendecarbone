@@ -1,4 +1,4 @@
-import { NewFoodRegime } from "../usecases/NewFoodRegime";
+import { FoodRegimeForm } from "../usecases/FoodRegimeForm";
 import { FoodAdvices, FoodGHGQuantity, FoodRegime } from "../models/Food";
 import { err, ok, Result } from "neverthrow";
 import { FoodModuleErrors, FoodModulePort } from "../primaryPorts/FoodModulePort";
@@ -19,8 +19,8 @@ export class FoodModule implements FoodModulePort {
     return this._advices;
   }
 
-  updateRegime(newFoodRegime: NewFoodRegime): Result<null, FoodModuleErrors> {
-    const newRegimeRes = newFoodRegime.createRegime();
+  updateRegime(foodRegimeForm: FoodRegimeForm): Result<null, FoodModuleErrors> {
+    const newRegimeRes = foodRegimeForm.createRegime();
 
     if (newRegimeRes.isErr()) return err(FoodModuleErrors.CANT_COMPUTE_VALUES);
 

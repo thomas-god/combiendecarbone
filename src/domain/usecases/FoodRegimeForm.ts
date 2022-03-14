@@ -1,13 +1,13 @@
 import { err, ok, Result } from "neverthrow";
 import { FoodRegime, RegimeFrequencies } from "../models/Food";
-import { NewFoodRegimeError, NewFoodRegimePort } from "../primaryPorts/NewFoodRegimePort";
+import { NewFoodRegimeError, UpdateFoodRegimePort } from "../primaryPorts/UpdateFoodRegimePort";
 
-export enum NewFoodRegimeErrors {
+export enum FoodRegimeFormErrors {
   MISSING_VALUE = "Champs requis.",
   INVALID_VALUE = "Valeur invalide",
 }
 
-export class NewFoodRegime implements NewFoodRegimePort {
+export class FoodRegimeForm implements UpdateFoodRegimePort {
   private _bio = "";
   private _local = "";
   private _redMeat = "";
@@ -75,9 +75,9 @@ export class NewFoodRegime implements NewFoodRegimePort {
       .mapErr((error) => (this._errors.whiteMeat = error));
   }
 
-  private validateValue(value: string): Result<null, NewFoodRegimeErrors> {
-    if (value === "") return err(NewFoodRegimeErrors.MISSING_VALUE);
-    if (!this.frequencyIsValid(value)) return err(NewFoodRegimeErrors.INVALID_VALUE);
+  private validateValue(value: string): Result<null, FoodRegimeFormErrors> {
+    if (value === "") return err(FoodRegimeFormErrors.MISSING_VALUE);
+    if (!this.frequencyIsValid(value)) return err(FoodRegimeFormErrors.INVALID_VALUE);
     return ok(null);
   }
 
