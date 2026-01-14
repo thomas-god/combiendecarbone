@@ -13,10 +13,7 @@
           href="https://github.com/thomas-god/combiendecarbone/issues/new?assignees=&labels=&template=demande-de-nouvelle-fonctionnalit-.md&title="
           target="_blank"
           >GitHub</a
-        >,
-        <a href="https://twitter.com/Combiendeco2" target="_blank">Twitter</a>,
-        ou bien encore directement par
-        <a href="mailto:contact@combiendecarbone.fr">mail</a> !
+        > !
       </v-card-text>
     </template>
   </ecogeste-popup>

@@ -36,16 +36,6 @@ export default Vue.extend({
           mdiName: 'mdi-github',
           link: 'https://github.com/thomas-god/ges',
         },
-        {
-          name: 'Twitter',
-          mdiName: 'mdi-twitter',
-          link: 'https://twitter.com/combiendeco2',
-        },
-        {
-          name: 'Mail',
-          mdiName: 'mdi-email',
-          link: 'mailto:contact@combiendecarbone.fr',
-        },
       ] as Icon[],
     };
   },
